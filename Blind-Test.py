@@ -52,7 +52,7 @@ class BlindTestApp:
         self.root.title("Blind-Test Oiseaux Charente")
         center_window(self.root)
         self.root.geometry("840x780")
-        self.root.option_add("*Font", "{Berlin Sans FB Demi} 12")
+        self.root.option_add("*Font", "{Berlin Sans FB} 14")
         self.current_sound_path = None
         self.current_answer = None
         self.previous_answer = None
@@ -87,10 +87,37 @@ class BlindTestApp:
         self.switch_button.pack(pady=10)
 
         # Liste des réponses
+        # self.dropdown = ttk.Combobox(root, textvariable=self.choix, values=noms_oiseaux, state="readonly", width=60)
         self.choix = tk.StringVar()
-        self.dropdown = ttk.Combobox(root, textvariable=self.choix, values=noms_oiseaux, state="readonly", width=60)
+        self.choix.set(noms_oiseaux[0])  # Valeur par défaut
+
+        self.dropdown = tk.OptionMenu(root, self.choix, *noms_oiseaux)
+        menu = self.dropdown["menu"]
+        menu.config(
+            font=("Comic Sans MS", 14),
+            bg="#48dbfb",              # bleu lagon
+            fg="black",
+            activebackground="#feca57",# orange mangue
+            activeforeground="black",
+            bd=2
+        )
+        # self.dropdown.config(font=("Comic Sans MS", 14), width=40)
+        self.dropdown.config(
+            font=("Comic Sans MS", 14, "italic"),
+            bg="#ffe066",               # jaune vif tropical
+            fg="#1a1a1a",               # texte sombre pour contraste
+            activebackground="#ff6b6b", # rouge corail en survol
+            activeforeground="white",   # texte blanc au survol
+            relief="ridge",
+            bd=3,
+            highlightthickness=2,
+            highlightbackground="#1dd1a1",  # vert menthe des forêts enchantées
+            width=40,
+            height=1
+        )
+
         self.dropdown.pack(pady=25, ipady=4)
-        self.dropdown.configure(height=20)
+
 
         # Bouton valider
         self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white")
@@ -139,7 +166,8 @@ class BlindTestApp:
         pygame.mixer.music.play()
         self.result.config(text="")
         self.status_label.config(text="")
-        self.choix.set("")
+        # self.choix.set("")
+        self.choix.set(self.choix.get())
         self.validate_button["state"] = "normal"
         self.next_button["state"] = "disabled"
         self.dropdown["state"] = "normal"
