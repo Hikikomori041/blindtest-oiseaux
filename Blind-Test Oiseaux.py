@@ -1,9 +1,8 @@
 import os
-# Désactiver le message d'accueil de pygame
+# Désactive le message d'accueil de pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import random
 import tkinter as tk
-from tkinter import ttk
 from PIL import Image, ImageTk
 import pygame
 from mutagen.mp3 import MP3  # Sert à obtenir la durée du fichier mp3
@@ -19,7 +18,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # Fonction pour centrer la fenêtre à l'écran
-def center_window(window, width=700, height=800):
+def center_window(window, width=780, height=840):
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x = int((screen_width / 2) - (width / 2))
@@ -27,7 +26,14 @@ def center_window(window, width=700, height=800):
     window.geometry(f"{width}x{height}+{x}+{y}")
 
 # Chemin des ressources
-base_dossier = resource_path("oiseaux/de plaine/")
+if len(sys.argv) > 1:
+    selected_category = sys.argv[1]
+else:
+    selected_category = "de plaine"
+
+base_dossier = resource_path(os.path.join("oiseaux", selected_category))
+# base_dossier = resource_path("oiseaux/de plaine/")
+
 icon_path = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
@@ -49,7 +55,7 @@ for nom in os.listdir(base_dossier):
 class BlindTestApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Blind-Test Oiseaux Charente")
+        self.root.title("Blind-Test Oiseaux")
         center_window(self.root)
         self.root.geometry("840x780")
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
@@ -162,7 +168,6 @@ class BlindTestApp:
         pygame.mixer.music.play()
         self.result.config(text="")
         self.status_label.config(text="")
-        # self.choix.set("")
         self.choix.set(self.choix.get())
         self.validate_button["state"] = "normal"
         self.next_button["state"] = "disabled"
@@ -271,9 +276,16 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.iconbitmap(icon_path)
 
+    # Fond d'écran
+    background_image = tk.PhotoImage(file=os.path.join(base_dossier, "fond.png"))
+    background_label = tk.Label(root, image=background_image)
+    background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
     # Initialisation de pygame
     pygame.mixer.init()
 
     app = BlindTestApp(root)
     app.play_random_sound()
+
+
     root.mainloop()
