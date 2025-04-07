@@ -1,0 +1,34 @@
+Liste pour le blindtest oiseaux communs  
+- Merle noir 
+- Rougegorge familier 
+- Mésange bleue
+- Mésange charbonnière 
+- Mésange à tête noire 
+- Mésange huppée 
+- Orite à longue queue
+- Sittelle torchepot 
+- Moineau domestique 
+- Tourterelle turque 
+- Pigeon ramier 
+- Verdier d'Europe 
+- Rougequeue noir 
+- Fauvette à tête noire 
+- Serin cini 
+- Pinson des arbres 
+- Chardonneret élégant 
+- Pie bavarde 
+- Pouillot véloce 
+- Troglodyte mignon 
+- Grimpereau des jardins 
+- Etourneau sansonnet 
+- Faucon crécerelle 
+- Pic vert 
+- Bergeronnette grise 
+- Accenteur mouchet 
+- Grive musicienne 
+- Loriot d'Europe 
+- Rougequeue à front blanc
+- Rossignol philomèle
+- Tarin des aulnes 
+- Sizerin flammé 
+- Martin pêcheur

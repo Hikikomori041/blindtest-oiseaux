@@ -87,7 +87,6 @@ class BlindTestApp:
         self.switch_button.pack(pady=10)
 
         # Liste des réponses
-        # self.dropdown = ttk.Combobox(root, textvariable=self.choix, values=noms_oiseaux, state="readonly", width=60)
         self.choix = tk.StringVar()
         self.choix.set(noms_oiseaux[0])  # Valeur par défaut
 
@@ -101,7 +100,6 @@ class BlindTestApp:
             activeforeground="black",
             bd=2
         )
-        # self.dropdown.config(font=("Comic Sans MS", 14), width=40)
         self.dropdown.config(
             font=("Comic Sans MS", 14, "italic"),
             bg="#ffe066",               # jaune vif tropical
@@ -115,9 +113,7 @@ class BlindTestApp:
             width=40,
             height=1
         )
-
         self.dropdown.pack(pady=25, ipady=4)
-
 
         # Bouton valider
         self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white")
