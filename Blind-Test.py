@@ -27,7 +27,7 @@ def center_window(window, width=700, height=800):
     window.geometry(f"{width}x{height}+{x}+{y}")
 
 # Chemin des ressources
-base_dossier = resource_path("oiseaux")
+base_dossier = resource_path("oiseaux/de plaine/")
 icon_path = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
@@ -226,6 +226,8 @@ class BlindTestApp:
         self.emoji_label.config(text="")
         self.update_score()
         self.show_image()
+        if not self.paused:
+            self.toggle_pause()
 
     def update_score(self):
         self.score_label.config(text=f"Score {self.score}/{self.total}")
