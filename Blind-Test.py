@@ -49,10 +49,10 @@ for nom in os.listdir(base_dossier):
 class BlindTestApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Blind-Test Oiseaux")
+        self.root.title("Blind-Test Oiseaux Charente")
         center_window(self.root)
-        self.root.geometry("700x800")
-        self.root.option_add("*Font", "Impact 12")
+        self.root.geometry("840x780")
+        self.root.option_add("*Font", "{Berlin Sans FB Demi} 12")
         self.current_sound_path = None
         self.current_answer = None
         self.previous_answer = None
@@ -74,14 +74,14 @@ class BlindTestApp:
         self.status_label.pack()
 
         # Score
-        self.score_label = tk.Label(root, text="Score 0/0", fg="blue")
+        self.score_label = tk.Label(root, text="", fg="blue")
         self.score_label.pack(pady=5)
 
         # Contrôles son
         controls = tk.Frame(root)
         controls.pack()
         tk.Button(controls, text="⏮️ Rejouer", command=self.replay, width=10, height=2, bg="#2196F3", fg="white").pack(side=tk.LEFT, padx=5, pady=10)
-        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=28, height=2, bg="#f44336", fg="white")
+        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=28, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1)
         self.pause_button.pack(side=tk.LEFT, padx=5)
         self.switch_button = tk.Button(controls, text="🎵 Autre son de cet oiseau", command=self.next_sound_variant, width=25, height=2, bg="#9C27B0", fg="white")
         self.switch_button.pack(pady=10)
@@ -119,7 +119,7 @@ class BlindTestApp:
         if success:
             sound.set_volume(0.2)  # Volume entre 0.0 (silence) et 1.0 (max)
         else:
-            sound.set_volume(0.08)  # Volume entre 0.0 (silence) et 1.0 (max)
+            sound.set_volume(0.08)
         sound.play()
 
     def play_random_sound(self):
@@ -142,6 +142,7 @@ class BlindTestApp:
         self.choix.set("")
         self.validate_button["state"] = "normal"
         self.next_button["state"] = "disabled"
+        self.dropdown["state"] = "normal"
         self.image_label.config(image="")
         self.image_label.image = None
         self.playing = True
@@ -197,6 +198,7 @@ class BlindTestApp:
         self.play_feedback_sound(is_correct)
         self.validate_button["state"] = "disabled"
         self.next_button["state"] = "normal"
+        self.dropdown["state"] = "disabled"
         self.emoji_label.config(text="")
         self.update_score()
         self.show_image()

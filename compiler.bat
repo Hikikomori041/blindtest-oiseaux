@@ -1,7 +1,7 @@
 @echo off
 echo Compilation en cours...
 python -m PyInstaller --noconfirm --onefile --windowed ^
---name "Blind-Test" ^
+--name "Blind-Test Oiseaux Charente" ^
 --icon=ressources/images/oiseau.ico ^
 --add-data "ressources;ressources" ^
 Blind-Test.py > dist/compil.log 2>&1
