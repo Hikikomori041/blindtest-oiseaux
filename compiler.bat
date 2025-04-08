@@ -1,10 +1,13 @@
 @echo off
 echo Compilation en cours...
+
 python -m PyInstaller --noconfirm --onefile --windowed ^
 --name "Blind-Test Oiseaux" ^
 --icon=ressources/images/oiseau.ico ^
 --add-data "ressources;ressources" ^
-Blind-Test.py > dist/compil.log 2>&1
+@REM --add-data "Blind-Test Oiseaux.py;." ^
+--add-data "dist\\Blind-Test Oiseaux.exe;."
+Menu_BlindTest.py
 
 IF EXIST "dist\\Blind-Test Oiseaux.exe" (
     echo Compilation reussie !

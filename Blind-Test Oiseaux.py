@@ -99,18 +99,20 @@ class BlindTestApp:
         self.dropdown = tk.OptionMenu(root, self.choix, *noms_oiseaux)
         menu = self.dropdown["menu"]
         menu.config(
-            font=("Comic Sans MS", 14),
-            bg="#48dbfb",              # bleu lagon
+            font=("Comic Sans MS", 12),
+            bg="#ffc044",
             fg="black",
-            activebackground="#feca57",# orange mangue
-            activeforeground="black",
+            # activebackground="#feca57",# orange mangue
+            activebackground="#48dbfb",
+            activeforeground="white",
             bd=2
         )
         self.dropdown.config(
             font=("Comic Sans MS", 14, "italic"),
             bg="#ffe066",               # jaune vif tropical
             fg="#1a1a1a",               # texte sombre pour contraste
-            activebackground="#ff6b6b", # rouge corail en survol
+            # activebackground="#ff6b6b", # rouge corail en survol
+            activebackground="#48dbfb", # en survol
             activeforeground="white",   # texte blanc au survol
             relief="ridge",
             bd=3,
