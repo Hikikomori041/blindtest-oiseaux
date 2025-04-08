@@ -5,16 +5,17 @@ import tkinter as tk
 import random
 from ttkbootstrap.constants import *
 
-from data import base_dossier, success_sound, failure_sound, icon_path, sons, noms_oiseaux, sons_par_oiseau, set_category, load_data
-from sounds import play_sound, stop_sound, pause_sound, unpause_sound, is_playing, play_feedback
-from images import afficher_image, tooltip_bindings
-from gui import setup_controls, setup_dropdown
-
+# Imports des fichiers locaux
+from data import set_category, load_data
 category = sys.argv[1] if len(sys.argv) > 1 else "de plaine"
 set_category(category)
 load_data()
 
 from data import base_dossier, success_sound, failure_sound, icon_path, sons, noms_oiseaux, sons_par_oiseau
+
+from sounds import play_sound, stop_sound, pause_sound, unpause_sound, is_playing, play_feedback
+from images import afficher_image, tooltip_bindings
+from gui import setup_controls, setup_dropdown
 
 
 class BlindTestApp:
@@ -22,7 +23,7 @@ class BlindTestApp:
         self.root = root
         self.root.title("Blind-Test Oiseaux")
         self.root.geometry("700x800")
-        self.root.option_add("*Font", "Impact 12")
+        self.root.option_add("*Font", "{Berlin Sans FB Demi} 12")
         self.current_sound_path = None
         self.current_answer = None
         self.previous_answer = None
@@ -197,6 +198,16 @@ if __name__ == "__main__":
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("BlindTestOiseaux")
 
     root = tk.Tk()
+    root.option_add("*Font", "{Berlin Sans FB} 14")
+    root.geometry("840x780")
+
+    # Fond d'écran
+    fond_path = os.path.join(base_dossier, "fond.png")
+    if os.path.exists(fond_path):
+        background_image = tk.PhotoImage(file=fond_path)
+        background_label = tk.Label(root, image=background_image)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
     root.iconbitmap(icon_path)
     app = BlindTestApp(root)
     app.play_random_sound()
