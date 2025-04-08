@@ -44,6 +44,8 @@ sons = []
 noms_oiseaux = []
 sons_par_oiseau = {}
 
+tooltip = None
+
 # Scan des sous-dossiers (1 dossier = 1 oiseau)
 for nom in os.listdir(base_dossier):
     chemin = os.path.join(base_dossier, nom)
@@ -259,7 +261,7 @@ class BlindTestApp:
 
             self.image_label.unbind("<Button-1>")
             self.image_label.bind("<Button-1>", open_link)
-            
+
             link_path = os.path.join(base_dossier, self.current_answer, "lien.txt")
             if os.path.exists(link_path):
                 self.image_label.config(cursor="hand2")
@@ -268,7 +270,23 @@ class BlindTestApp:
             else:
                 self.image_label.config(cursor="arrow")
                 self.image_label.unbind("<Button-1>")
+                
+            def show_tooltip(event):
+                global tooltip
+                tooltip = tk.Toplevel(self.root)
+                tooltip.wm_overrideredirect(True)
+                tooltip.wm_geometry(f"+{event.x_root + 10}+{event.y_root + 10}")
+                label = tk.Label(tooltip, text=self.current_answer, bg="white", fg="black", relief="solid", borderwidth=1, font=("Berlin Sans FB Demi", 11))
+                label.pack()
 
+            def hide_tooltip(event):
+                global tooltip
+                if tooltip:
+                    tooltip.destroy()
+                    tooltip = None
+
+            self.image_label.bind("<Enter>", show_tooltip)
+            self.image_label.bind("<Leave>", hide_tooltip)
 
 
     def animate_image_zoom(self):
