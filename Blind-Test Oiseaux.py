@@ -8,6 +8,8 @@ import pygame
 from mutagen.mp3 import MP3  # Sert à obtenir la durée du fichier mp3
 import sys
 import ctypes
+import webbrowser
+
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
@@ -139,7 +141,9 @@ class BlindTestApp:
 
         # Image
         self.image_label = tk.Label(root)
+        # self.image_label = tk.Label(root, cursor="hand2")
         self.image_label.pack(pady=10)
+        
 
         self.animate_emoji()
         self.check_sound_end()
@@ -245,6 +249,27 @@ class BlindTestApp:
             self.original_image = Image.open(image_path)
             self.zoom_step = 0
             self.animate_image_zoom()
+            def open_link(event=None):
+                link_path = os.path.join(base_dossier, self.current_answer, "lien.txt")
+                if os.path.exists(link_path):
+                    with open(link_path, "r", encoding="utf-8") as f:
+                        url = f.read().strip()
+                        if url:
+                            webbrowser.open(url)
+
+            self.image_label.unbind("<Button-1>")
+            self.image_label.bind("<Button-1>", open_link)
+            
+            link_path = os.path.join(base_dossier, self.current_answer, "lien.txt")
+            if os.path.exists(link_path):
+                self.image_label.config(cursor="hand2")
+                self.image_label.unbind("<Button-1>")
+                self.image_label.bind("<Button-1>", lambda e: webbrowser.open(open(link_path, encoding="utf-8").read().strip()))
+            else:
+                self.image_label.config(cursor="arrow")
+                self.image_label.unbind("<Button-1>")
+
+
 
     def animate_image_zoom(self):
         if self.zoom_step <= 10:
