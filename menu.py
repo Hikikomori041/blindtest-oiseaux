@@ -24,7 +24,7 @@ def center_window(window, width=400, height=400):
 
 def launch_blindtest(category):
     # subprocess.Popen([sys.executable, "Blind-Test Oiseaux.py", category])
-    subprocess.Popen(["python", "Blind-Test Oiseaux.py", category])
+    subprocess.Popen(["python", "BlindTest.py", category])
     # subprocess.Popen(["Blind-Test Oiseaux.exe", category])
 
 
