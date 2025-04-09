@@ -4,7 +4,6 @@ from functools import partial
 import subprocess
 import sys
 import ctypes
-from gui import center_window
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
@@ -14,10 +13,18 @@ def resource_path(relative_path):
         base_path = os.path.abspath("ressources")
     return os.path.join(base_path, relative_path)
 
+# Fonction pour centrer la fenêtre à l'écran
+def center_window(window, width=400, height=400):
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = int((screen_width / 2) - (width / 2))
+    y = int((screen_height / 2) - (height / 2))
+    window.geometry(f"{width}x{height}+{x}+{y}")
+
 
 def launch_blindtest(category):
-    # subprocess.Popen([sys.executable, "Blind-Test Oiseaux.py", category])
-    subprocess.Popen(["python", "BlindTest.py", category])
+    # subprocess.Popen([sys.executable, "blindtest.py", category])
+    subprocess.Popen(["python", "blindtest.py", category])
     # subprocess.Popen(["Blind-Test Oiseaux.exe", category])
 
 
@@ -30,7 +37,7 @@ if sys.platform == "win32":
 
 root = tk.Tk()
 root.iconbitmap(icon_path)
-root.title("Menu Blind-Test Oiseaux")
+root.title("Choix de la catégorie d'oiseaux")
 root.geometry("400x400")
 root.option_add("*Font", "Impact 16")
 center_window(root)
