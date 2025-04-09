@@ -1,7 +1,8 @@
-dist/compil.log
-build/
-polices.txt
-save-oiseaux.zip
-Faune, Flore Charente Liste.docx
-Blind-Test Oiseaux.spec
 __pycache__/
+build/
+dist/compil.log
+
+*.docx
+*.spec
+polices.txt
+*.zip
