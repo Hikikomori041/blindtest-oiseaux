@@ -4,6 +4,7 @@ from functools import partial
 import subprocess
 import sys
 import ctypes
+from gui import center_window
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
@@ -12,14 +13,6 @@ def resource_path(relative_path):
     except Exception:
         base_path = os.path.abspath("ressources")
     return os.path.join(base_path, relative_path)
-
-# Fonction pour centrer la fenêtre à l'écran
-def center_window(window, width=400, height=400):
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
-    x = int((screen_width / 2) - (width / 2))
-    y = int((screen_height / 2) - (height / 2))
-    window.geometry(f"{width}x{height}+{x}+{y}")
 
 
 def launch_blindtest(category):

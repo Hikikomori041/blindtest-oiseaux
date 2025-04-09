@@ -4,6 +4,7 @@ import ctypes
 import tkinter as tk
 import random
 from ttkbootstrap.constants import *
+from gui import center_window
 
 # Imports des fichiers locaux
 from data import set_category, load_data
@@ -22,8 +23,8 @@ class BlindTestApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Blind-Test Oiseaux")
-        self.root.geometry("700x800")
-        self.root.option_add("*Font", "{Berlin Sans FB Demi} 12")
+        self.root.geometry("840x780")
+        self.root.option_add("*Font", "{Berlin Sans FB Demi} 14")
         self.current_sound_path = None
         self.current_answer = None
         self.previous_answer = None
@@ -36,17 +37,22 @@ class BlindTestApp:
         self.total = 0
         self.emoji_sequence = ["🕊️", "🐦", "🐤", "🦜"]
 
+        # Emoji animé
         self.emoji_label = tk.Label(root, text="")
         self.emoji_label.pack()
 
+        # État du son (son terminé)
         self.status_label = tk.Label(root, text="", fg="gray")
         self.status_label.pack()
 
+        # Score
         self.score_label = tk.Label(root, text="", fg="blue")
         self.score_label.pack(pady=5)
 
+        # Contrôles du son
         self.pause_button, self.switch_button = setup_controls(root, self.replay, self.toggle_pause, self.next_sound_variant)
 
+        # Liste des réponses
         self.choix = tk.StringVar()
         self.dropdown_label, self.dropdown_arrow = setup_dropdown(root, self.choix, noms_oiseaux, self.toggle_menu)
         self.menu_popup = None
@@ -88,7 +94,7 @@ class BlindTestApp:
         self.image_canvas.delete("all")
         self.playing = True
         self.paused = False
-        self.pause_button.config(text="⏸️ Pause", bootstyle="danger")
+        self.pause_button.config(text="⏸️ Pause", bg="#f44336")
 
     def next_sound_variant(self):
         if self.current_answer and self.current_answer in sons_par_oiseau:
@@ -118,11 +124,11 @@ class BlindTestApp:
         if self.playing:
             if self.paused:
                 unpause_sound()
-                self.pause_button.config(text="⏸️ Pause", bootstyle="danger")
+                self.pause_button.config(text="⏸️ Pause", bg="#f44336")
                 self.paused = False
             else:
                 pause_sound()
-                self.pause_button.config(text="▶️ Reprendre", bootstyle="success")
+                self.pause_button.config(text="▶️ Reprendre", bg="#4caf50")
                 self.paused = True
                 self.emoji_label.config(text="")
                 self.status_label.config(text="")
@@ -210,5 +216,6 @@ if __name__ == "__main__":
 
     root.iconbitmap(icon_path)
     app = BlindTestApp(root)
+    center_window(root, 840, 780)
     app.play_random_sound()
     root.mainloop()

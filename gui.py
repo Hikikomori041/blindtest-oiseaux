@@ -2,28 +2,27 @@ import tkinter as tk
 from ttkbootstrap import Style, Button
 
 
+# Fonction pour centrer la fenêtre à l'écran
+def center_window(window, width=400, height=400):
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = int((screen_width / 2) - (width / 2))
+    y = int((screen_height / 2) - (height / 2))
+    window.geometry(f"{width}x{height}+{x}+{y}")
+
+
 def setup_controls(root, replay_cb, toggle_cb, switch_cb):
     controls = tk.Frame(root)
     controls.pack()
 
-    tk.Button(
-        controls, text="⏮️ Rejouer", command=replay_cb,
-        width=10, height=2, bg="#2196F3", fg="white"
-    ).pack(side=tk.LEFT, padx=5, pady=10)
+    tk.Button(controls, text="⏮️ Rejouer", command=replay_cb, width=10, height=2, bg="#2196F3", fg="white").pack(side=tk.LEFT, padx=5, pady=10)
 
-    style = Style("flatly")
+    # style = Style("flatly")
 
-    pause_button = Button(
-        controls, text="⏸️ Pause", command=toggle_cb,
-        width=28, bootstyle="danger"
-    )
+    pause_button = tk.Button(controls, text="⏸️ Pause", command=toggle_cb, width=28, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1)
     pause_button.pack(side=tk.LEFT, padx=5, ipady=8)
 
-    switch_button = tk.Button(
-        controls, text="🎵 Autre son de cet oiseau",
-        command=switch_cb, width=25, height=2,
-        bg="#9C27B0", fg="white"
-    )
+    switch_button = tk.Button(controls, text="🎵 Autre son de cet oiseau", command=switch_cb, width=25, height=2, bg="#9C27B0", fg="white")
     switch_button.pack(pady=10)
 
     return pause_button, switch_button
