@@ -1,21 +1,19 @@
 @echo off
 echo Compilation en cours...
 
-@REM python -m PyInstaller --noconfirm --onefile --windowed ^
-@REM --name "Blind-Test Oiseaux" ^
-@REM --icon=ressources/images/oiseau.ico ^
-@REM --add-data "ressources;ressources" ^
-@REM --add-data "blindtest.py;." ^
-@REM menu.py
-
 python -m PyInstaller --noconfirm --onefile --windowed ^
---name "Blind-Test Oiseaux de plaine" ^
+--name "Blind-Test Oiseaux" ^
 --icon=ressources/images/oiseau.ico ^
---add-data "ressources;ressources" ^
 blindtest.py
 
 IF EXIST "dist\\Blind-Test Oiseaux.exe" (
     echo Compilation reussie !
+    move /Y "dist\\Blind-Test Oiseaux.exe" "Blind-Test Oiseaux.exe" > nul
+    echo Nettoyage...
+    rmdir /S /Q build
+    rmdir /S /Q dist
+    del /Q "Blind-Test Oiseaux.spec"
+    echo Termine !
 ) ELSE (
     echo Erreur pendant la compilation. Verifier les chemins et fichiers...
 )

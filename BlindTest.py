@@ -16,12 +16,19 @@ import webbrowser
 # WIDTH = 780
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
+# def resource_path(relative_path):
+#     try:
+#         base_path = os.path.join(sys._MEIPASS, "ressources")
+#     except Exception:
+#         base_path = os.path.abspath("ressources")
+#     return os.path.join(base_path, relative_path)
+# def resource_path(relative_path):
+#     base_path = os.path.abspath(".")
+    # return os.path.join(base_path, "ressources", relative_path)
 def resource_path(relative_path):
-    try:
-        base_path = os.path.join(sys._MEIPASS, "ressources")
-    except Exception:
-        base_path = os.path.abspath("ressources")
-    return os.path.join(base_path, relative_path)
+    base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
+    return os.path.join(base_path, "ressources", relative_path)
+
 
 # Fonction pour centrer la fenêtre à l'écran
 def center_window(window, width=780, height=840):
@@ -76,7 +83,7 @@ class BlindTestApp:
         self.current_sound_index = 0
         self.score = 0
         self.total = 0
-        self.emoji_sequence = ["🕊️", "🐦", "🐤", "🦜"]
+        self.emoji_sequence = ["🕊️", "🐦     ", "🐤     ", "🦜     "]
         self.type_actuel = types_oiseaux[0]
         
         # Fond d'écran
@@ -112,24 +119,21 @@ class BlindTestApp:
         )
         self.liste_type.pack()
 
-        # Emoji animé
-        self.emoji_label = tk.Label(root, text="")
-        self.emoji_label.pack()
-        # self.emoji_label.place(x=340, y=5)
-
-        # État du son
-        self.status_label = tk.Label(root, text="", fg="gray")
-        self.status_label.pack()
-
         # Score
         self.score_label = tk.Label(root, text="", fg="blue")
-        self.score_label.pack(pady=5)
+        self.score_label.pack()
+        # self.score_label.place(x=5, y=50)
+
+        # État du son
+        self.emoji_label = tk.Label(root, text="")
+        self.emoji_label.pack(pady=4)
+        # self.emoji_label.place(x=340, y=5)
 
         # Contrôles son
         controls = tk.Frame(root)
         controls.pack()
-        tk.Button(controls, text="⏮️ Rejouer", command=self.replay, width=10, height=2, bg="#2196F3", fg="white").pack(side=tk.LEFT, padx=5, pady=10)
-        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=28, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1)
+        tk.Button(controls, text="⏮️ Réécouter", command=self.replay, width=12, height=2, bg="#2196F3", fg="white").pack(side=tk.LEFT, padx=5, pady=10)
+        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=32, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1)
         self.pause_button.pack(side=tk.LEFT, padx=5)
         self.switch_button = tk.Button(controls, text="🎵 Autre son de cet oiseau", command=self.next_sound_variant, width=25, height=2, bg="#9C27B0", fg="white")
         self.switch_button.pack(padx=5, pady=10)
@@ -243,9 +247,9 @@ class BlindTestApp:
         sound_path = success_sound if success else failure_sound
         sound = pygame.mixer.Sound(sound_path)
         if success:
-            sound.set_volume(0.2)  # Volume entre 0.0 (silence) et 1.0 (max)
+            sound.set_volume(0.1)  # Volume entre 0.0 (silence) et 1.0 (max)
         else:
-            sound.set_volume(0.08)
+            sound.set_volume(0.05)
         sound.play()
 
     def play_random_sound(self):
@@ -264,7 +268,6 @@ class BlindTestApp:
         pygame.mixer.music.load(self.current_sound_path)
         pygame.mixer.music.play()
         self.result.config(text="")
-        self.status_label.config(text="")
         self.choix_reponse.set(self.choix_reponse.get())
         self.validate_button["state"] = "normal"
         self.next_button["state"] = "disabled"
@@ -290,12 +293,10 @@ class BlindTestApp:
             self.playing = True
             self.paused = False
             self.pause_button.config(text="⏸️ Pause", bg="#f44336")
-            self.status_label.config(text="")
 
     def stop(self):
         pygame.mixer.music.stop()
         self.emoji_label.config(text="")
-        self.status_label.config(text="")
         self.playing = False
         self.paused = False
         self.pause_button.config(text="⏸️ Pause", bg="#f44336")
@@ -311,7 +312,6 @@ class BlindTestApp:
                 self.pause_button.config(text="▶️ Reprendre", bg="#4CAF50")
                 self.paused = True
                 self.emoji_label.config(text="")
-                self.status_label.config(text="")
 
     def validate(self):
         self.total += 1
@@ -328,8 +328,8 @@ class BlindTestApp:
         self.emoji_label.config(text="")
         self.update_score()
         self.show_image()
-        if not self.paused:
-            self.toggle_pause()
+        # if not self.paused:
+        #     self.toggle_pause()
 
     def update_score(self):
         self.score_label.config(text=f"Score {self.score}/{self.total}")
@@ -390,8 +390,7 @@ class BlindTestApp:
         if self.playing and not self.paused:
             if not pygame.mixer.music.get_busy():
                 self.playing = False
-                self.status_label.config(text="Son terminé.")
-                self.emoji_label.config(text="")
+                self.emoji_label.config(text="Son terminé.")
         self.root.after(500, self.check_sound_end)
 
 if __name__ == "__main__":
@@ -400,6 +399,12 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.iconbitmap(icon_path)
+    # POUR BARRE DES TÂCHES (nécessite un PNG)
+    try:
+        icon_img = ImageTk.PhotoImage(file=resource_path("images/oiseau.png"))
+        root.iconphoto(True, icon_img)
+    except Exception as e:
+        print("Erreur chargement icône PNG:", e)
 
     # Initialisation de pygame
     pygame.mixer.init()
