@@ -1,7 +1,7 @@
 __pycache__/
 build/
 dist/
-
+*.exe
 *.docx
 *.spec
 polices.txt
