@@ -1,4 +1,5 @@
 import os
+from tkinter import ttk
 # Désactive le message d'accueil de pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import random
@@ -10,6 +11,8 @@ import sys
 import ctypes
 import webbrowser
 
+# HEIGHT = 840
+# WIDTH = 780
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
@@ -42,6 +45,7 @@ failure_sound = resource_path("sons/erreur.mp3")
 
 sons = []
 noms_oiseaux = []
+types_oiseaux = ["Tous", "De plaine", "Communs"]
 sons_par_oiseau = {}
 
 tooltip = None
@@ -74,10 +78,34 @@ class BlindTestApp:
         self.score = 0
         self.total = 0
         self.emoji_sequence = ["🕊️", "🐦", "🐤", "🦜"]
+        self.type_actuel = types_oiseaux[0]
+
+        # Choix du type d'oiseaux
+        type = tk.Frame(root)
+        type.pack()
+        type.place(x=5, y=5)
+        self.type_label = tk.Label(type, text="Type d'oiseaux:").pack(side=tk.LEFT, padx=1, pady=1)
+        self.choix_type = tk.StringVar(type)
+        self.choix_type.set(types_oiseaux[0])  # Valeur par défaut
+
+        self.liste_type = tk.OptionMenu(type, self.choix_type, *types_oiseaux, command=self.change_type)
+        menu1 = self.liste_type["menu"]
+        menu1.config(
+            font=("Berlin Sans FB", 12),
+            bg="#666666",
+            fg="white"
+        )
+        self.liste_type.config(
+            font=("Berlin Sans FB", 12),
+            bg="#444444",
+            fg="white"
+        )
+        self.liste_type.pack()
 
         # Emoji animé
         self.emoji_label = tk.Label(root, text="")
         self.emoji_label.pack()
+        # self.emoji_label.place(x=340, y=5)
 
         # État du son
         self.status_label = tk.Label(root, text="", fg="gray")
@@ -97,11 +125,11 @@ class BlindTestApp:
         self.switch_button.pack(padx=5, pady=10)
 
         # Liste des réponses
-        self.choix = tk.StringVar()
-        self.choix.set(noms_oiseaux[0])  # Valeur par défaut
+        self.choix_reponse = tk.StringVar()
+        self.choix_reponse.set(noms_oiseaux[0])  # Valeur par défaut
 
-        self.dropdown = tk.OptionMenu(root, self.choix, *noms_oiseaux)
-        menu = self.dropdown["menu"]
+        self.liste_reponse = tk.OptionMenu(root, self.choix_reponse, *noms_oiseaux)
+        menu = self.liste_reponse["menu"]
         menu.config(
             font=("Comic Sans MS", 12),
             bg="#ffc044",
@@ -111,7 +139,7 @@ class BlindTestApp:
             activeforeground="white",
             bd=2
         )
-        self.dropdown.config(
+        self.liste_reponse.config(
             font=("Comic Sans MS", 14, "italic"),
             bg="#ffe066",               # jaune vif tropical
             fg="#1a1a1a",               # texte sombre pour contraste
@@ -125,7 +153,7 @@ class BlindTestApp:
             width=40,
             height=1
         )
-        self.dropdown.pack(pady=25, ipady=4)
+        self.liste_reponse.pack(pady=25, ipady=4)
 
         # Bouton valider
         self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white")
@@ -149,6 +177,39 @@ class BlindTestApp:
 
         self.animate_emoji()
         self.check_sound_end()
+
+    def change_type(self, type_choisi):
+        if type_choisi != self.type_actuel:
+            print("Changement de type:", type_choisi)
+            self.type_actuel = type_choisi
+
+            dossier = "de plaine" if type_choisi == "De plaine" else "communs" if type_choisi == "Communs" else "tous"
+            global base_dossier, sons, noms_oiseaux, sons_par_oiseau
+            base_dossier = resource_path(os.path.join("oiseaux", dossier))
+            sons = []
+            noms_oiseaux = []
+            sons_par_oiseau = {}
+
+            for nom in os.listdir(base_dossier):
+                chemin = os.path.join(base_dossier, nom)
+                if os.path.isdir(chemin):
+                    fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+                    sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+                    for fichier in fichiers:
+                        sons.append((nom, os.path.join(chemin, fichier)))
+                    noms_oiseaux.append(nom)
+
+            # Mettre à jour la liste des réponses
+            menu = self.liste_reponse["menu"]
+            menu.delete(0, "end")
+            for nom in noms_oiseaux:
+                menu.add_command(label=nom, command=lambda val=nom: self.choix_reponse.set(val))
+
+            if noms_oiseaux:
+                self.choix_reponse.set(noms_oiseaux[0])
+
+            self.play_random_sound()
+
 
     def play_feedback_sound(self, success):
         sound_path = success_sound if success else failure_sound
@@ -176,10 +237,10 @@ class BlindTestApp:
         pygame.mixer.music.play()
         self.result.config(text="")
         self.status_label.config(text="")
-        self.choix.set(self.choix.get())
+        self.choix_reponse.set(self.choix_reponse.get())
         self.validate_button["state"] = "normal"
         self.next_button["state"] = "disabled"
-        self.dropdown["state"] = "normal"
+        self.liste_reponse["state"] = "normal"
         self.image_label.config(image="")
         self.image_label.image = None
         self.playing = True
@@ -226,7 +287,7 @@ class BlindTestApp:
 
     def validate(self):
         self.total += 1
-        is_correct = self.choix.get() == self.current_answer
+        is_correct = self.choix_reponse.get() == self.current_answer
         if is_correct:
             self.score += 1
             self.result.config(text="✔️ Bonne réponse !", fg="green")
@@ -235,7 +296,7 @@ class BlindTestApp:
         self.play_feedback_sound(is_correct)
         self.validate_button["state"] = "disabled"
         self.next_button["state"] = "normal"
-        self.dropdown["state"] = "disabled"
+        self.liste_reponse["state"] = "disabled"
         self.emoji_label.config(text="")
         self.update_score()
         self.show_image()
