@@ -1,0 +1,182 @@
+{
+  "Accenteur mouchet (Prunella modularis)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/accenteur.mouchet.html"
+  },
+  "Bergeronnette grise (Motacilla alba)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/bergeronnette.grise.html"
+  },
+  "Chardonneret élégant (Carduelis carduelis)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/chardonneret.elegant.html"
+  },
+  "Etourneau sansonnet (Sturnus vulgaris)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/etourneau.sansonnet.html"
+  },
+  "Faucon crécerelle (Falco tinnunculus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/faucon.crecerelle.html"
+  },
+  "Fauvette à tête noire (Sylvia atricapilla)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/fauvette.a.tete.noire.html"
+  },
+  "Grimpereau des jardins (Certhia brachydactyla)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/grimpereau.des.jardins.html"
+  },
+  "Grive musicienne (Turdus philomelos)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/grive.musicienne.html"
+  },
+  "Loriot d'Europe (Oriolus oriolus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/loriot.d.europe.html"
+  },
+  "Martin-pêcheur d'Europe (Alcedo atthis)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/martin-pecheur.d.europe.html"
+  },
+  "Merle noir (Turdus merula)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/merle.noir.html"
+  },
+  "Moineau domestique (Passer domesticus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/moineau.domestique.html"
+  },
+  "Mésange bleue (Cyanistes caeruleus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/mesange.bleue.html"
+  },
+  "Mésange charbonnière (Parus major)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/mesange.charbonniere.html"
+  },
+  "Mésange huppée (Lophophanes cristatus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/mesange.huppee.html"
+  },
+  "Mésange noire (Periparus ater)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/mesange.noire.html"
+  },
+  "Orite à longue queue (Aegithalos caudatus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/orite.a.longue.queue.html"
+  },
+  "Pic vert (Picus viridis)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/pic.vert.html"
+  },
+  "Pie bavarde (Pica pica)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/pie.bavarde.html"
+  },
+  "Pigeon ramier (Columba palumbus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/pigeon.ramier.html"
+  },
+  "Pinson des arbres (Fringilla coelebs)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/pinson.des.arbres.html"
+  },
+  "Pouillot véloce (Phylloscopus collybita)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/pouillot.veloce.html"
+  },
+  "Rossignol philomèle (Luscinia megarhynchos)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/rossignol.philomele.html"
+  },
+  "Rougegorge familier (Erithacus rubecula)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/rougegorge.familier.html"
+  },
+  "Rougequeue noir (Phoenicurus ochruros)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/rougequeue.noir.html"
+  },
+  "Rougequeue à front blanc (Phoenicurus phoenicurus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/rougequeue.a.front.blanc.html"
+  },
+  "Serin cini (Serinus serinus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/serin.cini.html"
+  },
+  "Sittelle torchepot (Sitta europaea)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/sittelle.torchepot.html"
+  },
+  "Sizerin flammé (Acanthis flammea)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/sizerin.flamme.html"
+  },
+  "Tarin des aulnes (Carduelis spinus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/tarin.des.aulnes.html"
+  },
+  "Tourterelle turque (Streptopelia decaocto)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/tourterelle.turque.html"
+  },
+  "Troglodyte mignon (Troglodytes troglodytes)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/troglodyte.mignon.html"
+  },
+  "Verdier d'Europe (Chloris chloris)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/verdier.d.europe.html"
+  },
+  "Alouette des champs (Alauda arvensis)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/alouette.des.champs.html"
+  },
+  "Alouette lulu (Lullula arborea)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/alouette.lulu.html"
+  },
+  "Bruant jaune (Emberiza citrinella)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/bruant.jaune.html"
+  },
+  "Bruant ortolan (Emberiza hortulana)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/bruant.ortolan.html"
+  },
+  "Bruant proyer (Emberiza calandra)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/bruant.proyer.html"
+  },
+  "Bruant zizi (Emberiza cirlus)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/bruant.zizi.html"
+  },
+  "Linotte mélodieuse (Carduelis cannabina)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/linotte.melodieuse.html"
+  },
+  "Oedicnème criard (Burhinus oedicnemus)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/oedicneme.criard.html"
+  },
+  "Pipit des arbres (Anthus trivialis)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/pipit.des.arbres.html"
+  },
+  "Pouillot fitis (Phylloscopus trochilus)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/pouillot.fitis.html"
+  },
+  "Tarier des prés (Saxicola rubetra)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/tarier.des.pres.html"
+  },
+  "Tarier pâtre (Saxicola rubicola)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/tarier.patre.html"
+  }
+}

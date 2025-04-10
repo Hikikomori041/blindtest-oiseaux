@@ -1,4 +1,5 @@
 import os
+import json
 from tkinter import ttk
 # Désactive le message d'accueil de pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -32,6 +33,9 @@ def center_window(window, width=780, height=840):
 
 # Chemin des ressources
 base_dossier = resource_path("oiseaux/")
+json_path = os.path.join(base_dossier, "oiseaux.json")
+with open(json_path, encoding="utf-8") as f:
+    donnees_oiseaux = json.load(f)
 
 icon_path = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
@@ -44,37 +48,16 @@ sons = []
 noms_oiseaux = []
 sons_par_oiseau = {}
 
-
-# Scan des sous-dossiers (1 dossier = 1 oiseau)
-# for nom in os.listdir(base_dossier):
-#     chemin = os.path.join(base_dossier, nom)
-#     if os.path.isdir(chemin):
-#         fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-#         sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-#         for fichier in fichiers:
-#             sons.append((nom, os.path.join(chemin, fichier)))
-#         noms_oiseaux.append(nom)
-base_dossier1 = resource_path(os.path.join("oiseaux", "de plaine"))
-for nom in os.listdir(base_dossier1):
-    chemin = os.path.join(base_dossier1, nom)
-    if os.path.isdir(chemin):
-        fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-        sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-        for fichier in fichiers:
-            sons.append((nom, os.path.join(chemin, fichier)))
-        noms_oiseaux.append(nom)
-
-base_dossier2 = resource_path(os.path.join("oiseaux", "communs"))
-for nom in os.listdir(base_dossier2):
-    chemin = os.path.join(base_dossier2, nom)
-    if os.path.isdir(chemin):
-        fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-        sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-        for fichier in fichiers:
-            sons.append((nom, os.path.join(chemin, fichier)))
-        noms_oiseaux.append(nom)
+for nom, infos in donnees_oiseaux.items():
+    chemin = os.path.join(base_dossier, nom)
+    fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+    sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+    for fichier in fichiers:
+        sons.append((nom, os.path.join(chemin, fichier)))
+    noms_oiseaux.append(nom)
 
 noms_oiseaux.sort()
+
 
 class BlindTestApp:
     def __init__(self, root):
@@ -106,7 +89,6 @@ class BlindTestApp:
             self.background_image = tk.PhotoImage(file=image_path)
             self.background_label.config(image=self.background_image)
             self.background_label.lower()
-
 
         # Choix du type d'oiseaux
         type = tk.Frame(root)
@@ -211,50 +193,33 @@ class BlindTestApp:
         # Image
         self.image_label = tk.Label(root)
         self.image_label.pack(pady=10)
-        
 
         self.animate_emoji()
         self.check_sound_end()
 
+
     def change_type(self, type_choisi):
         if type_choisi != self.type_actuel:
-            print("Changement de type:", type_choisi)
             self.type_actuel = type_choisi
-
-            dossier = "de plaine" if type_choisi == "De plaine" else "communs" if type_choisi == "Communs" else "tous"
-            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "default.png"
-            image_path = os.path.join(resource_path("images"), image_name)
 
             global sons, noms_oiseaux, sons_par_oiseau
             sons = []
             noms_oiseaux = []
             sons_par_oiseau = {}
 
-            if dossier != "tous":
-                base_dossier = resource_path(os.path.join("oiseaux", dossier))
+            type_filtre = "plaine" if type_choisi == "De plaine" else "commun" if type_choisi == "Communs" else None
+            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "default.png"
+            image_path = os.path.join(resource_path("images"), image_name)
 
-                for nom in os.listdir(base_dossier):
+            for nom, infos in donnees_oiseaux.items():
+                if type_filtre is None or infos["type"] == type_filtre:
                     chemin = os.path.join(base_dossier, nom)
-                    if os.path.isdir(chemin):
-                        fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-                        sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-                        for fichier in fichiers:
-                            sons.append((nom, os.path.join(chemin, fichier)))
-                        noms_oiseaux.append(nom)
-            else:
-                base_dossier1 = resource_path(os.path.join("oiseaux", "de plaine"))
-                base_dossier2 = resource_path(os.path.join("oiseaux", "communs"))
-                listdir = os.listdir(base_dossier1)
-                for dir in os.listdir(base_dossier2):
-                    listdir.append(dir)
-
-                for dir in listdir:
-                    if os.path.isdir(dir):
-                        fichiers = [f for f in os.listdir(dir) if f.endswith(".mp3")]
-                        sons_par_oiseau[dir] = [os.path.join(dir, f) for f in fichiers]
-                        for fichier in fichiers:
-                            sons.append((dir, os.path.join(dir, fichier)))
-                        noms_oiseaux.append(dir)
+                    fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+                    sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+                    for fichier in fichiers:
+                        sons.append((nom, os.path.join(chemin, fichier)))
+                    noms_oiseaux.append(nom)
+            noms_oiseaux.sort()
 
             # Mettre à jour le fond d'écran
             if os.path.exists(image_path):
@@ -262,7 +227,7 @@ class BlindTestApp:
                 self.background_label.config(image=self.background_image)
                 self.background_label.lower()
 
-            # Mettre à jour la liste des réponses
+            # Mise à jour des options de réponses
             menu = self.liste_reponse["menu"]
             menu.delete(0, "end")
             for nom in noms_oiseaux:
@@ -375,25 +340,16 @@ class BlindTestApp:
             self.original_image = Image.open(image_path)
             self.zoom_step = 0
             self.animate_image_zoom()
-            def open_link(event=None):
-                link_path = os.path.join(base_dossier, self.current_answer, "lien.txt")
-                if os.path.exists(link_path):
-                    with open(link_path, "r", encoding="utf-8") as f:
-                        url = f.read().strip()
-                        if url:
-                            webbrowser.open(url)
 
-            self.image_label.unbind("<Button-1>")
-            self.image_label.bind("<Button-1>", open_link)
-
-            link_path = os.path.join(base_dossier, self.current_answer, "lien.txt")
-            if os.path.exists(link_path):
+            lien = donnees_oiseaux.get(self.current_answer, {}).get("lien")
+            if lien:
                 self.image_label.config(cursor="hand2")
                 self.image_label.unbind("<Button-1>")
-                self.image_label.bind("<Button-1>", lambda e: webbrowser.open(open(link_path, encoding="utf-8").read().strip()))
+                self.image_label.bind("<Button-1>", lambda e: webbrowser.open(lien))
             else:
                 self.image_label.config(cursor="arrow")
                 self.image_label.unbind("<Button-1>")
+
                 
             def show_tooltip(event):
                 global tooltip
