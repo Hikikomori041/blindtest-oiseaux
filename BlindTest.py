@@ -31,28 +31,32 @@ def center_window(window, width=780, height=840):
     window.geometry(f"{width}x{height}+{x}+{y}")
 
 # Chemin des ressources
-if len(sys.argv) > 1:
-    selected_category = sys.argv[1]
-else:
-    selected_category = "de plaine"
-
-base_dossier = resource_path(os.path.join("oiseaux", selected_category))
-# base_dossier = resource_path("oiseaux/de plaine/")
+base_dossier = resource_path("oiseaux/")
 
 icon_path = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
 
-sons = []
-noms_oiseaux = []
 types_oiseaux = ["Tous", "De plaine", "Communs"]
-sons_par_oiseau = {}
-
 tooltip = None
 
+sons = []
+noms_oiseaux = []
+sons_par_oiseau = {}
+
+
 # Scan des sous-dossiers (1 dossier = 1 oiseau)
-for nom in os.listdir(base_dossier):
-    chemin = os.path.join(base_dossier, nom)
+# for nom in os.listdir(base_dossier):
+#     chemin = os.path.join(base_dossier, nom)
+#     if os.path.isdir(chemin):
+#         fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+#         sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+#         for fichier in fichiers:
+#             sons.append((nom, os.path.join(chemin, fichier)))
+#         noms_oiseaux.append(nom)
+base_dossier1 = resource_path(os.path.join("oiseaux", "de plaine"))
+for nom in os.listdir(base_dossier1):
+    chemin = os.path.join(base_dossier1, nom)
     if os.path.isdir(chemin):
         fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
         sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
@@ -60,10 +64,22 @@ for nom in os.listdir(base_dossier):
             sons.append((nom, os.path.join(chemin, fichier)))
         noms_oiseaux.append(nom)
 
+base_dossier2 = resource_path(os.path.join("oiseaux", "communs"))
+for nom in os.listdir(base_dossier2):
+    chemin = os.path.join(base_dossier2, nom)
+    if os.path.isdir(chemin):
+        fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+        sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+        for fichier in fichiers:
+            sons.append((nom, os.path.join(chemin, fichier)))
+        noms_oiseaux.append(nom)
+
+noms_oiseaux.sort()
+
 class BlindTestApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Blind-Test oiseaux " + selected_category)
+        self.root.title("Blind-Test Oiseaux")
         center_window(self.root)
         self.root.geometry("840x780")
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
@@ -79,6 +95,18 @@ class BlindTestApp:
         self.total = 0
         self.emoji_sequence = ["🕊️", "🐦", "🐤", "🦜"]
         self.type_actuel = types_oiseaux[0]
+        
+        # Fond d'écran
+        self.background_image = None
+        self.background_label = tk.Label(root)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+        image_path = os.path.join(resource_path("images"), "default.png")
+        if os.path.exists(image_path):
+            self.background_image = tk.PhotoImage(file=image_path)
+            self.background_label.config(image=self.background_image)
+            self.background_label.lower()
+
 
         # Choix du type d'oiseaux
         type = tk.Frame(root)
@@ -126,15 +154,14 @@ class BlindTestApp:
 
         # Liste des réponses
         self.choix_reponse = tk.StringVar()
-        self.choix_reponse.set(noms_oiseaux[0])  # Valeur par défaut
+        self.choix_reponse.set("Choisir un oiseau")  # Valeur par défaut
 
         self.liste_reponse = tk.OptionMenu(root, self.choix_reponse, *noms_oiseaux)
         menu = self.liste_reponse["menu"]
         menu.config(
-            font=("Comic Sans MS", 12),
+            font=("Comic Sans MS", 11),
             bg="#ffc044",
             fg="black",
-            # activebackground="#feca57",# orange mangue
             activebackground="#48dbfb",
             activeforeground="white",
             bd=2
@@ -143,7 +170,6 @@ class BlindTestApp:
             font=("Comic Sans MS", 14, "italic"),
             bg="#ffe066",               # jaune vif tropical
             fg="#1a1a1a",               # texte sombre pour contraste
-            # activebackground="#ff6b6b", # rouge corail en survol
             activebackground="#48dbfb", # en survol
             activeforeground="white",   # texte blanc au survol
             relief="ridge",
@@ -154,6 +180,19 @@ class BlindTestApp:
             height=1
         )
         self.liste_reponse.pack(pady=25, ipady=4)
+
+
+        # self.liste_reponse = ttk.Combobox(
+        #     root,
+        #     textvariable=self.choix_reponse,
+        #     values=noms_oiseaux,
+        #     state="readonly",
+        #     font=("Comic Sans MS", 14, "italic"),
+        #     width=40
+        # )
+        # self.liste_reponse.pack(pady=25, ipady=4)
+        # self.liste_reponse.bind("<Key>", lambda e: "break")
+
 
         # Bouton valider
         self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white")
@@ -171,7 +210,6 @@ class BlindTestApp:
 
         # Image
         self.image_label = tk.Label(root)
-        # self.image_label = tk.Label(root, cursor="hand2")
         self.image_label.pack(pady=10)
         
 
@@ -184,20 +222,45 @@ class BlindTestApp:
             self.type_actuel = type_choisi
 
             dossier = "de plaine" if type_choisi == "De plaine" else "communs" if type_choisi == "Communs" else "tous"
-            global base_dossier, sons, noms_oiseaux, sons_par_oiseau
-            base_dossier = resource_path(os.path.join("oiseaux", dossier))
+            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "default.png"
+            image_path = os.path.join(resource_path("images"), image_name)
+
+            global sons, noms_oiseaux, sons_par_oiseau
             sons = []
             noms_oiseaux = []
             sons_par_oiseau = {}
 
-            for nom in os.listdir(base_dossier):
-                chemin = os.path.join(base_dossier, nom)
-                if os.path.isdir(chemin):
-                    fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-                    sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-                    for fichier in fichiers:
-                        sons.append((nom, os.path.join(chemin, fichier)))
-                    noms_oiseaux.append(nom)
+            if dossier != "tous":
+                base_dossier = resource_path(os.path.join("oiseaux", dossier))
+
+                for nom in os.listdir(base_dossier):
+                    chemin = os.path.join(base_dossier, nom)
+                    if os.path.isdir(chemin):
+                        fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+                        sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+                        for fichier in fichiers:
+                            sons.append((nom, os.path.join(chemin, fichier)))
+                        noms_oiseaux.append(nom)
+            else:
+                base_dossier1 = resource_path(os.path.join("oiseaux", "de plaine"))
+                base_dossier2 = resource_path(os.path.join("oiseaux", "communs"))
+                listdir = os.listdir(base_dossier1)
+                for dir in os.listdir(base_dossier2):
+                    listdir.append(dir)
+
+                for dir in listdir:
+                    if os.path.isdir(dir):
+                        fichiers = [f for f in os.listdir(dir) if f.endswith(".mp3")]
+                        sons_par_oiseau[dir] = [os.path.join(dir, f) for f in fichiers]
+                        for fichier in fichiers:
+                            sons.append((dir, os.path.join(dir, fichier)))
+                        noms_oiseaux.append(dir)
+
+            # Mettre à jour le fond d'écran
+            if os.path.exists(image_path):
+                self.background_image = tk.PhotoImage(file=image_path)
+                self.background_label.config(image=self.background_image)
+                self.background_label.lower()
 
             # Mettre à jour la liste des réponses
             menu = self.liste_reponse["menu"]
@@ -206,7 +269,7 @@ class BlindTestApp:
                 menu.add_command(label=nom, command=lambda val=nom: self.choix_reponse.set(val))
 
             if noms_oiseaux:
-                self.choix_reponse.set(noms_oiseaux[0])
+                self.choix_reponse.set("Choisir un oiseau")
 
             self.play_random_sound()
 
@@ -381,11 +444,6 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.iconbitmap(icon_path)
-
-    # Fond d'écran
-    background_image = tk.PhotoImage(file=os.path.join(base_dossier, "fond.png"))
-    background_label = tk.Label(root, image=background_image)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
     # Initialisation de pygame
     pygame.mixer.init()
