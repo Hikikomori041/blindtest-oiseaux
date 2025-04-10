@@ -12,8 +12,8 @@ import sys
 import ctypes
 import webbrowser
 
-# HEIGHT = 840
-# WIDTH = 780
+WIDTH = 700
+HEIGHT = 780
 
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 # def resource_path(relative_path):
@@ -31,7 +31,7 @@ def resource_path(relative_path):
 
 
 # Fonction pour centrer la fenêtre à l'écran
-def center_window(window, width=780, height=840):
+def center_window(window, width=WIDTH, height=HEIGHT):
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x = int((screen_width / 2) - (width / 2))
@@ -71,7 +71,7 @@ class BlindTestApp:
         self.root = root
         self.root.title("Blind-Test Oiseaux")
         center_window(self.root)
-        self.root.geometry("840x780")
+        self.root.geometry(str(HEIGHT) + "x" + str(WIDTH)) # "800x780"
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
         self.current_sound_path = None
         self.current_answer = None
@@ -325,11 +325,11 @@ class BlindTestApp:
         self.validate_button["state"] = "disabled"
         self.next_button["state"] = "normal"
         self.liste_reponse["state"] = "disabled"
-        self.emoji_label.config(text="")
         self.update_score()
         self.show_image()
         # if not self.paused:
         #     self.toggle_pause()
+
 
     def update_score(self):
         self.score_label.config(text=f"Score {self.score}/{self.total}")
