@@ -15,21 +15,6 @@ import webbrowser
 WIDTH = 700
 HEIGHT = 780
 
-# Pour compatibilité PyInstaller : récupérer chemin d'exécution
-# def resource_path(relative_path):
-#     try:
-#         base_path = os.path.join(sys._MEIPASS, "ressources")
-#     except Exception:
-#         base_path = os.path.abspath("ressources")
-#     return os.path.join(base_path, relative_path)
-# def resource_path(relative_path):
-#     base_path = os.path.abspath(".")
-    # return os.path.join(base_path, "ressources", relative_path)
-def resource_path(relative_path):
-    base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
-    return os.path.join(base_path, "ressources", relative_path)
-
-
 # Fonction pour centrer la fenêtre à l'écran
 def center_window(window, width=WIDTH, height=HEIGHT):
     screen_width = window.winfo_screenwidth()
@@ -37,6 +22,11 @@ def center_window(window, width=WIDTH, height=HEIGHT):
     x = int((screen_width / 2) - (width / 2))
     y = int((screen_height / 2) - (height / 2))
     window.geometry(f"{width}x{height}+{x}+{y}")
+
+# Pour compatibilité PyInstaller : récupérer chemin d'exécution
+def resource_path(relative_path):
+    base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
+    return os.path.join(base_path, "ressources", relative_path)
 
 # Chemin des ressources
 base_dossier = resource_path("oiseaux/")
@@ -201,6 +191,22 @@ class BlindTestApp:
         self.animate_emoji()
         self.check_sound_end()
 
+    def animate_emoji(self):
+        if self.playing and not self.paused:
+            emoji = self.emoji_sequence[self.animation_index % len(self.emoji_sequence)]
+            self.emoji_label.config(text=emoji + " 🎶")
+            self.animation_index += 1
+        self.root.after(400, self.animate_emoji)
+
+    def animate_image_zoom(self):
+        if self.zoom_step <= 10:
+            size = int(50 + self.zoom_step * 20)
+            img = self.original_image.resize((size, size))
+            photo = ImageTk.PhotoImage(img)
+            self.image_label.config(image=photo)
+            self.image_label.image = photo
+            self.zoom_step += 3
+            self.root.after(40, self.animate_image_zoom)
 
     def change_type(self, type_choisi):
         if type_choisi != self.type_actuel:
@@ -242,6 +248,20 @@ class BlindTestApp:
 
             self.play_random_sound()
 
+    def check_sound_end(self):
+        if self.playing and not self.paused:
+            if not pygame.mixer.music.get_busy():
+                self.playing = False
+                self.emoji_label.config(text="Son terminé.")
+        self.root.after(500, self.check_sound_end)
+
+    def next_sound_variant(self):
+        if self.current_answer and self.current_answer in sons_par_oiseau:
+            variants = sons_par_oiseau[self.current_answer]
+            if len(variants) > 1:
+                self.current_sound_index = (self.current_sound_index + 1) % len(variants)
+                self.current_sound_path = variants[self.current_sound_index]
+                self.play_sound()
 
     def play_feedback_sound(self, success):
         sound_path = success_sound if success else failure_sound
@@ -278,14 +298,6 @@ class BlindTestApp:
         self.paused = False
         self.pause_button.config(text="⏸️ Pause", bg="#f44336")
 
-    def next_sound_variant(self):
-        if self.current_answer and self.current_answer in sons_par_oiseau:
-            variants = sons_par_oiseau[self.current_answer]
-            if len(variants) > 1:
-                self.current_sound_index = (self.current_sound_index + 1) % len(variants)
-                self.current_sound_path = variants[self.current_sound_index]
-                self.play_sound()
-
     def replay(self):
         if self.current_sound_path:
             pygame.mixer.music.load(self.current_sound_path)
@@ -293,46 +305,6 @@ class BlindTestApp:
             self.playing = True
             self.paused = False
             self.pause_button.config(text="⏸️ Pause", bg="#f44336")
-
-    def stop(self):
-        pygame.mixer.music.stop()
-        self.emoji_label.config(text="")
-        self.playing = False
-        self.paused = False
-        self.pause_button.config(text="⏸️ Pause", bg="#f44336")
-
-    def toggle_pause(self):
-        if self.playing:
-            if self.paused:
-                pygame.mixer.music.unpause()
-                self.pause_button.config(text="⏸️ Pause", bg="#f44336")
-                self.paused = False
-            else:
-                pygame.mixer.music.pause()
-                self.pause_button.config(text="▶️ Reprendre", bg="#4CAF50")
-                self.paused = True
-                self.emoji_label.config(text="")
-
-    def validate(self):
-        self.total += 1
-        is_correct = self.choix_reponse.get() == self.current_answer
-        if is_correct:
-            self.score += 1
-            self.result.config(text="✔️ Bonne réponse !", fg="green")
-        else:
-            self.result.config(text=f"❌ Mauvais choix !\nC'était : {self.current_answer}", fg="red")
-        self.play_feedback_sound(is_correct)
-        self.validate_button["state"] = "disabled"
-        self.next_button["state"] = "normal"
-        self.liste_reponse["state"] = "disabled"
-        self.update_score()
-        self.show_image()
-        # if not self.paused:
-        #     self.toggle_pause()
-
-
-    def update_score(self):
-        self.score_label.config(text=f"Score {self.score}/{self.total}")
 
     def show_image(self):
         image_path = os.path.join(base_dossier, self.current_answer, "image.jpg")
@@ -368,30 +340,44 @@ class BlindTestApp:
             self.image_label.bind("<Enter>", show_tooltip)
             self.image_label.bind("<Leave>", hide_tooltip)
 
+    def stop(self):
+        pygame.mixer.music.stop()
+        self.emoji_label.config(text="")
+        self.playing = False
+        self.paused = False
+        self.pause_button.config(text="⏸️ Pause", bg="#f44336")
 
-    def animate_image_zoom(self):
-        if self.zoom_step <= 10:
-            size = int(50 + self.zoom_step * 20)
-            img = self.original_image.resize((size, size))
-            photo = ImageTk.PhotoImage(img)
-            self.image_label.config(image=photo)
-            self.image_label.image = photo
-            self.zoom_step += 3
-            self.root.after(40, self.animate_image_zoom)
+    def toggle_pause(self):
+        if self.playing:
+            if self.paused:
+                pygame.mixer.music.unpause()
+                self.pause_button.config(text="⏸️ Pause", bg="#f44336")
+                self.paused = False
+            else:
+                pygame.mixer.music.pause()
+                self.pause_button.config(text="▶️ Reprendre", bg="#4CAF50")
+                self.paused = True
+                self.emoji_label.config(text="")
 
-    def animate_emoji(self):
-        if self.playing and not self.paused:
-            emoji = self.emoji_sequence[self.animation_index % len(self.emoji_sequence)]
-            self.emoji_label.config(text=emoji + " 🎶")
-            self.animation_index += 1
-        self.root.after(400, self.animate_emoji)
+    def update_score(self):
+        self.score_label.config(text=f"Score {self.score}/{self.total}")
 
-    def check_sound_end(self):
-        if self.playing and not self.paused:
-            if not pygame.mixer.music.get_busy():
-                self.playing = False
-                self.emoji_label.config(text="Son terminé.")
-        self.root.after(500, self.check_sound_end)
+    def validate(self):
+        self.total += 1
+        is_correct = self.choix_reponse.get() == self.current_answer
+        if is_correct:
+            self.score += 1
+            self.result.config(text="✔️ Bonne réponse !", fg="green")
+        else:
+            self.result.config(text=f"❌ Mauvais choix !\nC'était : {self.current_answer}", fg="red")
+        self.play_feedback_sound(is_correct)
+        self.validate_button["state"] = "disabled"
+        self.next_button["state"] = "normal"
+        self.liste_reponse["state"] = "disabled"
+        self.update_score()
+        self.show_image()
+        # if not self.paused:
+        #     self.toggle_pause()
 
 if __name__ == "__main__":
     if sys.platform == "win32":
@@ -399,12 +385,12 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.iconbitmap(icon_path)
-    # POUR BARRE DES TÂCHES (nécessite un PNG)
+    # Change l'image dans la barre des tâches (nécessite une image en .png)
     try:
         icon_img = ImageTk.PhotoImage(file=resource_path("images/oiseau.png"))
         root.iconphoto(True, icon_img)
     except Exception as e:
-        print("Erreur chargement icône PNG:", e)
+        print("Erreur chargement icône:", e)
 
     # Initialisation de pygame
     pygame.mixer.init()
