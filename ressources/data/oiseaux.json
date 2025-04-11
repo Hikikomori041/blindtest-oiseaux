@@ -130,7 +130,7 @@
   "Verdier d'Europe (Chloris chloris)": {
     "type": "commun",
     "lien": "https://www.oiseaux.net/oiseaux/verdier.d.europe.html"
-  },
+  }, 
   "Alouette des champs (Alauda arvensis)": {
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/alouette.des.champs.html"
@@ -182,5 +182,13 @@
   "Tarier pâtre (Saxicola rubicola)": {
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/tarier.patre.html"
+  },
+  "Canard colvert (Anas platyrhynchos)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/canard.colvert.html"
+  },
+  "Foulque macroule (Fulica atra)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/foulque.macroule.html"
   }
 }

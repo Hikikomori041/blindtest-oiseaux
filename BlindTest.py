@@ -1,19 +1,21 @@
 import os
-import json
-from tkinter import ttk
 # Désactive le message d'accueil de pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import random
-import tkinter as tk
-from PIL import Image, ImageTk
 import pygame
-from mutagen.mp3 import MP3  # Sert à obtenir la durée du fichier mp3
-import sys
+
 import ctypes
+import json
+import random
+import sys
+import tkinter as tk
 import webbrowser
 
-WIDTH = 700
+from PIL import Image, ImageTk
+
+WIDTH  = 700
 HEIGHT = 780
+
+PAUSE_ON_VALIDATE = False
 
 # Fonction pour centrer la fenêtre à l'écran
 def center_window(window, width=WIDTH, height=HEIGHT):
@@ -28,22 +30,22 @@ def resource_path(relative_path):
     base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
     return os.path.join(base_path, "ressources", relative_path)
 
-# Chemin des ressources
-base_dossier = resource_path("oiseaux/")
-json_path = os.path.join(base_dossier, "oiseaux.json")
-with open(json_path, encoding="utf-8") as f:
-    donnees_oiseaux = json.load(f)
-
-icon_path = resource_path("images/oiseau.ico")
+base_dossier  = resource_path("oiseaux/")
+icon_path     = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
 
-types_oiseaux = ["Tous", "De plaine", "Communs"]
-tooltip = None
+types_oiseaux = ["Tous", "Communs", "De plaine", "D'eau"]
+tooltip       = None
 
-sons = []
-noms_oiseaux = []
+sons          = []
+noms_oiseaux  = []
 sons_par_oiseau = {}
+
+# Chemin des ressources
+json_path = os.path.join(resource_path("data"), "oiseaux.json")
+with open(json_path, encoding="utf-8") as f:
+    donnees_oiseaux = json.load(f)
 
 for nom, infos in donnees_oiseaux.items():
     chemin = os.path.join(base_dossier, nom)
@@ -61,13 +63,13 @@ class BlindTestApp:
         self.root = root
         self.root.title("Blind-Test Oiseaux")
         center_window(self.root)
-        self.root.geometry(str(HEIGHT) + "x" + str(WIDTH)) # "800x780"
+        self.root.geometry(str(HEIGHT) + "x" + str(WIDTH))
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
         self.current_sound_path = None
-        self.current_answer = None
+        self.current_answer  = None
         self.previous_answer = None
         self.playing = False
-        self.paused = False
+        self.paused  = False
         self.duration = 1
         self.animation_index = 0
         self.current_sound_index = 0
@@ -100,12 +102,14 @@ class BlindTestApp:
         menu1.config(
             font=("Berlin Sans FB", 12),
             bg="#666666",
-            fg="white"
+            fg="white",
+            cursor="hand2"
         )
         self.liste_type.config(
             font=("Berlin Sans FB", 12),
             bg="#444444",
-            fg="white"
+            fg="white",
+            cursor="hand2"
         )
         self.liste_type.pack()
 
@@ -122,10 +126,10 @@ class BlindTestApp:
         # Contrôles son
         controls = tk.Frame(root)
         controls.pack()
-        tk.Button(controls, text="⏮️ Réécouter", command=self.replay, width=12, height=2, bg="#2196F3", fg="white").pack(side=tk.LEFT, padx=5, pady=10)
-        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=32, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1)
+        tk.Button(controls, text="⏮️ Réécouter", command=self.replay, width=12, height=2, bg="#2196F3", fg="white", cursor="hand2").pack(side=tk.LEFT, padx=5, pady=10)
+        self.pause_button = tk.Button(controls, text="⏸️ Pause", command=self.toggle_pause, width=32, height=2, bg="#f44336", fg="white", relief="groove", bd=2, highlightbackground="#f44336", highlightthickness=1, cursor="hand2")
         self.pause_button.pack(side=tk.LEFT, padx=5)
-        self.switch_button = tk.Button(controls, text="🎵 Autre son de cet oiseau", command=self.next_sound_variant, width=25, height=2, bg="#9C27B0", fg="white")
+        self.switch_button = tk.Button(controls, text="🎵 Autre son de cet oiseau", command=self.next_sound_variant, width=25, height=2, bg="#9C27B0", fg="white", cursor="hand2")
         self.switch_button.pack(padx=5, pady=10)
 
         # Liste des réponses
@@ -140,7 +144,8 @@ class BlindTestApp:
             fg="black",
             activebackground="#48dbfb",
             activeforeground="white",
-            bd=2
+            bd=2,
+            cursor="hand2"
         )
         self.liste_reponse.config(
             font=("Comic Sans MS", 14, "italic"),
@@ -153,7 +158,8 @@ class BlindTestApp:
             highlightthickness=2,
             highlightbackground="#1dd1a1",  # vert menthe des forêts enchantées
             width=40,
-            height=1
+            height=1,
+            cursor="hand2"
         )
         self.liste_reponse.pack(pady=25, ipady=4)
 
@@ -171,12 +177,12 @@ class BlindTestApp:
 
 
         # Bouton valider
-        self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white")
+        self.validate_button = tk.Button(root, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white", cursor="hand2")
         self.validate_button.pack(pady=20)
         self.validate_button["state"] = "disabled"
         
         # Bouton son suivant
-        self.next_button = tk.Button(root, text="➡️ Oiseau suivant", command=self.play_random_sound, width=28, height=2, bg="#3F51B5", fg="white")
+        self.next_button = tk.Button(root, text="➡️ Oiseau suivant", command=self.play_random_sound, width=28, height=2, bg="#3F51B5", fg="white", cursor="hand2")
         self.next_button.pack(padx=5)
         self.next_button["state"] = "disabled"
 
@@ -196,7 +202,7 @@ class BlindTestApp:
             emoji = self.emoji_sequence[self.animation_index % len(self.emoji_sequence)]
             self.emoji_label.config(text=emoji + " 🎶")
             self.animation_index += 1
-        self.root.after(400, self.animate_emoji)
+        self.root.after(300, self.animate_emoji)
 
     def animate_image_zoom(self):
         if self.zoom_step <= 10:
@@ -217,8 +223,8 @@ class BlindTestApp:
             noms_oiseaux = []
             sons_par_oiseau = {}
 
-            type_filtre = "plaine" if type_choisi == "De plaine" else "commun" if type_choisi == "Communs" else None
-            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "default.png"
+            type_filtre = "plaine" if type_choisi == "De plaine" else "commun" if type_choisi == "Communs" else "eau" if  type_choisi == "D'eau" else None
+            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "eau.png" if type_choisi == "D'eau"  else "default.png"
             image_path = os.path.join(resource_path("images"), image_name)
 
             for nom, infos in donnees_oiseaux.items():
@@ -252,7 +258,7 @@ class BlindTestApp:
         if self.playing and not self.paused:
             if not pygame.mixer.music.get_busy():
                 self.playing = False
-                self.emoji_label.config(text="Son terminé.")
+                self.emoji_label.config(text="Son terminé")
         self.root.after(500, self.check_sound_end)
 
     def next_sound_variant(self):
@@ -283,15 +289,13 @@ class BlindTestApp:
         self.play_sound()
 
     def play_sound(self):
-        audio = MP3(self.current_sound_path)
-        self.duration = int(audio.info.length)
         pygame.mixer.music.load(self.current_sound_path)
         pygame.mixer.music.play()
         self.result.config(text="")
         self.choix_reponse.set(self.choix_reponse.get())
         self.validate_button["state"] = "normal"
-        self.next_button["state"] = "disabled"
-        self.liste_reponse["state"] = "normal"
+        self.liste_reponse["state"]   = "normal"
+        self.next_button["state"]     = "disabled"
         self.image_label.config(image="")
         self.image_label.image = None
         self.playing = True
@@ -376,8 +380,8 @@ class BlindTestApp:
         self.liste_reponse["state"] = "disabled"
         self.update_score()
         self.show_image()
-        # if not self.paused:
-        #     self.toggle_pause()
+        if PAUSE_ON_VALIDATE and not self.paused:
+            self.toggle_pause()
 
 if __name__ == "__main__":
     if sys.platform == "win32":
@@ -385,6 +389,7 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.iconbitmap(icon_path)
+
     # Change l'image dans la barre des tâches (nécessite une image en .png)
     try:
         icon_img = ImageTk.PhotoImage(file=resource_path("images/oiseau.png"))
@@ -397,6 +402,5 @@ if __name__ == "__main__":
 
     app = BlindTestApp(root)
     app.play_random_sound()
-
 
     root.mainloop()
