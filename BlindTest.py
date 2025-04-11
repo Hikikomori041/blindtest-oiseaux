@@ -74,7 +74,7 @@ class Tooltip:
         self.tip_window = tw = tk.Toplevel(self.widget)
         tw.wm_overrideredirect(True)
         tw.geometry(f"+{x}+{y}")
-        label = tk.Label(tw, text=self.text, background="#ffffe0", relief="solid", borderwidth=1, font=("Berlin Sans FB", 13))
+        label = tk.Label(tw, text=self.text, background="#ffffe0", relief="solid", borderwidth=1, font=("Berlin Sans FB", 12))
         label.pack()
 
     def hide(self, event=None):
@@ -170,9 +170,9 @@ class BlindTestApp:
         self.switch_button.pack(side=tk.LEFT, padx=5)
 
         Tooltip(self.replay_button,       "Réécouter")
-        Tooltip(self.rewind_button,       "Reculer")
+        Tooltip(self.rewind_button,       "Reculer de 5 secondes")
         # self.pause_tooltip = Tooltip(self.pause_button, "Pause")
-        Tooltip(self.fast_forward_button, "Avancer")
+        Tooltip(self.fast_forward_button, "Avancer de 5 secondes")
         Tooltip(self.switch_button,       "Autre son de cet oiseau")
 
 
