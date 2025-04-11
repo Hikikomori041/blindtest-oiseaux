@@ -30,6 +30,11 @@ def resource_path(relative_path):
     base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
     return os.path.join(base_path, "ressources", relative_path)
 
+# Chemin des ressources
+json_path = os.path.join(resource_path("data"), "oiseaux.json")
+with open(json_path, encoding="utf-8") as f:
+    donnees_oiseaux = json.load(f)
+
 base_dossier  = resource_path("oiseaux/")
 icon_path     = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
@@ -42,11 +47,6 @@ sons          = []
 noms_oiseaux  = []
 sons_par_oiseau = {}
 
-# Chemin des ressources
-json_path = os.path.join(resource_path("data"), "oiseaux.json")
-with open(json_path, encoding="utf-8") as f:
-    donnees_oiseaux = json.load(f)
-
 for nom, infos in donnees_oiseaux.items():
     chemin = os.path.join(base_dossier, nom)
     fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
@@ -54,7 +54,6 @@ for nom, infos in donnees_oiseaux.items():
     for fichier in fichiers:
         sons.append((nom, os.path.join(chemin, fichier)))
     noms_oiseaux.append(nom)
-
 noms_oiseaux.sort()
 
 class Tooltip:
