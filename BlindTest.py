@@ -110,6 +110,7 @@ class BlindTestApp:
         self.total = 0
         self.emoji_sequence = ["🕊️", "🐦     ", "🐤     ", "🦜     "]
         self.type_actuel = types_oiseaux[0]
+        self.result_font_size = 3
 
         # self.root.wm_attributes('-transparentcolor','#222222')
         # self.root.wm_attributes('-transparentcolor', root['bg'])
@@ -171,12 +172,14 @@ class BlindTestApp:
         
         self.pause_button  = tk.Button(controls, text="⏸️", command=self.toggle_pause, width=14, height=2, bg="#f44336", fg="white", relief="raised", bd=2, highlightbackground="#f44336", highlightthickness=1, cursor="hand2")
         self.pause_button.pack(side=tk.LEFT, padx=5, pady=5)
+        self.root.bind("<space>", lambda e: (self.pause_button.invoke(), "break"))
         
         self.fast_forward_button = tk.Button(controls, text="⏩", command=self.fast_forward, bg="#A196F3", fg="white", cursor="hand2")
         self.fast_forward_button.pack(side=tk.LEFT, padx=5)
 
         self.switch_button = tk.Button(controls, text="⏭️", command=self.next_sound_variant, bg="#219503", fg="white", cursor="hand2")
         self.switch_button.pack(side=tk.LEFT, padx=5)
+        self.root.bind("<s>", lambda e: (self.switch_button.invoke(), "break"))
 
         Tooltip(self.replay_button,       "Réécouter")
         Tooltip(self.rewind_button,       "Reculer de 5 secondes")
@@ -197,6 +200,9 @@ class BlindTestApp:
         self.liste_reponse.select_set(0)
         self.liste_reponse.activate(0)
         self.liste_reponse.see(0)
+        self.liste_reponse.focus_set()
+        self.liste_reponse.bind("<Return>", lambda e: self.validate())
+        # self.root.bind("<Return>", lambda e: (self.validate(), "break"))
 
         # Bouton valider
         self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
@@ -207,9 +213,10 @@ class BlindTestApp:
         self.next_button = tk.Button(choice, text="🔀 Oiseau suivant", command=self.play_random_sound, width=24, height=2, bg="#3F51B5", fg="white")
         self.next_button.pack(padx=5, pady=10)
         self.next_button["state"] = "disabled"
+        self.root.bind("<n>", lambda e: (self.next_button.invoke(), "break"))
 
         # Résultat
-        self.result = tk.Label(choice, font=("Helvetica", 12, "bold"))
+        self.result = tk.Label(choice, font=("Helvetica", self.result_font_size, "bold"))
         self.result.pack(pady=5)        
 
         # Image
@@ -235,9 +242,18 @@ class BlindTestApp:
             self.image_label.image = photo
             self.zoom_step += 3
             self.root.after(40, self.animate_image_zoom)
+        else:
+            self.next_button["state"] = "normal"
+
+    def animate_result_text(self):
+        if self.result_font_size <= 12:
+            self.result.config(font=("Helvetica", self.result_font_size, "bold"))
+            self.result_font_size += 3
+            self.root.after(40, self.animate_result_text)
 
     def change_type(self, type_choisi):
         if type_choisi != self.type_actuel:
+            self.play_random_sound()
             self.type_actuel = type_choisi
 
             global sons, noms_oiseaux, sons_par_oiseau
@@ -285,6 +301,7 @@ class BlindTestApp:
                 self.liste_reponse.select_set(0)
                 self.liste_reponse.activate(0)
                 self.liste_reponse.see(0)
+                self.liste_reponse.focus_set()
 
             self.play_random_sound()
 
@@ -328,14 +345,11 @@ class BlindTestApp:
         self.current_sound_index = sons_par_oiseau[nom].index(path)
         self.current_sound_path = path
         self.play_sound()
-        self.validate_button.config(cursor="hand2")
-        self.next_button.config(cursor="arrow")
 
     def play_sound(self):
         pygame.mixer.music.load(self.current_sound_path)
         pygame.mixer.music.play()
         self.result.config(text="")
-        # self.choix_reponse.set(self.choix_reponse.get())
         
         self.validate_button["state"] = "normal"
         self.liste_reponse["state"]   = "normal"
@@ -345,6 +359,9 @@ class BlindTestApp:
         self.playing = True
         self.paused = False
         self.pause_button.config(text="⏸️", bg="#f44336")
+        self.validate_button.config(cursor="hand2")
+        self.next_button.config(cursor="arrow")
+        self.liste_reponse.bind("<Return>", lambda e: self.validate())
 
     def replay(self):
         if self.current_sound_path:
@@ -422,6 +439,8 @@ class BlindTestApp:
         self.score_label.config(text=f"Score {self.score}/{self.total}")
 
     def validate(self):
+        self.result_font_size = 3
+        self.result.config(font=("Helvetica", self.result_font_size, "bold"))
         self.total += 1
         is_correct = self.liste_reponse.selection_get() == self.current_answer
         if is_correct:
@@ -429,12 +448,15 @@ class BlindTestApp:
             self.result.config(text=f"✔️ Bonne réponse !\n\n{self.current_answer}", fg="green")
         else:
             self.result.config(text=f"❌ Mauvais choix !\nLa bonne réponse était :\n\n{self.current_answer}", fg="red")
+        self.animate_result_text()
+
         self.play_feedback_sound(is_correct)
         self.validate_button.config(cursor="arrow")
         self.next_button.config(cursor="hand2")
         self.validate_button["state"] = "disabled"
         self.liste_reponse["state"]   = "disabled"
-        self.next_button["state"]     = "normal"
+        # self.next_button["state"]     = "normal"
+        self.liste_reponse.unbind("<Return>")
         self.update_score()
         self.show_image()
         if PAUSE_ON_VALIDATE and not self.paused:
