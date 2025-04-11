@@ -64,8 +64,22 @@ class Tooltip:
         self.tip_window = None
         widget.bind("<Enter>", self.show)
         widget.bind("<Leave>", self.hide)
+        widget.bind("<ButtonPress>", self.hide)
 
     def show(self, event=None):
+        if self.tip_window or not self.text:
+            return
+        self.after_id = self.widget.after(500, self._really_show)
+
+    def hide(self, event=None):
+        if self.after_id:
+            self.widget.after_cancel(self.after_id)
+            self.after_id = None
+        if self.tip_window and self.tip_window.winfo_exists():
+            self.tip_window.destroy()
+            self.tip_window = None
+
+    def _really_show(self):
         if self.tip_window or not self.text:
             return
         x, y, _, cy = self.widget.bbox("insert")
@@ -73,14 +87,10 @@ class Tooltip:
         y += self.widget.winfo_rooty() + 20
         self.tip_window = tw = tk.Toplevel(self.widget)
         tw.wm_overrideredirect(True)
+        tw.attributes("-topmost", True)
         tw.geometry(f"+{x}+{y}")
         label = tk.Label(tw, text=self.text, background="#ffffe0", relief="solid", borderwidth=1, font=("Berlin Sans FB", 12))
         label.pack()
-
-    def hide(self, event=None):
-        if self.tip_window:
-            self.tip_window.destroy()
-            self.tip_window = None
 
 class BlindTestApp:
     def __init__(self, root):
@@ -186,20 +196,22 @@ class BlindTestApp:
         self.liste_reponse.pack(side=tk.LEFT)
         self.liste_reponse.insert('end', *noms_oiseaux)
         self.liste_reponse.select_set(0)
+        self.liste_reponse.activate(0)
+        self.liste_reponse.see(0)
 
         # Bouton valider
         self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
-        self.validate_button.pack(pady=20, padx=80)
+        self.validate_button.pack(padx=96, pady=10)
         self.validate_button["state"] = "disabled"
         
         # Bouton son suivant
-        self.next_button = tk.Button(choice, text="🔀 Oiseau suivant", command=self.play_random_sound, width=24, height=2, bg="#3F51B5", fg="white", cursor="hand2")
-        self.next_button.pack(padx=5)
+        self.next_button = tk.Button(choice, text="🔀 Oiseau suivant", command=self.play_random_sound, width=24, height=2, bg="#3F51B5", fg="white")
+        self.next_button.pack(padx=5, pady=10)
         self.next_button["state"] = "disabled"
 
         # Résultat
         self.result = tk.Label(choice, font=("Helvetica", 12, "bold"))
-        self.result.pack(pady=15)        
+        self.result.pack(pady=5)        
 
         # Image
         self.image_label = tk.Label(choice)
@@ -272,6 +284,8 @@ class BlindTestApp:
                 self.liste_reponse.delete(0, tk.END)
                 self.liste_reponse.insert('end', *noms_oiseaux)
                 self.liste_reponse.select_set(0)
+                self.liste_reponse.activate(0)
+                self.liste_reponse.see(0)
 
             self.play_random_sound()
 
@@ -315,6 +329,8 @@ class BlindTestApp:
         self.current_sound_index = sons_par_oiseau[nom].index(path)
         self.current_sound_path = path
         self.play_sound()
+        self.validate_button.config(cursor="hand2")
+        self.next_button.config(cursor="arrow")
 
     def play_sound(self):
         pygame.mixer.music.load(self.current_sound_path)
@@ -368,7 +384,7 @@ class BlindTestApp:
                 tooltip = tk.Toplevel(self.root)
                 tooltip.wm_overrideredirect(True)
                 tooltip.wm_geometry(f"+{event.x_root + 10}+{event.y_root + 10}")
-                label = tk.Label(tooltip, text=self.current_answer, bg="white", fg="black", relief="solid", borderwidth=1, font=("Berlin Sans FB Demi", 11))
+                label = tk.Label(tooltip, text=self.current_answer, bg="white", fg="black", relief="solid", borderwidth=1, font=("Berlin Sans FB", 12))
                 label.pack()
 
             def hide_tooltip(event):
@@ -397,7 +413,7 @@ class BlindTestApp:
                 self.paused = False
             else:
                 pygame.mixer.music.pause()
-                self.pause_button.config(text="▶️", bg="#4CAF50", relief="sunken")
+                self.pause_button.config(text="▶️", bg="#4CAF50", relief="groove")
                 # self.pause_tooltip.hide()
                 # self.pause_tooltip.text = "Reprendre"
                 self.paused = True
@@ -411,10 +427,12 @@ class BlindTestApp:
         is_correct = self.liste_reponse.selection_get() == self.current_answer
         if is_correct:
             self.score += 1
-            self.result.config(text="✔️ Bonne réponse !", fg="green")
+            self.result.config(text=f"✔️ Bonne réponse !\n\n{self.current_answer}", fg="green")
         else:
             self.result.config(text=f"❌ Mauvais choix !\nLa bonne réponse était :\n\n{self.current_answer}", fg="red")
         self.play_feedback_sound(is_correct)
+        self.validate_button.config(cursor="arrow")
+        self.next_button.config(cursor="hand2")
         self.validate_button["state"] = "disabled"
         self.liste_reponse["state"]   = "disabled"
         self.next_button["state"]     = "normal"
