@@ -12,8 +12,8 @@ import webbrowser
 
 from PIL import Image, ImageTk
 
-WIDTH  = 700
-HEIGHT = 780
+WIDTH  = 1024
+HEIGHT = 720
 
 PAUSE_ON_VALIDATE = False
 
@@ -35,7 +35,7 @@ icon_path     = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
 
-types_oiseaux = ["Tous", "Communs", "De plaine", "D'eau"]
+types_oiseaux = ["Tous", "Communs", "D'eau", "De plaine"]
 tooltip       = None
 
 sons          = []
@@ -87,7 +87,7 @@ class BlindTestApp:
         self.root = root
         self.root.title("Blind-Test Oiseaux")
         center_window(self.root)
-        self.root.geometry(str(HEIGHT) + "x" + str(WIDTH))
+        self.root.geometry(str(WIDTH) + "x" + str(HEIGHT))
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
         self.current_sound_path = None
         self.current_answer  = None
@@ -125,8 +125,8 @@ class BlindTestApp:
         self.choix_type.set(types_oiseaux[0])  # Valeur par défaut
 
         self.liste_type = tk.OptionMenu(type, self.choix_type, *types_oiseaux, command=self.change_type)
-        menu1 = self.liste_type["menu"]
-        menu1.config(
+        menu = self.liste_type["menu"]
+        menu.config(
             font=("Berlin Sans FB Demi", 12),
             bg="#777777",
             fg="white",
@@ -177,32 +177,32 @@ class BlindTestApp:
 
 
         # Liste des réponses
-        choice = tk.Frame(root)
-        choice.pack()
+        choice = tk.Frame(root, width=40)
+        choice.pack(pady=5)
 
         tk.Label(choice, text='Choisir un oiseau', bg='#aaa').pack(fill='x')
 
-        self.liste_reponse = tk.Listbox(choice, width=40, cursor="hand2")
+        self.liste_reponse = tk.Listbox(choice, width=40, height=24, cursor="hand2")
         self.liste_reponse.pack(side=tk.LEFT)
         self.liste_reponse.insert('end', *noms_oiseaux)
         self.liste_reponse.select_set(0)
 
         # Bouton valider
-        self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=25, height=2, bg="#FF9800", fg="white", cursor="hand2")
-        self.validate_button.pack(pady=20)
+        self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
+        self.validate_button.pack(pady=20, padx=80)
         self.validate_button["state"] = "disabled"
         
         # Bouton son suivant
-        self.next_button = tk.Button(choice, text="🔀 Oiseau suivant", command=self.play_random_sound, width=28, height=2, bg="#3F51B5", fg="white", cursor="hand2")
+        self.next_button = tk.Button(choice, text="🔀 Oiseau suivant", command=self.play_random_sound, width=24, height=2, bg="#3F51B5", fg="white", cursor="hand2")
         self.next_button.pack(padx=5)
         self.next_button["state"] = "disabled"
 
         # Résultat
-        self.result = tk.Label(root, font=("Helvetica", 14, "bold"))
-        self.result.pack(pady=5)        
+        self.result = tk.Label(choice, font=("Helvetica", 12, "bold"))
+        self.result.pack(pady=15)        
 
         # Image
-        self.image_label = tk.Label(root)
+        self.image_label = tk.Label(choice)
         self.image_label.pack(pady=10)
 
         self.animate_emoji()
@@ -234,8 +234,19 @@ class BlindTestApp:
             noms_oiseaux = []
             sons_par_oiseau = {}
 
-            type_filtre = "plaine" if type_choisi == "De plaine" else "commun" if type_choisi == "Communs" else "eau" if  type_choisi == "D'eau" else None
-            image_name = "plaine.png" if type_choisi == "De plaine" else "communs.png" if type_choisi == "Communs" else "eau.png" if type_choisi == "D'eau"  else "default.png"
+            if  type_choisi == "Communs":
+                type_filtre  = "commun"
+                image_name   = "communs.png"
+            elif type_choisi == "D'eau":
+                type_filtre  = "eau"
+                image_name   = "eau.png"
+            elif type_choisi == "De plaine":
+                type_filtre  = "plaine"
+                image_name   = "plaine.png"
+            else:
+                type_filtre = None
+                image_name  = "default.png"
+
             image_path = os.path.join(resource_path("images"), image_name)
 
             for nom, infos in donnees_oiseaux.items():
@@ -253,6 +264,8 @@ class BlindTestApp:
                 self.background_image = tk.PhotoImage(file=image_path)
                 self.background_label.config(image=self.background_image)
                 self.background_label.lower()
+            else:
+                print("Fond d'écran introuvable:", image_path)
 
             # Mise à jour des options de réponses
             if noms_oiseaux:
@@ -400,7 +413,7 @@ class BlindTestApp:
             self.score += 1
             self.result.config(text="✔️ Bonne réponse !", fg="green")
         else:
-            self.result.config(text=f"❌ Mauvais choix !\nC'était : {self.current_answer}", fg="red")
+            self.result.config(text=f"❌ Mauvais choix !\nLa bonne réponse était :\n\n{self.current_answer}", fg="red")
         self.play_feedback_sound(is_correct)
         self.validate_button["state"] = "disabled"
         self.liste_reponse["state"]   = "disabled"
