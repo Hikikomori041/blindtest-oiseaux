@@ -11,6 +11,12 @@ import tkinter as tk
 import webbrowser
 
 from PIL import Image, ImageTk
+try:
+    from PIL import ImageResampling
+    RESAMPLING = ImageResampling.LANCZOS
+except ImportError:
+    RESAMPLING = Image.LANCZOS  # Pour les versions avant Pillow 10
+
 
 WIDTH  = 1024
 HEIGHT = 720
@@ -35,6 +41,13 @@ def maximise_window(window):
 def resource_path(relative_path):
     base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
     return os.path.join(base_path, "ressources", relative_path)
+
+def separer_nom_et_latin(texte):
+    if "(" in texte and ")" in texte:
+        nom_simple = texte.split(" (")[0]
+        nom_latin = texte.split(" (")[1].rstrip(")")
+        return nom_simple.strip(), nom_latin.strip()
+    return texte.strip(), None
 
 # Chemin des ressources
 json_path = os.path.join(resource_path("data"), "oiseaux.json")
@@ -120,6 +133,8 @@ class BlindTestApp:
         self.type_actuel = types_oiseaux[0]
         self.result_font_size = 3
         self.play_counts = {nom: 0 for nom in noms_oiseaux}
+        self.affichage_vers_nom = {}
+
 
 
         # self.root.wm_attributes('-transparentcolor','#222222')
@@ -132,9 +147,13 @@ class BlindTestApp:
 
         image_path = os.path.join(resource_path("images"), "default.png")
         if os.path.exists(image_path):
-            self.background_image = tk.PhotoImage(file=image_path)
+            # self.background_image = tk.PhotoImage(file=image_path)
+            self.original_background = Image.open(image_path)
+            self.update_background()
             self.background_label.config(image=self.background_image)
             self.background_label.lower()
+        self.update_bg_after_id = None
+        self.root.bind("<Configure>", self.schedule_background_update)
 
         # Choix du type d'oiseaux
         type = tk.Frame(root)
@@ -204,9 +223,15 @@ class BlindTestApp:
 
         tk.Label(choice, text='À quel oiseau appartient ce chant ?', bg='#aaa', font=("Berlin Sans FB Demi", 14), height=2).pack(fill='x')
 
-        self.liste_reponse = tk.Listbox(choice, width=40, height=30, cursor="hand2")
+        self.liste_reponse = tk.Listbox(choice, width=52, height=30, cursor="hand2")
         self.liste_reponse.pack(side=tk.LEFT)
-        self.liste_reponse.insert('end', *noms_oiseaux)
+        
+        for nom_oiseau in noms_oiseaux:
+            nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
+            nom_affiche = f"{nom_simple:<26} ({nom_latin})"
+            self.liste_reponse.insert('end', nom_affiche)
+            self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
+
         self.liste_reponse.select_set(0)
         self.liste_reponse.activate(0)
         self.liste_reponse.see(0)
@@ -215,10 +240,10 @@ class BlindTestApp:
         self.liste_reponse.bind("<Return>", lambda e: self.validate())
         # self.liste_reponse.bind("<Button-2>", self.show_context_menu)
         self.liste_reponse.bind("<Button-3>", self.show_context_menu)
+        self.liste_reponse.config(font=("Consolas", 13))
 
         self.context_menu = tk.Menu(self.liste_reponse, tearoff=0)
         self.context_menu.add_command(label="🎧 Écouter cet oiseau", command=self.play_selected_sound)
-
 
         # Bouton valider
         self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
@@ -233,7 +258,7 @@ class BlindTestApp:
 
         # Résultat
         self.result = tk.Label(choice, font=("Helvetica", self.result_font_size, "bold"))
-        self.result.pack(pady=5)        
+        self.result.pack(pady=5)
 
         # Image
         self.image_label = tk.Label(choice)
@@ -305,7 +330,9 @@ class BlindTestApp:
 
             # Mettre à jour le fond d'écran
             if os.path.exists(image_path):
-                self.background_image = tk.PhotoImage(file=image_path)
+                # self.background_image = tk.PhotoImage(file=image_path)
+                self.original_background = Image.open(image_path)
+                self.update_background()
                 self.background_label.config(image=self.background_image)
                 self.background_label.lower()
             else:
@@ -314,7 +341,12 @@ class BlindTestApp:
             # Mise à jour des options de réponses
             if noms_oiseaux:
                 self.liste_reponse.delete(0, tk.END)
-                self.liste_reponse.insert('end', *noms_oiseaux)
+                # self.liste_reponse.insert('end', *noms_oiseaux)
+                for nom_oiseau in noms_oiseaux:
+                    nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
+                    nom_affiche = f"{nom_simple:<26} ({nom_latin})"
+                    self.liste_reponse.insert('end', nom_affiche)
+                    self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
                 self.liste_reponse.select_set(0)
                 self.liste_reponse.activate(0)
                 self.liste_reponse.see(0)
@@ -382,7 +414,8 @@ class BlindTestApp:
         selected = self.liste_reponse.curselection()
         if not selected:
             return
-        nom = self.liste_reponse.get(selected[0])
+        nom_formatte = self.liste_reponse.get(selected[0])
+        nom = self.affichage_vers_nom.get(nom_formatte)
         if nom in sons_par_oiseau:
             self.stop()
             self.current_answer = nom
@@ -422,6 +455,11 @@ class BlindTestApp:
             new_pos = max(0, pos - 5)
             pygame.mixer.music.stop()
             pygame.mixer.music.play(start=new_pos)
+
+    def schedule_background_update(self, event=None):
+        if self.update_bg_after_id:
+            self.root.after_cancel(self.update_bg_after_id)
+        self.update_bg_after_id = self.root.after(50, self.update_background)
 
     def show_context_menu(self, event):
         try:
@@ -490,6 +528,17 @@ class BlindTestApp:
                 self.paused = True
                 self.emoji_label.config(text="")
 
+    def update_background(self):
+        if hasattr(self, 'original_background'):
+            width = self.root.winfo_width()
+            height = self.root.winfo_height()
+            if getattr(self, 'last_size', None) != (width, height):
+                self.last_size = (width, height)
+                resized = self.original_background.resize((width, height), RESAMPLING)
+                photo = ImageTk.PhotoImage(resized)
+                self.background_label.config(image=photo)
+                self.background_label.image = photo
+
     def update_score(self):
         self.score_label.config(text=f"Score {self.score}/{self.total}")
 
@@ -497,7 +546,10 @@ class BlindTestApp:
         self.result_font_size = 3
         self.result.config(font=("Helvetica", self.result_font_size, "bold"))
         self.total += 1
-        is_correct = self.liste_reponse.selection_get() == self.current_answer
+        selection = self.liste_reponse.selection_get()
+        nom_choisi = self.affichage_vers_nom.get(selection)
+
+        is_correct = nom_choisi == self.current_answer
         if is_correct:
             self.score += 1
             self.result.config(text=f"✔️ Bonne réponse !\n\n{self.current_answer}", fg="green")
@@ -540,6 +592,7 @@ if __name__ == "__main__":
     center_window(root)
     maximise_window(root)
 
+    app.update_background()
     app.play_random_sound()
 
     root.mainloop()
