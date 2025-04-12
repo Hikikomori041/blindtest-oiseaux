@@ -25,6 +25,12 @@ def center_window(window, width=WIDTH, height=HEIGHT):
     y = int((screen_height / 2) - (height / 2))
     window.geometry(f"{width}x{height}+{x}+{y}")
 
+def maximise_window(window):
+    try:
+        window.state('zoomed')  # Windows
+    except:
+        window.attributes('-zoomed', True)  # Linux
+
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
     base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
@@ -96,8 +102,9 @@ class BlindTestApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Blind-Test Oiseaux")
-        center_window(self.root)
+
         self.root.geometry(str(WIDTH) + "x" + str(HEIGHT))
+        self.root.minsize(WIDTH, HEIGHT)
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
         self.current_sound_path = None
         self.current_answer  = None
@@ -112,6 +119,7 @@ class BlindTestApp:
         self.emoji_sequence = ["🕊️", "🐦     ", "🐤     ", "🦜     "]
         self.type_actuel = types_oiseaux[0]
         self.result_font_size = 3
+        self.play_counts = {nom: 0 for nom in noms_oiseaux}
 
 
         # self.root.wm_attributes('-transparentcolor','#222222')
@@ -194,9 +202,9 @@ class BlindTestApp:
         choice = tk.Frame(root, width=40)
         choice.pack(pady=5)
 
-        tk.Label(choice, text='Choisir un oiseau', bg='#aaa').pack(fill='x')
+        tk.Label(choice, text='À quel oiseau appartient ce chant ?', bg='#aaa', font=("Berlin Sans FB Demi", 14), height=2).pack(fill='x')
 
-        self.liste_reponse = tk.Listbox(choice, width=40, height=24, cursor="hand2")
+        self.liste_reponse = tk.Listbox(choice, width=40, height=30, cursor="hand2")
         self.liste_reponse.pack(side=tk.LEFT)
         self.liste_reponse.insert('end', *noms_oiseaux)
         self.liste_reponse.select_set(0)
@@ -261,6 +269,7 @@ class BlindTestApp:
 
     def change_type(self, type_choisi):
         if type_choisi != self.type_actuel:
+            # self.play_counts = {nom: self.play_counts.get(nom, 0) for nom in noms_oiseaux}
             self.play_random_sound()
             self.type_actuel = type_choisi
 
@@ -346,12 +355,27 @@ class BlindTestApp:
 
     def play_random_sound(self):
         self.stop()
-        possible_sounds = [s for s in sons if s[0] != self.previous_answer] if self.previous_answer else sons
-        nom, path = random.choice(possible_sounds)
+        
+        # Si t’as filtré les sons par type :
+        candidats = [s for s in sons if s[0] != self.previous_answer] if self.previous_answer else sons
+
+        # On pondère selon le nombre de fois que chaque oiseau a été entendu
+        poids = []
+        for nom, _ in candidats:
+            count = self.play_counts.get(nom, 0)
+            poids.append(1 / (1 + count))  # plus il a été écouté, plus c’est faible
+
+        total = sum(poids)
+        proba = [p / total for p in poids]
+
+        index = random.choices(range(len(candidats)), weights=proba, k=1)[0]
+        nom, path = candidats[index]
+
         self.current_answer = nom
         self.previous_answer = nom
         self.current_sound_index = sons_par_oiseau[nom].index(path)
         self.current_sound_path = path
+        self.play_counts[nom] += 1  # on incrémente ici
         self.play_sound()
 
     def play_selected_sound(self):
@@ -366,7 +390,6 @@ class BlindTestApp:
             self.current_sound_index = 0
             self.current_sound_path = sons_par_oiseau[nom][0]
             self.play_sound()
-
 
     def play_sound(self):
         pygame.mixer.music.load(self.current_sound_path)
@@ -508,10 +531,15 @@ if __name__ == "__main__":
     except Exception as e:
         print("Erreur chargement icône:", e)
 
+
     # Initialisation de pygame
     pygame.mixer.init()
 
     app = BlindTestApp(root)
+    
+    center_window(root)
+    maximise_window(root)
+
     app.play_random_sound()
 
     root.mainloop()
