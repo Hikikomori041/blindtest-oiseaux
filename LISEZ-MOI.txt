@@ -1,0 +1,12 @@
+Pour exécuter le programme, il faut d'abord extraire le contenu du zip en entier.
+
+IMPORTANT: le programme (Blind-Test Oiseaux.exe) doit impérativement être dans le même répertoire que le dossier ressources, sinon il ne fonctionnera pas !
+
+------------------------------------------------
+
+Contrôles:
+
+- Espace	   :  mettre en pause / reprendre la lecture
+- Flèches haut/bas :  naviguer dans la liste
+- Entrée           :  valider la sélection
+- N                :  oiseau suivant
