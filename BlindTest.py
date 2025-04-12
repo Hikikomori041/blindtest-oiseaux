@@ -244,6 +244,7 @@ class BlindTestApp:
 
         self.context_menu = tk.Menu(self.liste_reponse, tearoff=0)
         self.context_menu.add_command(label="🎧 Écouter cet oiseau", command=self.play_selected_sound)
+        self.context_menu.add_command(label="🌐 Visualiser cet oiseau", command=self.see_bird_website)
 
         # Bouton valider
         self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
@@ -460,6 +461,15 @@ class BlindTestApp:
         if self.update_bg_after_id:
             self.root.after_cancel(self.update_bg_after_id)
         self.update_bg_after_id = self.root.after(50, self.update_background)
+
+    def see_bird_website(self):
+        selected = self.liste_reponse.curselection()
+        if not selected:
+            return
+        nom_formatte = self.liste_reponse.get(selected[0])
+        nom = self.affichage_vers_nom.get(nom_formatte)
+        lien = donnees_oiseaux.get(nom, {}).get("lien")
+        webbrowser.open(lien)
 
     def show_context_menu(self, event):
         try:

@@ -202,5 +202,144 @@
   "Foulque macroule (Fulica atra)": {
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/foulque.macroule.html"
-  }
+  },
+
+
+
+  "Aigrette garzette (Egretta garzetta)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/aigrette.garzette.html"
+  },
+  "Avocette élégante (Recurvirostra avosetta)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/avocette.elegante.html"
+  },
+  "Barge à queue noire (Limosa limosa)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/barge.a.queue.noire.html"
+  },
+  "Barge rousse (Limosa lapponica)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/barge.rousse.html"
+  },
+  "Bécassine des bois (Gallinago nemoricola)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/becassine.des.bois.html"
+  },
+  "Bécassine des marais (Gallinago gallinago)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/becassine.des.marais.html"
+  },
+  "Blongios nain (Ixobrychus minutus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/blongios.nain.html"
+  },
+  "Butor étoilé (Botaurus stellaris)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/butor.etoile.html"
+  },
+  "Canard chipeau (Mareca strepera)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/canard.chipeau.html"
+  },
+  "Canard milouin (Aythya ferina)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/canard.milouin.html"
+  },
+  "Canard pilet (Anas acuta)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/canard.pilet.html"
+  },
+  "Canard siffleur (Mareca penelope)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/canard.siffleur.html"
+  },
+  "Chevalier arlequin (Tringa erythropus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.arlequin.html"
+  },
+  "Chevalier cul-blanc (Tringa ochropus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.cul.blanc.html"
+  },
+  "Chevalier gambette (Tringa totanus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.gambette.html"
+  },
+  "Chevalier guignette (Actitis hypoleucos)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.guignette.html"
+  },
+  "Chevalier sylvain (Tringa glareola)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.sylvain.html"
+  },
+  "Eider à duvet (Somateria mollissima)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/eider.a.duvet.html"
+  },
+  "Gallinule poule d'eau (Gallinula chloropus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/gallinule.poule.d.eau.html"
+  },
+  "Grande aigrette (Ardea alba)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grande.aigrette.html"
+  },
+  "Grand Cormoran (Phalacrocorax carbo)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grand.cormoran.html"
+  },
+  "Grèbe à cou noir (Podiceps nigricollis)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grebe.a.cou.noir.html"
+  },
+  "Grèbe castagneux (Tachybaptus ruficollis)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grebe.castagneux.html"
+  },
+  "Grèbe esclavon (Podiceps auritus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grebe.esclavon.html"
+  },
+  "Grèbe huppé (Podiceps cristatus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grebe.huppe.html"
+  },
+  "Grèbe jougris (Podiceps grisegena)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/grebe.jougris.html"
+  },
+  "Héron cendré (Ardea cinerea)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/heron.cendre.html"
+  },
+  "Oie cendrée (Anser anser)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/oie.cendree.html"
+  },
+  "Oie rieuse (Anser albifrons)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/oie.rieuse.html"
+  },
+  "Sarcelle d'été (Spatula querquedula)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/sarcelle.d.ete.html"
+  },
+  "Sarcelle d'hiver (Anas crecca)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/sarcelle.d.hiver.html"
+  },
+  "Spatule blanche (Platalea leucorodia)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/spatule.blanche.html"
+  },
+  "Tadorne de Belon (Tadorna tadorna)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/tadorne.de.belon.html"
+  },
+  "Vanneau huppé (Vanellus vanellus)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/vanneau.huppe.html"
+  }  
 }
