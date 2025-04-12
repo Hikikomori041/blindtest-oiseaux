@@ -91,6 +91,7 @@ class Tooltip:
         label = tk.Label(tw, text=self.text, background="#ffffe0", relief="solid", borderwidth=1, font=("Berlin Sans FB", 12))
         label.pack()
 
+
 class BlindTestApp:
     def __init__(self, root):
         self.root = root
@@ -111,6 +112,7 @@ class BlindTestApp:
         self.emoji_sequence = ["🕊️", "🐦     ", "🐤     ", "🦜     "]
         self.type_actuel = types_oiseaux[0]
         self.result_font_size = 3
+
 
         # self.root.wm_attributes('-transparentcolor','#222222')
         # self.root.wm_attributes('-transparentcolor', root['bg'])
@@ -201,8 +203,14 @@ class BlindTestApp:
         self.liste_reponse.activate(0)
         self.liste_reponse.see(0)
         self.liste_reponse.focus_set()
-        self.liste_reponse.bind("<Return>", lambda e: self.validate())
         # self.root.bind("<Return>", lambda e: (self.validate(), "break"))
+        self.liste_reponse.bind("<Return>", lambda e: self.validate())
+        # self.liste_reponse.bind("<Button-2>", self.show_context_menu)
+        self.liste_reponse.bind("<Button-3>", self.show_context_menu)
+
+        self.context_menu = tk.Menu(self.liste_reponse, tearoff=0)
+        self.context_menu.add_command(label="🎧 Écouter cet oiseau", command=self.play_selected_sound)
+
 
         # Bouton valider
         self.validate_button = tk.Button(choice, text="✅ Valider", command=self.validate, width=24, height=2, bg="#FF9800", fg="white", cursor="hand2")
@@ -346,6 +354,20 @@ class BlindTestApp:
         self.current_sound_path = path
         self.play_sound()
 
+    def play_selected_sound(self):
+        selected = self.liste_reponse.curselection()
+        if not selected:
+            return
+        nom = self.liste_reponse.get(selected[0])
+        if nom in sons_par_oiseau:
+            self.stop()
+            self.current_answer = nom
+            self.previous_answer = nom
+            self.current_sound_index = 0
+            self.current_sound_path = sons_par_oiseau[nom][0]
+            self.play_sound()
+
+
     def play_sound(self):
         pygame.mixer.music.load(self.current_sound_path)
         pygame.mixer.music.play()
@@ -377,6 +399,16 @@ class BlindTestApp:
             new_pos = max(0, pos - 5)
             pygame.mixer.music.stop()
             pygame.mixer.music.play(start=new_pos)
+
+    def show_context_menu(self, event):
+        try:
+            index = self.liste_reponse.nearest(event.y)
+            self.liste_reponse.selection_clear(0, tk.END)
+            self.liste_reponse.selection_set(index)
+            self.liste_reponse.activate(index)
+            self.context_menu.post(event.x_root, event.y_root)
+        except:
+            pass
 
     def show_image(self):
         image_path = os.path.join(base_dossier, self.current_answer, "image.jpg")
