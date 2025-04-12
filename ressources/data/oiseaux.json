@@ -167,6 +167,10 @@
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/oedicneme.criard.html"
   },
+  "Outarde canepetière (Tetrax tetrax)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/outarde.canepetiere.html"
+  },
   "Pipit des arbres (Anthus trivialis)": {
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/pipit.des.arbres.html"
@@ -191,21 +195,6 @@
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/tarier.patre.html"
   },
-  "Outarde canepetière (Tetrax tetrax)": {
-    "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/outarde.canepetiere.html"
-  },
-  "Canard colvert (Anas platyrhynchos)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.colvert.html"
-  },
-  "Foulque macroule (Fulica atra)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/foulque.macroule.html"
-  },
-
-
-
   "Aigrette garzette (Egretta garzetta)": {
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/aigrette.garzette.html"
@@ -242,9 +231,9 @@
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/canard.chipeau.html"
   },
-  "Canard milouin (Aythya ferina)": {
+  "Canard colvert (Anas platyrhynchos)": {
     "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.milouin.html"
+    "lien": "https://www.oiseaux.net/oiseaux/canard.colvert.html"
   },
   "Canard pilet (Anas acuta)": {
     "type": "eau",
@@ -260,7 +249,7 @@
   },
   "Chevalier cul-blanc (Tringa ochropus)": {
     "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.cul.blanc.html"
+    "lien": "https://www.oiseaux.net/oiseaux/chevalier.cul-blanc.html"
   },
   "Chevalier gambette (Tringa totanus)": {
     "type": "eau",
@@ -278,9 +267,17 @@
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/eider.a.duvet.html"
   },
+  "Foulque macroule (Fulica atra)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/foulque.macroule.html"
+  },
+  "Fuligule milouin (Aythya ferina)": {
+    "type": "eau",
+    "lien": "https://www.oiseaux.net/oiseaux/fuligule.milouin.html"
+  },
   "Gallinule poule d'eau (Gallinula chloropus)": {
     "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/gallinule.poule.d.eau.html"
+    "lien": "https://www.oiseaux.net/oiseaux/gallinule.poule-d.eau.html"
   },
   "Grande aigrette (Ardea alba)": {
     "type": "eau",
@@ -341,5 +338,5 @@
   "Vanneau huppé (Vanellus vanellus)": {
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/vanneau.huppe.html"
-  }  
+  }
 }
