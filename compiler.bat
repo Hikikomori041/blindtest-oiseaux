@@ -4,6 +4,7 @@ echo Compilation en cours...
 python -m PyInstaller --noconfirm --onefile --windowed ^
 --name "Blind-Test Oiseaux" ^
 --icon=ressources/images/oiseau.ico ^
+--add-data "ressources;." ^
 blindtest.py
 
 IF EXIST "dist\\Blind-Test Oiseaux.exe" (

@@ -45,7 +45,13 @@ def maximise_window(window):
 # Pour compatibilité PyInstaller : récupérer chemin d'exécution
 def resource_path(relative_path):
     base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.abspath(".")
-    return os.path.join(base_path, "ressources", relative_path)
+    # return os.path.join(base_path, "ressources", relative_path)
+    if getattr(sys, 'frozen', False):
+    # Exécutable généré par PyInstaller
+        return os.path.join(base_path, relative_path)
+    else:
+        return os.path.join(base_path, "ressources", relative_path)
+
 
 def separer_nom_et_latin(texte):
     if "(" in texte and ")" in texte:
