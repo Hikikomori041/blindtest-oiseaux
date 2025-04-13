@@ -32,7 +32,7 @@ def reencode_or_convert(path, is_wav):
         print(f"✅ MP3 créé : {mp3_path}")
         if is_wav:
             os.remove(path)
-            print(f"❌ WAV supprimé : {path}")
+            print(f"🗑️ WAV supprimé : {path}")
     else:
         print(f"❌ Échec pour : {path}")
         print("stderr:", result.stderr.decode())
