@@ -17,7 +17,6 @@ try:
 except ImportError:
     RESAMPLING = Image.LANCZOS  # Pour les versions avant Pillow 10
 
-
 WIDTH  = 1024
 HEIGHT = 720
 
@@ -116,12 +115,10 @@ class Tooltip:
         label = tk.Label(tw, text=self.text, background="#ffffe0", relief="solid", borderwidth=1, font=("Berlin Sans FB", 12))
         label.pack()
 
-
 class BlindTestApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Blind-Test Oiseaux")
-
         self.root.geometry(str(WIDTH) + "x" + str(HEIGHT))
         self.root.minsize(WIDTH, HEIGHT)
         self.root.option_add("*Font", "{Berlin Sans FB} 14")
@@ -139,8 +136,6 @@ class BlindTestApp:
         self.result_font_size = 3
         self.play_counts = {nom: 0 for nom in noms_oiseaux}
         self.affichage_vers_nom = {}
-
-
 
         # self.root.wm_attributes('-transparentcolor','#222222')
         # self.root.wm_attributes('-transparentcolor', root['bg'])
@@ -215,7 +210,6 @@ class BlindTestApp:
         Tooltip(self.fast_forward_button, "Avancer de 5 secondes")
         Tooltip(self.switch_button,       "Autre son de cet oiseau")
 
-
         # Liste des réponses
         choice = tk.Frame(root, width=40)
         choice.pack(pady=5)
@@ -267,25 +261,6 @@ class BlindTestApp:
         self.animate_emoji()
         self.check_sound_end()
 
-
-    def update_type_checkboxes(self):
-        cochées = [var.get() for var in self.types_vars]
-        nb_cochées = cochées.count(True)
-
-        for checkbox, var in zip(self.type_checkboxes, self.types_vars):
-            if nb_cochées == 1 and var.get():
-                checkbox.config(state='disabled')  # on bloque la case cochée
-            else:
-                checkbox.config(state='normal')  # sinon on débloque tout
-        self.change_type()
-
-
-    def get_selected_types(self):
-        return [TYPES_MAPPING[nom_affiché] for nom_affiché, var in zip(TYPES_MAPPING, self.types_vars) if var.get()]
-
-
-
-
     def animate_emoji(self):
         if self.playing and not self.paused:
             emoji = self.emoji_sequence[self.animation_index % len(self.emoji_sequence)]
@@ -322,22 +297,6 @@ class BlindTestApp:
         def type_valide(info_type):
             return info_type in types_choisis
 
-
-        # if  type_choisi == "Communs":
-        #     type_filtre  = "commun"
-        #     image_name   = "communs.png"
-        # elif type_choisi == "D'eau":
-        #     type_filtre  = "eau"
-        #     image_name   = "eau.png"
-        # elif type_choisi == "De plaine":
-        #     type_filtre  = "plaine"
-        #     image_name   = "plaine.png"
-        # else:
-        #     type_filtre = None
-        #     image_name  = "default.png"
-
-        # image_path = os.path.join(resource_path("images"), image_name)
-
         for nom, infos in donnees_oiseaux.items():
             if not types_choisis or type_valide(infos["type"]):
                 chemin = os.path.join(base_dossier, nom)
@@ -348,15 +307,25 @@ class BlindTestApp:
                 noms_oiseaux.append(nom)
             noms_oiseaux.sort()
 
-        # # Mettre à jour le fond d'écran
-        # if os.path.exists(image_path):
-        #     # self.background_image = tk.PhotoImage(file=image_path)
-        #     self.original_background = Image.open(image_path)
-        #     self.update_background()
-        #     self.background_label.config(image=self.background_image)
-        #     self.background_label.lower()
-        # else:
-        #     print("Fond d'écran introuvable:", image_path)
+        # Mettre à jour le fond d'écran si un seul type est sélectionné
+        if len(types_choisis) == 1:
+            type_unique = types_choisis[0]
+            image_name = {
+                "commun": "communs.png",
+                "eau": "eau.png",
+                "plaine": "plaine.png"
+            }.get(type_unique, "default.png")
+        else:
+            image_name = "default.png"
+
+        image_path = os.path.join(resource_path("images"), image_name)
+        if os.path.exists(image_path):
+            self.original_background = Image.open(image_path)
+            self.update_background(force=True)
+            self.background_label.config(image=self.background_image)
+            self.background_label.lower()
+        else:
+            print("Fond d'écran introuvable:", image_path)
 
         # Mise à jour des options de réponses
         if noms_oiseaux:
@@ -387,6 +356,9 @@ class BlindTestApp:
             new_pos = pos + 5
             pygame.mixer.music.stop()
             pygame.mixer.music.play(start=new_pos)
+
+    def get_selected_types(self):
+        return [TYPES_MAPPING[nom_affiché] for nom_affiché, var in zip(TYPES_MAPPING, self.types_vars) if var.get()]
 
     def next_sound_variant(self):
         if self.current_answer and self.current_answer in sons_par_oiseau:
@@ -557,11 +529,11 @@ class BlindTestApp:
                 self.paused = True
                 self.emoji_label.config(text="")
 
-    def update_background(self):
+    def update_background(self, force=False):
         if hasattr(self, 'original_background'):
             width = self.root.winfo_width()
             height = self.root.winfo_height()
-            if getattr(self, 'last_size', None) != (width, height):
+            if force or getattr(self, 'last_size', None) != (width, height):
                 self.last_size = (width, height)
                 resized = self.original_background.resize((width, height), RESAMPLING)
                 photo = ImageTk.PhotoImage(resized)
@@ -570,6 +542,17 @@ class BlindTestApp:
 
     def update_score(self):
         self.score_label.config(text=f"Score {self.score}/{self.total}")
+
+    def update_type_checkboxes(self):
+        cochées = [var.get() for var in self.types_vars]
+        nb_cochées = cochées.count(True)
+
+        for checkbox, var in zip(self.type_checkboxes, self.types_vars):
+            if nb_cochées == 1 and var.get():
+                checkbox.config(state='disabled')  # on bloque la case cochée
+            else:
+                checkbox.config(state='normal')  # sinon on débloque tout
+        self.change_type()
 
     def validate(self):
         self.result_font_size = 3
