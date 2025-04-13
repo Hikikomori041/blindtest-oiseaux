@@ -23,6 +23,12 @@ HEIGHT = 720
 
 PAUSE_ON_VALIDATE = False
 
+TYPES_MAPPING = {
+    "Communs": "commun",
+    "D'eau": "eau",
+    "De plaine": "plaine"
+}
+
 # Fonction pour centrer la fenêtre à l'écran
 def center_window(window, width=WIDTH, height=HEIGHT):
     screen_width = window.winfo_screenwidth()
@@ -160,24 +166,46 @@ class BlindTestApp:
         type.pack()
         type.place(x=5, y=5)
         self.type_label = tk.Label(type, text="Type d'oiseaux:").pack(side=tk.LEFT, padx=1, pady=1)
-        self.choix_type = tk.StringVar(type)
-        self.choix_type.set(types_oiseaux[0])  # Valeur par défaut
 
-        self.liste_type = tk.OptionMenu(type, self.choix_type, *types_oiseaux, command=self.change_type)
-        menu = self.liste_type["menu"]
-        menu.config(
-            font=("Berlin Sans FB Demi", 12),
-            bg="#777777",
-            fg="white",
-            cursor="hand2"
-        )
-        self.liste_type.config(
-            font=("Berlin Sans FB Demi", 12),
-            bg="#cccccc",
-            fg="black",
-            cursor="hand2"
-        )
-        self.liste_type.pack()
+        # self.choix_type = tk.StringVar(type)
+        # self.choix_type.set(types_oiseaux[0])  # Valeur par défaut
+
+        # self.liste_type = tk.OptionMenu(type, self.choix_type, *types_oiseaux, command=self.change_type)
+        # menu = self.liste_type["menu"]
+        # menu.config(
+        #     font=("Berlin Sans FB Demi", 12),
+        #     bg="#777777",
+        #     fg="white",
+        #     cursor="hand2"
+        # )
+        # self.liste_type.config(
+        #     font=("Berlin Sans FB Demi", 12),
+        #     bg="#cccccc",
+        #     fg="black",
+        #     cursor="hand2"
+        # )
+        # self.liste_type.pack()
+
+        self.all_types_var = tk.BooleanVar()
+        self.all_types_checkbox = tk.Checkbutton(type, text="Tous", variable=self.all_types_var, command=self.toggle_all_types)
+        self.all_types_checkbox.select()
+        self.all_types_checkbox.pack(anchor='w')
+
+        items = types_oiseaux[1:]
+        self.types_vars = []
+        self.type_checkboxes = []
+
+
+        for item in items:
+            var = tk.BooleanVar()
+            checkbox = tk.Checkbutton(type, text=item, variable=var, command=self.update_all_type_checkboxes)
+            checkbox.select()
+            checkbox.pack(anchor='w')
+            self.types_vars.append(var)
+            self.type_checkboxes.append(checkbox)
+
+
+        # self.all_types_checkbox.invoke()
 
         # Score
         self.score_label = tk.Label(root, fg="blue")
@@ -268,6 +296,36 @@ class BlindTestApp:
         self.animate_emoji()
         self.check_sound_end()
 
+
+    def toggle_all_types(self):
+        state = self.all_types_var.get()
+        for var in self.types_vars:
+            var.set(state)
+        self.change_type()
+
+    def update_all_type_checkboxes(self):
+        all_checked = all(var.get() for var in self.types_vars)
+        self.all_types_var.set(all_checked)
+        self.update_type_checkboxes_state()
+        self.change_type()
+
+    def update_type_checkboxes_state(self):
+        cochées = [var.get() for var in self.types_vars]
+        nb_cochées = cochées.count(True)
+
+        for checkbox, var in zip(self.type_checkboxes, self.types_vars):
+            if nb_cochées == 1 and var.get():
+                checkbox.config(state='disabled')  # on bloque la case cochée
+            else:
+                checkbox.config(state='normal')  # sinon on débloque tout
+
+
+    def get_selected_types(self):
+        # return [t.lower().replace("'", "").replace(" ", "") for t, var in zip(types_oiseaux[1:], self.types_vars) if var.get()]
+        return [TYPES_MAPPING[t] for t, var in zip(types_oiseaux[1:], self.types_vars) if var.get()]
+
+
+
     def animate_emoji(self):
         if self.playing and not self.paused:
             emoji = self.emoji_sequence[self.animation_index % len(self.emoji_sequence)]
@@ -293,67 +351,68 @@ class BlindTestApp:
             self.result_font_size += 3
             self.root.after(40, self.animate_result_text)
 
-    def change_type(self, type_choisi):
-        if type_choisi != self.type_actuel:
-            # self.play_counts = {nom: self.play_counts.get(nom, 0) for nom in noms_oiseaux}
-            self.play_random_sound()
-            self.type_actuel = type_choisi
+    def change_type(self):
+        types_choisis = self.get_selected_types()
 
-            global sons, noms_oiseaux, sons_par_oiseau
-            sons = []
-            noms_oiseaux = []
-            sons_par_oiseau = {}
+        global sons, noms_oiseaux, sons_par_oiseau
+        sons = []
+        noms_oiseaux = []
+        sons_par_oiseau = {}
 
-            if  type_choisi == "Communs":
-                type_filtre  = "commun"
-                image_name   = "communs.png"
-            elif type_choisi == "D'eau":
-                type_filtre  = "eau"
-                image_name   = "eau.png"
-            elif type_choisi == "De plaine":
-                type_filtre  = "plaine"
-                image_name   = "plaine.png"
-            else:
-                type_filtre = None
-                image_name  = "default.png"
+        def type_valide(info_type):
+            return info_type in types_choisis
 
-            image_path = os.path.join(resource_path("images"), image_name)
 
-            for nom, infos in donnees_oiseaux.items():
-                if type_filtre is None or infos["type"] == type_filtre:
-                    chemin = os.path.join(base_dossier, nom)
-                    fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
-                    sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
-                    for fichier in fichiers:
-                        sons.append((nom, os.path.join(chemin, fichier)))
-                    noms_oiseaux.append(nom)
+        # if  type_choisi == "Communs":
+        #     type_filtre  = "commun"
+        #     image_name   = "communs.png"
+        # elif type_choisi == "D'eau":
+        #     type_filtre  = "eau"
+        #     image_name   = "eau.png"
+        # elif type_choisi == "De plaine":
+        #     type_filtre  = "plaine"
+        #     image_name   = "plaine.png"
+        # else:
+        #     type_filtre = None
+        #     image_name  = "default.png"
+
+        # image_path = os.path.join(resource_path("images"), image_name)
+
+        for nom, infos in donnees_oiseaux.items():
+            if not types_choisis or type_valide(infos["type"]):
+                chemin = os.path.join(base_dossier, nom)
+                fichiers = [f for f in os.listdir(chemin) if f.endswith(".mp3")]
+                sons_par_oiseau[nom] = [os.path.join(chemin, f) for f in fichiers]
+                for fichier in fichiers:
+                    sons.append((nom, os.path.join(chemin, fichier)))
+                noms_oiseaux.append(nom)
             noms_oiseaux.sort()
 
-            # Mettre à jour le fond d'écran
-            if os.path.exists(image_path):
-                # self.background_image = tk.PhotoImage(file=image_path)
-                self.original_background = Image.open(image_path)
-                self.update_background()
-                self.background_label.config(image=self.background_image)
-                self.background_label.lower()
-            else:
-                print("Fond d'écran introuvable:", image_path)
+        # # Mettre à jour le fond d'écran
+        # if os.path.exists(image_path):
+        #     # self.background_image = tk.PhotoImage(file=image_path)
+        #     self.original_background = Image.open(image_path)
+        #     self.update_background()
+        #     self.background_label.config(image=self.background_image)
+        #     self.background_label.lower()
+        # else:
+        #     print("Fond d'écran introuvable:", image_path)
 
-            # Mise à jour des options de réponses
-            if noms_oiseaux:
-                self.liste_reponse.delete(0, tk.END)
-                # self.liste_reponse.insert('end', *noms_oiseaux)
-                for nom_oiseau in noms_oiseaux:
-                    nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
-                    nom_affiche = f"{nom_simple:<26} ({nom_latin})"
-                    self.liste_reponse.insert('end', nom_affiche)
-                    self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
-                self.liste_reponse.select_set(0)
-                self.liste_reponse.activate(0)
-                self.liste_reponse.see(0)
-                self.liste_reponse.focus_set()
+        # Mise à jour des options de réponses
+        if noms_oiseaux:
+            self.liste_reponse.delete(0, tk.END)
+            # self.liste_reponse.insert('end', *noms_oiseaux)
+            for nom_oiseau in noms_oiseaux:
+                nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
+                nom_affiche = f"{nom_simple:<26} ({nom_latin})"
+                self.liste_reponse.insert('end', nom_affiche)
+                self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
+            self.liste_reponse.select_set(0)
+            self.liste_reponse.activate(0)
+            self.liste_reponse.see(0)
+            self.liste_reponse.focus_set()
 
-            self.play_random_sound()
+        self.play_random_sound()
 
     def check_sound_end(self):
         if self.playing and not self.paused:
