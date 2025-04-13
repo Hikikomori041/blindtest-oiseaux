@@ -65,7 +65,7 @@ icon_path     = resource_path("images/oiseau.ico")
 success_sound = resource_path("sons/succes.mp3")
 failure_sound = resource_path("sons/erreur.mp3")
 
-types_oiseaux = ["Tous", "Communs", "D'eau", "De plaine"]
+types_oiseaux = ["Communs", "D'eau", "De plaine"]
 tooltip       = None
 
 sons          = []
@@ -136,7 +136,6 @@ class BlindTestApp:
         self.score = 0
         self.total = 0
         self.emoji_sequence = ["🕊️", "🐦     ", "🐤     ", "🦜     "]
-        self.type_actuel = types_oiseaux[0]
         self.result_font_size = 3
         self.play_counts = {nom: 0 for nom in noms_oiseaux}
         self.affichage_vers_nom = {}
@@ -167,45 +166,17 @@ class BlindTestApp:
         type.place(x=5, y=5)
         self.type_label = tk.Label(type, text="Type d'oiseaux:").pack(side=tk.LEFT, padx=1, pady=1)
 
-        # self.choix_type = tk.StringVar(type)
-        # self.choix_type.set(types_oiseaux[0])  # Valeur par défaut
-
-        # self.liste_type = tk.OptionMenu(type, self.choix_type, *types_oiseaux, command=self.change_type)
-        # menu = self.liste_type["menu"]
-        # menu.config(
-        #     font=("Berlin Sans FB Demi", 12),
-        #     bg="#777777",
-        #     fg="white",
-        #     cursor="hand2"
-        # )
-        # self.liste_type.config(
-        #     font=("Berlin Sans FB Demi", 12),
-        #     bg="#cccccc",
-        #     fg="black",
-        #     cursor="hand2"
-        # )
-        # self.liste_type.pack()
-
-        self.all_types_var = tk.BooleanVar()
-        self.all_types_checkbox = tk.Checkbutton(type, text="Tous", variable=self.all_types_var, command=self.toggle_all_types)
-        self.all_types_checkbox.select()
-        self.all_types_checkbox.pack(anchor='w')
-
-        items = types_oiseaux[1:]
         self.types_vars = []
         self.type_checkboxes = []
 
-
-        for item in items:
+        for nom_affiché in TYPES_MAPPING:
             var = tk.BooleanVar()
-            checkbox = tk.Checkbutton(type, text=item, variable=var, command=self.update_all_type_checkboxes)
+            checkbox = tk.Checkbutton(type, text=nom_affiché, variable=var, command=self.update_type_checkboxes)
             checkbox.select()
             checkbox.pack(anchor='w')
             self.types_vars.append(var)
             self.type_checkboxes.append(checkbox)
 
-
-        # self.all_types_checkbox.invoke()
 
         # Score
         self.score_label = tk.Label(root, fg="blue")
@@ -297,19 +268,7 @@ class BlindTestApp:
         self.check_sound_end()
 
 
-    def toggle_all_types(self):
-        state = self.all_types_var.get()
-        for var in self.types_vars:
-            var.set(state)
-        self.change_type()
-
-    def update_all_type_checkboxes(self):
-        all_checked = all(var.get() for var in self.types_vars)
-        self.all_types_var.set(all_checked)
-        self.update_type_checkboxes_state()
-        self.change_type()
-
-    def update_type_checkboxes_state(self):
+    def update_type_checkboxes(self):
         cochées = [var.get() for var in self.types_vars]
         nb_cochées = cochées.count(True)
 
@@ -318,11 +277,12 @@ class BlindTestApp:
                 checkbox.config(state='disabled')  # on bloque la case cochée
             else:
                 checkbox.config(state='normal')  # sinon on débloque tout
+        self.change_type()
 
 
     def get_selected_types(self):
-        # return [t.lower().replace("'", "").replace(" ", "") for t, var in zip(types_oiseaux[1:], self.types_vars) if var.get()]
-        return [TYPES_MAPPING[t] for t, var in zip(types_oiseaux[1:], self.types_vars) if var.get()]
+        return [TYPES_MAPPING[nom_affiché] for nom_affiché, var in zip(TYPES_MAPPING, self.types_vars) if var.get()]
+
 
 
 
