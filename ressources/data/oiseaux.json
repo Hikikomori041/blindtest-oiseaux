@@ -87,6 +87,14 @@
     "type": "commun",
     "lien": "https://www.oiseaux.net/oiseaux/pouillot.veloce.html"
   },
+  "Roitelet à triple bandeau (Regulus ignicapilla)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/roitelet.triple-bandeau.html"
+  },
+  "Roitelet huppé (Regulus regulus)": {
+    "type": "commun",
+    "lien": "https://www.oiseaux.net/oiseaux/roitelet.huppe.html"
+  },
   "Rossignol philomèle (Luscinia megarhynchos)": {
     "type": "commun",
     "lien": "https://www.oiseaux.net/oiseaux/rossignol.philomele.html"
@@ -130,7 +138,8 @@
   "Verdier d'Europe (Chloris chloris)": {
     "type": "commun",
     "lien": "https://www.oiseaux.net/oiseaux/verdier.d.europe.html"
-  }, 
+  },
+
   "Alouette des champs (Alauda arvensis)": {
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/alouette.des.champs.html"
@@ -179,14 +188,6 @@
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/pouillot.fitis.html"
   },
-  "Roitelet à triple bandeau (Regulus ignicapilla)": {
-    "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/roitelet.triple-bandeau.html"
-  },
-  "Roitelet huppé (Regulus regulus)": {
-    "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/roitelet.huppe.html"
-  },
   "Tarier des prés (Saxicola rubetra)": {
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/tarier.des.pres.html"
@@ -195,6 +196,17 @@
     "type": "plaine",
     "lien": "https://www.oiseaux.net/oiseaux/tarier.patre.html"
   },
+
+  "Pipit rousseline (Anthus campestris)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/pipit.rousseline.html"
+  },
+  "Cisticole des joncs (Cisticola juncidis)": {
+    "type": "plaine",
+    "lien": "https://www.oiseaux.net/oiseaux/cisticole.des.joncs.html"
+  },
+
+
   "Aigrette garzette (Egretta garzetta)": {
     "type": "eau",
     "lien": "https://www.oiseaux.net/oiseaux/aigrette.garzette.html"
