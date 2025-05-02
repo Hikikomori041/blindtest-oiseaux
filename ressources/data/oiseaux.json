@@ -1,354 +1,437 @@
 {
-  "Accenteur mouchet (Prunella modularis)": {
+  "Accenteur mouchet": {
     "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/accenteur.mouchet.html"
+    "lien": "accenteur.mouchet",
+    "nom_latin": "Prunella modularis"
   },
-  "Bergeronnette grise (Motacilla alba)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/bergeronnette.grise.html"
+  "Aigrette garzette": {
+    "type": "eau",
+    "lien": "aigrette.garzette",
+    "nom_latin": "Egretta garzetta"
   },
-  "Chardonneret élégant (Carduelis carduelis)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/chardonneret.elegant.html"
-  },
-  "Etourneau sansonnet (Sturnus vulgaris)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/etourneau.sansonnet.html"
-  },
-  "Faucon crécerelle (Falco tinnunculus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/faucon.crecerelle.html"
-  },
-  "Fauvette à tête noire (Sylvia atricapilla)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/fauvette.a.tete.noire.html"
-  },
-  "Grimpereau des jardins (Certhia brachydactyla)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/grimpereau.des.jardins.html"
-  },
-  "Grive musicienne (Turdus philomelos)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/grive.musicienne.html"
-  },
-  "Loriot d'Europe (Oriolus oriolus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/loriot.d.europe.html"
-  },
-  "Martin-pêcheur d'Europe (Alcedo atthis)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/martin-pecheur.d.europe.html"
-  },
-  "Merle noir (Turdus merula)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/merle.noir.html"
-  },
-  "Moineau domestique (Passer domesticus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/moineau.domestique.html"
-  },
-  "Mésange bleue (Cyanistes caeruleus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/mesange.bleue.html"
-  },
-  "Mésange charbonnière (Parus major)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/mesange.charbonniere.html"
-  },
-  "Mésange huppée (Lophophanes cristatus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/mesange.huppee.html"
-  },
-  "Mésange noire (Periparus ater)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/mesange.noire.html"
-  },
-  "Orite à longue queue (Aegithalos caudatus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/orite.a.longue.queue.html"
-  },
-  "Pic vert (Picus viridis)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/pic.vert.html"
-  },
-  "Pie bavarde (Pica pica)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/pie.bavarde.html"
-  },
-  "Pigeon ramier (Columba palumbus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/pigeon.ramier.html"
-  },
-  "Pinson des arbres (Fringilla coelebs)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/pinson.des.arbres.html"
-  },
-  "Pouillot véloce (Phylloscopus collybita)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/pouillot.veloce.html"
-  },
-  "Roitelet à triple bandeau (Regulus ignicapilla)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/roitelet.triple-bandeau.html"
-  },
-  "Roitelet huppé (Regulus regulus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/roitelet.huppe.html"
-  },
-  "Rossignol philomèle (Luscinia megarhynchos)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/rossignol.philomele.html"
-  },
-  "Rougegorge familier (Erithacus rubecula)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/rougegorge.familier.html"
-  },
-  "Rougequeue noir (Phoenicurus ochruros)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/rougequeue.noir.html"
-  },
-  "Rougequeue à front blanc (Phoenicurus phoenicurus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/rougequeue.a.front.blanc.html"
-  },
-  "Serin cini (Serinus serinus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/serin.cini.html"
-  },
-  "Sittelle torchepot (Sitta europaea)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/sittelle.torchepot.html"
-  },
-  "Sizerin flammé (Acanthis flammea)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/sizerin.flamme.html"
-  },
-  "Tarin des aulnes (Carduelis spinus)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/tarin.des.aulnes.html"
-  },
-  "Tourterelle turque (Streptopelia decaocto)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/tourterelle.turque.html"
-  },
-  "Troglodyte mignon (Troglodytes troglodytes)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/troglodyte.mignon.html"
-  },
-  "Verdier d'Europe (Chloris chloris)": {
-    "type": "commun",
-    "lien": "https://www.oiseaux.net/oiseaux/verdier.d.europe.html"
-  },
-
-  "Alouette des champs (Alauda arvensis)": {
+  "Alouette des champs": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/alouette.des.champs.html"
+    "lien": "alouette.des.champs",
+    "nom_latin": "Alauda arvensis"
   },
-  "Alouette lulu (Lullula arborea)": {
+  "Alouette lulu": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/alouette.lulu.html"
+    "lien": "alouette.lulu",
+    "nom_latin": "Lullula arborea"
   },
-  "Bergeronnette printanière (Motacilla flava)": {
+  "Avocette élégante": {
+    "type": "eau",
+    "lien": "avocette.elegante",
+    "nom_latin": "Recurvirostra avosetta"
+  },
+  "Barge rousse": {
+    "type": "eau",
+    "lien": "barge.rousse",
+    "nom_latin": "Limosa lapponica"
+  },
+  "Barge à queue noire": {
+    "type": "eau",
+    "lien": "barge.a.queue.noire",
+    "nom_latin": "Limosa limosa"
+  },
+  "Bergeronnette grise": {
+    "type": "commun",
+    "lien": "bergeronnette.grise",
+    "nom_latin": "Motacilla alba"
+  },
+  "Bergeronnette printanière": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/bergeronnette.printaniere.html"
+    "lien": "bergeronnette.printaniere",
+    "nom_latin": "Motacilla flava"
   },
-  "Bruant jaune (Emberiza citrinella)": {
+  "Blongios nain": {
+    "type": "eau",
+    "lien": "blongios.nain",
+    "nom_latin": "Ixobrychus minutus"
+  },
+  "Bruant jaune": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/bruant.jaune.html"
+    "lien": "bruant.jaune",
+    "nom_latin": "Emberiza citrinella"
   },
-  "Bruant ortolan (Emberiza hortulana)": {
+  "Bruant ortolan": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/bruant.ortolan.html"
+    "lien": "bruant.ortolan",
+    "nom_latin": "Emberiza hortulana"
   },
-  "Bruant proyer (Emberiza calandra)": {
+  "Bruant proyer": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/bruant.proyer.html"
+    "lien": "bruant.proyer",
+    "nom_latin": "Emberiza calandra"
   },
-  "Bruant zizi (Emberiza cirlus)": {
+  "Bruant zizi": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/bruant.zizi.html"
+    "lien": "bruant.zizi",
+    "nom_latin": "Emberiza cirlus"
   },
-  "Linotte mélodieuse (Carduelis cannabina)": {
+  "Butor étoilé": {
+    "type": "eau",
+    "lien": "butor.etoile",
+    "nom_latin": "Botaurus stellaris"
+  },
+  "Bécassine des bois": {
+    "type": "eau",
+    "lien": "becassine.des.bois",
+    "nom_latin": "Gallinago nemoricola"
+  },
+  "Bécassine des marais": {
+    "type": "eau",
+    "lien": "becassine.des.marais",
+    "nom_latin": "Gallinago gallinago"
+  },
+  "Canard chipeau": {
+    "type": "eau",
+    "lien": "canard.chipeau",
+    "nom_latin": "Mareca strepera"
+  },
+  "Canard colvert": {
+    "type": "eau",
+    "lien": "canard.colvert",
+    "nom_latin": "Anas platyrhynchos"
+  },
+  "Canard pilet": {
+    "type": "eau",
+    "lien": "canard.pilet",
+    "nom_latin": "Anas acuta"
+  },
+  "Canard siffleur": {
+    "type": "eau",
+    "lien": "canard.siffleur",
+    "nom_latin": "Mareca penelope"
+  },
+  "Chardonneret élégant": {
+    "type": "commun",
+    "lien": "chardonneret.elegant",
+    "nom_latin": "Carduelis carduelis"
+  },
+  "Chevalier arlequin": {
+    "type": "eau",
+    "lien": "chevalier.arlequin",
+    "nom_latin": "Tringa erythropus"
+  },
+  "Chevalier cul-blanc": {
+    "type": "eau",
+    "lien": "chevalier.cul-blanc",
+    "nom_latin": "Tringa ochropus"
+  },
+  "Chevalier gambette": {
+    "type": "eau",
+    "lien": "chevalier.gambette",
+    "nom_latin": "Tringa totanus"
+  },
+  "Chevalier guignette": {
+    "type": "eau",
+    "lien": "chevalier.guignette",
+    "nom_latin": "Actitis hypoleucos"
+  },
+  "Chevalier sylvain": {
+    "type": "eau",
+    "lien": "chevalier.sylvain",
+    "nom_latin": "Tringa glareola"
+  },
+  "Cisticole des joncs": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/linotte.melodieuse.html"
+    "lien": "cisticole.des.joncs",
+    "nom_latin": "Cisticola juncidis"
   },
-  "Oedicnème criard (Burhinus oedicnemus)": {
+  "Eider à duvet": {
+    "type": "eau",
+    "lien": "eider.a.duvet",
+    "nom_latin": "Somateria mollissima"
+  },
+  "Etourneau sansonnet": {
+    "type": "commun",
+    "lien": "etourneau.sansonnet",
+    "nom_latin": "Sturnus vulgaris"
+  },
+  "Faucon crécerelle": {
+    "type": "commun",
+    "lien": "faucon.crecerelle",
+    "nom_latin": "Falco tinnunculus"
+  },
+  "Fauvette à tête noire": {
+    "type": "commun",
+    "lien": "fauvette.a.tete.noire",
+    "nom_latin": "Sylvia atricapilla"
+  },
+  "Foulque macroule": {
+    "type": "eau",
+    "lien": "foulque.macroule",
+    "nom_latin": "Fulica atra"
+  },
+  "Fuligule milouin": {
+    "type": "eau",
+    "lien": "fuligule.milouin",
+    "nom_latin": "Aythya ferina"
+  },
+  "Gallinule poule d'eau": {
+    "type": "eau",
+    "lien": "gallinule.poule-d.eau",
+    "nom_latin": "Gallinula chloropus"
+  },
+  "Grand Cormoran": {
+    "type": "eau",
+    "lien": "grand.cormoran",
+    "nom_latin": "Phalacrocorax carbo"
+  },
+  "Grande aigrette": {
+    "type": "eau",
+    "lien": "grande.aigrette",
+    "nom_latin": "Ardea alba"
+  },
+  "Grimpereau des jardins": {
+    "type": "commun",
+    "lien": "grimpereau.des.jardins",
+    "nom_latin": "Certhia brachydactyla"
+  },
+  "Grive musicienne": {
+    "type": "commun",
+    "lien": "grive.musicienne",
+    "nom_latin": "Turdus philomelos"
+  },
+  "Grèbe castagneux": {
+    "type": "eau",
+    "lien": "grebe.castagneux",
+    "nom_latin": "Tachybaptus ruficollis"
+  },
+  "Grèbe esclavon": {
+    "type": "eau",
+    "lien": "grebe.esclavon",
+    "nom_latin": "Podiceps auritus"
+  },
+  "Grèbe huppé": {
+    "type": "eau",
+    "lien": "grebe.huppe",
+    "nom_latin": "Podiceps cristatus"
+  },
+  "Grèbe jougris": {
+    "type": "eau",
+    "lien": "grebe.jougris",
+    "nom_latin": "Podiceps grisegena"
+  },
+  "Grèbe à cou noir": {
+    "type": "eau",
+    "lien": "grebe.a.cou.noir",
+    "nom_latin": "Podiceps nigricollis"
+  },
+  "Héron cendré": {
+    "type": "eau",
+    "lien": "heron.cendre",
+    "nom_latin": "Ardea cinerea"
+  },
+  "Linotte mélodieuse": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/oedicneme.criard.html"
+    "lien": "linotte.melodieuse",
+    "nom_latin": "Carduelis cannabina"
   },
-  "Outarde canepetière (Tetrax tetrax)": {
+  "Loriot d'Europe": {
+    "type": "commun",
+    "lien": "loriot.d.europe",
+    "nom_latin": "Oriolus oriolus"
+  },
+  "Martin-pêcheur d'Europe": {
+    "type": "commun",
+    "lien": "martin-pecheur.d.europe",
+    "nom_latin": "Alcedo atthis"
+  },
+  "Merle noir": {
+    "type": "commun",
+    "lien": "merle.noir",
+    "nom_latin": "Turdus merula"
+  },
+  "Moineau domestique": {
+    "type": "commun",
+    "lien": "moineau.domestique",
+    "nom_latin": "Passer domesticus"
+  },
+  "Mésange bleue": {
+    "type": "commun",
+    "lien": "mesange.bleue",
+    "nom_latin": "Cyanistes caeruleus"
+  },
+  "Mésange charbonnière": {
+    "type": "commun",
+    "lien": "mesange.charbonniere",
+    "nom_latin": "Parus major"
+  },
+  "Mésange huppée": {
+    "type": "commun",
+    "lien": "mesange.huppee",
+    "nom_latin": "Lophophanes cristatus"
+  },
+  "Mésange noire": {
+    "type": "commun",
+    "lien": "mesange.noire",
+    "nom_latin": "Periparus ater"
+  },
+  "Oedicnème criard": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/outarde.canepetiere.html"
+    "lien": "oedicneme.criard",
+    "nom_latin": "Burhinus oedicnemus"
   },
-  "Pipit des arbres (Anthus trivialis)": {
+  "Oie cendrée": {
+    "type": "eau",
+    "lien": "oie.cendree",
+    "nom_latin": "Anser anser"
+  },
+  "Oie rieuse": {
+    "type": "eau",
+    "lien": "oie.rieuse",
+    "nom_latin": "Anser albifrons"
+  },
+  "Orite à longue queue": {
+    "type": "commun",
+    "lien": "orite.a.longue.queue",
+    "nom_latin": "Aegithalos caudatus"
+  },
+  "Outarde canepetière": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/pipit.des.arbres.html"
+    "lien": "outarde.canepetiere",
+    "nom_latin": "Tetrax tetrax"
   },
-  "Pouillot fitis (Phylloscopus trochilus)": {
+  "Pic vert": {
+    "type": "commun",
+    "lien": "pic.vert",
+    "nom_latin": "Picus viridis"
+  },
+  "Pie bavarde": {
+    "type": "commun",
+    "lien": "pie.bavarde",
+    "nom_latin": "Pica pica"
+  },
+  "Pigeon ramier": {
+    "type": "commun",
+    "lien": "pigeon.ramier",
+    "nom_latin": "Columba palumbus"
+  },
+  "Pinson des arbres": {
+    "type": "commun",
+    "lien": "pinson.des.arbres",
+    "nom_latin": "Fringilla coelebs"
+  },
+  "Pipit des arbres": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/pouillot.fitis.html"
+    "lien": "pipit.des.arbres",
+    "nom_latin": "Anthus trivialis"
   },
-  "Tarier des prés (Saxicola rubetra)": {
+  "Pipit rousseline": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/tarier.des.pres.html"
+    "lien": "pipit.rousseline",
+    "nom_latin": "Anthus campestris"
   },
-  "Tarier pâtre (Saxicola rubicola)": {
+  "Pouillot fitis": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/tarier.patre.html"
+    "lien": "pouillot.fitis",
+    "nom_latin": "Phylloscopus trochilus"
   },
-
-  "Pipit rousseline (Anthus campestris)": {
+  "Pouillot véloce": {
+    "type": "commun",
+    "lien": "pouillot.veloce",
+    "nom_latin": "Phylloscopus collybita"
+  },
+  "Roitelet huppé": {
+    "type": "commun",
+    "lien": "roitelet.huppe",
+    "nom_latin": "Regulus regulus"
+  },
+  "Roitelet à triple bandeau": {
+    "type": "commun",
+    "lien": "roitelet.triple-bandeau",
+    "nom_latin": "Regulus ignicapilla"
+  },
+  "Rossignol philomèle": {
+    "type": "commun",
+    "lien": "rossignol.philomele",
+    "nom_latin": "Luscinia megarhynchos"
+  },
+  "Rougegorge familier": {
+    "type": "commun",
+    "lien": "rougegorge.familier",
+    "nom_latin": "Erithacus rubecula"
+  },
+  "Rougequeue noir": {
+    "type": "commun",
+    "lien": "rougequeue.noir",
+    "nom_latin": "Phoenicurus ochruros"
+  },
+  "Rougequeue à front blanc": {
+    "type": "commun",
+    "lien": "rougequeue.a.front.blanc",
+    "nom_latin": "Phoenicurus phoenicurus"
+  },
+  "Sarcelle d'hiver": {
+    "type": "eau",
+    "lien": "sarcelle.d.hiver",
+    "nom_latin": "Anas crecca"
+  },
+  "Sarcelle d'été": {
+    "type": "eau",
+    "lien": "sarcelle.d.ete",
+    "nom_latin": "Spatula querquedula"
+  },
+  "Serin cini": {
+    "type": "commun",
+    "lien": "serin.cini",
+    "nom_latin": "Serinus serinus"
+  },
+  "Sittelle torchepot": {
+    "type": "commun",
+    "lien": "sittelle.torchepot",
+    "nom_latin": "Sitta europaea"
+  },
+  "Sizerin flammé": {
+    "type": "commun",
+    "lien": "sizerin.flamme",
+    "nom_latin": "Acanthis flammea"
+  },
+  "Spatule blanche": {
+    "type": "eau",
+    "lien": "spatule.blanche",
+    "nom_latin": "Platalea leucorodia"
+  },
+  "Tadorne de Belon": {
+    "type": "eau",
+    "lien": "tadorne.de.belon",
+    "nom_latin": "Tadorna tadorna"
+  },
+  "Tarier des prés": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/pipit.rousseline.html"
+    "lien": "tarier.des.pres",
+    "nom_latin": "Saxicola rubetra"
   },
-  "Cisticole des joncs (Cisticola juncidis)": {
+  "Tarier pâtre": {
     "type": "plaine",
-    "lien": "https://www.oiseaux.net/oiseaux/cisticole.des.joncs.html"
+    "lien": "tarier.patre",
+    "nom_latin": "Saxicola rubicola"
   },
-
-
-  "Aigrette garzette (Egretta garzetta)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/aigrette.garzette.html"
+  "Tarin des aulnes": {
+    "type": "commun",
+    "lien": "tarin.des.aulnes",
+    "nom_latin": "Carduelis spinus"
   },
-  "Avocette élégante (Recurvirostra avosetta)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/avocette.elegante.html"
+  "Tourterelle turque": {
+    "type": "commun",
+    "lien": "tourterelle.turque",
+    "nom_latin": "Streptopelia decaocto"
   },
-  "Barge à queue noire (Limosa limosa)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/barge.a.queue.noire.html"
+  "Troglodyte mignon": {
+    "type": "commun",
+    "lien": "troglodyte.mignon",
+    "nom_latin": "Troglodytes troglodytes"
   },
-  "Barge rousse (Limosa lapponica)": {
+  "Vanneau huppé": {
     "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/barge.rousse.html"
+    "lien": "vanneau.huppe",
+    "nom_latin": "Vanellus vanellus"
   },
-  "Bécassine des bois (Gallinago nemoricola)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/becassine.des.bois.html"
-  },
-  "Bécassine des marais (Gallinago gallinago)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/becassine.des.marais.html"
-  },
-  "Blongios nain (Ixobrychus minutus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/blongios.nain.html"
-  },
-  "Butor étoilé (Botaurus stellaris)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/butor.etoile.html"
-  },
-  "Canard chipeau (Mareca strepera)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.chipeau.html"
-  },
-  "Canard colvert (Anas platyrhynchos)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.colvert.html"
-  },
-  "Canard pilet (Anas acuta)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.pilet.html"
-  },
-  "Canard siffleur (Mareca penelope)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/canard.siffleur.html"
-  },
-  "Chevalier arlequin (Tringa erythropus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.arlequin.html"
-  },
-  "Chevalier cul-blanc (Tringa ochropus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.cul-blanc.html"
-  },
-  "Chevalier gambette (Tringa totanus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.gambette.html"
-  },
-  "Chevalier guignette (Actitis hypoleucos)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.guignette.html"
-  },
-  "Chevalier sylvain (Tringa glareola)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/chevalier.sylvain.html"
-  },
-  "Eider à duvet (Somateria mollissima)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/eider.a.duvet.html"
-  },
-  "Foulque macroule (Fulica atra)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/foulque.macroule.html"
-  },
-  "Fuligule milouin (Aythya ferina)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/fuligule.milouin.html"
-  },
-  "Gallinule poule d'eau (Gallinula chloropus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/gallinule.poule-d.eau.html"
-  },
-  "Grande aigrette (Ardea alba)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grande.aigrette.html"
-  },
-  "Grand Cormoran (Phalacrocorax carbo)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grand.cormoran.html"
-  },
-  "Grèbe à cou noir (Podiceps nigricollis)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grebe.a.cou.noir.html"
-  },
-  "Grèbe castagneux (Tachybaptus ruficollis)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grebe.castagneux.html"
-  },
-  "Grèbe esclavon (Podiceps auritus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grebe.esclavon.html"
-  },
-  "Grèbe huppé (Podiceps cristatus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grebe.huppe.html"
-  },
-  "Grèbe jougris (Podiceps grisegena)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/grebe.jougris.html"
-  },
-  "Héron cendré (Ardea cinerea)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/heron.cendre.html"
-  },
-  "Oie cendrée (Anser anser)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/oie.cendree.html"
-  },
-  "Oie rieuse (Anser albifrons)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/oie.rieuse.html"
-  },
-  "Sarcelle d'été (Spatula querquedula)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/sarcelle.d.ete.html"
-  },
-  "Sarcelle d'hiver (Anas crecca)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/sarcelle.d.hiver.html"
-  },
-  "Spatule blanche (Platalea leucorodia)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/spatule.blanche.html"
-  },
-  "Tadorne de Belon (Tadorna tadorna)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/tadorne.de.belon.html"
-  },
-  "Vanneau huppé (Vanellus vanellus)": {
-    "type": "eau",
-    "lien": "https://www.oiseaux.net/oiseaux/vanneau.huppe.html"
+  "Verdier d'Europe": {
+    "type": "commun",
+    "lien": "verdier.d.europe",
+    "nom_latin": "Chloris chloris"
   }
 }

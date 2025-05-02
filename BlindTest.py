@@ -48,13 +48,6 @@ def resource_path(relative_path):
     return os.path.join(base_path, "ressources", relative_path)
 
 
-def separer_nom_et_latin(texte):
-    if "(" in texte and ")" in texte:
-        nom_simple = texte.split(" (")[0]
-        nom_latin = texte.split(" (")[1].rstrip(")")
-        return nom_simple.strip(), nom_latin.strip()
-    return texte.strip(), None
-
 # Chemin des ressources
 json_path = os.path.join(resource_path("data"), "oiseaux.json")
 with open(json_path, encoding="utf-8") as f:
@@ -80,6 +73,12 @@ for nom, infos in donnees_oiseaux.items():
         sons.append((nom, os.path.join(chemin, fichier)))
     noms_oiseaux.append(nom)
 noms_oiseaux.sort()
+
+def get_name_in(nom_oiseau, langue="latin"):
+    if langue == "latin":
+        return donnees_oiseaux.get(nom_oiseau, {}).get("nom_latin")
+    return nom_oiseau
+    
 
 class Tooltip:
     def __init__(self, widget, text):
@@ -221,8 +220,8 @@ class BlindTestApp:
         self.liste_reponse.pack(side=tk.LEFT)
         
         for nom_oiseau in noms_oiseaux:
-            nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
-            nom_affiche = f"{nom_simple:<26} ({nom_latin})"
+            nom_latin = get_name_in(nom_oiseau, "latin")
+            nom_affiche = f"{nom_oiseau:<26} ({nom_latin})"
             self.liste_reponse.insert('end', nom_affiche)
             self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
 
@@ -333,8 +332,8 @@ class BlindTestApp:
             self.liste_reponse.delete(0, tk.END)
             # self.liste_reponse.insert('end', *noms_oiseaux)
             for nom_oiseau in noms_oiseaux:
-                nom_simple, nom_latin = separer_nom_et_latin(nom_oiseau)
-                nom_affiche = f"{nom_simple:<26} ({nom_latin})"
+                nom_latin = get_name_in(nom_oiseau, "latin")
+                nom_affiche =  f"{nom_oiseau:<26} ({nom_latin})"
                 self.liste_reponse.insert('end', nom_affiche)
                 self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
             self.liste_reponse.select_set(0)
@@ -458,9 +457,9 @@ class BlindTestApp:
         selected = self.liste_reponse.curselection()
         if not selected:
             return
-        nom_formatte = self.liste_reponse.get(selected[0])
-        nom = self.affichage_vers_nom.get(nom_formatte)
-        lien = donnees_oiseaux.get(nom, {}).get("lien")
+        nom_affiche = self.liste_reponse.get(selected[0])
+        nom = self.affichage_vers_nom.get(nom_affiche)
+        lien = "https://www.oiseaux.net/oiseaux/" + donnees_oiseaux.get(nom, {}).get("lien") + ".html"
         webbrowser.open(lien)
 
     def show_context_menu(self, event):
@@ -563,11 +562,13 @@ class BlindTestApp:
         nom_choisi = self.affichage_vers_nom.get(selection)
 
         is_correct = nom_choisi == self.current_answer
+        nom_latin = get_name_in(self.current_answer, "latin")
+        nom_a_afficher = f"{self.current_answer}\n({nom_latin})"
         if is_correct:
             self.score += 1
-            self.result.config(text=f"✔️ Bonne réponse !\n\n{self.current_answer}", fg="green")
+            self.result.config(text=f"✔️ Bonne réponse !\n\n{nom_a_afficher}", fg="green")
         else:
-            self.result.config(text=f"❌ Mauvais choix !\nLa bonne réponse était :\n\n{self.current_answer}", fg="red")
+            self.result.config(text=f"❌ Mauvais choix !\nLa bonne réponse était :\n\n{nom_a_afficher}", fg="red")
         self.animate_result_text()
 
         self.play_feedback_sound(is_correct)
