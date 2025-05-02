@@ -219,16 +219,8 @@ class BlindTestApp:
         self.liste_reponse = tk.Listbox(choice, width=52, height=30, cursor="hand2")
         self.liste_reponse.pack(side=tk.LEFT)
         
-        for nom_oiseau in noms_oiseaux:
-            nom_latin = get_name_in(nom_oiseau, "latin")
-            nom_affiche = f"{nom_oiseau:<26} ({nom_latin})"
-            self.liste_reponse.insert('end', nom_affiche)
-            self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
+        self.init_liste_oiseaux(noms_oiseaux)
 
-        self.liste_reponse.select_set(0)
-        self.liste_reponse.activate(0)
-        self.liste_reponse.see(0)
-        self.liste_reponse.focus_set()
         # self.root.bind("<Return>", lambda e: (self.validate(), "break"))
         self.liste_reponse.bind("<Return>", lambda e: self.validate())
         # self.liste_reponse.bind("<Button-2>", self.show_context_menu)
@@ -260,6 +252,30 @@ class BlindTestApp:
 
         self.animate_emoji()
         self.check_sound_end()
+
+    def init_liste_oiseaux(self, noms_oiseaux):
+        self.liste_reponse.delete(0, tk.END)
+        for nom_oiseau in noms_oiseaux:
+            nom_latin = get_name_in(nom_oiseau, "latin")
+            nom_affiche = f"{nom_oiseau:<26} ({nom_latin})"
+            self.liste_reponse.insert('end', nom_affiche)
+            self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
+
+            type_oiseau = donnees_oiseaux[nom_oiseau]["type"]
+            couleur = {
+                "commun": "#fff5e6",    # jaune pâle
+                "eau":    "#e6f7ff",    # bleu clair      
+                "plaine": "#e8ffe6"     # vert très pâle
+            }.get(type_oiseau, "white")
+
+            index = self.liste_reponse.size() - 1
+            self.liste_reponse.itemconfig(index, {'bg': couleur})
+
+
+        self.liste_reponse.select_set(0)
+        self.liste_reponse.activate(0)
+        self.liste_reponse.see(0)
+        self.liste_reponse.focus_set()
 
     def animate_emoji(self):
         if self.playing and not self.paused:
@@ -329,17 +345,7 @@ class BlindTestApp:
 
         # Mise à jour des options de réponses
         if noms_oiseaux:
-            self.liste_reponse.delete(0, tk.END)
-            # self.liste_reponse.insert('end', *noms_oiseaux)
-            for nom_oiseau in noms_oiseaux:
-                nom_latin = get_name_in(nom_oiseau, "latin")
-                nom_affiche =  f"{nom_oiseau:<26} ({nom_latin})"
-                self.liste_reponse.insert('end', nom_affiche)
-                self.affichage_vers_nom[nom_affiche] = nom_oiseau  # stockage du vrai nom
-            self.liste_reponse.select_set(0)
-            self.liste_reponse.activate(0)
-            self.liste_reponse.see(0)
-            self.liste_reponse.focus_set()
+            self.init_liste_oiseaux(noms_oiseaux)
 
         self.play_random_sound()
 
