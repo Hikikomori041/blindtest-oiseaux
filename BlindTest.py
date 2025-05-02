@@ -23,9 +23,9 @@ HEIGHT = 720
 PAUSE_ON_VALIDATE = False
 
 TYPES_MAPPING = {
-    "Communs": "commun",
-    "D'eau": "eau",
-    "De plaine": "plaine"
+    "Communs":  "commun",
+    "D'eau":    "eau",
+    "De plaine":"plaine"
 }
 
 # Fonction pour centrer la fenêtre à l'écran
