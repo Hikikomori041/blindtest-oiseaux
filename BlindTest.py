@@ -240,7 +240,7 @@ class BlindTestApp:
 
         tk.Label(choice, text='À quel oiseau appartient ce chant ou ce cri ?', bg='#aaa', font=("Berlin Sans FB Demi", 14), height=2).pack(fill='x')
 
-        self.liste_reponse = tk.Listbox(choice, width=52, height=30, cursor="hand2")
+        self.liste_reponse = tk.Listbox(choice, width=55, height=30, cursor="hand2")
         self.liste_reponse.pack(side=tk.LEFT)
         
         self.init_liste_oiseaux(noms_oiseaux)
