@@ -9,6 +9,8 @@ import random
 import sys
 import tkinter as tk
 import webbrowser
+import unicodedata
+import re
 
 from PIL import Image, ImageTk
 try:
@@ -79,6 +81,24 @@ def get_name_in(nom_oiseau, langue="latin"):
         return donnees_oiseaux.get(nom_oiseau, {}).get("nom_latin")
     return nom_oiseau
     
+# Pour générer dynamiquement le lien vers la fiche oiseaux.net
+def generer_lien(nom):
+    # Supprime les accents
+    nom_sans_accents = ''.join(
+        c for c in unicodedata.normalize('NFD', nom)
+        if unicodedata.category(c) != 'Mn'
+    )
+
+    # Minuscule + remplacement des espaces par des points
+    lien = nom_sans_accents.lower()
+    lien = lien.replace(" ", ".")  # espaces → points
+
+    # Supprime tous les caractères sauf lettres, chiffres, tirets et points
+    lien = re.sub(r"[^a-z0-9\-.]", "", lien)
+
+    lien = "https://www.oiseaux.net/oiseaux/" + lien + ".html"
+    return lien
+
 
 class Tooltip:
     def __init__(self, widget, text):
@@ -471,8 +491,8 @@ class BlindTestApp:
             return
         nom_affiche = self.liste_reponse.get(selected[0])
         nom = self.affichage_vers_nom.get(nom_affiche)
-        lien = "https://www.oiseaux.net/oiseaux/" + donnees_oiseaux.get(nom, {}).get("lien") + ".html"
-        webbrowser.open(lien)
+        lien = generer_lien(nom)
+        webbrowser.get("windows-default").open(lien)
 
     def show_context_menu(self, event):
         try:
@@ -491,11 +511,12 @@ class BlindTestApp:
             self.zoom_step = 0
             self.animate_image_zoom()
 
-            lien = donnees_oiseaux.get(self.current_answer, {}).get("lien")
+            # lien = donnees_oiseaux.get(self.current_answer, {}).get("lien")
+            lien = generer_lien(self.current_answer)
             if lien:
                 self.image_label.config(cursor="hand2")
                 self.image_label.unbind("<Button-1>")
-                self.image_label.bind("<Button-1>", lambda e: webbrowser.open(lien))
+                self.image_label.bind("<Button-1>", lambda e: webbrowser.get("windows-default").open(lien))
             else:
                 self.image_label.config(cursor="arrow")
                 self.image_label.unbind("<Button-1>")
