@@ -7,5 +7,8 @@ dist/
 polices.txt
 *.zip
 
-ressources/data/trier_json.py
+ressources/data/*
+!ressources/data/oiseaux.json
+
 ressources/reencode_sons.py
+ressources/oiseaux/creer_dossiers.py

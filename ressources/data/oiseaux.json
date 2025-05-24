@@ -49,6 +49,16 @@
     "lien": "blongios.nain",
     "nom_latin": "Ixobrychus minutus"
   },
+  "Bouscarle de Cetti": {
+    "type": "commun",
+    "lien": "bouscarle.de.cetti",
+    "nom_latin": "Cettia cetti"
+  },
+  "Bruant des roseaux": {
+    "type": "eau",
+    "lien": "bruant.des.roseaux",
+    "nom_latin": "Emberiza schoeniclus"
+  },
   "Bruant jaune": {
     "type": "plaine",
     "lien": "bruant.jaune",
@@ -138,6 +148,11 @@
     "type": "plaine",
     "lien": "cisticole.des.joncs",
     "nom_latin": "Cisticola juncidis"
+  },
+  "Coucou gris": {
+    "type": "commun",
+    "lien": "coucou.gris",
+    "nom_latin": "Cuculus canorus"
   },
   "Eider à duvet": {
     "type": "eau",
@@ -229,6 +244,16 @@
     "lien": "linotte.melodieuse",
     "nom_latin": "Carduelis cannabina"
   },
+  "Locustelle luscinioïde": {
+    "type": "eau",
+    "lien": "locustelle.luscinioide",
+    "nom_latin": "Locustella luscinioides"
+  },
+  "Locustelle tachetée": {
+    "type": "eau",
+    "lien": "locustelle.tachetee",
+    "nom_latin": "Locustella naevia"
+  },
   "Loriot d'Europe": {
     "type": "commun",
     "lien": "loriot.d.europe",
@@ -293,6 +318,16 @@
     "type": "plaine",
     "lien": "outarde.canepetiere",
     "nom_latin": "Tetrax tetrax"
+  },
+  "Panure à moustaches": {
+    "type": "eau",
+    "lien": "panure.a.moustaches",
+    "nom_latin": "Panurus biarmicus"
+  },
+  "Phragmite des joncs": {
+    "type": "eau",
+    "lien": "phragmite.des.joncs",
+    "nom_latin": "Acrocephalus schoenobaenus"
   },
   "Pic vert": {
     "type": "commun",
@@ -364,6 +399,21 @@
     "lien": "rougequeue.a.front.blanc",
     "nom_latin": "Phoenicurus phoenicurus"
   },
+  "Rousserolle effarvatte": {
+    "type": "eau",
+    "lien": "rousserolle.effarvatte",
+    "nom_latin": "Acrocephalus scirpaceus"
+  },
+  "Rousserolle turdoïde": {
+    "type": "eau",
+    "lien": "rousserolle.turdoide",
+    "nom_latin": "Acrocephalus arundinaceus"
+  },
+  "Rousserolle verderolle": {
+    "type": "eau",
+    "lien": "rousserolle.verderolle",
+    "nom_latin": "Acrocephalus palustris"
+  },
   "Sarcelle d'hiver": {
     "type": "eau",
     "lien": "sarcelle.d.hiver",
@@ -413,6 +463,11 @@
     "type": "commun",
     "lien": "tarin.des.aulnes",
     "nom_latin": "Carduelis spinus"
+  },
+  "Tourterelle des bois": {
+    "type": "commun",
+    "lien": "tourterelle.des.bois",
+    "nom_latin": "Streptopelia turtur"
   },
   "Tourterelle turque": {
     "type": "commun",
