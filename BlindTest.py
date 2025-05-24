@@ -195,20 +195,24 @@ class BlindTestApp:
         
         self.pause_button  = tk.Button(controls, text="⏸️", command=self.toggle_pause, width=14, height=2, bg="#f44336", fg="white", relief="raised", bd=2, highlightbackground="#f44336", highlightthickness=1, cursor="hand2")
         self.pause_button.pack(side=tk.LEFT, padx=5, pady=5)
-        self.root.bind("<space>", lambda e: (self.pause_button.invoke(), "break"))
         
         self.fast_forward_button = tk.Button(controls, text="⏩", command=self.fast_forward, bg="#A196F3", fg="white", cursor="hand2")
         self.fast_forward_button.pack(side=tk.LEFT, padx=5)
 
         self.switch_button = tk.Button(controls, text="⏭️", command=self.next_sound_variant, bg="#219503", fg="white", cursor="hand2")
         self.switch_button.pack(side=tk.LEFT, padx=5)
-        self.root.bind("<s>", lambda e: (self.switch_button.invoke(), "break"))
 
-        Tooltip(self.replay_button,       "Réécouter")
-        Tooltip(self.rewind_button,       "Reculer de 5 secondes")
+        self.root.bind("<space>", lambda e: (self.pause_button.invoke(), "break"))
+        self.root.bind("<r>", lambda e: (self.replay_button.invoke(), "break"))
+        self.root.bind("<s>", lambda e: (self.switch_button.invoke(), "break"))
+        self.root.bind("<Left>", lambda e: (self.rewind_button.invoke()) or "break")
+        self.root.bind("<Right>", lambda e: (self.fast_forward_button.invoke()) or "break")
+
+        Tooltip(self.replay_button,       "Réécouter (r)")
+        Tooltip(self.rewind_button,       "Reculer de 5 secondes (←)")
         # self.pause_tooltip = Tooltip(self.pause_button, "Pause")
-        Tooltip(self.fast_forward_button, "Avancer de 5 secondes")
-        Tooltip(self.switch_button,       "Autre son de cet oiseau")
+        Tooltip(self.fast_forward_button, "Avancer de 5 secondes (→)")
+        Tooltip(self.switch_button,       "Autre son de cet oiseau (s)")
 
         # Liste des réponses
         choice = tk.Frame(root, width=40)
@@ -225,6 +229,7 @@ class BlindTestApp:
         self.liste_reponse.bind("<Return>", lambda e: self.validate())
         # self.liste_reponse.bind("<Button-2>", self.show_context_menu)
         self.liste_reponse.bind("<Button-3>", self.show_context_menu)
+        self.liste_reponse.bind("<Double-Button-1>", lambda e: self.validate())
         self.liste_reponse.config(font=("Consolas", 13))
 
         self.context_menu = tk.Menu(self.liste_reponse, tearoff=0)
@@ -438,6 +443,7 @@ class BlindTestApp:
         self.validate_button.config(cursor="hand2")
         self.next_button.config(cursor="arrow")
         self.liste_reponse.bind("<Return>", lambda e: self.validate())
+        self.liste_reponse.bind("<Double-Button-1>", lambda e: self.validate())
 
     def replay(self):
         if self.current_sound_path:
@@ -584,6 +590,7 @@ class BlindTestApp:
         self.liste_reponse["state"]   = "disabled"
         # self.next_button["state"]     = "normal"
         self.liste_reponse.unbind("<Return>")
+        self.liste_reponse.unbind("<Double-Button-1>")
         self.update_score()
         self.show_image()
         if PAUSE_ON_VALIDATE and not self.paused:

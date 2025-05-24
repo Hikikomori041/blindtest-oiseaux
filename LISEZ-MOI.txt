@@ -9,7 +9,10 @@ IMPORTANT 2: il y aura un avertissement Windows SmartScreen. Pour exécuter le p
 
 Contrôles:
 
-- Espace	   :  mettre en pause / reprendre la lecture
-- Flèches haut/bas :  naviguer dans la liste
-- Entrée           :  valider la sélection
-- N                :  oiseau suivant
+- Espace	     :  mettre en pause / reprendre la lecture
+- ← / →          :  reculer / avancer de 5 secondes dans le son
+- R              :  rejouer le son du début
+- S              :  son suivant du même oiseau
+- ↑ / ↓ / Scroll :  naviguer dans la liste des oiseaux
+- Entrée / Double-clic       :  valider la sélection
+- N              :  oiseau suivant

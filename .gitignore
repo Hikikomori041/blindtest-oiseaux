@@ -6,3 +6,6 @@ dist/
 *.spec
 polices.txt
 *.zip
+
+ressources/data/trier_json.py
+ressources/reencode_sons.py
