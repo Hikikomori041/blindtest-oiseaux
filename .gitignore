@@ -1,14 +1,8 @@
 __pycache__/
+autres/
 build/
 dist/
 *.exe
 *.docx
 *.spec
-polices.txt
 *.zip
-
-ressources/data/*
-!ressources/data/oiseaux.json
-
-ressources/reencode_sons.py
-ressources/oiseaux/creer_dossiers.py
