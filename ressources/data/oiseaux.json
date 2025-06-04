@@ -115,9 +115,17 @@
     "type": "eau",
     "nom_latin": "Tringa glareola"
   },
+  "Choucas des tours": {
+    "type": "commun",
+    "nom_latin": "Coloeus monedula"
+  },
   "Cisticole des joncs": {
     "type": "plaine",
     "nom_latin": "Cisticola juncidis"
+  },
+  "Corneille noire": {
+    "type": "commun",
+    "nom_latin": "Corvus corone"
   },
   "Coucou gris": {
     "type": "commun",
@@ -130,6 +138,10 @@
   "Etourneau sansonnet": {
     "type": "commun",
     "nom_latin": "Sturnus vulgaris"
+  },
+  "Faisan de Colchide": {
+    "type": "commun",
+    "nom_latin": "Phasianus colchicus"
   },
   "Faucon crécerelle": {
     "type": "commun",
@@ -150,6 +162,10 @@
   "Gallinule poule-d'eau": {
     "type": "eau",
     "nom_latin": "Gallinula chloropus"
+  },
+  "Geai des chênese": {
+    "type": "commun",
+    "nom_latin": "Garrulus glandarius"
   },
   "Grand Cormoran": {
     "type": "eau",
@@ -191,6 +207,10 @@
     "type": "eau",
     "nom_latin": "Ardea cinerea"
   },
+  "Huppe fasciée": {
+    "type": "commun",
+    "nom_latin": "Upupa epops"
+  },
   "Linotte mélodieuse": {
     "type": "plaine",
     "nom_latin": "Carduelis cannabina"
@@ -218,6 +238,10 @@
   "Moineau domestique": {
     "type": "commun",
     "nom_latin": "Passer domesticus"
+  },
+  "Mouette rieuse": {
+    "type": "commun",
+    "nom_latin": "Chroicocephalus ridibundus"
   },
   "Mésange bleue": {
     "type": "commun",
