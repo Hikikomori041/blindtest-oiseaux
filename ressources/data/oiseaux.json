@@ -287,6 +287,10 @@
     "type": "eau",
     "nom_latin": "Acrocephalus schoenobaenus"
   },
+  "Pic épeiche": {
+    "type": "commun",
+    "nom_latin": "Dendrocopos major"
+  },
   "Pic vert": {
     "type": "commun",
     "nom_latin": "Picus viridis"
