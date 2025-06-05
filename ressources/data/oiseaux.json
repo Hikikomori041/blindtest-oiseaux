@@ -151,6 +151,10 @@
     "type": "commun",
     "nom_latin": "Sylvia atricapilla"
   },
+  "Fauvette des jardins": {
+    "type": "commun",
+    "nom_latin": "Sylvia borin"
+  },
   "Foulque macroule": {
     "type": "eau",
     "nom_latin": "Fulica atra"
