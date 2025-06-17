@@ -1,8 +1,1 @@
-__pycache__/
 autres/
-build/
-dist/
-*.exe
-*.docx
-*.spec
-*.zip
