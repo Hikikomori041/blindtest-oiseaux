@@ -7,6 +7,7 @@ let total = 0;
 
 const audio = new Audio();
 
+
 document.addEventListener('DOMContentLoaded', async () => {
   birdsData = await fetch('./ressources/data/oiseaux.json').then(r => r.json());
   updateBirdList();
@@ -117,3 +118,22 @@ function slugify(nom) {
     .replace(/ /g, '.')
     .replace(/[^a-z0-9.-]/g, '');
 }
+
+
+const { ipcMain } = require('electron');
+
+ipcMain.on('window-minimize', () => win.minimize());
+ipcMain.on('window-maximize', () => {
+  if (win.isMaximized()) win.unmaximize();
+  else win.maximize();
+});
+ipcMain.on('window-close', () => win.close());
+
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    // Ce qui doit se passer après le resize (genre redessiner un fond)
+  }, 150);
+});

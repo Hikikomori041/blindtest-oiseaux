@@ -1,9 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const fs = require('fs');
-const path = require('path');
 
 contextBridge.exposeInMainWorld('api', {
   getMp3Files: (dir) => {
+    const fs = require('fs');
+    const path = require('path');
     try {
       const fullPath = path.join(__dirname, dir);
       const files = fs.readdirSync(fullPath);
@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld('api', {
       console.error(`Erreur lecture dossier ${dir}:`, err);
       return [];
     }
-  }
+  },
+  minimize: () => ipcRenderer.send('window-minimize'),
+  maximize: () => ipcRenderer.send('window-maximize'),
+  close: () => ipcRenderer.send('window-close')
 });

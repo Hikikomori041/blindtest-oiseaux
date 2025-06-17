@@ -6,9 +6,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="container">
-    <h1>Blind-Test Oiseaux</h1>
+  <div id="titlebar">
+    <div id="drag-region">
+      <span class="title">Blind-Test Oiseaux</span>
+      <div id="window-controls">
+        <button id="minimize">🗕</button>
+        <button id="maximize">🗖</button>
+        <button id="close">✖️</button>
+      </div>
+    </div>
+  </div>
 
+  <div id="container">
     <section id="type-selection">
       <h2>Types d'oiseaux</h2>
       <label><input type="checkbox" value="commun" checked> Communs</label>
@@ -39,5 +48,11 @@
   </div>
 
   <script src="main.js"></script>
+  <script>
+    document.getElementById('minimize').addEventListener('click', () => window.api.minimize());
+    document.getElementById('maximize').addEventListener('click', () => window.api.maximize());
+    document.getElementById('close').addEventListener('click', () => window.api.close());
+  </script>
+
 </body>
 </html>
