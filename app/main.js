@@ -47,7 +47,7 @@ document.getElementById('play-selected').addEventListener('click', () => {
   if (variants.length > 0) {
     // console.log("On écoute: ", birdName);
     currentBird = birdName;
-    playSound(birdName, Math.floor(Math.random() * variants.length));
+    playBirdSound(birdName, Math.floor(Math.random() * variants.length));
   }
 });
 
@@ -102,10 +102,10 @@ function playRandomBird() {
   if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
   // console.log("oiseau:", currentBird);
-  playSound(currentBird, 0);
+  playBirdSound(currentBird, 0);
 }
 
-function playSound(name, index = 0) {
+function playBirdSound(name, index = 0) {
   audio.pause();
   // console.log("on joue", name, index);
   const file = birdsData[name].variants[index];
@@ -128,7 +128,7 @@ function playNextVariant() {
   const variants = birdsData[name]?.variants || [];
   if (variants.length < 2) return;
   const next = (index + 1) % variants.length;
-  playSound(name, next);
+  playBirdSound(name, next);
 }
 
 function validate() {
@@ -143,11 +143,11 @@ function validate() {
     score++;
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'green';
-    lireSon('succes.mp3');
+    playSound('succes.mp3', 0.5);
   } else {
     text.innerHTML = `❌ Raté !`;
     text.style.color = 'red';
-    lireSon('erreur.mp3');
+    playSound('erreur.mp3', 0.2);
   }
   // Afficher la popup
   document.getElementById('result-birdname-french').innerHTML = currentBird;
@@ -158,10 +158,10 @@ function validate() {
   showPopup();
 }
 
-function lireSon(nomDuSon) {
-  // const chemin = `file://${__dirname}/ressources/sons/${nomDuSon}`;
-  const chemin = `../ressources/sons/${nomDuSon}`;
+function playSound(son, volume=1.0) {
+  const chemin = `../ressources/sons/${son}`;
   const audio = new Audio(chemin);
+  audio.volume = volume; // de 0.0 à 1.0
   audio.play();
 }
 
