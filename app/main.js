@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         // Quand on clique sur "Écouter"
         seeButton.onclick = () => {
+          console.log("on vérifie", birdName);
           const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
           window.open(link, '_blank');
           menu.style.display = 'none';
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('click', () => {
     document.getElementById('context-menu').style.display = 'none';
   });
+  playRandomBird();
 })
 
 
@@ -99,7 +101,7 @@ function playRandomBird() {
   } else {
     pool = birdList;
   }
-  // console.log("pool", pool);
+  console.log("pool", pool);
   
   if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
@@ -109,9 +111,11 @@ function playRandomBird() {
 
 function playBirdSound(name, index = 0) {
   audio.pause();
-  // console.log("on joue", name, index);
+  console.log("on joue", name, index);
   currentBird = name;
+  console.log("bonne chance", birdsData[name]);
   const file = birdsData[name].variants[index];
+  console.log("bonne caca", file);
   audio.src = file;
 
   audio.dataset.name = name;
@@ -187,6 +191,7 @@ function togglePause() {
 
 function showImage(name) {
   const container = document.getElementById('result-image');
+  console.log("on vérifie", name);
   const link = `https://www.oiseaux.net/oiseaux/${slugify(name)}.html`;
   const img = document.createElement('img');
 
@@ -204,6 +209,7 @@ function showImage(name) {
 }
 
 function slugify(nom) {
+  console.log("on vérifie ultimement", nom);
   return nom.normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase()
@@ -253,6 +259,7 @@ function genererGrilleOiseaux() {
   for (const [name, info] of Object.entries(birdsData)) {
     if (!selectedTypes.includes(info.type)) continue;
 
+    birdList.push(name);
     const divCell = document.createElement('div');
     divCell.className = `cell oiseau-${info.type}`;
     divCell.dataset.name = name;
