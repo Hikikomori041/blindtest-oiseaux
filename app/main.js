@@ -59,9 +59,8 @@ async function updateBirdList() {
     if (firstLi) {
       firstLi.click();
     }
-    
-    playRandomBird();
   }
+  playRandomBird();
 }
 
 // Met à jour la liste des oiseaux après un click sur une checkbox
@@ -77,7 +76,7 @@ function playRandomBird() {
   } else {
     pool = birdList;
   }
-  console.log("pool", pool);
+  // console.log("pool", pool);
   
   if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
@@ -85,23 +84,19 @@ function playRandomBird() {
   playSound(currentBird, 0);
 }
 
-function playSound(name, index = 0) {
-  // console.log('name:', name);
-  // console.log('birdsData[name]:', birdsData[name]);
-  // console.log('birdsData[name].variants:', birdsData[name]?.variants);
-  // console.log('index:', index);
+function hidePopup() {
+  const popup = document.getElementById('result-popup');
+  popup.style.display = 'none';
+}
 
+function playSound(name, index = 0) {
   const file = birdsData[name].variants[index];
   audio.src = file;
-  // console.log('Audio SRC:', audio.src);
-
   audio.play();
-  // audio.onerror = (err) => console.error('Erreur audio :', err);
-  // audio.onplay = () => console.log('Lecture audio OK');
 
   audio.dataset.name = name;
   audio.dataset.index = index;
-  document.getElementById('result').textContent = '';
+  hidePopup();
 }
 
 function playNextVariant() {
@@ -118,17 +113,23 @@ function validate() {
   if (!selected) return;
   const guess = selected.dataset.name;
   total++;
-  const res = document.getElementById('result');
+  
+  const popup = document.getElementById('result-popup');
+  const text  = document.getElementById('result-text');
   if (guess === currentBird) {
     score++;
-    res.textContent = `✔️ Bonne réponse ! (${guess})`;
-    res.style.color = 'green';
+    text.innerHTML = `✔️ Bonne réponse ! (${guess})`;
+    text.style.color = 'green';
   } else {
-    res.textContent = `❌ Mauvais choix. C'était ${currentBird}`;
-    res.style.color = 'red';
+    text.innerHTML = `❌ Mauvais choix. C'était ${currentBird}`;
+    popup.style.color = 'red';
   }
-  document.getElementById('score').textContent = `Score ${score}/${total}`;
+  // Afficher la popup
+  // popup.innerText = 'Bravo ! C\'était le bon oiseau !'; // ou un autre message
+  popup.style.display = 'block';
   showImage(currentBird);
+  // document.getElementById('score').textContent = `Score ${score}/${total}`;
+  
 }
 
 function togglePause() {
@@ -137,7 +138,7 @@ function togglePause() {
 }
 
 function showImage(name) {
-  const container = document.getElementById('image-container');
+  const container = document.getElementById('result-image');
   container.innerHTML = '';
   const img = document.createElement('img');
   img.src = `../ressources/oiseaux/${name}/image.jpg`;
