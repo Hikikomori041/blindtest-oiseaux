@@ -7,9 +7,12 @@ let total = 0;
 
 const audio = new Audio();
 
-
 document.addEventListener('DOMContentLoaded', async () => {
-  birdsData = await fetch('./ressources/data/oiseaux.json').then(r => r.json());
+  // window.api.getBirdsData('./ressources/data/oiseaux.json').then(data => {
+  //     birdsData = data;
+  //     updateBirdList();
+  // });
+  birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   updateBirdList();
 
   document.getElementById('next').addEventListener('click', playRandomBird);
@@ -23,9 +26,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
   });
   document.getElementById('switch').addEventListener('click', playNextVariant);
+
+  const folders = await window.api.getFolderList('./ressources/oiseaux/');
+  console.log('Liste des dossiers :', folders);
 });
 
-function updateBirdList() {
+
+
+async function updateBirdList() {
   const list = document.getElementById('bird-list');
   list.innerHTML = '';
   birdList = [];
@@ -45,7 +53,11 @@ function updateBirdList() {
     birdList.push(name);
 
     const path = `./ressources/oiseaux/${name}`;
-    info.variants = window.api.getMp3Files(`ressources/oiseaux/${name}`);
+    // info.variants = await window.api.getMp3Files(`./ressources/oiseaux/${name}`);
+    // info.variants = await window.api.getMp3Files(`./ressources/oiseaux/${name}`);
+    info.variants = await window.api.getMp3Files(name);
+
+
   }
 }
 
@@ -57,9 +69,20 @@ function playRandomBird() {
 }
 
 function playSound(name, index = 0) {
+  console.log('name:', name);
+  console.log('birdsData[name]:', birdsData[name]);
+  console.log('birdsData[name].variants:', birdsData[name]?.variants);
+  console.log('index:', index);
+
+
   const file = birdsData[name].variants[index];
   audio.src = file;
+  console.log('Audio SRC:', audio.src);
+
   audio.play();
+  audio.onerror = (err) => console.error('Erreur audio :', err);
+  audio.onplay = () => console.log('Lecture audio OK');
+
   audio.dataset.name = name;
   audio.dataset.index = index;
   document.getElementById('result').textContent = '';
@@ -120,14 +143,9 @@ function slugify(nom) {
 }
 
 
-const { ipcMain } = require('electron');
-
-ipcMain.on('window-minimize', () => win.minimize());
-ipcMain.on('window-maximize', () => {
-  if (win.isMaximized()) win.unmaximize();
-  else win.maximize();
-});
-ipcMain.on('window-close', () => win.close());
+document.getElementById('minimize').addEventListener('click', () => window.api.minimize());
+document.getElementById('maximize').addEventListener('click', () => window.api.maximize());
+document.getElementById('close').addEventListener('click', () => window.api.close());
 
 
 let resizeTimeout;

@@ -1,19 +1,14 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-  getMp3Files: (dir) => {
-    const fs = require('fs');
-    const path = require('path');
-    try {
-      const fullPath = path.join(__dirname, dir);
-      const files = fs.readdirSync(fullPath);
-      return files.filter(f => f.endsWith('.mp3')).map(f => `${dir}/${f}`);
-    } catch (err) {
-      console.error(`Erreur lecture dossier ${dir}:`, err);
-      return [];
-    }
-  },
+  
+  getBirdsData: (filePath) => ipcRenderer.invoke('get-birds-data', filePath),
+  getFolderList: (dir) => ipcRenderer.invoke('get-folder-list', dir),
+  getMp3Files: (dir) => ipcRenderer.invoke('get-mp3-files', dir),
+
+
   minimize: () => ipcRenderer.send('window-minimize'),
   maximize: () => ipcRenderer.send('window-maximize'),
-  close: () => ipcRenderer.send('window-close')
+  close: () => ipcRenderer.send('window-close'),
+
 });
