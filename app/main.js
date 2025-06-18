@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // Ajoute les commandes aux boutons de lecture audio
+document.getElementById('result-next').addEventListener('click', playRandomBird);
 document.getElementById('next').addEventListener('click', playRandomBird);
 document.getElementById('validate').addEventListener('click', validate);
 
@@ -108,24 +109,26 @@ function validate() {
   if (!selected) return;
   const guess = selected.dataset.name;
   total++;
+  // document.getElementById('score').textContent = `Score ${score}/${total}`;
   
-  const popup = document.getElementById('result-popup');
   const text  = document.getElementById('result-text');
   if (guess === currentBird) {
     score++;
-    text.innerHTML = `✔️ Bonne réponse ! (${guess})`;
+    text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'green';
     lireSon('succes.mp3');
   } else {
-    text.innerHTML = `❌ Mauvais choix. C'était ${currentBird}`;
-    popup.style.color = 'red';
+    text.innerHTML = `❌ Raté !`;
+    text.style.color = 'red';
     lireSon('erreur.mp3');
   }
   // Afficher la popup
+  document.getElementById('result-birdname-french').innerHTML = currentBird;
+  let birdnameLatin = `(${getNomLatin(currentBird)})`;
+  document.getElementById('result-birdname-latin').innerHTML = birdnameLatin;
   showImage(currentBird);
-  showPopup();
-  // document.getElementById('score').textContent = `Score ${score}/${total}`;
   
+  showPopup();
 }
 
 function lireSon(nomDuSon) {
@@ -134,6 +137,11 @@ function lireSon(nomDuSon) {
   const audio = new Audio(chemin);
   audio.play();
 }
+
+function getNomLatin(nomFrancais) {
+  return birdsData[nomFrancais]?.nom_latin || '';
+}
+
 
 
 function togglePause() {

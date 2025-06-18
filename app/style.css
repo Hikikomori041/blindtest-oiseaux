@@ -148,6 +148,7 @@ section {
 }
 
 #result-popup {
+  text-align: center;
   display: none;
   position: fixed;
   top: 20%;
@@ -156,10 +157,30 @@ section {
   z-index: 999;
   padding: 1.5rem;
   font-size: 1.5rem;
-  background-color: #209cee; /* couleur Bulma is-info */
+  background-color: #f7f7f7d2; /* couleur Bulma is-info */
   color: white;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+#result-image img {
+  border-radius: 25%;
+}
+#result-birdname {
+  display: block;
+  padding: 20px;
+  /* margin-top: 20px; */
+  color: black;
+  background-color: rgba(247, 247, 247, 0.637);
+  border-radius: 50%;
+}
+
+#result-birdname-latin {
+  display: block;
+  font-style: italic;
+  font-size: 0.7em;
+  margin-top: 0.1rem;
+  /* margin-top: 0; */
+  line-height: 1;
 }
