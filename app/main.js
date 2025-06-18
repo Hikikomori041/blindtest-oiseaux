@@ -86,32 +86,6 @@ function listenToBird(birdName) {
   }
 }
 
-// Met à jour la liste des oiseaux
-async function updateBirdList() {
-  const list = document.getElementById('bird-list');
-  list.innerHTML = '';
-  birdList = [];
-
-  // Récupère les types sélectionnés (commun, eau, plaine)
-  const selectedTypes = [...document.querySelectorAll('#type-selection input:checked')].map(cb => cb.value);
-  for (const [name, info] of Object.entries(birdsData)) {
-    if (!selectedTypes.includes(info.type)) continue;
-
-    const li = document.createElement('li');
-    li.textContent = `${name} (${info.nom_latin})`;
-    li.dataset.name = name;
-    li.addEventListener('click', () => {
-      [...list.children].forEach(el => el.classList.remove('selected'));
-      li.classList.add('selected');
-    });
-    list.appendChild(li);
-    birdList.push(name);
-
-    info.variants = await window.api.getMp3Paths(name);
-  }
-  playRandomBird();
-}
-
 // Met à jour la liste des oiseaux après un click sur une checkbox
 document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
   cb.addEventListener('change', genererGrilleOiseaux);
@@ -161,10 +135,11 @@ function playNextVariant() {
 }
 
 function validate(guess) {
+  console.log("tu valides", guess);
   total++;
   document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
-  const text  = document.getElementById('result-text');
+  const text = document.getElementById('result-text');
   if (guess === currentBird) {
     score++;
     text.innerHTML = `✔️ Bonne réponse !`;
@@ -180,7 +155,6 @@ function validate(guess) {
   let birdnameLatin = `(${getNomLatin(currentBird)})`;
   document.getElementById('result-birdname-latin').innerHTML = birdnameLatin;
   showImage(currentBird);
-  
   showPopup();
 }
 
@@ -298,7 +272,7 @@ function genererGrilleOiseaux() {
     // Tu peux aussi ajouter des events ici : click, contextmenu, etc.
     divCell.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      playSound(name);
+      listenToBird(name);
     });
 
     grid.appendChild(divCell);

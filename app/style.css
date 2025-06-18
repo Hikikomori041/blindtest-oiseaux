@@ -130,8 +130,11 @@ section {
 
 #quiz {
   margin-top:12px;
-  max-height: 640px;
+  /* max-height: 640px; */
+  max-height: 80vh; /* ou la hauteur que tu veux */
+  overflow: auto;
 }
+
 #controls {
   position: fixed;
   bottom: 0;
@@ -177,6 +180,24 @@ section {
 }
 
 
+
+#quiz::-webkit-scrollbar {
+  width: 8px;
+}
+
+#quiz::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+#quiz::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.5);
+  border-radius: 4px;
+}
+
+#quiz::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.8);
+}
 
 /* ========================================= */
 /*              Bird List v2                 */
@@ -268,9 +289,7 @@ button.validate-bird {
 /*              Bird List v1                 */
 /* ========================================= */
 
-#bird-list {
-  display: none;
-}
+
 /* #bird-list {
   display: none;
   list-style: none;
