@@ -23,7 +23,7 @@
   <div class="columns mt-5 mx-5">
   
     <!-- Colonne gauche : types d'oiseaux -->
-    <div class="column is-one-quarter">
+    <div class="column is-one-fifth">
        <section id="feedback" class="box">
         <div id="score" class="mt-3">Score: -/-</div>
       </section>
@@ -46,8 +46,67 @@
       <section id="quiz" class="box">
         <h2 class="title is-4">Quel est cet oiseau ?</h2>
         <ul id="bird-list" class="list is-hoverable"></ul>
-        <button id="validate" class="button is-primary mt-3">✅ Valider</button>
-        <button id="play-selected" class="button is-info mt-3">🔊 Écouter</button>
+
+        <div class="grid">
+          <div class="cell oiseau-commun">
+            <div class="columns">
+              <div class="column is-one-fifth">
+                <img class="bird-img" src="../ressources/oiseaux/Accenteur mouchet/image.jpg"/>
+              </div>
+              <div class="column bird-name">
+                <span class="bird-name-french">Accenteur mouchet</span>
+                <span class="bird-name-latin">(Prunella modularis)</span>
+              </div>
+            </div>
+          </div>
+          <div class="cell oiseau-eau">
+            <div class="columns">
+              <div class="column is-one-fifth">
+                <img class="bird-img" src="../ressources/oiseaux/Aigrette garzette/image.jpg"/>
+              </div>
+              <div class="column bird-name">
+                <span class="bird-name-french">Aigrette garzette</span>
+                <span class="bird-name-latin">(Egretta garzetta)</span>
+              </div>
+            </div>
+          </div>
+          <div class="cell">Cell 3</div>
+          <div class="cell oiseau-plaine">
+            <div class="columns">
+              <div class="column is-one-fifth">
+                <img class="bird-img" src="../ressources/oiseaux/Alouette lulu/image.jpg"/>
+              </div>
+              <div class="column bird-name">
+                <span class="bird-name-french">Alouette lulu</span>
+                <span class="bird-name-latin">(Lullula arborea)</span>
+              </div>
+            </div>
+          </div>
+          <div class="cell">Cell 5</div>
+          <div class="cell">Cell 6</div>
+          <div class="cell">Cell 7</div>
+          <div class="cell">Cell 8</div>
+          <div class="cell">Cell 9</div>
+          <div class="cell">Cell 10</div>
+          <div class="cell">Cell 11</div>
+          <div class="cell">Cell 12</div>
+          <div class="cell">Cell 13</div>
+          <div class="cell">Cell 14</div>
+          <div class="cell">Cell 15</div>
+          <div class="cell">Cell 16</div>
+          <div class="cell">Cell 17</div>
+          <div class="cell">Cell 18</div>
+          <div class="cell">Cell 19</div>
+          <div class="cell">Cell 20</div>
+          <div class="cell">Cell 21</div>
+          <div class="cell">Cell 22</div>
+          <div class="cell">Cell 23</div>
+          <div class="cell">Cell 24</div>
+          <div class="cell">Cell 25</div>
+          <div class="cell">Cell 26</div>
+          <div class="cell">Cell 27</div>
+          <div class="cell">Cell 28</div>
+        </div>
       </section>
 
      
@@ -78,6 +137,12 @@
       <!-- <button id="next" class="button is-primary" title="Oiseau suivant">🔀 Oiseau suivant</button> -->
     </div>
   </section>
+
+  <div id="context-menu" style="display:none; position:fixed; background:#333; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
+    <span id="listen-bird-button">🎧 Écouter cet oiseau</span>
+    <span id="see-bird-button">🌐 Plus d'info</span>
+  </div>
+
 </div>
 
   <script src="main.js"></script>

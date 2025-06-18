@@ -22,6 +22,19 @@ body {
   z-index: 0;
 }
 
+#context-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* si tu veux centrer */
+}
+#context-menu span {
+  display: block;
+}
+#context-menu span:hover {
+  background: #555;
+}
+
+
 
 .columns {
   position: relative;
@@ -117,7 +130,7 @@ section {
 
 #quiz {
   margin-top:12px;
-  /* height: 800px; */
+  max-height: 640px;
 }
 #controls {
   position: fixed;
@@ -158,6 +171,7 @@ section {
   width: 180px;
 }
 #quiz button{
+  display: none;
   height: 60px;
   width: 240px!important;
 }
@@ -165,13 +179,103 @@ section {
 
 
 /* ========================================= */
-/*                  Bird List                */
+/*              Bird List v2                 */
+/* ========================================= */
+
+.grid {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  /* padding: 10px; */
+  justify-content: start; /* ou center si tu veux centrer */
+}
+
+.cell {
+  display: flex;
+  height: 64px;
+  align-items: center; /* centre verticalement */
+  gap: 1rem; /* espace entre image et texte */
+  background: #00b89c;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.cell img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.cell:hover {
+  margin: 0;
+}
+.cell .bird-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* margin-top: 16px; */
+}
+
+.cell .bird-name-french {
+  display: block;
+  color: white;
+}
+.cell .bird-name-latin {
+  display: block;
+  color: rgb(230, 230, 230);
+  font-size: 0.9em;
+  font-style: italic;
+}
+.cell.oiseau-commun {
+  background-color: rgba(155, 135, 122, 0.75);
+}
+.cell.oiseau-plaine {
+  background-color: rgba(124, 195, 106, 0.75);
+}
+.cell.oiseau-eau {
+  background-color: rgba(106, 165, 195, 0.75);
+}
+
+
+button.play-bird {
+  background-color: blue;
+  height: 12px!important;
+  width: 12px!important;
+  padding: 0!important;
+}
+button.validate-bird {
+  background-color: green;
+  width: 96px!important;
+
+}
+.bird-img {
+  max-width: 64px;
+  max-height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ========================================= */
+/*              Bird List v1                 */
 /* ========================================= */
 
 #bird-list {
+  display: none;
+}
+/* #bird-list {
+  display: none;
   list-style: none;
   padding: 0;
-  max-height: 480px;
+  max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -194,9 +298,6 @@ section {
   font-weight: bold;
 }
 
-
-/* SCROLLBAR */
-
 #bird-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -213,7 +314,7 @@ section {
 
 #bird-list::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 100, 100, 0.8);
-}
+} */
 
 
 /* ========================================= */
