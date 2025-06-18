@@ -250,7 +250,7 @@ window.addEventListener('resize', () => {
 
 
 // Pour générer dynamiquement la grille des oiseaux
-function genererGrilleOiseaux() {
+async function genererGrilleOiseaux() {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
@@ -260,6 +260,8 @@ function genererGrilleOiseaux() {
     if (!selectedTypes.includes(info.type)) continue;
 
     birdList.push(name);
+    info.variants = await window.api.getMp3Paths(name);
+
     const divCell = document.createElement('div');
     divCell.className = `cell oiseau-${info.type}`;
     divCell.dataset.name = name;
