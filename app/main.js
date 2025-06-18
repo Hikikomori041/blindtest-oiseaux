@@ -9,7 +9,7 @@ const audio = new Audio();
 
 document.addEventListener('DOMContentLoaded', async () => {
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
-  await updateBirdList();
+  await genererGrilleOiseaux();
 
   let cells = document.getElementsByClassName('cell');
   for (cell of cells) {
@@ -108,19 +108,13 @@ async function updateBirdList() {
     birdList.push(name);
 
     info.variants = await window.api.getMp3Paths(name);
-
-    // console.log(info);
-    const firstLi = list.querySelector('li');
-    if (firstLi) {
-      firstLi.click();
-    }
   }
   playRandomBird();
 }
 
 // Met à jour la liste des oiseaux après un click sur une checkbox
 document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
-  cb.addEventListener('change', updateBirdList);
+  cb.addEventListener('change', genererGrilleOiseaux);
 });
 
 
@@ -275,3 +269,38 @@ window.addEventListener('resize', () => {
 });
 
 
+// Pour générer dynamiquement la grille des oiseaux
+function genererGrilleOiseaux() {
+  const grid = document.getElementById('bird-grid');
+  grid.innerHTML = ''; // vide la grille avant de régénérer
+
+  const selectedTypes = [...document.querySelectorAll('#type-selection input:checked')].map(cb => cb.value);
+
+  for (const [name, info] of Object.entries(birdsData)) {
+    if (!selectedTypes.includes(info.type)) continue;
+
+    const divCell = document.createElement('div');
+    divCell.className = `cell oiseau-${info.type}`;
+    divCell.dataset.name = name;
+
+    divCell.innerHTML = `
+      <div class="columns is-vcentered">
+        <div class="column is-one-fifth">
+          <img class="bird-img" src="../ressources/oiseaux/${name}/image.jpg" alt="${name}">
+        </div>
+        <div class="column bird-name">
+          <span class="bird-name-french">${name}</span>
+          <span class="bird-name-latin">(${info.nom_latin})</span>
+        </div>
+      </div>
+    `;
+
+    // Tu peux aussi ajouter des events ici : click, contextmenu, etc.
+    divCell.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      playSound(name);
+    });
+
+    grid.appendChild(divCell);
+  }
+}
