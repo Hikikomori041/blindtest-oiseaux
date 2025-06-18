@@ -8,10 +8,6 @@ let total = 0;
 const audio = new Audio();
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // window.api.getBirdsData('./ressources/data/oiseaux.json').then(data => {
-  //     birdsData = data;
-  //     updateBirdList();
-  // });
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   updateBirdList();
 
@@ -27,8 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   document.getElementById('switch').addEventListener('click', playNextVariant);
 
-  const folders = await window.api.getFolderList('./ressources/oiseaux/');
-  console.log('Liste des dossiers :', folders);
+  // await window.api.getMp3Paths('Barge rousse').then(paths => {
+  //   console.log(paths); // Liste des file://... à passer à tes balises <audio>
+  // });
 });
 
 
@@ -52,12 +49,9 @@ async function updateBirdList() {
     list.appendChild(li);
     birdList.push(name);
 
-    const path = `./ressources/oiseaux/${name}`;
-    // info.variants = await window.api.getMp3Files(`./ressources/oiseaux/${name}`);
-    // info.variants = await window.api.getMp3Files(`./ressources/oiseaux/${name}`);
-    info.variants = await window.api.getMp3Files(name);
+    info.variants = await window.api.getMp3Paths(name);
 
-
+    // console.log(info);
   }
 }
 

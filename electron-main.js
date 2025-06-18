@@ -1,12 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const fs = require('fs');
 const path = require('path');
 
+// Création de la fenêtre de l'application
 let win;
-
 function createWindow() {
   win = new BrowserWindow({
-    width: 1024,
-    height: 720,
+    width: 1300,
+    height: 800,
     minWidth: 1024,
     minHeight: 720,
     // resizable: false,
@@ -19,24 +20,29 @@ function createWindow() {
     }
   });
 
+  // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  win.webContents.openDevTools();
+  win.webContents.openDevTools(); // Affiche les outils développeurs 
 }
 
+// Ouverture de la fenêtre (ça fait des courants d'air)
 app.whenReady().then(() => {
   createWindow();
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
+// À la fermeture de la fenêtre
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// 🔧 Réception des événements envoyés depuis preload → renderer
+
+
+// Réception des événements envoyés depuis preload → renderer
+// Fonctions des boutons de la bordure de fenêtre
 ipcMain.on('window-minimize', () => {
   if (win) win.minimize();
 });
@@ -49,27 +55,15 @@ ipcMain.on('window-close', () => {
   if (win) win.close();
 });
 
+// Sort les données du json
 ipcMain.handle('get-birds-data', (event, filePath) => {
-    const fs = require('fs');
-    const path = require('path');
     const fullPath = path.join(__dirname, filePath);
     const jsonString = fs.readFileSync(fullPath, 'utf-8');
     return JSON.parse(jsonString);
 });
 
-ipcMain.handle('get-folder-list', (event, dir) => {
-    const fs = require('fs');
-    const path = require('path');
-    const fullPath = path.join(__dirname, dir);
-    const files = fs.readdirSync(fullPath, { withFileTypes: true });
-    return files.filter(f => f.isDirectory()).map(f => f.name);
-});
-
-
+// todo: fix cette fonction pour lire les fichiers mp3
 ipcMain.handle('get-mp3-files', (event, birdName) => {
-    const fs = require('fs');
-    const path = require('path');
-
     const resolvedDir = path.resolve(__dirname, '../ressources/oiseaux', birdName);
 
     console.log('Lecture MP3 dans :', resolvedDir);
@@ -90,4 +84,12 @@ ipcMain.handle('get-mp3-files', (event, birdName) => {
         console.error(`Erreur lecture MP3 ${resolvedDir}:`, err);
         return [];
     }
+});
+
+ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
+  const dirPath = path.join(__dirname, 'ressources', 'oiseaux', oiseauName);
+  const files = fs.readdirSync(dirPath);
+  const mp3Files = files.filter(file => file.endsWith('.mp3'));
+  const fullPaths = mp3Files.map(file => 'file://' + path.join(dirPath, file));
+  return fullPaths;
 });

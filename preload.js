@@ -1,12 +1,11 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-  
+  // Fonctions utilisées pour le programme -> envoie tout à electron-main.js
   getBirdsData: (filePath) => ipcRenderer.invoke('get-birds-data', filePath),
-  getFolderList: (dir) => ipcRenderer.invoke('get-folder-list', dir),
-  getMp3Files: (dir) => ipcRenderer.invoke('get-mp3-files', dir),
+  getMp3Paths: (oiseauName) => ipcRenderer.invoke('get-mp3-paths', oiseauName),
 
-
+  // Boutons de la fenêtre -> envoie tout à electron-main.js
   minimize: () => ipcRenderer.send('window-minimize'),
   maximize: () => ipcRenderer.send('window-maximize'),
   close: () => ipcRenderer.send('window-close'),
