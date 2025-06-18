@@ -121,3 +121,45 @@ section {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
+
+
+
+/* Animation de la pop-up */
+@keyframes popupIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes popupOut {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+}
+
+#result-popup {
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  background-color: #209cee; /* couleur Bulma is-info */
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}

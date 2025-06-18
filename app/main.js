@@ -84,11 +84,6 @@ function playRandomBird() {
   playSound(currentBird, 0);
 }
 
-function hidePopup() {
-  const popup = document.getElementById('result-popup');
-  popup.style.display = 'none';
-}
-
 function playSound(name, index = 0) {
   const file = birdsData[name].variants[index];
   audio.src = file;
@@ -120,17 +115,26 @@ function validate() {
     score++;
     text.innerHTML = `✔️ Bonne réponse ! (${guess})`;
     text.style.color = 'green';
+    lireSon('succes.mp3');
   } else {
     text.innerHTML = `❌ Mauvais choix. C'était ${currentBird}`;
     popup.style.color = 'red';
+    lireSon('erreur.mp3');
   }
   // Afficher la popup
-  // popup.innerText = 'Bravo ! C\'était le bon oiseau !'; // ou un autre message
-  popup.style.display = 'block';
   showImage(currentBird);
+  showPopup();
   // document.getElementById('score').textContent = `Score ${score}/${total}`;
   
 }
+
+function lireSon(nomDuSon) {
+  // const chemin = `file://${__dirname}/ressources/sons/${nomDuSon}`;
+  const chemin = `../ressources/sons/${nomDuSon}`;
+  const audio = new Audio(chemin);
+  audio.play();
+}
+
 
 function togglePause() {
   if (audio.paused) audio.play();
@@ -157,6 +161,23 @@ function slugify(nom) {
     .toLowerCase()
     .replace(/ /g, '.')
     .replace(/[^a-z0-9.-]/g, '');
+}
+
+
+function showPopup() {
+  const popup = document.getElementById('result-popup');
+  popup.style.display = 'block';
+  popup.style.animation = 'popupIn 0.3s forwards';
+}
+
+function hidePopup() {
+  const popup = document.getElementById('result-popup');
+  popup.style.animation = 'popupOut 0.3s forwards';
+  
+  // après l'animation (300ms), on remet display: none
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 300);
 }
 
 
