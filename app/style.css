@@ -58,12 +58,20 @@ h1 {
 }
 
 section {
+  text-align: center;
   margin-bottom: 30px;
   padding: 10px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+#controls .buttons {
+  display: flex;
+  flex-wrap: wrap; /* au cas où ça déborde */
+  justify-content: center; /* centrer les boutons */
+  gap: 0.5rem; /* petit espace entre boutons */
+}
+
 
 #controls button,
 #quiz button {
@@ -123,6 +131,9 @@ section {
 
 
 
+/* ========================================= */
+/*                  POPUP                    */
+/* ========================================= */
 
 /* Animation de la pop-up */
 @keyframes popupIn {

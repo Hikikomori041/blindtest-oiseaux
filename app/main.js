@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Ajoute les commandes aux boutons de lecture audio
 document.getElementById('result-next').addEventListener('click', playRandomBird);
-document.getElementById('next').addEventListener('click', playRandomBird);
+// document.getElementById('next').addEventListener('click', playRandomBird);
 document.getElementById('validate').addEventListener('click', validate);
 
 document.getElementById('pause').addEventListener('click', togglePause);
@@ -145,9 +145,20 @@ function getNomLatin(nomFrancais) {
 
 
 function togglePause() {
-  if (audio.paused) audio.play();
-  else audio.pause();
+  let pauseButton = document.getElementById('pause');
+
+  if (audio.paused) {
+    audio.play().then(() => {
+      pauseButton.innerHTML = "⏸️";
+    }).catch(err => {
+      console.error("Erreur lecture :", err);
+    });
+  } else {
+    audio.pause();
+    pauseButton.innerHTML = "▶️";
+  }
 }
+
 
 function showImage(name) {
   const container = document.getElementById('result-image');
