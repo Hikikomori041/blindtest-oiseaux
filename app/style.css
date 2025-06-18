@@ -11,19 +11,32 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  background: url('../ressources/images/default.png') no-repeat center center fixed;
+  background-size: cover;
+}
+#overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(100, 100, 100, 0.35);
+  z-index: 0;
 }
 
+
 .columns {
+  position: relative;
+  z-index: 1;
   flex: 1;
 }
 
 #titlebar {
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;
   height: 32px;
-  z-index: 1000; /* pour être sûr qu'il passe devant */
+  z-index: 9999; /* pour être sûr qu'il passe devant */
   -webkit-app-region: drag;
   display: flex;
   justify-content: space-between;
@@ -42,6 +55,16 @@ body {
   cursor: pointer;
   margin-left: 8px;
 }
+#titlebar .title {
+  margin: 0;
+  padding: 0;
+  line-height: 32px; /* même hauteur que le titlebar */
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
 
 #titlebar button:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -72,9 +95,29 @@ section {
   text-align: center;
   margin-bottom: 30px;
   padding: 10px;
-  background: #ffffff;
+  /* background: #ffffff; */
+  background-color: rgba(255, 255, 255, 0.65) !important;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#feedback {
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+#type-selection {
+  text-align: left;
+}
+#type-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+
+#quiz {
+  margin-top:12px;
+  /* height: 800px; */
 }
 #controls {
   position: fixed;
@@ -94,9 +137,9 @@ section {
 }
 #controls button,
 #quiz button {
-  height: 60px;
-  width: 60px;
-  margin: 5px;
+  height: 40px;
+  width: 40px;
+  /* margin: 5px; */
   padding: 10px 16px;
   font-size: 1.2em;
   cursor: pointer;
@@ -115,9 +158,9 @@ section {
   width: 180px;
 }
 #quiz button{
+  height: 60px;
   width: 240px!important;
 }
-
 
 
 
@@ -128,7 +171,7 @@ section {
 #bird-list {
   list-style: none;
   padding: 0;
-  max-height: 300px;
+  max-height: 480px;
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -152,7 +195,25 @@ section {
 }
 
 
+/* SCROLLBAR */
 
+#bird-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+#bird-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+#bird-list::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.5);
+  border-radius: 4px;
+}
+
+#bird-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.8);
+}
 
 
 /* ========================================= */

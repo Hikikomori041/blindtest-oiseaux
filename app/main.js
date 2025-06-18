@@ -18,10 +18,16 @@ document.getElementById('result-next').addEventListener('click', playRandomBird)
 // document.getElementById('next').addEventListener('click', playRandomBird);
 document.getElementById('validate').addEventListener('click', validate);
 
-document.getElementById('pause-button').addEventListener('click', togglePause);
+const pauseButton = document.getElementById('pause-button');
+pauseButton.addEventListener('click', togglePause);
+
 document.getElementById('replay').addEventListener('click', () => {
   audio.currentTime = 0;
-  audio.play()
+  audio.play().then(() => {
+    pauseButton.innerHTML = "⏸️";
+  }).catch(err => {
+    console.error("Erreur lecture :", err);
+  });
 });
 document.getElementById('rewind').addEventListener('click', () => {
   audio.currentTime = Math.max(0, audio.currentTime - 5);
@@ -30,6 +36,20 @@ document.getElementById('forward').addEventListener('click', () => {
   audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 });
 document.getElementById('switch').addEventListener('click', playNextVariant);
+
+document.getElementById('play-selected').addEventListener('click', () => {
+  const selectedLi = document.querySelector('#bird-list li.selected');
+  if (!selectedLi) return;
+
+  const birdName = selectedLi.dataset.name;
+  const variants = birdsData[birdName]?.variants || [];
+
+  if (variants.length > 0) {
+    // console.log("On écoute: ", birdName);
+    currentBird = birdName;
+    playSound(birdName, Math.floor(Math.random() * variants.length));
+  }
+});
 
 
 // Met à jour la liste des oiseaux
@@ -81,17 +101,24 @@ function playRandomBird() {
   
   if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
-  console.log("oiseau:", currentBird);
+  // console.log("oiseau:", currentBird);
   playSound(currentBird, 0);
 }
 
 function playSound(name, index = 0) {
+  audio.pause();
+  // console.log("on joue", name, index);
   const file = birdsData[name].variants[index];
   audio.src = file;
-  audio.play();
 
   audio.dataset.name = name;
   audio.dataset.index = index;
+
+  audio.play().then(() => {
+    pauseButton.innerHTML = "⏸️";
+  }).catch(err => {
+    console.error("Erreur lecture :", err);
+  });
   hidePopup();
 }
 
@@ -109,7 +136,7 @@ function validate() {
   if (!selected) return;
   const guess = selected.dataset.name;
   total++;
-  // document.getElementById('score').textContent = `Score ${score}/${total}`;
+  document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
   const text  = document.getElementById('result-text');
   if (guess === currentBird) {
@@ -145,8 +172,6 @@ function getNomLatin(nomFrancais) {
 
 
 function togglePause() {
-  let pauseButton = document.getElementById('pause-button');
-
   if (audio.paused) {
     audio.play().then(() => {
       pauseButton.innerHTML = "⏸️";
@@ -162,15 +187,19 @@ function togglePause() {
 
 function showImage(name) {
   const container = document.getElementById('result-image');
-  container.innerHTML = '';
+  const link = `https://www.oiseaux.net/oiseaux/${slugify(name)}.html`;
   const img = document.createElement('img');
+
+  container.innerHTML = '';
   img.src = `../ressources/oiseaux/${name}/image.jpg`;
   img.style.maxWidth = '300px';
   img.style.cursor = 'pointer';
   img.onclick = () => {
-    const link = `https://www.oiseaux.net/oiseaux/${slugify(name)}.html`;
     window.open(link, '_blank');
   };
+  // img.title = link;
+  img.title = "Cliquer pour en savoir plus sur cet oiseau"
+
   container.appendChild(img);
 }
 
@@ -212,3 +241,5 @@ window.addEventListener('resize', () => {
     // Ce qui doit se passer après le resize (genre redessiner un fond)
   }, 150);
 });
+
+

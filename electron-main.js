@@ -24,7 +24,7 @@ function createWindow() {
   // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  win.webContents.openDevTools(); // Affiche les outils développeurs 
+  // win.webContents.openDevTools(); // Affiche les outils développeurs 
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
