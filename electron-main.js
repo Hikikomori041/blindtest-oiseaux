@@ -23,7 +23,7 @@ function createWindow() {
   // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  win.webContents.openDevTools(); // Affiche les outils développeurs 
+  // win.webContents.openDevTools(); // Affiche les outils développeurs 
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
@@ -33,7 +33,6 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
-
 // À la fermeture de la fenêtre
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
@@ -62,29 +61,6 @@ ipcMain.handle('get-birds-data', (event, filePath) => {
     return JSON.parse(jsonString);
 });
 
-// todo: fix cette fonction pour lire les fichiers mp3
-ipcMain.handle('get-mp3-files', (event, birdName) => {
-    const resolvedDir = path.resolve(__dirname, '../ressources/oiseaux', birdName);
-
-    // console.log('Lecture MP3 dans :', resolvedDir);
-
-    try {
-        const files = fs.readdirSync(resolvedDir, { withFileTypes: true });
-
-        // console.log('Fichiers trouvés :', files.map(f => f.name));
-
-        const mp3s = files
-            .filter(f => f.isFile() && f.name.toLowerCase().endsWith('.mp3'))
-            .map(f => `../ressources/oiseaux/${birdName}/${f.name}`);
-
-        // console.log('MP3 trouvés :', mp3s);
-
-        return mp3s;
-    } catch (err) {
-        console.error(`Erreur lecture MP3 ${resolvedDir}:`, err);
-        return [];
-    }
-});
 
 ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
   const dirPath = path.join(__dirname, 'ressources', 'oiseaux', oiseauName);

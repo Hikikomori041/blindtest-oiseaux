@@ -9,32 +9,35 @@ const audio = new Audio();
 
 document.addEventListener('DOMContentLoaded', async () => {
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
-  updateBirdList();
-
-  document.getElementById('next').addEventListener('click', playRandomBird);
-  document.getElementById('validate').addEventListener('click', validate);
-  document.getElementById('pause').addEventListener('click', togglePause);
-  document.getElementById('replay').addEventListener('click', () => audio.play());
-  document.getElementById('rewind').addEventListener('click', () => {
-    audio.currentTime = Math.max(0, audio.currentTime - 5);
-  });
-  document.getElementById('forward').addEventListener('click', () => {
-    audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
-  });
-  document.getElementById('switch').addEventListener('click', playNextVariant);
-
-  // await window.api.getMp3Paths('Barge rousse').then(paths => {
-    // console.log(paths); // Liste des file://... à passer à tes balises <audio>
-  // });
+  await updateBirdList();
 });
 
 
+// Ajoute les commandes aux boutons de lecture audio
+document.getElementById('next').addEventListener('click', playRandomBird);
+document.getElementById('validate').addEventListener('click', validate);
 
+document.getElementById('pause').addEventListener('click', togglePause);
+document.getElementById('replay').addEventListener('click', () => {
+  audio.currentTime = 0;
+  audio.play()
+});
+document.getElementById('rewind').addEventListener('click', () => {
+  audio.currentTime = Math.max(0, audio.currentTime - 5);
+});
+document.getElementById('forward').addEventListener('click', () => {
+  audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+});
+document.getElementById('switch').addEventListener('click', playNextVariant);
+
+
+// Met à jour la liste des oiseaux
 async function updateBirdList() {
   const list = document.getElementById('bird-list');
   list.innerHTML = '';
   birdList = [];
 
+  // Récupère les types sélectionnés (commun, eau, plaine)
   const selectedTypes = [...document.querySelectorAll('#type-selection input:checked')].map(cb => cb.value);
   for (const [name, info] of Object.entries(birdsData)) {
     if (!selectedTypes.includes(info.type)) continue;
@@ -52,17 +55,33 @@ async function updateBirdList() {
     info.variants = await window.api.getMp3Paths(name);
 
     // console.log(info);
+    const firstLi = list.querySelector('li');
+    if (firstLi) {
+      firstLi.click();
+    }
+    
+    playRandomBird();
   }
 }
+
+// Met à jour la liste des oiseaux après un click sur une checkbox
 document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
   cb.addEventListener('change', updateBirdList);
 });
 
 
 function playRandomBird() {
-  const pool = birdList.filter(b => b !== currentBird);
+  let pool = []
+  if (currentBird !== undefined) {
+    pool = birdList.filter(b => b !== currentBird);
+  } else {
+    pool = birdList;
+  }
+  console.log("pool", pool);
+  
   if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
+  console.log("oiseau:", currentBird);
   playSound(currentBird, 0);
 }
 
@@ -71,7 +90,6 @@ function playSound(name, index = 0) {
   // console.log('birdsData[name]:', birdsData[name]);
   // console.log('birdsData[name].variants:', birdsData[name]?.variants);
   // console.log('index:', index);
-
 
   const file = birdsData[name].variants[index];
   audio.src = file;
@@ -122,7 +140,7 @@ function showImage(name) {
   const container = document.getElementById('image-container');
   container.innerHTML = '';
   const img = document.createElement('img');
-  img.src = `./ressources/oiseaux/${name}/image.jpg`;
+  img.src = `../ressources/oiseaux/${name}/image.jpg`;
   img.style.maxWidth = '300px';
   img.style.cursor = 'pointer';
   img.onclick = () => {
