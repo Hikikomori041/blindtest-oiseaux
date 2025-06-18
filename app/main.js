@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('switch').addEventListener('click', playNextVariant);
 
   // await window.api.getMp3Paths('Barge rousse').then(paths => {
-  //   console.log(paths); // Liste des file://... à passer à tes balises <audio>
+    // console.log(paths); // Liste des file://... à passer à tes balises <audio>
   // });
 });
 
@@ -54,6 +54,10 @@ async function updateBirdList() {
     // console.log(info);
   }
 }
+document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', updateBirdList);
+});
+
 
 function playRandomBird() {
   const pool = birdList.filter(b => b !== currentBird);
@@ -63,19 +67,19 @@ function playRandomBird() {
 }
 
 function playSound(name, index = 0) {
-  console.log('name:', name);
-  console.log('birdsData[name]:', birdsData[name]);
-  console.log('birdsData[name].variants:', birdsData[name]?.variants);
-  console.log('index:', index);
+  // console.log('name:', name);
+  // console.log('birdsData[name]:', birdsData[name]);
+  // console.log('birdsData[name].variants:', birdsData[name]?.variants);
+  // console.log('index:', index);
 
 
   const file = birdsData[name].variants[index];
   audio.src = file;
-  console.log('Audio SRC:', audio.src);
+  // console.log('Audio SRC:', audio.src);
 
   audio.play();
-  audio.onerror = (err) => console.error('Erreur audio :', err);
-  audio.onplay = () => console.log('Lecture audio OK');
+  // audio.onerror = (err) => console.error('Erreur audio :', err);
+  // audio.onplay = () => console.log('Lecture audio OK');
 
   audio.dataset.name = name;
   audio.dataset.index = index;

@@ -66,18 +66,18 @@ ipcMain.handle('get-birds-data', (event, filePath) => {
 ipcMain.handle('get-mp3-files', (event, birdName) => {
     const resolvedDir = path.resolve(__dirname, '../ressources/oiseaux', birdName);
 
-    console.log('Lecture MP3 dans :', resolvedDir);
+    // console.log('Lecture MP3 dans :', resolvedDir);
 
     try {
         const files = fs.readdirSync(resolvedDir, { withFileTypes: true });
 
-        console.log('Fichiers trouvés :', files.map(f => f.name));
+        // console.log('Fichiers trouvés :', files.map(f => f.name));
 
         const mp3s = files
             .filter(f => f.isFile() && f.name.toLowerCase().endsWith('.mp3'))
             .map(f => `../ressources/oiseaux/${birdName}/${f.name}`);
 
-        console.log('MP3 trouvés :', mp3s);
+        // console.log('MP3 trouvés :', mp3s);
 
         return mp3s;
     } catch (err) {
