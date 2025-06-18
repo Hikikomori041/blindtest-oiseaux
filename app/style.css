@@ -7,7 +7,12 @@ body {
 }
 
 #titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 32px;
+  z-index: 1000; /* pour être sûr qu'il passe devant */
   -webkit-app-region: drag;
   display: flex;
   justify-content: space-between;
@@ -42,8 +47,10 @@ body {
 #container {
   max-width: 1000px;
   margin: auto;
-  padding: 20px;
+  padding: 52px 20px 20px; /* top = 32 + 20 de marge */
 }
+
+
 
 h1 {
   text-align: center;
