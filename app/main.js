@@ -18,7 +18,7 @@ document.getElementById('result-next').addEventListener('click', playRandomBird)
 // document.getElementById('next').addEventListener('click', playRandomBird);
 document.getElementById('validate').addEventListener('click', validate);
 
-document.getElementById('pause').addEventListener('click', togglePause);
+document.getElementById('pause-button').addEventListener('click', togglePause);
 document.getElementById('replay').addEventListener('click', () => {
   audio.currentTime = 0;
   audio.play()
@@ -145,7 +145,7 @@ function getNomLatin(nomFrancais) {
 
 
 function togglePause() {
-  let pauseButton = document.getElementById('pause');
+  let pauseButton = document.getElementById('pause-button');
 
   if (audio.paused) {
     audio.play().then(() => {
