@@ -11,39 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   await genererGrilleOiseaux();
 
-  let cells = document.getElementsByClassName('cell');
-  for (cell of cells) {
-    let birdNameSpan = cell.getElementsByClassName('bird-name-french')[0];
-    if (birdNameSpan) {
-      let birdName = birdNameSpan.innerHTML;
-
-      cell.addEventListener('click', () => validate(birdName));
-      cell.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-
-        const menu = document.getElementById('context-menu');
-        const listenButton = document.getElementById('listen-bird-button');
-        const seeButton = document.getElementById('see-bird-button');
-
-        menu.style.display = 'block';
-        menu.style.left = `${e.pageX}px`;
-        menu.style.top = `${e.pageY}px`;
-
-        // Quand on clique sur "Écouter"
-        listenButton.onclick = () => {
-          listenToBird(birdName);
-          menu.style.display = 'none';
-        };
-        // Quand on clique sur "Écouter"
-        seeButton.onclick = () => {
-          console.log("on vérifie", birdName);
-          const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
-          window.open(link, '_blank');
-          menu.style.display = 'none';
-        };
-      });
-    }
-  }
   // Clic ailleurs → on ferme le menu
   document.addEventListener('click', () => {
     document.getElementById('context-menu').style.display = 'none';
@@ -55,12 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Ajoute les commandes aux boutons de lecture audio
 document.getElementById('result-next').addEventListener('click', playRandomBird);
-// document.getElementById('next').addEventListener('click', playRandomBird);
-// document.getElementById('validate').addEventListener('click', validate);
-
 const pauseButton = document.getElementById('pause-button');
 pauseButton.addEventListener('click', togglePause);
-
 document.getElementById('replay').addEventListener('click', () => {
   audio.currentTime = 0;
   audio.play().then(() => {
@@ -88,34 +51,35 @@ function listenToBird(birdName) {
   }
 }
 
-// Met à jour la liste des oiseaux après un click sur une checkbox
-document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
-  cb.addEventListener('change', genererGrilleOiseaux);
-});
-
 
 function playRandomBird() {
-  let pool = []
+  let pool = [];
   if (currentBird !== undefined) {
     pool = birdList.filter(b => b !== currentBird);
   } else {
     pool = birdList;
   }
-  console.log("pool", pool);
+  // console.log("pool length", pool.length);
+  if (pool.length === 0) {
+    audio.pause();
+    audio.currentTime = 0;
+
+    document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
+    // console.error("Aucun type d'oiseau sélectionné !");
+    return;
+  } else {
+    document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
+  }
   
-  if (pool.length === 0) return;
   currentBird = pool[Math.floor(Math.random() * pool.length)];
-  // console.log("oiseau:", currentBird);
+  console.log("oiseau:", currentBird);
   playBirdSound(currentBird, 0);
 }
 
 function playBirdSound(name, index = 0) {
   audio.pause();
-  console.log("on joue", name, index);
   currentBird = name;
-  console.log("bonne chance", birdsData[name]);
   const file = birdsData[name].variants[index];
-  console.log("bonne caca", file);
   audio.src = file;
 
   audio.dataset.name = name;
@@ -139,7 +103,6 @@ function playNextVariant() {
 }
 
 function validate(guess) {
-  console.log("tu valides", guess);
   total++;
   document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
@@ -191,7 +154,6 @@ function togglePause() {
 
 function showImage(name) {
   const container = document.getElementById('result-image');
-  console.log("on vérifie", name);
   const link = `https://www.oiseaux.net/oiseaux/${slugify(name)}.html`;
   const img = document.createElement('img');
 
@@ -209,7 +171,6 @@ function showImage(name) {
 }
 
 function slugify(nom) {
-  console.log("on vérifie ultimement", nom);
   return nom.normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase()
@@ -255,6 +216,7 @@ async function genererGrilleOiseaux() {
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
   const selectedTypes = [...document.querySelectorAll('#type-selection input:checked')].map(cb => cb.value);
+  birdList = [];
 
   for (const [name, info] of Object.entries(birdsData)) {
     if (!selectedTypes.includes(info.type)) continue;
@@ -278,12 +240,40 @@ async function genererGrilleOiseaux() {
       </div>
     `;
 
-    // Tu peux aussi ajouter des events ici : click, contextmenu, etc.
+    divCell.addEventListener('click', () => validate(name));
     divCell.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      listenToBird(name);
+
+      const menu = document.getElementById('context-menu');
+      const listenButton = document.getElementById('listen-bird-button');
+      const seeButton = document.getElementById('see-bird-button');
+
+      menu.style.display = 'block';
+      menu.style.left = `${e.pageX}px`;
+      menu.style.top = `${e.pageY}px`;
+
+      // Quand on clique sur "Écouter"
+      listenButton.onclick = () => {
+        listenToBird(name);
+        menu.style.display = 'none';
+      };
+      // Quand on clique sur "Plus d'infos"
+      seeButton.onclick = () => {
+        const link = `https://www.oiseaux.net/oiseaux/${slugify(name)}.html`;
+        window.open(link, '_blank');
+        menu.style.display = 'none';
+      };
     });
 
     grid.appendChild(divCell);
   }
 }
+
+
+// Met à jour la liste des oiseaux après un click sur une checkbox
+document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', async () => {
+    await genererGrilleOiseaux();
+    playRandomBird();
+  });
+});

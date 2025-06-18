@@ -1,0 +1,2 @@
+- griser/désactiver les boutons quand il n'y a aucun oiseau sélectionné
+- 
