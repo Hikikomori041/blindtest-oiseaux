@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const { screen } = require('electron');
 
 // Création de la fenêtre de l'application
 let win;
@@ -24,6 +25,8 @@ function createWindow() {
   win.loadFile('app/index.html');
   win.removeMenu();
   win.webContents.openDevTools(); // Affiche les outils développeurs 
+  
+  // win.setBounds(electron.screen.getPrimaryDisplay().workArea);
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
@@ -45,11 +48,25 @@ app.on('window-all-closed', () => {
 ipcMain.on('window-minimize', () => {
   if (win) win.minimize();
 });
-ipcMain.on('window-maximize', () => {
-  if (win) {
-    win.isMaximized() ? win.unmaximize() : win.maximize();
+let ignoreNext = false;
+
+ipcMain.on('window-toggle-maximize', () => {
+  if (!win || ignoreNext) return;
+
+  ignoreNext = true;
+
+  if (win.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win.maximize();
   }
+
+  setTimeout(() => {
+    ignoreNext = false;
+  }, 300); // délai pour laisser le temps à l’animation native
 });
+
+
 ipcMain.on('window-close', () => {
   if (win) win.close();
 });
