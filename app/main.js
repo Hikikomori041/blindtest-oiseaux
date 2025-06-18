@@ -8,6 +8,8 @@ let total = 0;
 const audio = new Audio();
 
 document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('maximize').click();
+
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   await genererGrilleOiseaux();
 

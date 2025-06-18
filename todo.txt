@@ -1,2 +1,4 @@
 - griser/désactiver les boutons quand il n'y a aucun oiseau sélectionné
-- 
+- remettre le symbole de l'oiseau qui chante (à voir si on la met sur la barre de lecture)
+- mettre une croix pour fermer le popup
+- remettre le code couleur pour les types

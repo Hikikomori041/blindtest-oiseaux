@@ -16,7 +16,7 @@
     "productName": "Blind-Test Oiseaux",
     "win": {
       "target": "nsis",
-      "icon": "icon.ico",
+      "icon": "ressources/images/oiseau.ico",
       "forceCodeSigning": false
     },
     "directories": {

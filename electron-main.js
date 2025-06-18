@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const { screen } = require('electron');
 
+const logOn = false;
+
 // Création de la fenêtre de l'application
 let win;
 function createWindow() {
@@ -24,7 +26,7 @@ function createWindow() {
   // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  // win.webContents.openDevTools(); // Affiche les outils développeurs 
+  if (logOn) win.webContents.openDevTools(); // Affiche les outils développeurs 
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
