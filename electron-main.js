@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
-const logOn = true;
+const logOn = false;
 
 // Création de la fenêtre de l'application
 let win;

@@ -108,9 +108,14 @@ function muteAudio() {
 
 function slideVolume () {
   volume = volumeSlider.value;
-  if (volume == 0) muteAudio();
-  else muted = false;
+  if (volume == 0 && !muted) muteAudio();
+  else if (volume > 0) muted = false;
   changeAudio();
+}
+
+function changeAudio() {
+  audio.volume = volume/100;
+  updateVolumeGradient();
 }
 
 // Met à jour la couleur du slider du volume
@@ -129,11 +134,6 @@ function checkVolumeButtonIcon() {
   else if (volume >= 10) { volumeButton.classList.add("volume-2"); }
   else if (volume >= 1) { volumeButton.classList.add("volume-1"); }
   else {volumeButton.classList.add('volume-muted'); }
-}
-
-function changeAudio() {
-  audio.volume = volume/100;
-  updateVolumeGradient();
 }
 
 // Ajoute les commandes aux boutons de lecture audio
@@ -510,6 +510,16 @@ document.addEventListener('keydown', (e) => {
     } else {
       simulateClick(document.getElementById('pause-button'));
     }
+  }
+  else if (e.code === 'ArrowUp') {
+    e.preventDefault();
+    volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+    slideVolume();
+  }
+  else if (e.code === 'ArrowDown') {
+    e.preventDefault();
+    volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+    slideVolume();
   }
   else if (e.code === 'ArrowRight') {
     e.preventDefault();
