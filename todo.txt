@@ -1,4 +1,7 @@
-- griser/désactiver les boutons quand il n'y a aucun oiseau sélectionné
+To do:
 - remettre le symbole de l'oiseau qui chante (à voir si on la met sur la barre de lecture)
-- mettre une croix pour fermer le popup
-- remettre le code couleur pour les types
+- reflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux
+- remettre l'algorithme pour pas que ça soit tout le temps les mêmes oiseaux
+
+Bugs:
+- 

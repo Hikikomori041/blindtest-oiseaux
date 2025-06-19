@@ -12,7 +12,7 @@ function createWindow() {
     width: 1300,
     height: 800,
     minWidth: 1024,
-    minHeight: 720,
+    minHeight: 750,
     // resizable: false,
     frame: false,
     icon: path.join(__dirname, 'ressources/images/oiseau.png'),
@@ -26,7 +26,17 @@ function createWindow() {
   // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  if (logOn) win.webContents.openDevTools(); // Affiche les outils développeurs 
+  if (logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
+
+  
+
+  win.on('maximize', () => {
+    win.webContents.send('window-maximize');
+  });
+
+  win.on('unmaximize', () => {
+    win.webContents.send('window-unmaximize');
+  });
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
@@ -45,9 +55,15 @@ app.on('window-all-closed', () => {
 
 // Réception des événements envoyés depuis preload → renderer
 // Fonctions des boutons de la bordure de fenêtre
+
+ipcMain.on('window-close', () => {
+  if (win) win.close();
+});
+
 ipcMain.on('window-minimize', () => {
   if (win) win.minimize();
 });
+
 // Pour agrandir / réduire la fenêtre
 let ignoreNext = false;
 ipcMain.on('window-toggle-maximize', () => {
@@ -64,10 +80,6 @@ ipcMain.on('window-toggle-maximize', () => {
 });
 
 
-ipcMain.on('window-close', () => {
-  if (win) win.close();
-});
-
 // Sort les données du json
 ipcMain.handle('get-birds-data', (event, filePath) => {
     const fullPath = path.join(__dirname, filePath);
@@ -75,7 +87,7 @@ ipcMain.handle('get-birds-data', (event, filePath) => {
     return JSON.parse(jsonString);
 });
 
-
+// Trouve les fichiers .mp3
 ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
   const dirPath = path.join(__dirname, 'ressources', 'oiseaux', oiseauName);
   const files = fs.readdirSync(dirPath);

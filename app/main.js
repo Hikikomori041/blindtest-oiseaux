@@ -7,8 +7,29 @@ let total = 0;
 
 const audio = new Audio();
 
+let isMaximized = false;
+
 document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('maximize').click();
+  document.getElementById('close-button').addEventListener('click', () => window.api.close());
+  document.getElementById('minimize-button').addEventListener('click', () => window.api.minimize());
+
+  const maximizeButton = document.getElementById('maximize-button');
+  maximizeButton.addEventListener('click', () => {
+    window.api.maximize();
+  });
+  maximizeButton.click();
+
+  window.api.onWindowMaximize(() => {
+    maximizeButton.innerHTML = '🗗';
+  });
+
+  window.api.onWindowUnmaximize(() => {
+    maximizeButton.innerHTML = '🗖';
+  });
+
+  document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
+
+
 
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   await genererGrilleOiseaux();
@@ -20,13 +41,44 @@ document.addEventListener('DOMContentLoaded', async () => {
   playRandomBird();
 })
 
+// Barre de recherche
+document.getElementById('search-bar').addEventListener('input', (e) => {
+  const query = e.target.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
+    const name = cell.dataset.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    if (name.includes(query)) {
+      cell.style.display = '';
+    } else {
+      cell.style.display = 'none';
+    }
+  });
+});
+
+// Effacer la recheche
+function clearSearch() {
+  document.getElementById('search-bar').value = '';
+  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
+    cell.style.display = '';
+  });
+}
+document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
+
+
 
 
 // Ajoute les commandes aux boutons de lecture audio
-document.getElementById('result-next').addEventListener('click', playRandomBird);
+document.getElementById('next-button').addEventListener('click', playRandomBird);
 const pauseButton = document.getElementById('pause-button');
 pauseButton.addEventListener('click', togglePause);
-document.getElementById('replay').addEventListener('click', () => {
+document.getElementById('replay-button').addEventListener('click', () => {
   audio.currentTime = 0;
   audio.play().then(() => {
     pauseButton.innerHTML = "⏸️";
@@ -34,13 +86,13 @@ document.getElementById('replay').addEventListener('click', () => {
     console.error("Erreur lecture :", err);
   });
 });
-document.getElementById('rewind').addEventListener('click', () => {
+document.getElementById('rewind-button').addEventListener('click', () => {
   audio.currentTime = Math.max(0, audio.currentTime - 5);
 });
-document.getElementById('forward').addEventListener('click', () => {
+document.getElementById('forward-button').addEventListener('click', () => {
   audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 });
-document.getElementById('switch').addEventListener('click', playNextVariant);
+document.getElementById('switch-button').addEventListener('click', playNextVariant);
 
 
 // Écouter un oiseau
@@ -51,6 +103,26 @@ function listenToBird(birdName) {
     currentBird = birdName;
     playBirdSound(birdName, Math.floor(Math.random() * variants.length));
   }
+}
+
+function toggleSoundControls(activate = true) {
+  let buttons = [
+    document.getElementById('replay-button'),
+    document.getElementById('rewind-button'),
+    document.getElementById('pause-button'),
+    document.getElementById('forward-button'),
+    document.getElementById('switch-button')
+  ];
+  for (button of buttons) {
+    button.disabled = !activate;
+    if (activate) {
+      button.classList.remove("disabled");
+    } else {
+      button.classList.add("disabled");
+    }
+  }
+
+  // .disabled = activate;
 }
 
 
@@ -68,9 +140,14 @@ function playRandomBird() {
 
     document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
     // console.error("Aucun type d'oiseau sélectionné !");
+    // On désactive les commandes de son
+    toggleSoundControls(false);
+    document.getElementById('search-bar-control').style.display = 'none';
     return;
   } else {
     document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
+    document.getElementById('search-bar-control').style.display = 'block';
+    toggleSoundControls();
   }
   
   currentBird = pool[Math.floor(Math.random() * pool.length)];
@@ -182,26 +259,25 @@ function slugify(nom) {
 
 
 function showPopup() {
+  document.getElementById('overlay').style.zIndex = 10;
   const popup = document.getElementById('result-popup');
   popup.style.display = 'block';
   popup.style.animation = 'popupIn 0.3s forwards';
 }
 
 function hidePopup() {
+  document.getElementById('overlay').style.zIndex = 0;
   const popup = document.getElementById('result-popup');
   popup.style.animation = 'popupOut 0.3s forwards';
   
   // après l'animation (300ms), on remet display: none
   setTimeout(() => {
-    popup.style.display = 'none';
+    if (document.getElementById('overlay').style.zIndex == 0) {
+      popup.style.display = 'none';
+    }
   }, 300);
+  clearSearch();
 }
-
-
-document.getElementById('minimize').addEventListener('click', () => window.api.minimize());
-document.getElementById('maximize').addEventListener('click', () => window.api.maximize());
-document.getElementById('close').addEventListener('click', () => window.api.close());
-
 
 let resizeTimeout;
 window.addEventListener('resize', () => {
@@ -217,7 +293,7 @@ async function genererGrilleOiseaux() {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
-  const selectedTypes = [...document.querySelectorAll('#type-selection input:checked')].map(cb => cb.value);
+  const selectedTypes = getSelectedTypes();
   birdList = [];
 
   for (const [name, info] of Object.entries(birdsData)) {
@@ -269,13 +345,20 @@ async function genererGrilleOiseaux() {
 
     grid.appendChild(divCell);
   }
+  document.getElementById('birdCount').innerHTML = birdList.length;
 }
 
 
 // Met à jour la liste des oiseaux après un click sur une checkbox
-document.querySelectorAll('#type-selection input[type=checkbox]').forEach(cb => {
-  cb.addEventListener('change', async () => {
+document.querySelectorAll('#type-selection .button').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    btn.classList.toggle('is-selected');
     await genererGrilleOiseaux();
     playRandomBird();
   });
 });
+
+function getSelectedTypes() {
+  return [...document.querySelectorAll('#type-selection .button.is-selected')]
+    .map(btn => btn.dataset.type);
+}

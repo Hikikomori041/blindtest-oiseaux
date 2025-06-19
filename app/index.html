@@ -11,10 +11,25 @@
     <div id="drag-region">
       <span class="title">Blind-Test Oiseaux</span>
       <div id="window-controls">
-        <button id="minimize">━</button>
-        <button id="maximize">🗖</button>
-        <button id="close">✖</button>
+        <button id="minimize-button">━</button>
+        <button id="maximize-button">🗖</button>
+        <button id="close-button">✖</button>
       </div>
+    </div>
+  </div>
+
+
+
+  <div id="result-popup" class="notification is-info is-light" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 999; padding: 1.5rem; font-size: 1.5rem;">
+    <button id="close-popup-button">✖</button>
+    <span id="result-text"></span>
+    <div id="result-bird">
+      <span id="result-birdname">
+        <span id="result-birdname-french"></span>
+        <span id="result-birdname-latin"></span>
+      </span>
+      <div id="result-image"></div>
+      <button id="next-button" class="button is-link" title="Écouter un autre oiseau (n)">Écouter un autre oiseau ➡️</button>
     </div>
   </div>
 
@@ -23,21 +38,19 @@
   <div class="columns mt-5 mx-5">
   
     <!-- Colonne gauche : types d'oiseaux -->
-    <div class="column is-one-fifth">
-       <section id="feedback" class="box">
+    <div id="colonne-gauche" class="column is-one-fifth">
+      <section id="feedback" class="box">
         <div id="score" class="mt-3">Score: -/-</div>
       </section>
+
       <section id="type-selection" class="box">
-        <h2 class="title is-4">Types d'oiseaux</h2>
-        <label class="checkbox mr-2">
-          <input type="checkbox" value="commun" checked> Communs
-        </label>
-        <label class="checkbox mr-2">
-          <input type="checkbox" value="eau" checked> D'eau
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="plaine" checked> De plaine
-        </label>
+        <h2 class="title is-5">Types d'oiseaux</h2>
+        <div class="buttons has-addons is-flex is-flex-direction-column">
+          <button class="button is-selected oiseau-commun" data-type="commun">Communs</button>
+          <button class="button is-selected oiseau-eau" data-type="eau">D'eau</button>
+          <button class="button is-selected oiseau-plaine" data-type="plaine">De plaine</button>
+        </div>
+        <h5 style="font-size: 12px;"><span id="birdCount">35</span> oiseaux sélectionnés</h5>
       </section>
     </div>
 
@@ -45,57 +58,52 @@
     <div class="column">
       <section id="quiz" class="box">
         <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
+        <div class="field">
+          <div id="search-bar-control" class="control has-icons-left has-icons-right">
+            <input id="search-bar" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
+            <span class="icon is-left">
+              <i class="fas fa-search"></i>
+            </span>
+            <span id="clear-search" class="icon is-right" style="cursor: pointer;">
+              ✖
+            </span>
+          </div>
+        </div>
         <div id="bird-grid" class="grid"></div>
       </section>
-
-
-      <div id="result-popup" class="notification is-info is-light" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 999; padding: 1.5rem; font-size: 1.5rem;">
-        <span id="result-text"></span>
-        <div id="result-bird">
-          <span id="result-birdname">
-            <span id="result-birdname-french"></span>
-            <span id="result-birdname-latin"></span>
-          </span>
-          <div id="result-image"></div>
-          <button id="result-next" class="button is-primary" title="Oiseau suivant">🔀 Oiseau suivant</button>
-        </div>
-      </div>
-
-
     </div>
   </div>
 
   <section id="controls" class="box">
-    <div class="buttons">
-      <button id="replay" class="button is-info" title="Réécouter">⏮️</button>
-      <button id="rewind" class="button is-info" title="Reculer 5s">⏪</button>
-      <button id="pause-button"  class="button is-info" title="Pause">⏸️</button>
-      <button id="forward" class="button is-info" title="Avancer 5s">⏩</button>
-      <button id="switch" class="button is-info" title="Autre son">⏭️</button>
-      <!-- <button id="next" class="button is-primary" title="Oiseau suivant">🔀 Oiseau suivant</button> -->
+    <div class="field is-grouped is-grouped-centered">
+      <p class="control">
+        <button id="replay-button" class="button is-info" title="Réécouter (r)">⏮️</button>
+      </p>
+      <p class="control">
+        <button id="rewind-button" class="button is-info" title="Reculer de 5 secondes (←)">⏪</button>
+      </p>
+      <p class="control">
+        <button id="pause-button" class="button is-info" title="Pause (espace)">⏸️</button>
+      </p>
+      <p class="control">
+        <button id="forward-button" class="button is-info" title="Avancer de 5 secondes (→)">⏩</button>
+      </p>
+      <p class="control">
+        <button id="switch-button" class="button is-info" title="Autre son (p)">⏭️</button>
+      </p>
+      <!-- <p class="control">
+        <button id="next-button" class="button is-primary" title="Oiseau suivant">🔀 Oiseau suivant</button>
+      </p> -->
     </div>
   </section>
 
-  <div id="context-menu" style="display:none; position:fixed; background:#333; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
-    <span id="listen-bird-button">🎧 Écouter cet oiseau</span>
-    <span id="see-bird-button">🌐 Plus d'info</span>
+  <div id="context-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
+    <span id="listen-bird-button" class="is-info">🎧 Écouter cet oiseau</span>
+    <span id="see-bird-button" class="is-link">🌐 Plus d'info</span>
   </div>
 
 </div>
 
-  <script src="main.js"></script>
-  <script>
-    let isMaximized = false;
-    const maximizeButton = document.getElementById('maximize');
-    document.getElementById('minimize').addEventListener('click', () => window.api.minimize());
-    maximizeButton.addEventListener('click', () => {
-      window.api.maximize();
-      isMaximized = !isMaximized;
-      if (isMaximized) maximizeButton.innerHTML = '⌞⌝';
-      else maximizeButton.innerHTML = '🗖';
-    });
-    document.getElementById('close').addEventListener('click', () => window.api.close());
-  </script>
-
+<script src="main.js"></script>
 </body>
 </html>

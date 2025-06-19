@@ -7,6 +7,9 @@ contextBridge.exposeInMainWorld('api', {
 
   // Boutons de la fenêtre -> envoie tout à electron-main.js
   minimize: () => ipcRenderer.send('window-minimize'),
-  maximize: () => ipcRenderer.send('window-toggle-maximize'),
   close: () => ipcRenderer.send('window-close'),
+
+  maximize: () => ipcRenderer.send('window-toggle-maximize'),
+  onWindowMaximize: (callback) => ipcRenderer.on('window-maximize', callback),
+  onWindowUnmaximize: (callback) => ipcRenderer.on('window-unmaximize', callback)
 });
