@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-const logOn = true;
+const logOn = false;
 
 // Création de la fenêtre de l'application
 let win;
