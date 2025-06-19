@@ -1,7 +1,5 @@
 To do:
 - réflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux
-- mettre une barre de lecture ?
-- replay en boucle par défaut ?
 - système de mise à jour de l'app
 - changer la police d'écriture ?
 - système pour enregistrer à la fermeture et charger au démarrage les données utilisateur (types choisis, volume, playCount??)

@@ -254,6 +254,40 @@ section {
   margin-bottom: 0!important;
 }
 
+#progress-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right,#1d47b9 0%, #555 0%);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.3s ease;
+  /* transition: none !important; */
+}
+
+#progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: black;
+  border: 3px solid #1d47b9;
+  cursor: pointer;
+}
+
+#progress-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: black;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
 
 
 #controls-layout {
@@ -272,6 +306,7 @@ section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  height: 80px;
 }
 
 #controls-center .button {

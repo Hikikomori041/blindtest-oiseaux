@@ -79,8 +79,6 @@ document.getElementById('clear-search').addEventListener('click', () => { clearS
 
 
 audio.addEventListener('ended', () => {
-  console.log('Le son est fini !');
-
   if (replayMode) {
     togglePause();
   } else {
@@ -518,3 +516,32 @@ function simulateClick(button) {
   }, 150); // durée de l'animation en ms
   button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
 }
+
+
+
+
+
+
+const progressSlider = document.getElementById('progress-slider');
+
+
+// Si l'utilisateur clique sur la barre → seek
+progressSlider.addEventListener('input', () => {
+    if (!audio || !audio.duration) return;
+
+    const percent = progressSlider.value;
+    audio.currentTime = (percent / 100) * audio.duration;
+});
+
+// Met à jour le slider pendant la lecture
+function updateProgressSmooth() {
+  if (audio && audio.duration) {
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progressSlider.value = percent;
+    progressSlider.style.background = `linear-gradient(to right, #1d47b9 ${percent}%, #555 ${percent}%)`;
+  }
+
+  requestAnimationFrame(updateProgressSmooth);
+}
+
+requestAnimationFrame(updateProgressSmooth);
