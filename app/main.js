@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const maximizeButton = document.getElementById('maximize-button');
   maximizeButton.addEventListener('click', () => {
     window.api.maximize();
+    isMaximized = !isMaximized;
   });
-  maximizeButton.click();
+  // maximizeButton.click();
 
   window.api.onWindowMaximize(() => {
     maximizeButton.innerHTML = '🗗';
@@ -180,7 +181,7 @@ function toggleSoundControls(activate = true) {
     document.getElementById('forward-button'),
     document.getElementById('switch-button')
   ];
-  for (button of buttons) {
+  for (let button of buttons) {
     button.disabled = !activate;
     if (activate) {
       button.classList.remove("disabled");
@@ -564,11 +565,12 @@ requestAnimationFrame(updateProgressSmooth);
 
 
 
-
-
 // Charger settings au démarrage
 window.api.loadSettings().then((data) => {
   // console.log('Settings chargés:', data);
+  isMaximized = data.isMaximized;
+  // Maximiser (ou pas l'écran)
+  if (isMaximized) window.api.maximize();
   volume = data.volume;
   // Mettre le slider volume à jour :
   volumeSlider.value = volume;
@@ -581,6 +583,7 @@ window.api.loadSettings().then((data) => {
 // Avant de fermer l'app, sauvegarder :
 window.addEventListener('beforeunload', (e) => {
   const dataToSave = {
+    isMaximized: isMaximized,
     volume: volume,
     selectedTypes: getSelectedTypes()
   };
