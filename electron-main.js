@@ -30,6 +30,13 @@ function createWindow() {
 
   win.on('maximize', () => {
     win.webContents.send('window-maximize');
+
+    // Dès que la fenêtre est ready, on enlève le focus actif (souvent sur le minimize)
+    win.webContents.once('did-finish-load', () => {
+    win.webContents.focus(); // force le focus général
+    win.webContents.executeJavaScript(`document.activeElement && document.activeElement.blur();`);
+});
+
   });
 
   win.on('unmaximize', () => {
