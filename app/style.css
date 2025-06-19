@@ -308,8 +308,24 @@ section {
 
 #volume-slider {
   width: 120px;
+  /* color: black; */
 }
-
+#volume-button {
+  height: 24px;
+  width: 24px;
+}
+#volume-button.volume-3{
+  content:url("../ressources/images/volume-3.png");
+}
+#volume-button.volume-2{
+  content:url("../ressources/images/volume-2.png");
+}
+#volume-button.volume-1{
+  content:url("../ressources/images/volume-1.png");
+}
+#volume-button.volume-muted{
+  content:url("../ressources/images/volume-muted.png");
+}
 
 
 

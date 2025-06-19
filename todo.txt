@@ -3,7 +3,6 @@ To do:
 - remettre l'algorithme pour pas que ça soit tout le temps les mêmes oiseaux
 - mettre une barre de lecture ?
 - replay en boucle par défaut ?
-- faire un truc avec la barre de volume
 - système de mise à jour de l'app
 
 Bugs:

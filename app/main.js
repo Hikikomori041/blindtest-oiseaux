@@ -86,9 +86,58 @@ audio.addEventListener('ended', () => {
   }
 });
 
+const volumeButton = document.getElementById('volume-button');
+const volumeSlider = document.getElementById('volume-slider');
+let muted = false;
+let volume = 100;
+let lastVolume = 100;
 
+function muteAudio() {
+  if (!muted) {
+    lastVolume = volume;
+    volume = 0;
+    volumeButton.classList.remove("volume-3");
+    volumeButton.classList.remove("volume-2");
+    volumeButton.classList.remove("volume-1");
+    volumeButton.classList.add("volume-muted");
+  } else {
+    volume = lastVolume;
+    volumeButton.classList.remove("volume-muted");
+    if (volume == 0) volume = 10;
+    checkVolumeButtonIcon();
+  }
+  volumeSlider.value = volume;
+  muted = !muted;
+  changeAudio();
+}
+
+function slideVolume () {
+  volume = volumeSlider.value;
+  if (volume == 0) muteAudio();
+  else muted = false;
+  checkVolumeButtonIcon();
+  changeAudio();
+}
+
+function checkVolumeButtonIcon() {
+  volumeButton.classList.remove("volume-3");
+  volumeButton.classList.remove("volume-2");
+  volumeButton.classList.remove("volume-1");
+  volumeButton.classList.remove("volume-muted");
+  if (volume >= 40) { volumeButton.classList.add("volume-3"); }
+  else if (volume >= 10) { volumeButton.classList.add("volume-2"); }
+  else if (volume >= 1) { volumeButton.classList.add("volume-1"); }
+  else {volumeButton.classList.add('volume-muted'); }
+}
+
+function changeAudio() {
+  audio.volume = volume/100;
+}
 
 // Ajoute les commandes aux boutons de lecture audio
+volumeButton.addEventListener('click', muteAudio);
+volumeSlider.addEventListener('input', slideVolume);
+
 document.getElementById('next-button').addEventListener('click', playRandomBird);
 document.getElementById('pause-button').addEventListener('click', togglePause);
 
@@ -135,8 +184,6 @@ function toggleSoundControls(activate = true) {
       button.classList.add("disabled");
     }
   }
-
-  // .disabled = activate;
 }
 
 
@@ -147,13 +194,12 @@ function playRandomBird() {
   } else {
     pool = birdList;
   }
-  // console.log("pool length", pool.length);
   if (pool.length === 0) {
     audio.pause();
     audio.currentTime = 0;
 
     document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
-    // console.error("Aucun type d'oiseau sélectionné !");
+
     // On désactive les commandes de son
     toggleSoundControls(false);
     document.getElementById('search-bar-control').style.display = 'none';
@@ -178,6 +224,7 @@ function playBirdSound(name, index = 0) {
 
   audio.dataset.name = name;
   audio.dataset.index = index;
+  audio.volume = volume/100;
 
   audio.play().then(() => {
     pauseButtonImg.src = "../ressources/images/pause-button.png";
@@ -205,11 +252,11 @@ function validate(guess) {
     score++;
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'green';
-    playSound('succes.mp3', 0.5);
+    playSound('succes.mp3', 0.5 * volume/100);
   } else {
     text.innerHTML = `❌ Raté !`;
     text.style.color = 'red';
-    playSound('erreur.mp3', 0.2);
+    playSound('erreur.mp3', 0.2 * volume/100);
   }
   document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
