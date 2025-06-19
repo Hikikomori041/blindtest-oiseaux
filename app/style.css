@@ -208,10 +208,30 @@ section {
   width: 64px;
   margin: 10px;
 }
-#controls {
-  margin-top: auto;
-  padding: 0.5rem;
+#page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+#content {
+  flex-grow: 1;
+}
+
+#controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background-color: #1f2937!important; /* fond foncé type Spotify */
+  color: white;
+  border-top: 1px solid #333;
+  margin-bottom: 0!important;
+}
+
+
 
 #controls-layout {
   display: flex;
@@ -238,10 +258,11 @@ section {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #aaaaaa;
+  background: #5f7da7;
+  border: 2px solid #496081;
 }
 #controls-center .button:hover:not(.disabled) {
-  background: #666666;
+  background: #496081;
 }
 #controls-center .button img {
   width: 24px;

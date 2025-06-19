@@ -5,6 +5,8 @@ let currentBird = null;
 let score = 0;
 let total = 0;
 
+let replayMode = true;
+
 const audio = new Audio();
 
 let isMaximized = false;
@@ -71,6 +73,18 @@ function clearSearch() {
 }
 document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
+
+
+audio.addEventListener('ended', () => {
+  console.log('Le son est fini !');
+
+  if (replayMode) {
+    togglePause();
+  } else {
+    pauseButtonImg.src = "../ressources/images/play-button.png";
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
+  }
+});
 
 
 
@@ -230,7 +244,7 @@ function togglePause() {
   } else {
     audio.pause();
     pauseButtonImg.src = "../ressources/images/play-button.png";
-      birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
 }
 
@@ -366,3 +380,32 @@ function getSelectedTypes() {
   return [...document.querySelectorAll('#type-selection .button.is-selected')]
     .map(btn => btn.dataset.type);
 }
+
+
+
+
+// Bind des raccourcis clavier
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyR') {
+    e.preventDefault();
+    document.getElementById('replay-button').click();
+    // document.getElementById('replay-button').style.background = 'red';//todo: faire flash une couleur pour montrer qu'on appuie sur le bouton
+  }
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (document.getElementById('overlay').style.zIndex == 10) {
+      document.getElementById('next-button').click();
+    } else {
+      document.getElementById('pause-button').click();
+    }
+  }
+  if (e.code === 'ArrowRight') {
+    document.getElementById('forward-button').click();
+  }
+  if (e.code === 'ArrowLeft') {
+    document.getElementById('rewind-button').click();
+  }
+  if (e.code === 'KeyP') {
+    document.getElementById('switch-button').click();
+  }
+});

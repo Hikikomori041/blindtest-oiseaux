@@ -7,118 +7,122 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="titlebar">
-    <div id="drag-region">
-      <span class="title">Blind-Test Oiseaux</span>
-      <div id="window-controls">
-        <button id="minimize-button">━</button>
-        <button id="maximize-button">🗖</button>
-        <button id="close-button">✖</button>
-      </div>
-    </div>
-  </div>
-
-
-
-  <div id="result-popup" class="notification is-info is-light" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 999; padding: 1.5rem; font-size: 1.5rem;">
-    <button id="close-popup-button">✖</button>
-    <span id="result-text"></span>
-    <div id="result-bird">
-      <span id="result-birdname">
-        <span id="result-birdname-french"></span>
-        <span id="result-birdname-latin"></span>
-      </span>
-      <div id="result-image"></div>
-      <button id="next-button" class="button is-link" title="Écouter un autre oiseau (n)">Écouter un autre oiseau ➡️</button>
-    </div>
-  </div>
-
-  <div id="overlay"></div>
-
-  <div class="columns mt-5 mx-5">
   
-    <!-- Colonne gauche : types d'oiseaux -->
-    <div id="colonne-gauche" class="column is-one-fifth">
-      <section id="feedback" class="box">
-        <div id="score" class="mt-3">Score: -/-</div>
-      </section>
-
-      <section id="type-selection" class="box">
-        <h2 class="title is-5">Types d'oiseaux</h2>
-        <div class="buttons has-addons is-flex is-flex-direction-column">
-          <button class="button is-selected oiseau-commun" data-type="commun">Communs</button>
-          <button class="button is-selected oiseau-eau" data-type="eau">D'eau</button>
-          <button class="button is-selected oiseau-plaine" data-type="plaine">De plaine</button>
+  <div id="page">
+    <div id="titlebar">
+      <div id="drag-region">
+        <span class="title">Blind-Test Oiseaux</span>
+        <div id="window-controls">
+          <button id="minimize-button">━</button>
+          <button id="maximize-button">🗖</button>
+          <button id="close-button">✖</button>
         </div>
-        <h5 style="font-size: 12px;"><span id="birdCount">35</span> oiseaux sélectionnés</h5>
-      </section>
+      </div>
     </div>
+  
+    <div id="content">
 
-    <!-- Colonne droite : tout le reste en pile -->
-    <div class="column">
-      <section id="quiz" class="box">
-        <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
-        <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
-        <div class="field">
-          <div id="search-bar-control" class="control has-icons-left has-icons-right">
-            <input id="search-bar" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
-            <span class="icon is-left">
-              <i class="fas fa-search"></i>
-            </span>
-            <span id="clear-search" class="icon is-right" style="cursor: pointer;">
-              ✖
-            </span>
-          </div>
+
+      <div id="result-popup" class="notification is-info is-light" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 999; padding: 1.5rem; font-size: 1.5rem;">
+        <button id="close-popup-button">✖</button>
+        <span id="result-text"></span>
+        <div id="result-bird">
+          <span id="result-birdname">
+            <span id="result-birdname-french"></span>
+            <span id="result-birdname-latin"></span>
+          </span>
+          <div id="result-image"></div>
+          <button id="next-button" class="button is-link" title="Écouter un autre oiseau (n)">Écouter un autre oiseau ➡️</button>
         </div>
-        <div id="bird-grid" class="grid"></div>
-      </section>
+      </div>
+
+      <div id="overlay"></div>
+
+      <div class="columns mt-5 mx-5">
+      
+        <!-- Colonne gauche : types d'oiseaux -->
+        <div id="colonne-gauche" class="column is-one-fifth">
+          <section id="feedback" class="box">
+            <div id="score" class="mt-3">Score: -/-</div>
+          </section>
+
+          <section id="type-selection" class="box">
+            <h2 class="title is-5">Types d'oiseaux</h2>
+            <div class="buttons has-addons is-flex is-flex-direction-column">
+              <button class="button is-selected oiseau-commun" data-type="commun">Communs</button>
+              <button class="button is-selected oiseau-eau" data-type="eau">D'eau</button>
+              <button class="button is-selected oiseau-plaine" data-type="plaine">De plaine</button>
+            </div>
+            <h5 style="font-size: 12px;"><span id="birdCount">35</span> oiseaux sélectionnés</h5>
+          </section>
+        </div>
+
+        <!-- Colonne droite : tout le reste en pile -->
+        <div class="column">
+          <section id="quiz" class="box">
+            <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
+            <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
+            <div class="field">
+              <div id="search-bar-control" class="control has-icons-left has-icons-right">
+                <input id="search-bar" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
+                <span class="icon is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+                <span id="clear-search" class="icon is-right" style="cursor: pointer;">
+                  ✖
+                </span>
+              </div>
+            </div>
+            <div id="bird-grid" class="grid"></div>
+          </section>
+        </div>
+      </div>
+
+      <div id="context-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
+        <span id="listen-bird-button" class="is-info">🎧 Écouter cet oiseau</span>
+        <span id="see-bird-button" class="is-link">🌐 Plus d'info</span>
+      </div>
+
+
+
     </div>
+    <section id="controls" class="box">
+      <div id="controls-layout">
+
+        <!-- Partie gauche : animation oiseau -->
+        <div id="controls-left">
+          <!-- todo: futur emplacement des options utilisateur ? -->
+        </div>
+
+        <!-- Partie centre : boutons -->
+        <div id="controls-center">
+          <button id="replay-button" class="button" title="Réécouter (r)">
+            <img src="../ressources/images/replay-button.png" alt="Réécouter">
+          </button>
+          <button id="rewind-button" class="button" title="Reculer de 5 secondes (←)">
+            <img src="../ressources/images/rewind-button.png" alt="Reculer de 5s">
+          </button>
+          <button id="pause-button" class="button" title="Pause (espace)">
+            <img id="pause-button-img" src="../ressources/images/pause-button.png" alt="Pause">
+          </button>
+          <button id="forward-button" class="button" title="Avancer de 5 secondes (→)">
+            <img src="../ressources/images/forward-button.png" alt="Avancer de 5s">
+          </button>
+          <button id="switch-button" class="button" title="Autre son (p)">
+            <img src="../ressources/images/switch-button.png" alt="Autre son">
+          </button>
+        </div>
+
+        <!-- Partie droite : volume -->
+        <div id="controls-right">
+          <!-- <label for="volume-slider">🔊</label>
+          <input id="volume-slider" type="range" min="0" max="100" value="50"> -->
+        </div>
+
+      </div>
+    </section>
   </div>
 
-  <div id="context-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
-    <span id="listen-bird-button" class="is-info">🎧 Écouter cet oiseau</span>
-    <span id="see-bird-button" class="is-link">🌐 Plus d'info</span>
-  </div>
-
-
-  <section id="controls" class="box">
-    <div id="controls-layout">
-
-      <!-- Partie gauche : animation oiseau -->
-      <div id="controls-left">
-        <!-- todo: futur emplacement des options utilisateur ? -->
-      </div>
-
-      <!-- Partie centre : boutons -->
-      <div id="controls-center">
-        <button id="replay-button" class="button" title="Réécouter (r)">
-          <img src="../ressources/images/replay-button.png" alt="Réécouter">
-        </button>
-        <button id="rewind-button" class="button" title="Reculer de 5 secondes (←)">
-          <img src="../ressources/images/rewind-button.png" alt="Reculer de 5s">
-        </button>
-        <button id="pause-button" class="button" title="Pause (espace)">
-          <img id="pause-button-img" src="../ressources/images/pause-button.png" alt="Pause">
-        </button>
-        <button id="forward-button" class="button" title="Avancer de 5 secondes (→)">
-          <img src="../ressources/images/forward-button.png" alt="Avancer de 5s">
-        </button>
-        <button id="switch-button" class="button" title="Autre son (p)">
-          <img src="../ressources/images/next-button.png" alt="Autre son">
-        </button>
-      </div>
-
-      <!-- Partie droite : volume -->
-      <div id="controls-right">
-        <label for="volume-slider">🔊</label>
-        <input id="volume-slider" type="range" min="0" max="100" value="50">
-      </div>
-
-    </div>
-  </section>
-
-</div>
-
-<script src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

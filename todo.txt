@@ -1,7 +1,9 @@
 To do:
-- remettre le symbole de l'oiseau qui chante (à voir si on la met sur la barre de lecture)
 - reflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux
 - remettre l'algorithme pour pas que ça soit tout le temps les mêmes oiseaux
+- mettre une barre de lecture ?
+- replay en boucle par défaut ?
+- faire un truc avec la barre de volume
 
 Bugs:
 - 
