@@ -153,12 +153,12 @@ section {
   border-color: black;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
-#type-selection .button:hover, #controls-center .button:active {
-  /* background: #cacacac7; */
-  /* opacity: 0.75; */
+#type-selection .button:hover, #type-selection .button:active {
   border-radius: 6px;
   border-width: 3px;
   border-color: rgb(255, 255, 255);
+}
+#type-selection .button:active {
   transform: scale(0.95);
 }
 
