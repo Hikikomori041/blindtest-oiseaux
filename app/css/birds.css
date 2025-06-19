@@ -1,0 +1,196 @@
+/* ------------------------------------------------------- */
+/*                   Barre de recherche                    */
+/* ------------------------------------------------------- */
+.field .control.has-icons-left.has-icons-right {
+  display: flex;
+  align-items: center;
+}
+
+#search-bar-control {
+  /* width: 50%; */
+  width: 420px;
+  min-width: 300px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+
+#search-bar {
+  padding-right: 2.5em; /* assez de place pour le bouton clear */
+  height: 50px;
+  border-radius: 24px;
+}
+
+#clear-search {
+  pointer-events: auto;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* pour que ça suive la hauteur de l’input */
+  padding: 0 0.5em;
+  font-size: 1rem; /* pour forcer la taille */
+  color: #aaa; /* couleur par défaut */
+}
+
+#clear-search:hover {
+  color: #c2c2c2;
+}
+#clear-search:active {
+  color: #838383;
+}
+
+
+
+/* ------------------------------------------------------- */
+/*                   Section des oiseaux                   */
+/* ------------------------------------------------------- */
+#quiz {
+  margin-top:12px;
+  /* max-height: 640px; */
+  max-height: 80vh; /* ou la hauteur que tu veux */
+  overflow-y: scroll;
+}
+
+#quiz button {
+  /* margin: 5px; */
+  padding: 10px 16px;
+  font-size: 1.2em;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+#quiz button:hover {
+  background: #2563eb;
+}
+#quiz button{
+  display: none;
+  height: 60px;
+  width: 240px!important;
+}
+
+/* Scrollbar des oiseaux */
+#quiz::-webkit-scrollbar {
+  width: 8px;
+}
+
+#quiz::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+#quiz::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.5);
+  border-radius: 4px;
+}
+
+#quiz::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.8);
+}
+
+#bird-animation {
+  height: 64px;
+  width: 64px;
+  margin: 10px;
+}
+
+/* ------------------------------------------------------- */
+/*                   Grille des oiseaux                    */
+/* ------------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  /* padding: 10px; */
+  justify-content: start; /* ou center si tu veux centrer */
+}
+
+.cell {
+  display: flex;
+  min-width: 100px;
+  height: 64px;
+  align-items: center; /* centre verticalement */
+  /* background: #00b89c; */
+  padding: 0.25rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.oiseau-commun {
+  background-color: rgba(155, 135, 122, 0.75);
+}
+.oiseau-plaine {
+  background-color: rgba(124, 195, 106, 0.75);
+}
+.oiseau-eau {
+  background-color: rgba(106, 165, 195, 0.75);
+}
+
+.cell img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.cell:hover {
+  padding: 1rem;
+}
+.cell .bird-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* margin-top: 16px; */
+}
+
+.cell .bird-name-french {
+  display: block;
+  color: white;
+}
+.cell .bird-name-latin {
+  display: block;
+  color: rgb(230, 230, 230);
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+button.play-bird {
+  background-color: blue;
+  height: 12px!important;
+  width: 12px!important;
+  padding: 0!important;
+}
+button.validate-bird {
+  background-color: green;
+  width: 96px!important;
+
+}
+.bird-img {
+  max-width: 64px;
+  max-height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Menu avec le clic droit sur un oiseau */
+#context-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#context-menu span {
+  display: block;
+  padding: 4px;
+  border-radius: 4px;
+}
+#context-menu span:hover {
+  background: #88a4af;
+}

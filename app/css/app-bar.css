@@ -1,0 +1,49 @@
+/* Barre de l'application */
+#titlebar {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  z-index: 9999;
+  -webkit-app-region: drag;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1f2937;
+  color: white;
+  padding: 0 10px;
+}
+
+#titlebar button {
+  -webkit-app-region: no-drag;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+#titlebar .title {
+  margin: 0;
+  padding: 0;
+  line-height: 32px; /* même hauteur que le titlebar */
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+
+#titlebar button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+#drag-region {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

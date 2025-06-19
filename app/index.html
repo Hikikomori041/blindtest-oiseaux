@@ -4,11 +4,11 @@
   <meta charset="UTF-8" http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:;">
   <title>Blind-Test Oiseaux</title>
   <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/app-bar.css">
+  <link rel="stylesheet" href="css/audio.css">
   <link rel="stylesheet" href="css/birds.css">
-  <link rel="stylesheet" href="css/controls.css">
   <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/left-menu.css">
   <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
@@ -18,9 +18,9 @@
       <div id="drag-region">
         <span class="title">Blind-Test Oiseaux</span>
         <div id="window-controls">
-          <button id="minimize-button">━</button>
-          <button id="maximize-button">🗖</button>
-          <button id="close-button">✖</button>
+          <button id="minimize-button" title="Réduire la fenêtre">━</button>
+          <button id="maximize-button" title="Agrandir la fenêtre">🗖</button>
+          <button id="close-button" title="Fermer la fenêtre">✖</button>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@
               <li class="small-text li">P: Jouer un autre son</li>
               <li class="small-text li">←: Rembobiner le son de 5s</li>
               <li class="small-text li">→: Avancer le son de 5s</li>
-              <li class="small-text li">M: Couper / remettre le son</li>
+              <li class="small-text li">M: Mute / Remettre le son</li>
             </ul>
           </section>
         </div>
@@ -134,7 +134,7 @@
 
         <!-- Partie droite : volume -->
         <div id="controls-right">
-          <img for="volume-slider" id="volume-button" class="volume-3" alt="Volume"/>
+          <img for="volume-slider" id="volume-button" class="volume-3" alt="Volume" title="Mute (m)"/>
           <input id="volume-slider" type="range" min="0" max="100" value="100">
         </div>
 
