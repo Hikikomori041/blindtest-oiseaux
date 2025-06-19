@@ -531,6 +531,18 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+volumeSlider.addEventListener('wheel', (e) => {
+  if (e.deltaY > 0) {
+    e.preventDefault();
+    volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+    slideVolume();
+  } else if (e.deltaY < 0) {
+    e.preventDefault();
+    volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+    slideVolume();
+  }
+});
+
 
 function simulateClick(button) {
   button.classList.add('active');

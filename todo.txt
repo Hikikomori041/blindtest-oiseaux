@@ -1,7 +1,7 @@
 To do:
-- système de mise à jour de l'app
 - changer le title des boutons "mute" et "agrandir la fenetre" en fonction de ce qu'ils font
 - Modifier: compter la lecture d'un oiseau APRÈS sa validation (servira pour les données des listes persos)
+- système de mise à jour de l'app
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
@@ -15,3 +15,11 @@ Bugs:
 - désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné
 - réflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux
 - nettoyer le code (répartir le main.js en plusieurs fichiers)
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+V2:
+- système de liste persos
