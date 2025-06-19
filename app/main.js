@@ -389,24 +389,35 @@ function getSelectedTypes() {
 document.addEventListener('keydown', (e) => {
   if (e.code === 'KeyR') {
     e.preventDefault();
-    document.getElementById('replay-button').click();
-    // document.getElementById('replay-button').style.background = 'red';//todo: faire flash une couleur pour montrer qu'on appuie sur le bouton
+    simulateClick(document.getElementById('replay-button'));
   }
-  if (e.code === 'Space') {
+  else if (e.code === 'KeyP') {
+    e.preventDefault();
+    simulateClick(document.getElementById('switch-button'));
+  }
+  else if (e.code === 'Space') {
     e.preventDefault();
     if (document.getElementById('overlay').style.zIndex == 10) {
-      document.getElementById('next-button').click();
+      simulateClick(document.getElementById('next-button'));
     } else {
-      document.getElementById('pause-button').click();
+      simulateClick(document.getElementById('pause-button'));
     }
   }
-  if (e.code === 'ArrowRight') {
-    document.getElementById('forward-button').click();
+  else if (e.code === 'ArrowRight') {
+    e.preventDefault();
+    simulateClick(document.getElementById('forward-button'));
   }
-  if (e.code === 'ArrowLeft') {
-    document.getElementById('rewind-button').click();
-  }
-  if (e.code === 'KeyP') {
-    document.getElementById('switch-button').click();
+  else if (e.code === 'ArrowLeft') {
+    e.preventDefault();
+    simulateClick(document.getElementById('rewind-button'));
   }
 });
+
+
+function simulateClick(button) {
+    button.classList.add('active');
+    setTimeout(() => {
+        button.classList.remove('active');
+    }, 150); // durée de l'animation en ms
+    button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
+}

@@ -117,7 +117,7 @@ section {
 }
 
 #colonne-gauche{
-  width: 210px;
+  width: 220px;
 }
 #feedback {
   margin: 0;
@@ -145,6 +145,7 @@ section {
   padding: 8px;
   border-radius: 4px;
   border: 2px solid transparent;
+  transition: 0.15s ease;
 }
 
 #type-selection .button.is-selected {
@@ -152,6 +153,28 @@ section {
   border-color: black;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
+#type-selection .button:hover, #controls-center .button:active {
+  /* background: #cacacac7; */
+  /* opacity: 0.75; */
+  border-radius: 6px;
+  border-width: 3px;
+  border-color: rgb(255, 255, 255);
+  transform: scale(0.95);
+}
+
+
+#tooltip ul {
+  text-align: left;
+}
+#tooltip li {
+  list-style-type: square;
+  margin-bottom: 4px;
+}
+.small-text {
+  font-size: 12px;
+}
+
+
 
 
 .field .control.has-icons-left.has-icons-right {
@@ -263,6 +286,10 @@ section {
 }
 #controls-center .button:hover:not(.disabled) {
   background: #496081;
+}
+#controls-center .button.active, #controls-center .button:active {
+  background: #496081; /* le même effet que :hover */
+  transform: scale(0.95); /* petit effet de clic visuel */
 }
 #controls-center .button img {
   width: 24px;
@@ -532,4 +559,11 @@ button.validate-bird {
   height: 56px;
   width: 240px;
   border-radius: 16px;
+}
+#next-button:hover {
+  background: #496081;
+}
+#next-button:active {
+  background: #496081; /* le même effet que :hover */
+  transform: scale(0.95); /* petit effet de clic visuel */
 }

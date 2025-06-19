@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const { screen } = require('electron');
 
 const logOn = false;
 
