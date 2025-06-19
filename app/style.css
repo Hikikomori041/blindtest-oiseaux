@@ -164,6 +164,7 @@ section {
   width: 420px;
   min-width: 300px;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 
@@ -200,47 +201,70 @@ section {
   overflow-y: scroll;
 }
 
+
+
+#bird-animation {
+  height: 64px;
+  width: 64px;
+  margin: 10px;
+}
 #controls {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  border-radius: 0;
-  margin: 0;
   margin-top: auto;
-  height: 100px;
+  padding: 0.5rem;
 }
-#controls .buttons {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-  margin-top: -0.25rem;
-  justify-content: center; /* centrer les boutons */
-  gap: 0.5rem; /* petit espace entre boutons */
-  align-items: center;
-}
-#controls button {
+
+#controls-layout {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+#controls-left img {
+  width: 48px;
+  height: 48px;
+}
+
+#controls-center {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#controls-center .button {
   height: 60px;
   width: 60px;
-}
-
-#controls #pause-button {
-  width: 180px;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  background: #aaaaaa;
+}
+#controls-center .button:hover:not(.disabled) {
+  background: #666666;
+}
+#controls-center .button img {
+  width: 24px;
+  height: 24px;
+}
+
+#replay-button, #forward-button {
+  margin-right: 24px;
+}
+
+#controls-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#volume-slider {
+  width: 120px;
 }
 
 
 
 
-
-#controls button,
 #quiz button {
   /* margin: 5px; */
   padding: 10px 16px;
@@ -258,7 +282,6 @@ button:disabled {
 button:not(.disabled) {
   cursor: pointer;
 }
-#controls button:hover:not(.disabled),
 #quiz button:hover {
   background: #2563eb;
 }

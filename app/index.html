@@ -58,6 +58,7 @@
     <div class="column">
       <section id="quiz" class="box">
         <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
+        <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
         <div class="field">
           <div id="search-bar-control" class="control has-icons-left has-icons-right">
             <input id="search-bar" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
@@ -74,33 +75,47 @@
     </div>
   </div>
 
-  <section id="controls" class="box">
-    <div class="field is-grouped is-grouped-centered">
-      <p class="control">
-        <button id="replay-button" class="button is-info" title="Réécouter (r)">⏮️</button>
-      </p>
-      <p class="control">
-        <button id="rewind-button" class="button is-info" title="Reculer de 5 secondes (←)">⏪</button>
-      </p>
-      <p class="control">
-        <button id="pause-button" class="button is-info" title="Pause (espace)">⏸️</button>
-      </p>
-      <p class="control">
-        <button id="forward-button" class="button is-info" title="Avancer de 5 secondes (→)">⏩</button>
-      </p>
-      <p class="control">
-        <button id="switch-button" class="button is-info" title="Autre son (p)">⏭️</button>
-      </p>
-      <!-- <p class="control">
-        <button id="next-button" class="button is-primary" title="Oiseau suivant">🔀 Oiseau suivant</button>
-      </p> -->
-    </div>
-  </section>
-
   <div id="context-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
     <span id="listen-bird-button" class="is-info">🎧 Écouter cet oiseau</span>
     <span id="see-bird-button" class="is-link">🌐 Plus d'info</span>
   </div>
+
+
+  <section id="controls" class="box">
+    <div id="controls-layout">
+
+      <!-- Partie gauche : animation oiseau -->
+      <div id="controls-left">
+        <!-- todo: futur emplacement des options utilisateur ? -->
+      </div>
+
+      <!-- Partie centre : boutons -->
+      <div id="controls-center">
+        <button id="replay-button" class="button" title="Réécouter (r)">
+          <img src="../ressources/images/replay-button.png" alt="Réécouter">
+        </button>
+        <button id="rewind-button" class="button" title="Reculer de 5 secondes (←)">
+          <img src="../ressources/images/rewind-button.png" alt="Reculer de 5s">
+        </button>
+        <button id="pause-button" class="button" title="Pause (espace)">
+          <img id="pause-button-img" src="../ressources/images/pause-button.png" alt="Pause">
+        </button>
+        <button id="forward-button" class="button" title="Avancer de 5 secondes (→)">
+          <img src="../ressources/images/forward-button.png" alt="Avancer de 5s">
+        </button>
+        <button id="switch-button" class="button" title="Autre son (p)">
+          <img src="../ressources/images/next-button.png" alt="Autre son">
+        </button>
+      </div>
+
+      <!-- Partie droite : volume -->
+      <div id="controls-right">
+        <label for="volume-slider">🔊</label>
+        <input id="volume-slider" type="range" min="0" max="100" value="50">
+      </div>
+
+    </div>
+  </section>
 
 </div>
 

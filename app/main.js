@@ -76,24 +76,24 @@ document.getElementById('clear-search').addEventListener('click', () => { clearS
 
 // Ajoute les commandes aux boutons de lecture audio
 document.getElementById('next-button').addEventListener('click', playRandomBird);
-const pauseButton = document.getElementById('pause-button');
-pauseButton.addEventListener('click', togglePause);
+document.getElementById('pause-button').addEventListener('click', togglePause);
+
+const pauseButtonImg = document.getElementById('pause-button-img');
+
 document.getElementById('replay-button').addEventListener('click', () => {
   audio.currentTime = 0;
   audio.play().then(() => {
-    pauseButton.innerHTML = "⏸️";
+    pauseButtonImg.src = "../ressources/images/pause-button.png";
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
   }).catch(err => {
     console.error("Erreur lecture :", err);
   });
 });
-document.getElementById('rewind-button').addEventListener('click', () => {
-  audio.currentTime = Math.max(0, audio.currentTime - 5);
-});
-document.getElementById('forward-button').addEventListener('click', () => {
-  audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
-});
+document.getElementById('rewind-button').addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 5); });
+document.getElementById('forward-button').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); });
 document.getElementById('switch-button').addEventListener('click', playNextVariant);
 
+const birdAnimation = document.getElementById('bird-animation');
 
 // Écouter un oiseau
 function listenToBird(birdName) {
@@ -143,6 +143,7 @@ function playRandomBird() {
     // On désactive les commandes de son
     toggleSoundControls(false);
     document.getElementById('search-bar-control').style.display = 'none';
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
     return;
   } else {
     document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
@@ -165,7 +166,8 @@ function playBirdSound(name, index = 0) {
   audio.dataset.index = index;
 
   audio.play().then(() => {
-    pauseButton.innerHTML = "⏸️";
+    pauseButtonImg.src = "../ressources/images/pause-button.png";
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
   }).catch(err => {
     console.error("Erreur lecture :", err);
   });
@@ -220,13 +222,15 @@ function getNomLatin(nomFrancais) {
 function togglePause() {
   if (audio.paused) {
     audio.play().then(() => {
-      pauseButton.innerHTML = "⏸️";
+    pauseButtonImg.src = "../ressources/images/pause-button.png";
+      birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
     }).catch(err => {
       console.error("Erreur lecture :", err);
     });
   } else {
     audio.pause();
-    pauseButton.innerHTML = "▶️";
+    pauseButtonImg.src = "../ressources/images/play-button.png";
+      birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
 }
 
