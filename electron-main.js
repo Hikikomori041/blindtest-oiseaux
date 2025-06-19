@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-const logOn = false;
+const logOn = true;
 
 // Création de la fenêtre de l'application
 let win;
@@ -26,8 +26,6 @@ function createWindow() {
   win.loadFile('app/index.html');
   win.removeMenu();
   if (logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
-
-  
 
   win.on('maximize', () => {
     win.webContents.send('window-maximize');

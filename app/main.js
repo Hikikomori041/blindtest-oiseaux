@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
+  // for (index in birdsData) { birdsData[index].playCount = 0; } // instancie un nombre d'écoute à chaque oiseau
+
   await genererGrilleOiseaux();
 
   // Clic ailleurs → on ferme le menu
@@ -191,35 +193,6 @@ function toggleSoundControls(activate = true) {
 }
 
 
-function playRandomBird() {
-  let pool = [];
-  if (currentBird !== undefined) {
-    pool = birdList.filter(b => b !== currentBird);
-  } else {
-    pool = birdList;
-  }
-  if (pool.length === 0) {
-    audio.pause();
-    audio.currentTime = 0;
-
-    document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
-
-    // On désactive les commandes de son
-    toggleSoundControls(false);
-    document.getElementById('search-bar-control').style.display = 'none';
-    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
-    return;
-  } else {
-    document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
-    document.getElementById('search-bar-control').style.display = 'block';
-    toggleSoundControls();
-  }
-  
-  currentBird = pool[Math.floor(Math.random() * pool.length)];
-  console.log("oiseau:", currentBird);
-  playBirdSound(currentBird, 0);
-}
-
 function playBirdSound(name, index = 0) {
   audio.pause();
   currentBird = name;
@@ -264,12 +237,17 @@ function validate(guess) {
   }
   document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
+  // Ajoute une écoute à l'oiseau
+  // birdsData[currentBird].playCount += 1;
+  // console.log(birdsData[currentBird]);
+
   // Afficher la popup
   document.getElementById('result-birdname-french').innerHTML = currentBird;
   let birdnameLatin = `(${getNomLatin(currentBird)})`;
   document.getElementById('result-birdname-latin').innerHTML = birdnameLatin;
   showImage(currentBird);
   showPopup();
+
 }
 
 function playSound(son, volume=1.0) {
@@ -428,16 +406,80 @@ document.querySelectorAll('#type-selection .button').forEach(btn => {
   });
 });
 
+// Retourne les types d'oiseaux sélectionnés
 function getSelectedTypes() {
   return [...document.querySelectorAll('#type-selection .button.is-selected')]
     .map(btn => btn.dataset.type);
 }
 
 
+// Choisi un oiseau aléatoire à écouter
+function playRandomBird() {
+  // On choisi tous les oiseaux disponibles après le filtre, sauf le dernier écouté
+  let pool = [];
+  if (currentBird !== undefined) {
+    pool = birdList.filter(b => b !== currentBird);
+  } else {
+    pool = birdList;
+  }
+  // Si aucun oiseau n'est disponible
+  if (pool.length === 0) {
+    audio.pause();
+    audio.currentTime = 0;
+
+    document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
+
+    // On désactive les commandes de son
+    toggleSoundControls(false);
+    document.getElementById('search-bar-control').style.display = 'none';
+    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
+    return;
+  } else {
+    document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
+    document.getElementById('search-bar-control').style.display = 'block';
+    toggleSoundControls();
+  }
+
+  // Algorithme pour choisir un nouvel oiseau aléatoire à écouter
+  // Calcul des poids
+  const poids = pool.map(bird => 1 / (1 + (bird.playCount || 0)));
+
+  // Calcul des probabilités normalisées
+  const total = poids.reduce((a, b) => a + b, 0);
+  const proba = poids.map(p => p / total);
+
+  // Choisir un index aléatoire pondéré
+  let r = Math.random();
+  let cumule = 0;
+  let index = 0;
+  for (let i = 0; i < proba.length; i++) {
+    cumule += proba[i];
+    if (r < cumule) {
+      index = i;
+      break;
+    }
+  }
+
+  // Ajoute une écoute à l'oiseau
+  currentBird = pool[index];
+  birdsData[currentBird].playCount = (birdsData[currentBird].playCount || 0) + 1;
+  // console.log("Oiseau à trouver:", currentBird);
+  // console.log('---------------------------------------');
+  // for (index in birdsData) { if (birdsData[index].playCount > 0) console.log(index, ":", birdsData[index].playCount); }
+
+  playBirdSound(currentBird, 0);
+}
+
 
 
 // Bind des raccourcis clavier
 document.addEventListener('keydown', (e) => {
+  // Si on est en train de taper dans un input ou textarea, on ignore le raccourci
+  const activeElement = document.activeElement;
+  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+    return;
+  }
+
   if (e.code === 'KeyM') {
     e.preventDefault();
     simulateClick(document.getElementById('volume-button'));
@@ -470,9 +512,9 @@ document.addEventListener('keydown', (e) => {
 
 
 function simulateClick(button) {
-    button.classList.add('active');
-    setTimeout(() => {
-        button.classList.remove('active');
-    }, 150); // durée de l'animation en ms
-    button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
+  button.classList.add('active');
+  setTimeout(() => {
+      button.classList.remove('active');
+  }, 150); // durée de l'animation en ms
+  button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
 }
