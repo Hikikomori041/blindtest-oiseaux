@@ -199,7 +199,6 @@ function playNextVariant() {
 
 function validate(guess) {
   total++;
-  document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
   const text = document.getElementById('result-text');
   if (guess === currentBird) {
@@ -212,6 +211,8 @@ function validate(guess) {
     text.style.color = 'red';
     playSound('erreur.mp3', 0.2);
   }
+  document.getElementById('score').textContent = `Score: ${score}/${total}`;
+  
   // Afficher la popup
   document.getElementById('result-birdname-french').innerHTML = currentBird;
   let birdnameLatin = `(${getNomLatin(currentBird)})`;

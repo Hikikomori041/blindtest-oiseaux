@@ -4,6 +4,7 @@ To do:
 - mettre une barre de lecture ?
 - replay en boucle par défaut ?
 - faire un truc avec la barre de volume
+- système de mise à jour de l'app
 
 Bugs:
 - 

@@ -1,6 +1,7 @@
 {
+  "author": "Nicolas BLACHÈRE <nicolas.blachere@gmail.com> (https://github.com/Hikikomori041)",
   "name": "blindtest-oiseaux",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Blind-test de chants d'oiseaux",
   "main": "electron-main.js",
   "scripts": {
@@ -12,7 +13,7 @@
     "electron-builder": "^26.0.12"
   },
   "build": {
-    "appId": "com.tonapp.oiseaux",
+    "appId": "com.nicobla.oiseaux",
     "productName": "Blind-Test Oiseaux",
     "win": {
       "target": "nsis",
