@@ -46,7 +46,8 @@
   background-color: rgb(155, 135, 122);
 }
 .oiseau-plaine.button.is-selected{
-  background-color: rgb(124, 195, 106);
+  background-color: rgba(80, 128, 68, 0.65);
+  
 }
 .oiseau-eau.button.is-selected {
   background-color: rgb(106, 165, 195);
