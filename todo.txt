@@ -2,7 +2,8 @@ To do:
 - changer la police d'écriture ?
 - système de mise à jour de l'app
 - nettoyer le code (répartir le main.js en plusieurs fichiers)
-- changer le title des boutons "mute" et "agrandir la fenetre" en fonction de ce qu'ils font 
+- changer le title des boutons "mute" et "agrandir la fenetre" en fonction de ce qu'ils font
+- bind les touches haut et bas au volume ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:

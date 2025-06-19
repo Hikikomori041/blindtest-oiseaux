@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.api.maximize();
     isMaximized = !isMaximized;
   });
-  // maximizeButton.click();
 
   window.api.onWindowMaximize(() => {
     maximizeButton.innerHTML = '🗗';
