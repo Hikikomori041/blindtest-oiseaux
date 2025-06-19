@@ -1,4 +1,5 @@
 To do:
+- ajouter le pourcentage du volume en title du slider
 - changer le title des boutons "mute" et "agrandir la fenetre" en fonction de ce qu'ils font
 - Modifier: compter la lecture d'un oiseau APRÈS sa validation (servira pour les données des listes persos)
 - système de mise à jour de l'app
