@@ -1,4 +1,11 @@
 /* Barre de l'application */
+#drag-region {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 #titlebar {
   position: fixed;
   z-index: 1;
@@ -15,16 +22,6 @@
   color: white;
   padding: 0 10px;
 }
-
-#titlebar button {
-  -webkit-app-region: no-drag;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 8px;
-}
 #titlebar .title {
   margin: 0;
   padding: 0;
@@ -36,14 +33,21 @@
 }
 
 
+
+#titlebar button {
+  -webkit-app-region: no-drag;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: 0.15s ease;
+}
 #titlebar button:hover {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
-
-#drag-region {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+#close-button:hover {
+  background-color: rgba(204, 9, 9, 0.801)!important;
 }

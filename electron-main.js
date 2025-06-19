@@ -58,20 +58,20 @@ app.whenReady().then(() => {
         const raw = fs.readFileSync(settingsPath);
         return JSON.parse(raw);
       } else {
-        return { volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+        return { isMaximized: false, replayMode: true, volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
       }
   } catch (e) {
-    console.error('Erreur lecture settings:', e);
-    return { volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+    console.error('Erreur lecture parametres utilisateurs:', e);
+    return { isMaximized: false, replayMode: true, volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
     }
   });
 
   ipcMain.handle('save-settings', async (event, data) => {
     try {
       fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
-      console.log('Settings sauvegardés');
+      console.log('Parametres utilisateurs sauvegardes avec succes !');
     } catch (e) {
-      console.error('Erreur sauvegarde settings:', e);
+      console.error('Erreur sauvegarde parametres utilisateurs:', e);
     }
   });
 });

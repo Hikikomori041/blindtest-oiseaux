@@ -1,15 +1,16 @@
+import { slugify } from './js/strings.js';
+
 let birdsData = {};
 let birdList = [];
-let sounds = [];
 let currentBird = null;
 let score = 0;
 let total = 0;
 
 let replayMode = true;
+let isMaximized = false;
 
 const audio = new Audio();
 
-let isMaximized = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('close-button').addEventListener('click', () => window.api.close());
@@ -23,14 +24,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.api.onWindowMaximize(() => {
     maximizeButton.innerHTML = '🗗';
+    isMaximized = true;
+    maximizeButton.title = "Réduire la fenêtre";
   });
 
   window.api.onWindowUnmaximize(() => {
     maximizeButton.innerHTML = '🗖';
+    isMaximized = false;
+    maximizeButton.title = "Agrandir la fenêtre";
   });
 
-  document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
-
+  // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
+  document.getElementById('close-popup-button').addEventListener('click', playRandomBird);
 
 
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
@@ -41,10 +46,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Clic ailleurs → on ferme le menu
   document.addEventListener('click', () => {
     document.getElementById('context-menu').style.display = 'none';
+    document.getElementById('more-menu').style.display = 'none';
   });
   updateVolumeGradient();
   playRandomBird();
 })
+
+
 
 // Barre de recherche
 document.getElementById('search-bar').addEventListener('input', (e) => {
@@ -97,9 +105,11 @@ function muteAudio() {
   if (!muted) {
     lastVolume = volume;
     volume = 0;
+    volumeButton.title = "Unmute (m)";
   } else {
     volume = lastVolume;
     if (volume == 0) volume = 10;
+    volumeButton.title = "Mute (m)";
   }
   volumeSlider.value = volume;
   muted = !muted;
@@ -125,7 +135,25 @@ function updateVolumeGradient() {
   const percent = ((volume - min) / (max - min)) * 100;
 
   volumeSlider.style.background = `linear-gradient(to right, #1db954 ${percent}%, #555 ${percent}%)`;
+  volumeSlider.title = volume + "%";
   checkVolumeButtonIcon();
+}
+
+function toggleReplayMode() {
+  const replayModeButton = document.getElementById('replay-mode-button');
+  replayMode = !replayMode;
+  if (replayMode) {
+    replayModeButton.classList.add("activated");
+    replayModeButton.classList.remove("deactivated");
+
+    if (audio.currentTime >= audio.duration) {
+      audio.play();
+    }
+  }
+  else {
+    replayModeButton.classList.remove("activated");
+    replayModeButton.classList.add("deactivated");
+  }
 }
 
 function checkVolumeButtonIcon() {
@@ -136,6 +164,36 @@ function checkVolumeButtonIcon() {
   else {volumeButton.classList.add('volume-muted'); }
 }
 
+
+let moreButton = document.getElementById('more-button');
+moreButton.addEventListener('click', (e) => {
+  e.stopPropagation(); // Empêche de propager au document
+
+  const menu = document.getElementById('more-menu');
+  const updateSearchButton = document.getElementById('update-search-button');
+  const seeGithubButton = document.getElementById('see-github-button');
+
+  menu.style.display = 'block';
+  menu.style.left = `${e.pageX}px`;
+  menu.style.top = `${e.pageY-100}px`;
+
+  // Quand on clique sur "Chercher une mise à jour"
+  updateSearchButton.onclick = () => {
+    // todo: chercher une update
+    document.getElementById('result-text').innerHTML = "Recherche de mise à jour...";
+    document.getElementById('result-text').style.color = "black";
+    showPopup();
+    menu.style.display = 'none';
+  };
+  // Quand on clique sur "Voir le GitHub"
+  seeGithubButton.onclick = () => {
+    const link = `https://github.com/Hikikomori041/blindtest-oiseaux`;
+    window.open(link, '_blank');
+    menu.style.display = 'none';
+  };
+});
+
+
 // Ajoute les commandes aux boutons de lecture audio
 volumeButton.addEventListener('click', muteAudio);
 volumeSlider.addEventListener('input', slideVolume);
@@ -145,6 +203,7 @@ document.getElementById('pause-button').addEventListener('click', togglePause);
 
 const pauseButtonImg = document.getElementById('pause-button-img');
 
+document.getElementById('replay-mode-button').addEventListener('click', toggleReplayMode);
 document.getElementById('replay-button').addEventListener('click', () => {
   audio.currentTime = 0;
   audio.play().then(() => {
@@ -295,14 +354,6 @@ function showImage(name) {
   container.appendChild(img);
 }
 
-function slugify(nom) {
-  return nom.normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .toLowerCase()
-    .replace(/ /g, '.')
-    .replace(/[^a-z0-9.-]/g, '');
-}
-
 
 function showPopup() {
   document.getElementById('overlay').style.zIndex = 10;
@@ -324,14 +375,6 @@ function hidePopup() {
   }, 300);
   clearSearch();
 }
-
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    // Ce qui doit se passer après le resize (genre redessiner un fond)
-  }, 150);
-});
 
 
 // Pour générer dynamiquement la grille des oiseaux
@@ -589,9 +632,17 @@ requestAnimationFrame(updateProgressSmooth);
 // Charger settings au démarrage
 window.api.loadSettings().then((data) => {
   // console.log('Settings chargés:', data);
+
   isMaximized = data.isMaximized;
   // Maximiser (ou pas l'écran)
   if (isMaximized) window.api.maximize();
+
+  replayMode = data.replayMode;
+  if (!replayMode) {
+    document.getElementById("replay-mode-button").classList.remove("activated");
+    document.getElementById("replay-mode-button").classList.add("deactivated");
+  }
+
   volume = data.volume;
   // Mettre le slider volume à jour :
   volumeSlider.value = volume;
@@ -605,6 +656,7 @@ window.api.loadSettings().then((data) => {
 window.addEventListener('beforeunload', (e) => {
   const dataToSave = {
     isMaximized: isMaximized,
+    replayMode: replayMode,
     volume: volume,
     selectedTypes: getSelectedTypes()
   };

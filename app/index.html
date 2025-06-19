@@ -18,7 +18,7 @@
       <div id="drag-region">
         <span class="title">Blind-Test Oiseaux</span>
         <div id="window-controls">
-          <button id="minimize-button" title="Réduire la fenêtre">━</button>
+          <button id="minimize-button" title="Minimiser la fenêtre">━</button>
           <button id="maximize-button" title="Agrandir la fenêtre">🗖</button>
           <button id="close-button" title="Fermer la fenêtre">✖</button>
         </div>
@@ -101,8 +101,14 @@
       </div>
 
 
-
     </div>
+
+
+    <div id="more-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
+      <span id="see-github-button" class="is-link">Voir les sources du projet</span>
+      <span id="update-search-button" class="is-info">Rechercher une mise à jour</span>
+    </div>
+
     <section id="controls" class="box">
       <input id="progress-slider" type="range" min="0" max="100" value="0">
 
@@ -110,11 +116,16 @@
 
         <!-- Partie gauche : animation oiseau -->
         <div id="controls-left">
-          <!-- todo: futur emplacement des options utilisateur ? -->
+          <button id="more-button" class="button" title="Plus">
+            <img src="../ressources/images/more-button.png" alt="Plus"/>
+          </button>
         </div>
 
         <!-- Partie centre : boutons -->
         <div id="controls-center">
+          <button id="replay-mode-button" class="button activated" title="Activer le replay">
+            <img src="../ressources/images/replay-mode-button-enabled.png" alt="Activer le replay"/>
+          </button>
           <button id="replay-button" class="button" title="Réécouter (r)">
             <img src="../ressources/images/replay-button.png" alt="Réécouter"/>
           </button>
@@ -135,14 +146,13 @@
         <!-- Partie droite : volume -->
         <div id="controls-right">
           <img for="volume-slider" id="volume-button" class="volume-3" alt="Volume" title="Mute (m)"/>
-          <input id="volume-slider" type="range" min="0" max="100" value="100">
+          <input id="volume-slider" type="range" min="0" max="100" value="100" title="100%">
         </div>
 
       </div>
     </section>
   </div>
 
-  <!-- <script src="main.js"></script> -->
   <script type="module" src="main.js"></script>
 
 </body>

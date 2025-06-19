@@ -5,7 +5,7 @@
   right: 0;
   z-index: 999;
   padding: 0.5rem 1rem;
-  background-color: #1f2937!important; /* fond foncé type Spotify */
+  background-color: #1f2937da!important; /* fond foncé type Spotify */
   color: white;
   border-top: 1px solid #333;
   margin-bottom: 0!important;
@@ -53,11 +53,61 @@
   justify-content: space-between;
   gap: 1rem;
 }
-
-#controls-left img {
-  width: 48px;
-  height: 48px;
+#controls-layout .button {
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #5f7da7;
+  border: 2px solid #6588b8;
+  margin-left: 5px;
+  margin-right: 5px;
+  transition: 0.25s ease;
 }
+#controls-layout .button:hover:not(.disabled) {
+  background: #496081;
+  border: 2px solid white;
+}
+#controls-layout .button.active:not(.disabled), #controls-center .button:active:not(.disabled) {
+  background: #496081; /* le même effet que :hover */
+  transform: scale(0.95); /* petit effet de clic visuel */
+}
+#controls-layout .button img {
+  width: 24px;
+  height: 24px;
+}
+
+#controls-left .button {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px solid blue;
+  background: rgba(245, 245, 245, 0.219);
+  padding: 8px;
+}
+#controls-left img {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Menu "Plus" */
+#more-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#more-menu span {
+  display: block;
+  padding: 4px;
+  border-radius: 4px;
+  color: white;
+}
+#more-menu span:hover {
+  background: #404e53;
+}
+
+
 
 #controls-center {
   display: flex;
@@ -66,30 +116,43 @@
   height: 80px;
 }
 
-#controls-center .button {
-  height: 60px;
-  width: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #5f7da7;
-  border: 2px solid #496081;
+
+#replay-mode-button {
+  margin-right: 24px !important;
 }
-#controls-center .button:hover:not(.disabled) {
-  background: #496081;
+#replay-mode-button.activated {
+  background: #476388c5;
+  border: 2px solid rgba(255, 255, 255, 0.438);
 }
-#controls-center .button.active:not(.disabled), #controls-center .button:active:not(.disabled) {
-  background: #496081; /* le même effet que :hover */
-  transform: scale(0.95); /* petit effet de clic visuel */
+#replay-mode-button.activated img {
+  content:url("../../ressources/images/replay-mode-button-enabled.png");
 }
-#controls-center .button img {
-  width: 24px;
-  height: 24px;
+#replay-mode-button.deactivated img {
+  content:url("../../ressources/images/replay-mode-button-disabled.png");
 }
 
 #replay-button, #forward-button {
-  margin-right: 24px;
+  margin-right: 24px !important;
+}
+
+#pause-button {
+  height: 68px!important;
+  width: 68px!important;
+  padding: 16px!important;
+}
+#pause-button img {
+  height: auto!important;
+  width: auto!important;
+}
+
+#rewind-button, #forward-button {
+  height: 40px!important;
+  width: 40px!important;
+  padding: 8px!important;
+}
+#rewind-button img, #forward-button img {
+  height: auto!important;
+  width: auto!important;
 }
 
 #controls-right {
