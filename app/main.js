@@ -1,4 +1,9 @@
-import { slugify } from './js/strings.js';
+import { slugify, getSelectedTypes } from './js/strings.js';
+import { loadSettings } from './js/settings.js';
+import { searchBird, clearSearch } from './js/search.js';
+import { bindAllButtons } from './js/buttons.js';
+
+let app = {}; // Paramètres de l'application
 
 let birdsData = {};
 let birdList = [];
@@ -6,88 +11,50 @@ let currentBird = null;
 let score = 0;
 let total = 0;
 
-let replayMode = true;
-let isMaximized = false;
-
 const audio = new Audio();
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('close-button').addEventListener('click', () => window.api.close());
-  document.getElementById('minimize-button').addEventListener('click', () => window.api.minimize());
+  // Chargement des paramètres de l'application
+  try {
+    app = await loadSettings();
+    // console.log('Paramètres:', app);
+  } catch (err) {
+    console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
+  }
 
-  const maximizeButton = document.getElementById('maximize-button');
-  maximizeButton.addEventListener('click', () => {
-    window.api.maximize();
-    isMaximized = !isMaximized;
-  });
-
-  window.api.onWindowMaximize(() => {
-    maximizeButton.innerHTML = '🗗';
-    isMaximized = true;
-    maximizeButton.title = "Réduire la fenêtre";
-  });
-
-  window.api.onWindowUnmaximize(() => {
-    maximizeButton.innerHTML = '🗖';
-    isMaximized = false;
-    maximizeButton.title = "Agrandir la fenêtre";
-  });
-
-  // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
-  document.getElementById('close-popup-button').addEventListener('click', playRandomBird);
-
-
+  // Chargement des oiseaux
   birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
-  // for (index in birdsData) { birdsData[index].playCount = 0; } // instancie un nombre d'écoute à chaque oiseau
-
   await genererGrilleOiseaux();
 
-  // Clic ailleurs → on ferme le menu
-  document.addEventListener('click', () => {
-    document.getElementById('context-menu').style.display = 'none';
-    document.getElementById('more-menu').style.display = 'none';
-  });
-  updateVolumeGradient();
+  // Association des actions aux boutons
+  bindAllButtons({ app, audio });
+
+  // Application des paramètres de l'application
+  applySelectedTypes(app.selectedTypes);
+  updateVolumeGradient(app.volume);
+  if (app.isMaximized) {
+    window.api.maximize();
+  }
+
+  // On lance directement un son d'oiseau au démarrage
   playRandomBird();
 })
 
 
 
-// Barre de recherche
-document.getElementById('search-bar').addEventListener('input', (e) => {
-  const query = e.target.value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
 
-  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
-    const name = cell.dataset.name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
 
-    if (name.includes(query)) {
-      cell.style.display = '';
-    } else {
-      cell.style.display = 'none';
-    }
-  });
+
+// Clic ailleurs → on ferme le menu
+document.addEventListener('click', () => {
+  document.getElementById('context-menu').style.display = 'none';
+  document.getElementById('more-menu').style.display = 'none';
 });
-
-// Effacer la recheche
-function clearSearch() {
-  document.getElementById('search-bar').value = '';
-  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
-    cell.style.display = '';
-  });
-}
-document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
-
 
 
 audio.addEventListener('ended', () => {
-  if (replayMode) {
+  if (app.replayMode) {
     togglePause();
   } else {
     pauseButtonImg.src = "../ressources/images/play-button.png";
@@ -97,52 +64,51 @@ audio.addEventListener('ended', () => {
 
 const volumeButton = document.getElementById('volume-button');
 const volumeSlider = document.getElementById('volume-slider');
-let muted = false;
-let volume = 100;
-let lastVolume = 100;
 
-function muteAudio() {
-  if (!muted) {
-    lastVolume = volume;
-    volume = 0;
+export function muteAudio() {
+  if (!app.muted) {
+    app.lastVolume = app.volume;
+    app.volume = 0;
     volumeButton.title = "Unmute (m)";
   } else {
-    volume = lastVolume;
-    if (volume == 0) volume = 10;
+    app.volume = app.lastVolume;
+    if (app.volume == 0) app.volume = 10;
     volumeButton.title = "Mute (m)";
   }
-  volumeSlider.value = volume;
-  muted = !muted;
-  changeAudio();
+  // console.log("volume:", app.volume, "lastVolume:", app.lastVolume);
+  volumeSlider.value = parseInt(app.volume);
+  app.muted = !app.muted;
+  changeAudio(app.volume);
 }
 
-function slideVolume () {
-  volume = volumeSlider.value;
-  if (volume == 0 && !muted) muteAudio();
-  else if (volume > 0) muted = false;
-  changeAudio();
+export function slideVolume () {
+  app.volume = volumeSlider.value;
+  if (app.volume == 0 && !app.muted) muteAudio();
+  else if (app.volume > 0) app.muted = false;
+  changeAudio(app.volume);
 }
 
-function changeAudio() {
+function changeAudio(volume) {
   audio.volume = volume/100;
-  updateVolumeGradient();
+  updateVolumeGradient(volume);
 }
 
 // Met à jour la couleur du slider du volume
-function updateVolumeGradient() {
+function updateVolumeGradient(volume) {
   const min = volumeSlider.min || 0;
   const max = volumeSlider.max || 100;
   const percent = ((volume - min) / (max - min)) * 100;
 
   volumeSlider.style.background = `linear-gradient(to right, #1db954 ${percent}%, #555 ${percent}%)`;
+  volumeSlider.value = volume;
   volumeSlider.title = volume + "%";
-  checkVolumeButtonIcon();
+  checkVolumeButtonIcon(volume);
 }
 
-function toggleReplayMode() {
+export function toggleReplayMode() {
   const replayModeButton = document.getElementById('replay-mode-button');
-  replayMode = !replayMode;
-  if (replayMode) {
+  app.replayMode = !app.replayMode;
+  if (app.replayMode) {
     replayModeButton.classList.add("activated");
     replayModeButton.classList.remove("deactivated");
 
@@ -156,7 +122,7 @@ function toggleReplayMode() {
   }
 }
 
-function checkVolumeButtonIcon() {
+function checkVolumeButtonIcon(volume) {
   volumeButton.classList = "";
   if (volume >= 40) { volumeButton.classList.add("volume-3"); }
   else if (volume >= 10) { volumeButton.classList.add("volume-2"); }
@@ -165,62 +131,13 @@ function checkVolumeButtonIcon() {
 }
 
 
-let moreButton = document.getElementById('more-button');
-moreButton.addEventListener('click', (e) => {
-  e.stopPropagation(); // Empêche de propager au document
-
-  const menu = document.getElementById('more-menu');
-  const updateSearchButton = document.getElementById('update-search-button');
-  const seeGithubButton = document.getElementById('see-github-button');
-
-  menu.style.display = 'block';
-  menu.style.left = `${e.pageX}px`;
-  menu.style.top = `${e.pageY-100}px`;
-
-  // Quand on clique sur "Chercher une mise à jour"
-  updateSearchButton.onclick = () => {
-    // todo: chercher une update
-    document.getElementById('result-text').innerHTML = "Recherche de mise à jour...";
-    document.getElementById('result-text').style.color = "black";
-    showPopup();
-    menu.style.display = 'none';
-  };
-  // Quand on clique sur "Voir le GitHub"
-  seeGithubButton.onclick = () => {
-    const link = `https://github.com/Hikikomori041/blindtest-oiseaux`;
-    window.open(link, '_blank');
-    menu.style.display = 'none';
-  };
-});
 
 
-// Ajoute les commandes aux boutons de lecture audio
-volumeButton.addEventListener('click', muteAudio);
-volumeSlider.addEventListener('input', slideVolume);
 
-document.getElementById('next-button').addEventListener('click', playRandomBird);
-document.getElementById('pause-button').addEventListener('click', togglePause);
 
-const pauseButtonImg = document.getElementById('pause-button-img');
-
-document.getElementById('replay-mode-button').addEventListener('click', toggleReplayMode);
-document.getElementById('replay-button').addEventListener('click', () => {
-  audio.currentTime = 0;
-  audio.play().then(() => {
-    pauseButtonImg.src = "../ressources/images/pause-button.png";
-    birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
-  }).catch(err => {
-    console.error("Erreur lecture :", err);
-  });
-});
-document.getElementById('rewind-button').addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 5); });
-document.getElementById('forward-button').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); });
-document.getElementById('switch-button').addEventListener('click', playNextVariant);
-
-const birdAnimation = document.getElementById('bird-animation');
 
 // Écouter un oiseau
-function listenToBird(birdName) {
+export function listenToBird(birdName) {
   const variants = birdsData[birdName]?.variants || [];
 
   if (variants.length > 0) {
@@ -250,7 +167,7 @@ function toggleSoundControls(activate = true) {
 }
 
 
-function playBirdSound(name, index = 0) {
+export function playBirdSound(name, index = 0) {
   audio.pause();
   currentBird = name;
   const file = birdsData[name].variants[index];
@@ -258,18 +175,18 @@ function playBirdSound(name, index = 0) {
 
   audio.dataset.name = name;
   audio.dataset.index = index;
-  audio.volume = volume/100;
+  audio.volume = app.volume/100;
 
   audio.play().then(() => {
-    pauseButtonImg.src = "../ressources/images/pause-button.png";
-    birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
+    document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
   }).catch(err => {
     console.error("Erreur lecture :", err);
   });
   hidePopup();
 }
 
-function playNextVariant() {
+export function playNextVariant() {
   const name = currentBird;
   const index = parseInt(audio.dataset.index || '0');
   const variants = birdsData[name]?.variants || [];
@@ -286,11 +203,11 @@ function validate(guess) {
     score++;
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'green';
-    playSound('succes.mp3', 0.5 * volume/100);
+    playSound('succes.mp3', 0.5 * app.volume/100);
   } else {
     text.innerHTML = `❌ Raté !`;
     text.style.color = 'red';
-    playSound('erreur.mp3', 0.2 * volume/100);
+    playSound('erreur.mp3', 0.2 * app.volume/100);
   }
   document.getElementById('score').textContent = `Score: ${score}/${total}`;
   
@@ -320,18 +237,18 @@ function getNomLatin(nomFrancais) {
 
 
 
-function togglePause() {
+export function togglePause() {
   if (audio.paused) {
     audio.play().then(() => {
-    pauseButtonImg.src = "../ressources/images/pause-button.png";
-      birdAnimation.src = "../ressources/images/oiseau_qui_chante.gif";
+      document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
     }).catch(err => {
       console.error("Erreur lecture :", err);
     });
   } else {
     audio.pause();
-    pauseButtonImg.src = "../ressources/images/play-button.png";
-    birdAnimation.src = "../ressources/images/oiseau_qui_chante_pas.png";
+    document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
+    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
 }
 
@@ -355,7 +272,7 @@ function showImage(name) {
 }
 
 
-function showPopup() {
+export function showPopup() {
   document.getElementById('overlay').style.zIndex = 10;
   const popup = document.getElementById('result-popup');
   popup.style.display = 'block';
@@ -378,7 +295,7 @@ function hidePopup() {
 
 
 // Pour générer dynamiquement la grille des oiseaux
-async function genererGrilleOiseaux() {
+export async function genererGrilleOiseaux() {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
@@ -438,20 +355,7 @@ async function genererGrilleOiseaux() {
 }
 
 
-// Met à jour la liste des oiseaux après un click sur une checkbox
-document.querySelectorAll('#type-selection .button').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    btn.classList.toggle('is-selected');
-    await genererGrilleOiseaux();
-    playRandomBird();
-  });
-});
 
-// Retourne les types d'oiseaux sélectionnés
-function getSelectedTypes() {
-  return [...document.querySelectorAll('#type-selection .button.is-selected')]
-    .map(btn => btn.dataset.type);
-}
 
 // Applique une sélection de types sur le programme
 function applySelectedTypes(selectedTypes) {
@@ -468,7 +372,7 @@ function applySelectedTypes(selectedTypes) {
 
 
 // Choisi un oiseau aléatoire à écouter
-function playRandomBird() {
+export function playRandomBird() {
   // On choisi tous les oiseaux disponibles après le filtre, sauf le dernier écouté
   let pool = [];
   if (currentBird !== undefined) {
@@ -623,42 +527,3 @@ function updateProgressSmooth() {
 }
 
 requestAnimationFrame(updateProgressSmooth);
-
-
-
-
-
-
-// Charger settings au démarrage
-window.api.loadSettings().then((data) => {
-  // console.log('Settings chargés:', data);
-
-  isMaximized = data.isMaximized;
-  // Maximiser (ou pas l'écran)
-  if (isMaximized) window.api.maximize();
-
-  replayMode = data.replayMode;
-  if (!replayMode) {
-    document.getElementById("replay-mode-button").classList.remove("activated");
-    document.getElementById("replay-mode-button").classList.add("deactivated");
-  }
-
-  volume = data.volume;
-  // Mettre le slider volume à jour :
-  volumeSlider.value = volume;
-  updateVolumeGradient();
-
-  // Appliquer les types sélectionnés :
-  applySelectedTypes(data.selectedTypes);
-});
-
-// Avant de fermer l'app, sauvegarder :
-window.addEventListener('beforeunload', (e) => {
-  const dataToSave = {
-    isMaximized: isMaximized,
-    replayMode: replayMode,
-    volume: volume,
-    selectedTypes: getSelectedTypes()
-  };
-  window.api.saveSettings(dataToSave);
-});

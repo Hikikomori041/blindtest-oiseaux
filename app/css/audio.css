@@ -190,6 +190,7 @@
 #volume-button.volume-muted{
   content:url("../../ressources/images/volume-muted.png");
 }
+
 #volume-slider {
   appearance: none;
   -webkit-appearance: none;

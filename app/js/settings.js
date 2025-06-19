@@ -1,20 +1,8 @@
-// Charger settings au démarrage
-window.api.loadSettings().then((data) => {
-  // console.log('Settings chargés:', data);
-  volume = data.volume;
-  // Mettre le slider volume à jour :
-  volumeSlider.value = volume;
-  updateVolumeGradient();
+export async function loadSettings() {
+  const settings = await window.api.loadSettings();
+  return settings;
+}
 
-  // Appliquer les types sélectionnés :
-  applySelectedTypes(data.selectedTypes);
-});
-
-// Avant de fermer l'app, sauvegarder :
-window.addEventListener('beforeunload', (e) => {
-  const dataToSave = {
-    volume: volume,
-    selectedTypes: getSelectedTypes()
-  };
-  window.api.saveSettings(dataToSave);
-});
+export async function saveSettings(data) {
+  await window.api.saveSettings(data);
+}

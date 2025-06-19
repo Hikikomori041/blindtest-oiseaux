@@ -8,3 +8,8 @@ export function slugify(nomOiseau) {
 }
 
 
+// Retourne les types d'oiseaux sélectionnés
+export function getSelectedTypes() {
+  return [...document.querySelectorAll('#type-selection .button.is-selected')]
+    .map(btn => btn.dataset.type);
+}

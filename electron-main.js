@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
-const logOn = false;
+const logOn = true;
 
 // Création de la fenêtre de l'application
 let win;
@@ -53,16 +53,17 @@ app.whenReady().then(() => {
 
 
   ipcMain.handle('load-settings', async () => {
+    const settingsDefault = { isMaximized: false, replayMode: true, lastVolume: 100, muted: false, selectedTypes: ['commun', 'eau', 'plaine'] };
     try {
       if (fs.existsSync(settingsPath)) {
         const raw = fs.readFileSync(settingsPath);
         return JSON.parse(raw);
       } else {
-        return { isMaximized: false, replayMode: true, volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+        return settingsDefault;
       }
   } catch (e) {
     console.error('Erreur lecture parametres utilisateurs:', e);
-    return { isMaximized: false, replayMode: true, volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+    return settingsDefault;
     }
   });
 
