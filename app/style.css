@@ -287,7 +287,7 @@ section {
 #controls-center .button:hover:not(.disabled) {
   background: #496081;
 }
-#controls-center .button.active, #controls-center .button:active {
+#controls-center .button.active:not(.disabled), #controls-center .button:active:not(.disabled) {
   background: #496081; /* le même effet que :hover */
   transform: scale(0.95); /* petit effet de clic visuel */
 }
@@ -313,6 +313,15 @@ section {
 #volume-button {
   height: 24px;
   width: 24px;
+  border-radius: 50%;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+#volume-button:hover {
+  background-color: #33445ca8;
+}
+#volume-button:active {
+  background-color: #476188af;
 }
 #volume-button.volume-3{
   content:url("../ressources/images/volume-3.png");
@@ -326,6 +335,45 @@ section {
 #volume-button.volume-muted{
   content:url("../ressources/images/volume-muted.png");
 }
+#volume-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 120px;
+  height: 6px;
+  background: linear-gradient(to right, #1db954 50%, #555 50%); /* 1db954 = vert spotify, change à ta sauce */
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: black;
+  cursor: pointer;
+  border: 3px solid green;
+  transition: background 0.3s ease;
+}
+
+#volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #000;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+#volume-slider::-moz-range-track {
+  background: linear-gradient(to right, #1db954 50%, #555 50%);
+  height: 6px;
+  border-radius: 3px;
+}
+
 
 
 

@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('click', () => {
     document.getElementById('context-menu').style.display = 'none';
   });
+  updateVolumeGradient();
   playRandomBird();
 })
 
@@ -96,15 +97,9 @@ function muteAudio() {
   if (!muted) {
     lastVolume = volume;
     volume = 0;
-    volumeButton.classList.remove("volume-3");
-    volumeButton.classList.remove("volume-2");
-    volumeButton.classList.remove("volume-1");
-    volumeButton.classList.add("volume-muted");
   } else {
     volume = lastVolume;
-    volumeButton.classList.remove("volume-muted");
     if (volume == 0) volume = 10;
-    checkVolumeButtonIcon();
   }
   volumeSlider.value = volume;
   muted = !muted;
@@ -115,15 +110,20 @@ function slideVolume () {
   volume = volumeSlider.value;
   if (volume == 0) muteAudio();
   else muted = false;
-  checkVolumeButtonIcon();
   changeAudio();
 }
 
+// Met à jour la couleur du slider du volume
+function updateVolumeGradient() {
+  const min = volumeSlider.min || 0;
+  const max = volumeSlider.max || 100;
+  const percent = ((volume - min) / (max - min)) * 100;
+
+  volumeSlider.style.background = `linear-gradient(to right, #1db954 ${percent}%, #555 ${percent}%)`;
+}
+
 function checkVolumeButtonIcon() {
-  volumeButton.classList.remove("volume-3");
-  volumeButton.classList.remove("volume-2");
-  volumeButton.classList.remove("volume-1");
-  volumeButton.classList.remove("volume-muted");
+  volumeButton.classList = "";
   if (volume >= 40) { volumeButton.classList.add("volume-3"); }
   else if (volume >= 10) { volumeButton.classList.add("volume-2"); }
   else if (volume >= 1) { volumeButton.classList.add("volume-1"); }
@@ -132,6 +132,8 @@ function checkVolumeButtonIcon() {
 
 function changeAudio() {
   audio.volume = volume/100;
+  checkVolumeButtonIcon();
+  updateVolumeGradient();
 }
 
 // Ajoute les commandes aux boutons de lecture audio
@@ -170,6 +172,8 @@ function listenToBird(birdName) {
 
 function toggleSoundControls(activate = true) {
   let buttons = [
+    // document.getElementById('volume-button'),
+    // document.getElementById('volume-slider'),
     document.getElementById('replay-button'),
     document.getElementById('rewind-button'),
     document.getElementById('pause-button'),
@@ -434,7 +438,11 @@ function getSelectedTypes() {
 
 // Bind des raccourcis clavier
 document.addEventListener('keydown', (e) => {
-  if (e.code === 'KeyR') {
+  if (e.code === 'KeyM') {
+    e.preventDefault();
+    simulateClick(document.getElementById('volume-button'));
+  }
+  else if (e.code === 'KeyR') {
     e.preventDefault();
     simulateClick(document.getElementById('replay-button'));
   }

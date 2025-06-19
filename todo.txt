@@ -4,6 +4,7 @@ To do:
 - mettre une barre de lecture ?
 - replay en boucle par défaut ?
 - système de mise à jour de l'app
+- desactiver le slider et le bouton du volume quand y a aucun oiseau de selectionne ?
 
 Bugs:
 - 
