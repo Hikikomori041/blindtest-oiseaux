@@ -1,8 +1,15 @@
 To do:
-- réflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux
-- système de mise à jour de l'app
 - changer la police d'écriture ?
-- système pour enregistrer à la fermeture et charger au démarrage les données utilisateur (types choisis, volume, playCount??)
+- système de mise à jour de l'app
+- nettoyer le code (répartir le main.js en plusieurs fichiers)
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
+- 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+À corriger peut-être:
+- enregistrer le playCount à la fermeture de l'app ??
 - désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné ?
+- réflechir à quoi faire quand le popup est fermé et qu'on a accès à la grille d'oiseaux

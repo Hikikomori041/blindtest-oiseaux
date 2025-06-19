@@ -120,6 +120,7 @@ function updateVolumeGradient() {
   const percent = ((volume - min) / (max - min)) * 100;
 
   volumeSlider.style.background = `linear-gradient(to right, #1db954 ${percent}%, #555 ${percent}%)`;
+  checkVolumeButtonIcon();
 }
 
 function checkVolumeButtonIcon() {
@@ -132,7 +133,6 @@ function checkVolumeButtonIcon() {
 
 function changeAudio() {
   audio.volume = volume/100;
-  checkVolumeButtonIcon();
   updateVolumeGradient();
 }
 
@@ -410,6 +410,19 @@ function getSelectedTypes() {
     .map(btn => btn.dataset.type);
 }
 
+// Applique une sélection de types sur le programme
+function applySelectedTypes(selectedTypes) {
+    document.querySelectorAll('#type-selection .button').forEach(button => {
+        const type = button.getAttribute('data-type');
+        if (selectedTypes.includes(type)) {
+            button.classList.add('is-selected');
+        } else {
+            button.classList.remove('is-selected');
+        }
+    });
+}
+
+
 
 // Choisi un oiseau aléatoire à écouter
 function playRandomBird() {
@@ -545,3 +558,31 @@ function updateProgressSmooth() {
 }
 
 requestAnimationFrame(updateProgressSmooth);
+
+
+
+
+
+
+
+
+// Charger settings au démarrage
+window.api.loadSettings().then((data) => {
+  // console.log('Settings chargés:', data);
+  volume = data.volume;
+  // Mettre le slider volume à jour :
+  volumeSlider.value = volume;
+  updateVolumeGradient();
+
+  // Appliquer les types sélectionnés :
+  applySelectedTypes(data.selectedTypes);
+});
+
+// Avant de fermer l'app, sauvegarder :
+window.addEventListener('beforeunload', (e) => {
+  const dataToSave = {
+    volume: volume,
+    selectedTypes: getSelectedTypes()
+  };
+  window.api.saveSettings(dataToSave);
+});

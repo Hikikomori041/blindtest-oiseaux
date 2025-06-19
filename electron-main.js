@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
 const logOn = false;
 
@@ -41,6 +42,30 @@ app.whenReady().then(() => {
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+
+  ipcMain.handle('load-settings', async () => {
+    try {
+      if (fs.existsSync(settingsPath)) {
+        const raw = fs.readFileSync(settingsPath);
+        return JSON.parse(raw);
+      } else {
+        return { volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+      }
+  } catch (e) {
+    console.error('Erreur lecture settings:', e);
+    return { volume: 100, selectedTypes: ['commun', 'eau', 'plaine'] };
+    }
+  });
+
+  ipcMain.handle('save-settings', async (event, data) => {
+    try {
+      fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
+      console.log('Settings sauvegardés');
+    } catch (e) {
+      console.error('Erreur sauvegarde settings:', e);
+    }
   });
 });
 // À la fermeture de la fenêtre
@@ -92,3 +117,6 @@ ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
   const fullPaths = mp3Files.map(file => 'file://' + path.join(dirPath, file));
   return fullPaths;
 });
+
+
+
