@@ -191,7 +191,6 @@ export function playRandomBird({app}) {
 
   // Ajoute une écoute à l'oiseau
   app.currentBird = pool[index];
-  app.birdsData[app.currentBird].playCount = (app.birdsData[app.currentBird].playCount || 0) + 1;
   // console.log("Oiseau à trouver:", app.currentBird);
   // console.log('---------------------------------------');
   // for (index in app.birdsData) { if (app.birdsData[index].playCount > 0) console.log(index, ":", app.birdsData[index].playCount); }

@@ -27,6 +27,7 @@ function showImage(birdName) {
   img.style.maxWidth = '300px';
   img.style.cursor = 'pointer';
   img.onclick = () => {
+    console.log(link);
     window.open(link, '_blank');
   };
   // img.title = link;
@@ -128,8 +129,7 @@ export function validate(guess, {app}) {
   document.getElementById('score').textContent = `Score: ${app.score}/${app.total}`;
   
   // Ajoute une écoute à l'oiseau
-  // app.birdsData[currentBird].playCount += 1;
-  // console.log(app.birdsData[currentBird]);
+  app.birdsData[app.currentBird].playCount = (app.birdsData[app.currentBird].playCount || 0) + 1;
 
   // Afficher la popup
   document.getElementById('result-birdname-french').innerHTML = app.currentBird;

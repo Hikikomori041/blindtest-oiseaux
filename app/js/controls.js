@@ -111,6 +111,7 @@ export function bindBirdCell(birdCell, birdName, {app}) {
     // Quand on clique sur "Plus d'infos"
     seeButton.onclick = () => {
       const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
+      console.log(`https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`);
       window.open(link, '_blank');
       menu.style.display = 'none';
     };
