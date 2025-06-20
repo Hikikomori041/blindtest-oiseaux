@@ -13,3 +13,8 @@ export function getSelectedTypes() {
   return [...document.querySelectorAll('#type-selection .button.is-selected')]
     .map(btn => btn.dataset.type);
 }
+
+
+export function getNomLatin(nomFrancais, birdsData) {
+  return birdsData[nomFrancais]?.nom_latin || '';
+}

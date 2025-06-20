@@ -1,15 +1,17 @@
 import { saveSettings } from './settings.js';
-import { getSelectedTypes } from './strings.js';
-import { genererGrilleOiseaux, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, showPopup } from '../main.js'
+import { getSelectedTypes, slugify } from './strings.js';
+import { clearSearch, searchBird } from './search.js';
+import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
+import { genererGrilleOiseaux, showPopup, validate } from './layout.js';
 
 
 
 export function bindAllButtons({app, audio}) {
   bindWindow({app});
-  bindTypes();
-  bindSearchbar();
-  bindPopup();
+  bindTypes({app, audio});
+  bindBirds({app, audio});
   bindBottomButtons({app, audio});
+  bindShortcuts({app, audio});
 }
 
 
@@ -52,35 +54,67 @@ function bindWindow({app}) {
 }
 
 // Boutons de sélection des types
-function bindTypes() {
+function bindTypes({app, audio}) {
   // Met à jour la liste des oiseaux après un click sur une checkbox
   document.querySelectorAll('#type-selection .button').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.classList.toggle('is-selected');
-      await genererGrilleOiseaux();
-      playRandomBird();
+      await genererGrilleOiseaux({app, audio});
+      playRandomBird({app, audio});
     });
   });
 }
 
-// Barre de recherche
-function bindSearchbar() {
+function bindBirds({app, audio}) {
+  // Barre de recherche
   document.getElementById('search-bar').addEventListener('input', (e) => searchBird(e));
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
+
+  // Pop-up de résultat
+  // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
+  document.getElementById('close-popup-button').addEventListener('click', () => { playRandomBird({app, audio}); });
+  document.getElementById('next-button').addEventListener('click', () => { playRandomBird({app, audio}); });
+  
+  // Menu contextuel
+  // Clic ailleurs → on ferme le menu
+  document.addEventListener('click', () => {
+    document.getElementById('context-menu').style.display = 'none';
+    document.getElementById('more-menu').style.display = 'none';
+  });
 }
 
-// Pop-up du résultat
-function bindPopup() {
-  // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
-  document.getElementById('close-popup-button').addEventListener('click', playRandomBird);
-  document.getElementById('next-button').addEventListener('click', playRandomBird);
+export function bindBirdCell(birdCell, birdName, {app, audio}) {
+  birdCell.addEventListener('click', () => validate(birdName, {app}));
+  birdCell.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
+    const menu = document.getElementById('context-menu');
+    const listenButton = document.getElementById('listen-bird-button');
+    const seeButton = document.getElementById('see-bird-button');
+
+    menu.style.display = 'block';
+    menu.style.left = `${e.pageX}px`;
+    menu.style.top = `${e.pageY}px`;
+
+    // Quand on clique sur "Écouter"
+    listenButton.onclick = () => {
+      listenToBird(birdName, {app, audio});
+      menu.style.display = 'none';
+    };
+    // Quand on clique sur "Plus d'infos"
+    seeButton.onclick = () => {
+      const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
+      window.open(link, '_blank');
+      menu.style.display = 'none';
+    };
+  });
 }
 
 // Tous les boutons en bas de la fenêtre (essentiellement liés à l'audio)
 function bindBottomButtons({app, audio}) {
   // Bouton de toggle du replay
   const replayModeButton = document.getElementById('replay-mode-button');
-  replayModeButton.addEventListener('click', toggleReplayMode);
+  replayModeButton.addEventListener('click', () => { toggleReplayMode({app, audio}); });
 
   // Au lancement de l'app, active ou désactive le bouton de toggle du replay
   if (app.replayMode) {
@@ -97,7 +131,7 @@ function bindBottomButtons({app, audio}) {
   document.getElementById('forward-button').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); });
 
   // Bouton pause
-  document.getElementById('pause-button').addEventListener('click', togglePause);
+  document.getElementById('pause-button').addEventListener('click', () => { togglePause({audio}); } );
 
   // Gestion du bouton replay
 
@@ -112,12 +146,32 @@ function bindBottomButtons({app, audio}) {
   });
 
   // Bouton "autre son de l'oiseau"
-  document.getElementById('switch-button').addEventListener('click', playNextVariant);
+  document.getElementById('switch-button').addEventListener('click', () => { playNextVariant({app, audio}); } );
 
 
   // Gestion du volume
-  document.getElementById('volume-button').addEventListener('click', muteAudio);
-  document.getElementById('volume-slider').addEventListener('input', slideVolume);
+  document.getElementById('volume-button').addEventListener('click', () => { muteAudio({app, audio}); } );
+  document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app, audio}); } );
+
+  // Si l'utilisateur clique sur le slider du volume
+  const progressSlider = document.getElementById('progress-slider');
+  progressSlider.addEventListener('input', () => {
+      if (!audio || !audio.duration) return;
+
+      const percent = progressSlider.value;
+      audio.currentTime = (percent / 100) * audio.duration;
+  });
+
+
+  // Action automatique à la fin de la lecture du son
+  audio.addEventListener('ended', () => {
+    if (app.replayMode) {
+      togglePause({audio});
+    } else {
+      document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
+      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+    }
+  });
 
 
   // Boutons "Plus"
@@ -147,4 +201,98 @@ function bindBottomButtons({app, audio}) {
       menu.style.display = 'none';
     };
   });
+}
+
+// Tous les raccourcis clavier et souris
+function bindShortcuts({app, audio}) {
+  const volumeSlider = document.getElementById('volume-slider');
+  // Bind des raccourcis clavier
+  document.addEventListener('keydown', (e) => {
+    // Si on est en train de taper dans un input ou textarea, on ignore le raccourci
+    const activeElement = document.activeElement;
+    if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    if (e.code === 'KeyM') {
+      e.preventDefault();
+      simulateClick(document.getElementById('volume-button'));
+    }
+    else if (e.code === 'KeyR') {
+      e.preventDefault();
+      simulateClick(document.getElementById('replay-button'));
+    }
+    else if (e.code === 'KeyP') {
+      e.preventDefault();
+      simulateClick(document.getElementById('switch-button'));
+    }
+    else if (e.code === 'Space') {
+      e.preventDefault();
+      if (document.getElementById('overlay').style.zIndex == 10) {
+        simulateClick(document.getElementById('next-button'));
+      } else {
+        simulateClick(document.getElementById('pause-button'));
+      }
+    }
+    else if (e.code === 'ArrowUp') {
+      e.preventDefault();
+      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+      slideVolume({app, audio});
+    }
+    else if (e.code === 'ArrowDown') {
+      e.preventDefault();
+      volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+      slideVolume({app, audio});
+    }
+    else if (e.code === 'ArrowRight') {
+      e.preventDefault();
+      simulateClick(document.getElementById('forward-button'));
+    }
+    else if (e.code === 'ArrowLeft') {
+      e.preventDefault();
+      simulateClick(document.getElementById('rewind-button'));
+    }
+  });
+
+  volumeSlider.addEventListener('wheel', (e) => {
+    if (e.deltaY > 0) {
+      e.preventDefault();
+      volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+      slideVolume({app, audio});
+    } else if (e.deltaY < 0) {
+      e.preventDefault();
+      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+      slideVolume({app, audio});
+    }
+  });
+  
+  
+  function simulateClick(button) {
+    button.classList.add('active');
+    setTimeout(() => {
+        button.classList.remove('active');
+    }, 150); // durée de l'animation en ms
+    button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
+  }
+}
+
+// Toggle les contrôles de l'audio quand aucun oiseau n'est disponible
+export function toggleSoundControls(activate = true) {
+  let buttons = [
+    // document.getElementById('volume-button'),
+    // document.getElementById('volume-slider'),
+    document.getElementById('replay-button'),
+    document.getElementById('rewind-button'),
+    document.getElementById('pause-button'),
+    document.getElementById('forward-button'),
+    document.getElementById('switch-button')
+  ];
+  for (let button of buttons) {
+    button.disabled = !activate;
+    if (activate) {
+      button.classList.remove("disabled");
+    } else {
+      button.classList.add("disabled");
+    }
+  }
 }

@@ -1,6 +1,7 @@
 To do:
 - Modifier: compter la lecture d'un oiseau APRÈS sa validation (servira pour les données des listes persos)
 - système de mise à jour de l'app
+- sauvegarder les dimensions de la fenêtre en paramètres de l'application
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
@@ -12,8 +13,6 @@ Bugs:
 - changer la police d'écriture
 - enregistrer le playCount à la fermeture de l'app
 - désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné
-- nettoyer le code (répartir le main.js en plusieurs fichiers)
-
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
