@@ -6,12 +6,12 @@ import { genererGrilleOiseaux, showPopup, validate } from './layout.js';
 
 
 
-export function bindAllButtons({app, audio}) {
+export function bindAllButtons({app}) {
   bindWindow({app});
-  bindTypes({app, audio});
-  bindBirds({app, audio});
-  bindBottomButtons({app, audio});
-  bindShortcuts({app, audio});
+  bindTypes({app});
+  bindBirds({app});
+  bindBottomButtons({app});
+  bindShortcuts({app});
 }
 
 
@@ -54,26 +54,26 @@ function bindWindow({app}) {
 }
 
 // Boutons de sélection des types
-function bindTypes({app, audio}) {
+function bindTypes({app}) {
   // Met à jour la liste des oiseaux après un click sur une checkbox
   document.querySelectorAll('#type-selection .button').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.classList.toggle('is-selected');
-      await genererGrilleOiseaux({app, audio});
-      playRandomBird({app, audio});
+      await genererGrilleOiseaux({app});
+      playRandomBird({app});
     });
   });
 }
 
-function bindBirds({app, audio}) {
+function bindBirds({app}) {
   // Barre de recherche
   document.getElementById('search-bar').addEventListener('input', (e) => searchBird(e));
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
   // Pop-up de résultat
   // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
-  document.getElementById('close-popup-button').addEventListener('click', () => { playRandomBird({app, audio}); });
-  document.getElementById('next-button').addEventListener('click', () => { playRandomBird({app, audio}); });
+  document.getElementById('close-popup-button').addEventListener('click', () => { playRandomBird({app}); });
+  document.getElementById('next-button').addEventListener('click', () => { playRandomBird({app}); });
   
   // Menu contextuel
   // Clic ailleurs → on ferme le menu
@@ -83,7 +83,7 @@ function bindBirds({app, audio}) {
   });
 }
 
-export function bindBirdCell(birdCell, birdName, {app, audio}) {
+export function bindBirdCell(birdCell, birdName, {app}) {
   birdCell.addEventListener('click', () => validate(birdName, {app}));
   birdCell.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ export function bindBirdCell(birdCell, birdName, {app, audio}) {
 
     // Quand on clique sur "Écouter"
     listenButton.onclick = () => {
-      listenToBird(birdName, {app, audio});
+      listenToBird(birdName, {app});
       menu.style.display = 'none';
     };
     // Quand on clique sur "Plus d'infos"
@@ -111,10 +111,10 @@ export function bindBirdCell(birdCell, birdName, {app, audio}) {
 }
 
 // Tous les boutons en bas de la fenêtre (essentiellement liés à l'audio)
-function bindBottomButtons({app, audio}) {
+function bindBottomButtons({app}) {
   // Bouton de toggle du replay
   const replayModeButton = document.getElementById('replay-mode-button');
-  replayModeButton.addEventListener('click', () => { toggleReplayMode({app, audio}); });
+  replayModeButton.addEventListener('click', () => { toggleReplayMode({app}); });
 
   // Au lancement de l'app, active ou désactive le bouton de toggle du replay
   if (app.replayMode) {
@@ -126,18 +126,18 @@ function bindBottomButtons({app, audio}) {
   }
   
   // Bouton "reculer de 5s"
-  document.getElementById('rewind-button').addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 5); });
+  document.getElementById('rewind-button').addEventListener('click', () => { app.audio.currentTime = Math.max(0, app.audio.currentTime - 5); });
   // Bouton "avancer de 5s"
-  document.getElementById('forward-button').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); });
+  document.getElementById('forward-button').addEventListener('click', () => { app.audio.currentTime = Math.min(app.audio.duration, app.audio.currentTime + 5); });
 
   // Bouton pause
-  document.getElementById('pause-button').addEventListener('click', () => { togglePause({audio}); } );
+  document.getElementById('pause-button').addEventListener('click', () => { togglePause({app}); } );
 
   // Gestion du bouton replay
 
   document.getElementById('replay-button').addEventListener('click', () => {
-    audio.currentTime = 0;
-    audio.play().then(() => {
+    app.audio.currentTime = 0;
+    app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
     }).catch(err => {
@@ -146,27 +146,27 @@ function bindBottomButtons({app, audio}) {
   });
 
   // Bouton "autre son de l'oiseau"
-  document.getElementById('switch-button').addEventListener('click', () => { playNextVariant({app, audio}); } );
+  document.getElementById('switch-button').addEventListener('click', () => { playNextVariant({app}); } );
 
 
   // Gestion du volume
-  document.getElementById('volume-button').addEventListener('click', () => { muteAudio({app, audio}); } );
-  document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app, audio}); } );
+  document.getElementById('volume-button').addEventListener('click', () => { muteAudio({app}); } );
+  document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app}); } );
 
   // Si l'utilisateur clique sur le slider du volume
   const progressSlider = document.getElementById('progress-slider');
   progressSlider.addEventListener('input', () => {
-      if (!audio || !audio.duration) return;
+      if (!app.audio || !app.audio.duration) return;
 
       const percent = progressSlider.value;
-      audio.currentTime = (percent / 100) * audio.duration;
+      app.audio.currentTime = (percent / 100) * app.audio.duration;
   });
 
 
   // Action automatique à la fin de la lecture du son
-  audio.addEventListener('ended', () => {
+  app.audio.addEventListener('ended', () => {
     if (app.replayMode) {
-      togglePause({audio});
+      togglePause({app});
     } else {
       document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
@@ -204,7 +204,7 @@ function bindBottomButtons({app, audio}) {
 }
 
 // Tous les raccourcis clavier et souris
-function bindShortcuts({app, audio}) {
+function bindShortcuts({app}) {
   const volumeSlider = document.getElementById('volume-slider');
   // Bind des raccourcis clavier
   document.addEventListener('keydown', (e) => {
@@ -237,12 +237,12 @@ function bindShortcuts({app, audio}) {
     else if (e.code === 'ArrowUp') {
       e.preventDefault();
       volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
-      slideVolume({app, audio});
+      slideVolume({app});
     }
     else if (e.code === 'ArrowDown') {
       e.preventDefault();
       volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
-      slideVolume({app, audio});
+      slideVolume({app});
     }
     else if (e.code === 'ArrowRight') {
       e.preventDefault();
@@ -258,11 +258,11 @@ function bindShortcuts({app, audio}) {
     if (e.deltaY > 0) {
       e.preventDefault();
       volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
-      slideVolume({app, audio});
+      slideVolume({app});
     } else if (e.deltaY < 0) {
       e.preventDefault();
       volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
-      slideVolume({app, audio});
+      slideVolume({app});
     }
   });
   

@@ -1,6 +1,6 @@
 // Ici iront toutes les fonctions liées à l'affichage
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
-import { bindBirdCell } from './buttons.js';
+import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
 import { playSound } from './player.js';
 
@@ -58,7 +58,7 @@ export function hidePopup() {
 
 
 // Pour générer dynamiquement la grille des oiseaux
-export async function genererGrilleOiseaux({app, audio}) {
+export async function genererGrilleOiseaux({app}) {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
@@ -86,7 +86,7 @@ export async function genererGrilleOiseaux({app, audio}) {
         </div>
       </div>
     `;
-    bindBirdCell(divCell, birdName, {app, audio});
+    bindBirdCell(divCell, birdName, {app});
     
     grid.appendChild(divCell);
   }

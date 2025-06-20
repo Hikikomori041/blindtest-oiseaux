@@ -1,5 +1,5 @@
 // Ici iront toutes les fonctions liées à la lecture de son
-import { toggleSoundControls } from './buttons.js';
+import { toggleSoundControls } from './controls.js';
 import { hidePopup } from './layout.js';
 
 // Permet de lire un son (victoire, défaire)
@@ -15,7 +15,7 @@ export function playSound(son, volume=1.0) {
 const volumeButton = document.getElementById('volume-button');
 const volumeSlider = document.getElementById('volume-slider');
 
-export function muteAudio({app, audio}) {
+export function muteAudio({app}) {
   if (!app.muted) {
     app.lastVolume = app.volume;
     app.volume = 0;
@@ -28,18 +28,18 @@ export function muteAudio({app, audio}) {
   // console.log("volume:", app.volume, "lastVolume:", app.lastVolume);
   volumeSlider.value = parseInt(app.volume);
   app.muted = !app.muted;
-  changeAudio({app, audio});
+  changeAudio({app});
 }
 
-export function slideVolume ({app, audio}) {
+export function slideVolume ({app}) {
   app.volume = volumeSlider.value;
-  if (app.volume == 0 && !app.muted) muteAudio({app, audio});
+  if (app.volume == 0 && !app.muted) muteAudio({app});
   else if (app.volume > 0) app.muted = false;
-  changeAudio({app, audio});
+  changeAudio({app});
 }
 
-export function changeAudio({app, audio}) {
-  audio.volume = app.volume/100;
+export function changeAudio({app}) {
+  app.audio.volume = app.volume/100;
   updateVolumeGradient(app.volume);
 }
 
@@ -57,15 +57,15 @@ export function updateVolumeGradient(volume) {
   checkVolumeButtonIcon(volume);
 }
 
-export function toggleReplayMode({app, audio}) {
+export function toggleReplayMode({app}) {
   const replayModeButton = document.getElementById('replay-mode-button');
   app.replayMode = !app.replayMode;
   if (app.replayMode) {
     replayModeButton.classList.add("activated");
     replayModeButton.classList.remove("deactivated");
 
-    if (audio.currentTime >= audio.duration) {
-      audio.play();
+    if (app.audio.currentTime >= app.audio.duration) {
+      app.audio.play();
     }
   }
   else {
@@ -85,27 +85,27 @@ export function checkVolumeButtonIcon(volume) {
 
 
 // Écouter un oiseau
-export function listenToBird(birdName, {app, audio}) {
+export function listenToBird(birdName, {app}) {
   const variants = app.birdsData[birdName]?.variants || [];
 
   if (variants.length > 0) {
     app.currentBird = birdName;
-    playBirdSound(birdName, {app, audio}, Math.floor(Math.random() * variants.length));
+    playBirdSound(birdName, {app}, Math.floor(Math.random() * variants.length));
   }
 }
 
 
-function playBirdSound(name, {app, audio}, index = 0) {
-  audio.pause();
+function playBirdSound(name, {app}, index = 0) {
+  app.audio.pause();
   app.currentBird = name;
   const file = app.birdsData[name].variants[index];
-  audio.src = file;
+  app.audio.src = file;
 
-  audio.dataset.name = name;
-  audio.dataset.index = index;
-  audio.volume = app.volume/100;
+  app.audio.dataset.name = name;
+  app.audio.dataset.index = index;
+  app.audio.volume = app.volume/100;
 
-  audio.play().then(() => {
+  app.audio.play().then(() => {
     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
   }).catch(err => {
@@ -115,26 +115,26 @@ function playBirdSound(name, {app, audio}, index = 0) {
 }
 
 
-export function playNextVariant({app, audio}) {
+export function playNextVariant({app}) {
   const name = app.currentBird;
-  const index = parseInt(audio.dataset.index || '0');
+  const index = parseInt(app.audio.dataset.index || '0');
   const variants = app.birdsData[name]?.variants || [];
   if (variants.length < 2) return;
   const next = (index + 1) % variants.length;
-  playBirdSound(name, {app, audio}, next);
+  playBirdSound(name, {app}, next);
 }
 
 
-export function togglePause({audio}) {
-  if (audio.paused) {
-    audio.play().then(() => {
+export function togglePause({app}) {
+  if (app.audio.paused) {
+    app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
     }).catch(err => {
       console.error("Erreur lecture :", err);
     });
   } else {
-    audio.pause();
+    app.audio.pause();
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
@@ -143,7 +143,7 @@ export function togglePause({audio}) {
 
 
 // Choisi un oiseau aléatoire à écouter
-export function playRandomBird({app, audio}) {
+export function playRandomBird({app}) {
   // On choisi tous les oiseaux disponibles après le filtre, sauf le dernier écouté
   let pool = [];
   if (app.currentBird !== undefined) {
@@ -153,8 +153,8 @@ export function playRandomBird({app, audio}) {
   }
   // Si aucun oiseau n'est disponible
   if (pool.length === 0) {
-    audio.pause();
-    audio.currentTime = 0;
+    app.audio.pause();
+    app.audio.currentTime = 0;
 
     document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
 
@@ -196,6 +196,6 @@ export function playRandomBird({app, audio}) {
   // console.log('---------------------------------------');
   // for (index in app.birdsData) { if (app.birdsData[index].playCount > 0) console.log(index, ":", app.birdsData[index].playCount); }
 
-  playBirdSound(app.currentBird, {app, audio}, 0);
+  playBirdSound(app.currentBird, {app}, 0);
 }
 

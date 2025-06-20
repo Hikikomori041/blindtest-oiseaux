@@ -1,9 +1,7 @@
-import { loadSettings } from './js/settings.js';
-import { bindAllButtons} from './js/buttons.js';
-import { playRandomBird, updateVolumeGradient} from './js/player.js';
-import { applySelectedTypes, genererGrilleOiseaux, startProgressSmooth } from './js/layout.js';
-
-const audio = new Audio();
+import { loadSettings } from './settings.js';
+import { bindAllButtons} from './controls.js';
+import { playRandomBird, updateVolumeGradient} from './player.js';
+import { applySelectedTypes, genererGrilleOiseaux, startProgressSmooth } from './layout.js';
 
 let app = {}; // Paramètres de l'application
 
@@ -19,26 +17,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   
   // Chargement des oiseaux
+  app.audio = new Audio();
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
 
   // Association des actions aux boutons
-  bindAllButtons({ app, audio });
+  bindAllButtons({ app });
 
   // Application des paramètres de l'application
   applySelectedTypes(app.selectedTypes);
   updateVolumeGradient(app.volume);
-  startProgressSmooth(audio); // pour l'animation du slider du volume
+  startProgressSmooth(app.audio); // pour l'animation du slider du volume
 
   if (app.isMaximized) {
     window.api.maximize();
   }
 
   // On génère enfin la grille des oiseaux à afficher
-  await genererGrilleOiseaux({app, audio});
+  await genererGrilleOiseaux({app});
 
   // On lance directement un son d'oiseau au démarrage
-  playRandomBird({app, audio});
+  playRandomBird({app});
 })
