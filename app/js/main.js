@@ -1,4 +1,4 @@
-import { loadSettings } from './settings.js';
+import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons} from './controls.js';
 import { playRandomBird, updateVolumeGradient} from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, startProgressSmooth } from './layout.js';
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
-
   
   // Chargement des oiseaux
   app.audio = new Audio();
@@ -31,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateVolumeGradient(app.volume);
   startProgressSmooth(app.audio); // pour l'animation du slider du volume
 
+  // On change la taille de la fenêtre
+  windowSetSize(app.winWidth, app.winHeight);
   if (app.isMaximized) {
     window.api.maximize();
   }

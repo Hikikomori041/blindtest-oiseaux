@@ -4,8 +4,6 @@ import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
 import { genererGrilleOiseaux, showPopup, validate } from './layout.js';
 
-
-
 export function bindAllButtons({app}) {
   bindWindow({app});
   bindTypes({app});
@@ -13,7 +11,6 @@ export function bindAllButtons({app}) {
   bindBottomButtons({app});
   bindShortcuts({app});
 }
-
 
 
 // Fonction qui bind leurs actions aux boutons de la fenêtre
@@ -37,12 +34,22 @@ function bindWindow({app}) {
     app.isMaximized = false;
     maximizeButton.title = "Agrandir la fenêtre";
   });
+
+  window.addEventListener('resize', () => {
+    if (!app.isMaximized) {
+      app.winWidth = window.outerWidth;
+      app.winHeight = window.outerHeight;
+    }
+});
+
   
   // Fermer la fenêtre
   document.getElementById('close-button').addEventListener('click', async () => {
     // À la fermeture de l'application
     await saveSettings({
       isMaximized: app.isMaximized,
+      winWidth: app.winWidth,
+      winHeight: app.winHeight,
       replayMode: app.replayMode,
       lastVolume: app.lastVolume,
       volume: app.volume,
