@@ -133,7 +133,7 @@ export function validate(guess, {app}) {
     text.style.color = 'red';
     playSound('erreur.mp3', 0.2 * app.volume/100);
   }
-  document.getElementById('score').textContent = `Score: ${app.score}/${app.total}`;
+  document.getElementById('score').textContent = `Oiseaux trouvés: ${app.score}/${app.total}`;
   
   // Ajoute une écoute à l'oiseau
   app.birdsData[app.currentBird].playCount = (app.birdsData[app.currentBird].playCount || 0) + 1;
