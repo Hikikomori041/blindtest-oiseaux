@@ -3,15 +3,11 @@ name: Build Electron App
 on:
   push:
     tags:
-      - 'v*'  # Ça se déclenche quand tu pousses un tag v2.0.3 etc.
+      - 'v*'
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
-    
+  build-mac:
+    runs-on: macos-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -24,12 +20,42 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Electron app
+      - name: Build Electron app (mac)
         run: npm run build
 
-      - name: Upload Release
+      - name: Upload Release (mac)
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/**
+          files: |
+            dist/*.dmg
+            dist/*.blockmap
+            dist/*.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Electron app (win)
+        run: npm run build
+
+      - name: Upload Release (win)
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.exe
+            dist/*.blockmap
+            dist/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
