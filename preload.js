@@ -2,6 +2,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 // Envoie tout à electron-main.js
 contextBridge.exposeInMainWorld('api', {
+  // Récupère la version de l'application
+  getVersion: async () => {
+    return await ipcRenderer.invoke('get-version');
+  },
+
   // Boutons de la fenêtre
   minimize: () => ipcRenderer.send('window-minimize'),
   close: () => ipcRenderer.send('window-close'),

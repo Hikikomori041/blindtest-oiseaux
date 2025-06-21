@@ -127,4 +127,7 @@ ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
 });
 
 
-
+// Récupère la version de l'application depuis package.json
+ipcMain.handle('get-version', () => {
+  return app.getVersion();
+});

@@ -1,7 +1,7 @@
 To do:
+- raccourcis clavier pour activer la console ?
 - Modifier: compter la lecture d'un oiseau APRÈS sa validation (servira pour les données des listes persos)
 - système de mise à jour de l'app
-- sauvegarder les dimensions de la fenêtre en paramètres de l'application
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:

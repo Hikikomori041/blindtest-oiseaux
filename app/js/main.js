@@ -1,7 +1,7 @@
-import { loadSettings } from './js/settings.js';
-import { bindAllButtons} from './js/buttons.js';
-import { playRandomBird, updateVolumeGradient} from './js/player.js';
-import { applySelectedTypes, genererGrilleOiseaux, startProgressSmooth } from './js/layout.js';
+import { loadSettings } from './settings.js';
+import { bindAllButtons} from './buttons.js';
+import { playRandomBird, updateVolumeGradient} from './player.js';
+import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth } from './layout.js';
 
 const audio = new Audio();
 
@@ -9,6 +9,8 @@ let app = {}; // Paramètres de l'application
 
 
 document.addEventListener('DOMContentLoaded', async () => {
+  setTitleVersion();
+
   // Chargement des paramètres de l'application
   try {
     app = await loadSettings();

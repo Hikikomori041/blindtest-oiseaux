@@ -4,6 +4,13 @@ import { bindBirdCell } from './buttons.js';
 import { clearSearch } from './search.js';
 import { playSound } from './player.js';
 
+// Change la version dans le titre
+export const setTitleVersion = async () => {
+  const version = await window.api.getVersion();
+  document.querySelector('#titlebar .title').textContent = `Blind-Test Oiseaux v${version}`;
+  document.title = `Blind-Test Oiseaux v${version}`;
+};
+
 // Applique une sélection de types sur le programme
 export function applySelectedTypes(selectedTypes) {
   document.querySelectorAll('#type-selection .button').forEach(button => {
