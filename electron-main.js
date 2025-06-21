@@ -62,7 +62,7 @@ app.whenReady().then(() => {
   });
 
   // Pour activer la console développeur
-  globalShortcut.register('I', () => { //'Control+I'
+  globalShortcut.register('Control+I', () => {
     if (consoleShortCutEnabled) {
       if (!logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
       else win.webContents.closeDevTools(); // Cache les outils développeurs
