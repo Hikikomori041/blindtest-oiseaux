@@ -187,23 +187,38 @@ function bindBottomButtons({app}) {
     e.stopPropagation(); // Empêche de propager au document
   
     const menu = document.getElementById('more-menu');
-    const updateSearchButton = document.getElementById('update-search-button');
-    const seeGithubButton = document.getElementById('see-github-button');
   
     menu.style.display = 'block';
     menu.style.left = `${e.pageX}px`;
     menu.style.top = `${e.pageY-100}px`;
+
   
     // Quand on clique sur "Chercher une mise à jour"
-    updateSearchButton.onclick = () => {
-      // todo: chercher une update
-      document.getElementById('result-text').innerHTML = "Recherche de mise à jour...";
-      document.getElementById('result-text').style.color = "black";
-      showPopup();
+    document.getElementById('update-search-button').onclick = async () => {
+
+      try {
+        const remoteVersion = await window.api.checkUpdate();
+        const localVersion = await window.api.getVersion();
+
+        if (remoteVersion !== localVersion) {
+          alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
+        } else {
+          alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Impossible de vérifier les mises à jour.');
+      }
+      
+      // document.getElementById('result-text').innerHTML = "Recherche de mise à jour...";
+      // document.getElementById('result-text').style.color = "black";
+      // showPopup();
+
+      // Désaffiche le context-menu du bouton "Plus"
       menu.style.display = 'none';
     };
     // Quand on clique sur "Voir le GitHub"
-    seeGithubButton.onclick = () => {
+    document.getElementById('see-github-button').onclick = () => {
       const link = `https://github.com/Hikikomori041/blindtest-oiseaux`;
       window.open(link, '_blank');
       menu.style.display = 'none';

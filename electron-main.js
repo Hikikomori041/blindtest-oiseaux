@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut, net } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
@@ -155,4 +155,29 @@ ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
 // Récupère la version de l'application depuis package.json
 ipcMain.handle('get-version', () => {
   return app.getVersion();
+});
+
+
+
+// Vérifie s'il y a une mise à jour disponible
+ipcMain.handle('check-update', async () => {
+  return new Promise((resolve, reject) => {
+    const request = net.request('https://raw.githubusercontent.com/Hikikomori041/blindtest-oiseaux/main/package.json');
+    request.on('response', (response) => {
+      let body = '';
+      response.on('data', (chunk) => { body += chunk; });
+      response.on('end', () => {
+        try {
+          const remotePackage = JSON.parse(body);
+          resolve(remotePackage.version);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+    request.on('error', (err) => {
+      reject(err);
+    });
+    request.end();
+  });
 });

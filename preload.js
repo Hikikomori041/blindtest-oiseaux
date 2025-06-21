@@ -6,6 +6,10 @@ contextBridge.exposeInMainWorld('api', {
   getVersion: async () => {
     return await ipcRenderer.invoke('get-version');
   },
+  // Vérifie s'il y a une mise à jour disponible
+  checkUpdate: async () => {
+    return await ipcRenderer.invoke('check-update');
+  },
 
   // Boutons de la fenêtre
   minimize: () => ipcRenderer.send('window-minimize'),
