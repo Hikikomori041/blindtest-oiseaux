@@ -1,4 +1,11 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, net } = require('electron');
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+
+
 const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
@@ -48,6 +55,7 @@ function createWindow() {
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
 app.whenReady().then(() => {
+  log.info('Application démarre...');
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -95,6 +103,9 @@ app.whenReady().then(() => {
       console.error('Erreur sauvegarde parametres utilisateurs:', e);
     }
   });
+
+  log.info('check-update appelé');
+  autoUpdater.checkForUpdatesAndNotify();
 });
 // À la fermeture de la fenêtre
 app.on('window-all-closed', () => {

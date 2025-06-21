@@ -16,3 +16,27 @@ Bugs:
 V2:
 - système de liste persos
     -> enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Note pour package.json:
+
+- Ce code permet de donner le choix à l'utilisateur du dossier d'installation + si le programme se lance à la fin de l'installation
+    "build":
+        "nsis": {
+        "oneClick": false,
+        "allowToChangeInstallationDirectory": true
+        },
+
+- Ce code permet apparemment d'enregistrer à part le dossier ressources (cela dit le programme ne charge plus rien après)
+    "files": [
+      "**/*",
+      "!ressources/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "ressources",
+        "to": "ressources"
+      }
+    ]
