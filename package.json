@@ -1,7 +1,7 @@
 {
   "author": "Nicolas BLACHÈRE <nicolas.blachere@gmail.com> (https://github.com/Hikikomori041)",
   "name": "blindtest-oiseaux",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Blind-test de chants d'oiseaux",
   "main": "electron-main.js",
   "scripts": {
@@ -19,11 +19,13 @@
     "win": {
       "target": "nsis",
       "icon": "ressources/images/oiseau.ico",
+      "artifactName": "Blind-Test-Oiseaux-Setup-${version}.exe",
       "forceCodeSigning": false
     },
     "mac": {
       "target": "dmg",
-      "icon": "ressources/images/oiseau.icns"
+      "icon": "ressources/images/oiseau.icns",
+      "artifactName": "Blind-Test-Oiseaux-${version}.dmg"
     },
     "directories": {
       "output": "dist"

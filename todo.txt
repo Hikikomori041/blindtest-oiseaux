@@ -1,5 +1,6 @@
 Aide: pour push une release, on peut simplement faire:
 > cls;npm run release;
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 To do:
 - système de mise à jour de l'app
