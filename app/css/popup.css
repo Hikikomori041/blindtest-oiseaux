@@ -74,6 +74,12 @@
   margin: 0 auto;
   margin-bottom: 20px;
 }
+#result-image img {
+  transition: 0.1s ease;
+}
+#result-image img:hover{
+  border: 3px solid black;
+}
 #close-popup-button {
   text-align: center;
   position: absolute;
@@ -124,9 +130,11 @@
   height: 56px;
   width: 240px;
   border-radius: 16px;
+  transition: 0.15s ease;
 }
 #next-button:hover {
   background: #496081;
+  border: 2px solid gray;
 }
 #next-button:active {
   background: #496081; /* le même effet que :hover */

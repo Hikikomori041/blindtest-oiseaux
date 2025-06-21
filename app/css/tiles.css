@@ -2,6 +2,9 @@
 /* #more-button {
   z-index: 999!important;
 } */
+#more-button {
+  border: none!important;
+}
 
 /* Menu "Plus" */
 #more-menu {
