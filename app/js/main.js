@@ -1,5 +1,5 @@
-import { loadSettings } from './settings.js';
-import { bindAllButtons} from './buttons.js';
+import { loadSettings, windowSetSize } from './settings.js';
+import { bindAllButtons} from './controls.js';
 import { playRandomBird, updateVolumeGradient} from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth } from './layout.js';
 

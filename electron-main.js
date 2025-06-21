@@ -1,15 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
-const logOn = true;
 const DEFAULT_WIDTH = 1300;
 const DEFAULT_HEIGHT = 750;
 
+let win;
+let logOn = false;
+const consoleShortCutEnabled = true;
 
 // Création de la fenêtre de l'application
-let win;
 function createWindow() {
   win = new BrowserWindow({
     width: DEFAULT_WIDTH,
@@ -29,7 +30,6 @@ function createWindow() {
   // Gestion de la fenêtre web
   win.loadFile('app/index.html');
   win.removeMenu();
-  if (logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
 
   win.on('maximize', () => {
     win.webContents.send('window-maximize');
@@ -51,6 +51,15 @@ app.whenReady().then(() => {
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+  // Pour activer la console développeur
+  globalShortcut.register('I', () => { //'Control+I'
+    if (consoleShortCutEnabled) {
+      if (!logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
+      else win.webContents.closeDevTools(); // Cache les outils développeurs
+      logOn = !logOn;
+    }
   });
 
 
@@ -91,6 +100,11 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+});
+
 
 
 
