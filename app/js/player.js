@@ -7,6 +7,8 @@ export function playSound(son, volume=1.0) {
   const chemin = `../ressources/sons/${son}`;
   const audio = new Audio(chemin);
   audio.volume = volume; // de 0.0 à 1.0
+  audio.preload = 'auto';
+  audio.load();
   audio.play();
 }
 
@@ -65,6 +67,8 @@ export function toggleReplayMode({app}) {
     replayModeButton.classList.remove("deactivated");
 
     if (app.audio.currentTime >= app.audio.duration) {
+      app.audio.preload = 'auto';
+      app.audio.load();
       app.audio.play();
     }
   }
@@ -105,6 +109,8 @@ function playBirdSound(name, {app}, index = 0) {
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
+  app.audio.preload = 'auto';
+  app.audio.load();
   app.audio.play().then(() => {
     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
@@ -127,6 +133,8 @@ export function playNextVariant({app}) {
 
 export function togglePause({app}) {
   if (app.audio.paused) {
+    app.audio.preload = 'auto';
+    app.audio.load();
     app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";

@@ -3,12 +3,9 @@ import { bindAllButtons} from './controls.js';
 import { playRandomBird, updateVolumeGradient} from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth } from './layout.js';
 
-const audio = new Audio();
-
-let app = {}; // Paramètres de l'application
-
 
 document.addEventListener('DOMContentLoaded', async () => {
+  let app = {}; // Paramètres de l'application
   setTitleVersion();
 
   // Chargement des paramètres de l'application

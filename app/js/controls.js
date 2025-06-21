@@ -145,6 +145,8 @@ function bindBottomButtons({app}) {
 
   document.getElementById('replay-button').addEventListener('click', () => {
     app.audio.currentTime = 0;
+    app.audio.preload = 'auto';
+    app.audio.load();
     app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
