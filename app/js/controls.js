@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, showPopup, validate } from './layout.js';
+import { genererGrilleOiseaux, toggleOverlay, validate } from './layout.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -86,7 +86,7 @@ function bindBirds({app}) {
   // Clic ailleurs → on ferme le menu
   document.addEventListener('click', () => {
     document.getElementById('context-menu').style.display = 'none';
-    document.getElementById('more-menu').style.display = 'none';
+    // document.getElementById('tiles-container').style.display = 'none';//todo: voir si y en a besoin ici pour tiles-container
   });
 }
 
@@ -183,63 +183,61 @@ function bindBottomButtons({app}) {
 
 
   // Boutons "Plus"
-  document.getElementById('more-button').addEventListener('click', (e) => {
-    e.stopPropagation(); // Empêche de propager au document
-  
-    const menu = document.getElementById('more-menu');
-  
-    menu.style.display = 'block';
-    menu.style.left = `${e.pageX}px`;
-    menu.style.top = `${e.pageY-100}px`;
+  document.getElementById('more-button').addEventListener('click', async () => {
+    toggleOverlay();
 
-  
-    // Quand on clique sur "Chercher une mise à jour"
-    document.getElementById('update-search-button').onclick = async () => {
-
-      try {
-        const remoteVersion = await window.api.checkUpdate();
-        const localVersion = await window.api.getVersion();
-
-        if (compareVersions(remoteVersion, localVersion) > 0) {
-          alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
-        } else {
-          alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Impossible de vérifier les mises à jour.');
-      }
-      
-      // document.getElementById('result-text').innerHTML = "Recherche de mise à jour...";
-      // document.getElementById('result-text').style.color = "black";
-      // showPopup();
-
-      // Désaffiche le context-menu du bouton "Plus"
-      menu.style.display = 'none';
-    };
-    // Quand on clique sur "Voir le GitHub"
-    document.getElementById('see-github-button').onclick = () => {
-      const link = `https://github.com/Hikikomori041/blindtest-oiseaux`;
-      window.open(link, '_blank');
-      menu.style.display = 'none';
-    };
+    const moreMenu = document.getElementById('more-menu');
+    if (moreMenu.classList.contains('hidden')) {
+      // On affiche le menu
+      moreMenu.classList.remove('hidden');
+      // Trigger reflow to allow transition
+      void moreMenu.offsetWidth;
+      moreMenu.classList.add('visible');
+    } else {
+      // On cache le menu
+      moreMenu.classList.remove('visible');
+      moreMenu.addEventListener('transitionend', () => {
+        moreMenu.classList.add('hidden');
+      }, { once: true });
+    }
   });
+
+  // Tiles du bouton "Plus"
+  //todo
 }
 
-function compareVersions(v1, v2) {
-  console.log("Git:",v1,"Local:",v2);
-  const v1parts = v1.split('.').map(Number);
-  const v2parts = v2.split('.').map(Number);
 
-  for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
-    const a = v1parts[i] || 0;
-    const b = v2parts[i] || 0;
+// document.getElementById('update-search-button').onclick = async () => {
+//   try {
+//     const remoteVersion = await window.api.checkUpdate();
+//     const localVersion = await window.api.getVersion();
 
-    if (a > b) return 1;
-    if (a < b) return -1;
-  }
-  return 0;
-}
+//     if (compareVersions(remoteVersion, localVersion) > 0) {
+//       alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
+//     } else {
+//       alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert('Impossible de vérifier les mises à jour.');
+//   }
+// }
+
+// Fonction qui permet de savoir si le programme doit être mis à jour
+// function compareVersions(v1, v2) {
+//   console.log("Git:",v1,"Local:",v2);
+//   const v1parts = v1.split('.').map(Number);
+//   const v2parts = v2.split('.').map(Number);
+
+//   for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
+//     const a = v1parts[i] || 0;
+//     const b = v2parts[i] || 0;
+
+//     if (a > b) return 1;
+//     if (a < b) return -1;
+//   }
+//   return 0;
+// }
 
 
 // Tous les raccourcis clavier et souris

@@ -44,14 +44,14 @@ function showImage(birdName) {
 }
 
 export function showPopup() {
-  document.getElementById('overlay').style.zIndex = 10;
+  showOverlay();
   const popup = document.getElementById('result-popup');
   popup.style.display = 'block';
   popup.style.animation = 'popupIn 0.3s forwards';
 }
 
 export function hidePopup() {
-  document.getElementById('overlay').style.zIndex = 0;
+  hideOverlay();
   const popup = document.getElementById('result-popup');
   popup.style.animation = 'popupOut 0.3s forwards';
   
@@ -143,4 +143,29 @@ export function validate(guess, {app}) {
   document.getElementById('result-birdname-latin').innerHTML = `(${getNomLatin(app.currentBird, app.birdsData)})`;
   showImage(app.currentBird);
   showPopup();
+}
+
+
+export function toggleOverlay() {
+  // On part du principe qu'on utilise cette fonction que pour toggle les tiles du bouton "Plus"
+  const overlay = document.getElementById('overlay');
+  if (overlay.style.zIndex == 0) {
+    showOverlay(100);
+    overlay.style.background = "rgba(0, 0, 0, 0.75)";
+  } else {
+    hideOverlay();
+    overlay.style.background = "rgba(100, 100, 100, 0.35)";
+  }
+}
+
+export function showOverlay(zIndex = 10) {
+  const overlay = document.getElementById('overlay');
+  overlay.style.zIndex = zIndex;
+  overlay.style.opacity = 1;
+}
+
+export function hideOverlay() {
+  const overlay = document.getElementById('overlay');
+  overlay.style.zIndex = 0;
+  overlay.style.opacity = 0;
 }

@@ -9,6 +9,14 @@ autoUpdater.logger.transports.file.level = 'info';
 const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
+const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
+try {
+  fs.unlinkSync(logPath);
+  console.log('✅ Log effacé au démarrage');
+} catch (err) {
+  // pas grave si le fichier n'existe pas encore
+}
+
 
 const DEFAULT_WIDTH = 1300;
 const DEFAULT_HEIGHT = 750;

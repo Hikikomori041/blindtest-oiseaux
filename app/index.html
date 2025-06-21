@@ -10,10 +10,13 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/left-menu.css">
   <link rel="stylesheet" href="css/popup.css">
+  <link rel="stylesheet" href="css/tiles.css">
 </head>
 <body>
-  
   <div id="page">
+
+
+
     <div id="titlebar">
       <div id="drag-region">
         <span class="title">Blind-Test Oiseaux</span>
@@ -28,7 +31,7 @@
     <div id="content">
 
 
-      <div id="result-popup" class="notification is-info is-light" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 999; padding: 1.5rem; font-size: 1.5rem;">
+      <div id="result-popup" class="notification is-info is-light">
         <button id="close-popup-button">✖</button>
         <span id="result-text"></span>
         <div id="result-bird">
@@ -103,12 +106,6 @@
 
     </div>
 
-
-    <div id="more-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
-      <span id="see-github-button" class="is-link">Voir les sources du projet</span>
-      <span id="update-search-button" class="is-info">Rechercher une mise à jour</span>
-    </div>
-
     <section id="controls" class="box">
       <input id="progress-slider" type="range" min="0" max="100" value="0">
 
@@ -151,9 +148,19 @@
 
       </div>
     </section>
+
+    <div id="more-menu" class="tiles-container hidden">
+      <span id="see-github-button" class="tile">Voir les sources du projet</span>
+      <span id="update-search-button" class="tile">Rechercher une mise à jour</span>
+      <span id="tile-3" class="tile">Tile 3</span>
+      <span id="tile-4" class="tile">Tile 4</span>
+      <span id="tile-5" class="tile">Tile 5</span>
+      <span id="tile-6" class="tile">Tile 6</span>
+    </div>
+
+
+
   </div>
-
   <script type="module" src="js/main.js"></script>
-
 </body>
 </html>
