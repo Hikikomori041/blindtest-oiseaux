@@ -147,12 +147,14 @@ function bindBottomButtons({app}) {
     app.audio.currentTime = 0;
     app.audio.preload = 'auto';
     app.audio.load();
-    app.audio.play().then(() => {
-      document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
-    }).catch(err => {
-      console.error("Erreur lecture :", err);
-    });
+    app.audio.oncanplaythrough = () => {
+      app.audio.play().then(() => {
+        document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+        document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+      }).catch(err => {
+        console.error("Erreur lecture :", err);
+      });
+    };
   });
 
   // Bouton "autre son de l'oiseau"

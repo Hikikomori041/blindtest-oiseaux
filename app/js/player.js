@@ -9,7 +9,9 @@ export function playSound(son, volume=1.0) {
   audio.volume = volume; // de 0.0 à 1.0
   audio.preload = 'auto';
   audio.load();
-  audio.play();
+  audio.oncanplaythrough = () => {
+    audio.play();
+  };
 }
 
 
@@ -69,7 +71,9 @@ export function toggleReplayMode({app}) {
     if (app.audio.currentTime >= app.audio.duration) {
       app.audio.preload = 'auto';
       app.audio.load();
-      app.audio.play();
+      app.audio.oncanplaythrough = () => {
+        app.audio.play();
+      };
     }
   }
   else {
@@ -111,12 +115,14 @@ function playBirdSound(name, {app}, index = 0) {
 
   app.audio.preload = 'auto';
   app.audio.load();
-  app.audio.play().then(() => {
-    document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
-  }).catch(err => {
-    console.error("Erreur lecture :", err);
-  });
+  app.audio.oncanplaythrough = () => {
+    app.audio.play().then(() => {
+      document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+    }).catch(err => {
+      console.error("Erreur lecture :", err);
+    });
+  };
   hidePopup();
 }
 
@@ -135,12 +141,14 @@ export function togglePause({app}) {
   if (app.audio.paused) {
     app.audio.preload = 'auto';
     app.audio.load();
-    app.audio.play().then(() => {
-      document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
-    }).catch(err => {
-      console.error("Erreur lecture :", err);
-    });
+    app.audio.oncanplaythrough = () => {
+      app.audio.play().then(() => {
+        document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+        document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+      }).catch(err => {
+        console.error("Erreur lecture :", err);
+      });
+    };
   } else {
     app.audio.pause();
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
