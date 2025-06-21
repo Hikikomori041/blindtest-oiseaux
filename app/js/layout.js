@@ -1,6 +1,6 @@
 // Ici iront toutes les fonctions liées à l'affichage
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
-import { bindBirdCell } from './buttons.js';
+import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
 import { playSound } from './player.js';
 
@@ -34,6 +34,7 @@ function showImage(birdName) {
   img.style.maxWidth = '300px';
   img.style.cursor = 'pointer';
   img.onclick = () => {
+    console.log(link);
     window.open(link, '_blank');
   };
   // img.title = link;
@@ -65,7 +66,7 @@ export function hidePopup() {
 
 
 // Pour générer dynamiquement la grille des oiseaux
-export async function genererGrilleOiseaux({app, audio}) {
+export async function genererGrilleOiseaux({app}) {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
 
@@ -93,7 +94,7 @@ export async function genererGrilleOiseaux({app, audio}) {
         </div>
       </div>
     `;
-    bindBirdCell(divCell, birdName, {app, audio});
+    bindBirdCell(divCell, birdName, {app});
     
     grid.appendChild(divCell);
   }
@@ -135,8 +136,7 @@ export function validate(guess, {app}) {
   document.getElementById('score').textContent = `Score: ${app.score}/${app.total}`;
   
   // Ajoute une écoute à l'oiseau
-  // app.birdsData[currentBird].playCount += 1;
-  // console.log(app.birdsData[currentBird]);
+  app.birdsData[app.currentBird].playCount = (app.birdsData[app.currentBird].playCount || 0) + 1;
 
   // Afficher la popup
   document.getElementById('result-birdname-french').innerHTML = app.currentBird;

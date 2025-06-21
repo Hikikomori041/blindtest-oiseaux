@@ -5,13 +5,14 @@ To do:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
-- 
+- lien vers la gallinule poule d'eau marche pas
+- visuel: sur petit écran, la barre de contrôle de volume prend trop de place -> ne pas la mettre en px fix
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À corriger peut-être:
 - changer la police d'écriture
-- enregistrer le playCount à la fermeture de l'app
+- enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 - désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné
 
 

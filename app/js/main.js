@@ -18,29 +18,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
-
   
   // Chargement des oiseaux
+  app.audio = new Audio();
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
 
   // Association des actions aux boutons
-  bindAllButtons({ app, audio });
+  bindAllButtons({ app });
 
   // Application des paramètres de l'application
   applySelectedTypes(app.selectedTypes);
   updateVolumeGradient(app.volume);
-  startProgressSmooth(audio); // pour l'animation du slider du volume
+  startProgressSmooth(app.audio); // pour l'animation du slider du volume
 
+  // On change la taille de la fenêtre
+  windowSetSize(app.winWidth, app.winHeight);
   if (app.isMaximized) {
     window.api.maximize();
   }
 
   // On génère enfin la grille des oiseaux à afficher
-  await genererGrilleOiseaux({app, audio});
+  await genererGrilleOiseaux({app});
 
   // On lance directement un son d'oiseau au démarrage
-  playRandomBird({app, audio});
+  playRandomBird({app});
 })

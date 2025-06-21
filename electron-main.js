@@ -4,13 +4,16 @@ const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
 const logOn = true;
+const DEFAULT_WIDTH = 1300;
+const DEFAULT_HEIGHT = 750;
+
 
 // Création de la fenêtre de l'application
 let win;
 function createWindow() {
   win = new BrowserWindow({
-    width: 1300,
-    height: 800,
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
     minWidth: 1024,
     minHeight: 750,
     // resizable: false,
@@ -33,10 +36,9 @@ function createWindow() {
 
     // Dès que la fenêtre est ready, on enlève le focus actif (souvent sur le minimize)
     win.webContents.once('did-finish-load', () => {
-    win.webContents.focus(); // force le focus général
-    win.webContents.executeJavaScript(`document.activeElement && document.activeElement.blur();`);
-});
-
+      win.webContents.focus(); // force le focus général
+      win.webContents.executeJavaScript(`document.activeElement && document.activeElement.blur();`);
+    });
   });
 
   win.on('unmaximize', () => {
@@ -53,7 +55,16 @@ app.whenReady().then(() => {
 
 
   ipcMain.handle('load-settings', async () => {
-    const settingsDefault = { isMaximized: false, replayMode: true, lastVolume: 100, muted: false, selectedTypes: ['commun', 'eau', 'plaine'] };
+    const settingsDefault = {
+      isMaximized: false,
+      winWidth: DEFAULT_WIDTH,
+      winHeight: DEFAULT_HEIGHT,
+      replayMode: true,
+      lastVolume: 100,
+      volume: 100,
+      muted: false,
+      selectedTypes: ['commun', 'eau', 'plaine']
+    };
     try {
       if (fs.existsSync(settingsPath)) {
         const raw = fs.readFileSync(settingsPath);
