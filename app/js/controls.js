@@ -200,7 +200,7 @@ function bindBottomButtons({app}) {
         const remoteVersion = await window.api.checkUpdate();
         const localVersion = await window.api.getVersion();
 
-        if (remoteVersion !== localVersion) {
+        if (compareVersions(remoteVersion, localVersion) > 0) {
           alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
         } else {
           alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
@@ -225,6 +225,22 @@ function bindBottomButtons({app}) {
     };
   });
 }
+
+function compareVersions(v1, v2) {
+  console.log("Git:",v1,"Local:",v2);
+  const v1parts = v1.split('.').map(Number);
+  const v2parts = v2.split('.').map(Number);
+
+  for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
+    const a = v1parts[i] || 0;
+    const b = v2parts[i] || 0;
+
+    if (a > b) return 1;
+    if (a < b) return -1;
+  }
+  return 0;
+}
+
 
 // Tous les raccourcis clavier et souris
 function bindShortcuts({app}) {

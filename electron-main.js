@@ -162,16 +162,13 @@ ipcMain.handle('get-version', () => {
 // Vérifie s'il y a une mise à jour disponible
 ipcMain.handle('check-update', async () => {
   return new Promise((resolve, reject) => {
-    const request = net.request('https://api.github.com/repos/Hikikomori041/blindtest-oiseaux/contents/package.json');
-    request.setHeader('User-Agent', 'BlindTestOiseaux');
+    const request = net.request('https://raw.githubusercontent.com/Hikikomori041/blindtest-oiseaux/main/package.json');
     request.on('response', (response) => {
       let body = '';
       response.on('data', (chunk) => { body += chunk; });
       response.on('end', () => {
         try {
-          const apiResponse = JSON.parse(body);
-          const decodedContent = Buffer.from(apiResponse.content, 'base64').toString();
-          const remotePackage = JSON.parse(decodedContent);
+          const remotePackage = JSON.parse(body);
           resolve(remotePackage.version);
         } catch (err) {
           reject(err);
@@ -184,3 +181,36 @@ ipcMain.handle('check-update', async () => {
     request.end();
   });
 });
+
+
+
+// Vérifie la mise à jour en fonction du dernier tag release
+// ipcMain.handle('check-update', async () => {
+//   return new Promise((resolve, reject) => {
+//     const request = net.request('https://api.github.com/repos/Hikikomori041/blindtest-oiseaux/releases/latest');
+//     request.setHeader('User-Agent', 'BlindTestOiseaux');
+//     request.on('response', (response) => {
+//       let body = '';
+//       response.on('data', (chunk) => { body += chunk; });
+//       response.on('end', () => {
+//         try {
+//           const apiResponse = JSON.parse(body);
+//           let remoteVersion = apiResponse.tag_name;
+
+//           // Nettoie "v" devant si besoin
+//           if (remoteVersion.startsWith('v')) {
+//             remoteVersion = remoteVersion.substring(1);
+//           }
+
+//           resolve(remoteVersion);
+//         } catch (err) {
+//           reject(err);
+//         }
+//       });
+//     });
+//     request.on('error', (err) => {
+//       reject(err);
+//     });
+//     request.end();
+//   });
+// });
