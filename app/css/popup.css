@@ -135,7 +135,7 @@
 }
 #next-button:hover {
   background: #496081;
-  border: 2px solid gray;
+  /* border: 2px solid gray; */
 }
 #next-button:active {
   background: #496081; /* le même effet que :hover */

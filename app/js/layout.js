@@ -38,7 +38,7 @@ function showImage(birdName) {
     window.open(link, '_blank');
   };
   // img.title = link;
-  img.title = "Cliquer pour en savoir plus sur cet oiseau"
+  // img.title = "Cliquer pour en savoir plus sur cet oiseau";
 
   container.appendChild(img);
 }

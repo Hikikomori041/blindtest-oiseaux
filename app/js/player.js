@@ -57,7 +57,7 @@ export function updateVolumeGradient(volume) {
 
   volumeSlider.style.background = `linear-gradient(to right, #1db954 ${percent}%, #555 ${percent}%)`;
   volumeSlider.value = volume;
-  volumeSlider.title = volume + "%";
+  volumeSlider.dataset.tooltip = volume + "%";
   checkVolumeButtonIcon(volume);
 }
 

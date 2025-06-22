@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/left-menu.css">
   <link rel="stylesheet" href="css/popup.css">
   <link rel="stylesheet" href="css/tiles.css">
+  <link rel="stylesheet" href="css/tooltip.css">
 </head>
 <body>
   <div id="page">
@@ -21,9 +22,9 @@
       <div id="drag-region">
         <span class="title">Blind-Test Oiseaux</span>
         <div id="window-controls">
-          <button id="minimize-button" title="Minimiser la fenêtre">━</button>
-          <button id="maximize-button" title="Agrandir la fenêtre">🗖</button>
-          <button id="close-button" title="Fermer la fenêtre">✖</button>
+          <button id="minimize-button">━</button> <!--  class="tooltip tooltip-bottom" data-tooltip="Minimiser la fenêtre" -->
+          <button id="maximize-button">🗖</button> <!--  class="tooltip tooltip-bottom" data-tooltip="Agrandir la fenêtre" -->
+          <button id="close-button">✖</button> <!--  class="tooltip tooltip-bottom" data-tooltip="Fermer la fenêtre" -->
         </div>
       </div>
     </div>
@@ -39,8 +40,8 @@
             <span id="result-birdname-french"></span>
             <span id="result-birdname-latin"></span>
           </span>
-          <div id="result-image"></div>
-          <button id="next-button" class="button is-link" title="Écouter un autre oiseau (espace)">Écouter un autre oiseau ➡️</button>
+          <div id="result-image" class="tooltip tooltip-right" data-tooltip="Clique pour en savoir plus sur cet oiseau"></div>
+          <button id="next-button" class="button is-link tooltip tooltip-bottom" data-tooltip="Écouter un autre oiseau (espace)">Écouter un autre oiseau ➡️</button>
         </div>
       </div>
 
@@ -113,37 +114,37 @@
 
         <!-- Partie gauche : animation oiseau -->
         <div id="controls-left">
-          <button id="more-button" class="button" title="Plus">
+          <button id="more-button" class="button tooltip tooltip-top" data-tooltip="Plus">
             <img src="../ressources/images/more-button.png" alt="Plus"/>
           </button>
         </div>
 
         <!-- Partie centre : boutons -->
         <div id="controls-center">
-          <button id="replay-mode-button" class="button activated" title="Activer le replay">
+          <button id="replay-mode-button" class="button tooltip tooltip-top activated" data-tooltip="Activer le replay">
             <img src="../ressources/images/replay-mode-button-enabled.png" alt="Activer le replay"/>
           </button>
-          <button id="replay-button" class="button" title="Réécouter (r)">
+          <button id="replay-button" class="button tooltip tooltip-top" data-tooltip="Réécouter (r)">
             <img src="../ressources/images/replay-button.png" alt="Réécouter"/>
           </button>
-          <button id="rewind-button" class="button" title="Reculer de 5 secondes (←)">
+          <button id="rewind-button" class="button tooltip tooltip-top" data-tooltip="Reculer de 5 secondes (←)">
             <img src="../ressources/images/rewind-button.png" alt="Reculer de 5s"/>
           </button>
-          <button id="pause-button" class="button" title="Pause (espace)">
+          <button id="pause-button" class="button tooltip tooltip-top" data-tooltip="Pause (espace)">
             <img id="pause-button-img" src="../ressources/images/pause-button.png" alt="Pause"/>
           </button>
-          <button id="forward-button" class="button" title="Avancer de 5 secondes (→)">
+          <button id="forward-button" class="button tooltip tooltip-top" data-tooltip="Avancer de 5 secondes (→)">
             <img src="../ressources/images/forward-button.png" alt="Avancer de 5s"/>
           </button>
-          <button id="switch-button" class="button" title="Autre son (p)">
+          <button id="switch-button" class="button tooltip tooltip-top" data-tooltip="Autre son (p)">
             <img src="../ressources/images/switch-button.png" alt="Autre son"/>
           </button>
         </div>
 
         <!-- Partie droite : volume -->
         <div id="controls-right">
-          <img for="volume-slider" id="volume-button" class="volume-3" alt="Volume" title="Mute (m)"/>
-          <input id="volume-slider" type="range" min="0" max="100" value="100" title="100%">
+          <img for="volume-slider" id="volume-button" class="tooltip tooltip-top volume-3" alt="Volume" data-tooltip="Mute (m)"/>
+          <input id="volume-slider" type="range" min="0" max="100" value="100" class="tooltip tooltip-top" data-tooltip="100%">
         </div>
 
       </div>
@@ -158,27 +159,27 @@
 
       <div class="tile-grid">
         <div class="tile" id="">
-          <img src="../ressources/images/wip.png" title="Tile 1"/>
+          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 1"/>
           <span>Work In Progress</span>
         </div>
         <div class="tile" id="">
-          <img src="../ressources/images/wip.png" title="Tile 2"/>
+          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 2"/>
           <span>Work In Progress</span>
         </div>
         <div class="tile" id="see-github-tile">
-          <img src="../ressources/images/github.png" title="Voir les sources du projet"/>
+          <img src="../ressources/images/github.png" class="tooltip tooltip-top" data-tooltip="Voir les sources du projet"/>
           <span>Voir les sources du projet</span>
         </div>
         <div class="tile" id="">
-          <img src="../ressources/images/wip.png" title="Tile 4"/>
+          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 4"/>
           <span>Work In Progress</span>
         </div>
         <div class="tile" id="">
-          <img src="../ressources/images/wip.png" title="Tile 5"/>
+          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 5"/>
           <span>Work In Progress</span>
         </div>
         <div class="tile" id="">
-          <img src="../ressources/images/wip.png" title="Tile 6"/>
+          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 6"/>
           <span>Work In Progress</span>
         </div>
       </div>

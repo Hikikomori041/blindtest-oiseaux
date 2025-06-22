@@ -193,6 +193,8 @@ function bindBottomButtons({app}) {
 
   // Boutons "Plus"
   document.getElementById('more-button').addEventListener('click', async () => {
+    hidePopup({app});
+    playRandomBird({app});
     const moreMenu = document.getElementById('more-menu');
 
     if (moreMenu.classList.contains('hidden')) {
