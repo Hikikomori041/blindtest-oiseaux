@@ -119,7 +119,7 @@
   text-align: center;
   font-weight: bold;
   font-size: 0.9em;
-  transition: 0.5s ease;
+  transition: 0.5s ease, border 0.15s ease;
   cursor: pointer;
 }
 
@@ -141,6 +141,7 @@
 
 .cell:hover {
   padding: 1rem;
+  border: 4px solid wheat;
 }
 .cell .bird-name {
   display: flex;

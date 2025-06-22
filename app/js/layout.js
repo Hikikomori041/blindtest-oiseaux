@@ -2,7 +2,7 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playSound } from './player.js';
+import { playSound, playRandomBird } from './player.js';
 
 // Change la version dans le titre
 export const setTitleVersion = async () => {
@@ -50,7 +50,7 @@ export function showPopup() {
   popup.style.animation = 'popupIn 0.3s forwards';
 }
 
-export function hidePopup() {
+export function hidePopup({app}) {
   hideOverlay();
   const popup = document.getElementById('result-popup');
   popup.style.animation = 'popupOut 0.3s forwards';
@@ -146,26 +146,19 @@ export function validate(guess, {app}) {
 }
 
 
-export function toggleOverlay() {
-  // On part du principe qu'on utilise cette fonction que pour toggle les tiles du bouton "Plus"
-  const overlay = document.getElementById('overlay');
-  if (overlay.style.zIndex == 0) {
-    showOverlay(100);
-    overlay.style.background = "rgba(0, 0, 0, 0.75)";
-  } else {
-    hideOverlay();
-    overlay.style.background = "rgba(100, 100, 100, 0.35)";
-  }
-}
 
 export function showOverlay(zIndex = 10) {
   const overlay = document.getElementById('overlay');
   overlay.style.zIndex = zIndex;
   overlay.style.opacity = 1;
+  if (zIndex == 100) {
+    overlay.style.background = "rgba(0, 0, 0, 0.75)";
+  }
 }
 
 export function hideOverlay() {
   const overlay = document.getElementById('overlay');
   overlay.style.zIndex = 0;
   overlay.style.opacity = 0;
+  overlay.style.background = "rgba(100, 100, 100, 0.35)";
 }

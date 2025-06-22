@@ -75,10 +75,11 @@
   margin-bottom: 20px;
 }
 #result-image img {
+  border: 2px solid black;
   transition: 0.1s ease;
 }
 #result-image img:hover{
-  border: 3px solid black;
+  border: 2px dotted  black;
 }
 #close-popup-button {
   text-align: center;

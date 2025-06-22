@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, toggleOverlay, validate } from './layout.js';
+import { genererGrilleOiseaux, hideOverlay, hidePopup, showOverlay, validate } from './layout.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -78,9 +78,8 @@ function bindBirds({app}) {
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
   // Pop-up de résultat
-  // document.getElementById('close-popup-button').addEventListener('click', () => hidePopup());
-  document.getElementById('close-popup-button').addEventListener('click', () => { playRandomBird({app}); });
-  document.getElementById('next-button').addEventListener('click', () => { playRandomBird({app}); });
+  document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup({app}); playRandomBird({app}); } );
+  document.getElementById('next-button').addEventListener('click', () => { hidePopup({app}); playRandomBird({app}); });
   
   // Menu contextuel
   // Clic ailleurs → on ferme le menu
@@ -111,7 +110,7 @@ export function bindBirdCell(birdCell, birdName, {app}) {
     // Quand on clique sur "Plus d'infos"
     seeButton.onclick = () => {
       const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
-      console.log(`https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`);
+      console.log(link);
       window.open(link, '_blank');
       menu.style.display = 'none';
     };
@@ -142,7 +141,6 @@ function bindBottomButtons({app}) {
   document.getElementById('pause-button').addEventListener('click', () => { togglePause({app}); } );
 
   // Gestion du bouton replay
-
   document.getElementById('replay-button').addEventListener('click', () => {
     app.audio.currentTime = 0;
     app.audio.preload = 'auto';
@@ -160,7 +158,6 @@ function bindBottomButtons({app}) {
   // Bouton "autre son de l'oiseau"
   document.getElementById('switch-button').addEventListener('click', () => { playNextVariant({app}); } );
 
-
   // Gestion du volume
   document.getElementById('volume-button').addEventListener('click', () => { muteAudio({app}); } );
   document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app}); } );
@@ -168,10 +165,10 @@ function bindBottomButtons({app}) {
   // Si l'utilisateur clique sur le slider du volume
   const progressSlider = document.getElementById('progress-slider');
   progressSlider.addEventListener('input', () => {
-      if (!app.audio || !app.audio.duration) return;
+    if (!app.audio || !app.audio.duration) return;
 
-      const percent = progressSlider.value;
-      app.audio.currentTime = (percent / 100) * app.audio.duration;
+    const percent = progressSlider.value;
+    app.audio.currentTime = (percent / 100) * app.audio.duration;
   });
 
 
@@ -185,13 +182,21 @@ function bindBottomButtons({app}) {
     }
   });
 
+  function hideMoreMenu() {
+    hideOverlay();
+    const moreMenu = document.getElementById('more-menu');
+    moreMenu.classList.remove('visible');
+    moreMenu.addEventListener('transitionend', () => {
+      moreMenu.classList.add('hidden');
+    }, { once: true });
+  }
 
   // Boutons "Plus"
   document.getElementById('more-button').addEventListener('click', async () => {
-    toggleOverlay();
-
     const moreMenu = document.getElementById('more-menu');
+
     if (moreMenu.classList.contains('hidden')) {
+      showOverlay(100);
       // On affiche le menu
       moreMenu.classList.remove('hidden');
       // Trigger reflow to allow transition
@@ -199,15 +204,46 @@ function bindBottomButtons({app}) {
       moreMenu.classList.add('visible');
     } else {
       // On cache le menu
-      moreMenu.classList.remove('visible');
-      moreMenu.addEventListener('transitionend', () => {
-        moreMenu.classList.add('hidden');
-      }, { once: true });
+      hideMoreMenu();
+    }
+  });
+
+  // Bouton pour fermer les tiles
+  document.getElementById('close-tiles-button').addEventListener('click', () => {
+    document.getElementById('more-button').click();
+  });
+  document.getElementById('overlay').addEventListener('click', () => {
+    if (document.getElementById('more-menu').classList.contains('visible')) {
+      // On cache le menu
+      hideMoreMenu();
+    } else {
+      // On ferme la pop-up
+      hidePopup({app});
+      playRandomBird({app});
     }
   });
 
   // Tiles du bouton "Plus"
-  //todo
+  // Pour l'instant, on met ça parce qu'on a rien d'autre à leur faire faire
+  let tiles = document.querySelectorAll('.tile');
+  for (let tile of tiles) {
+    tile.addEventListener('click', () => {      
+      // On cache le menu
+      hideMoreMenu();
+    });
+  }
+  
+  // Tile "Voir les sources"
+  document.getElementById('see-github-tile').addEventListener('click', () => {
+    // On ouvre GitHub sur un navigateur intégré
+    const link = `https://github.com/Hikikomori041/blindtest-oiseaux/tree/main`;
+    window.open(link, '_blank');
+
+    // On cache le menu
+    hideMoreMenu();
+  });
+  
+
 }
 
 

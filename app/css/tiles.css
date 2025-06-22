@@ -2,9 +2,25 @@
 /* #more-button {
   z-index: 999!important;
 } */
+
+/* #controls-left .button {} */
+/* Bouton "Plus */
 #more-button {
-  border: none!important;
+  width: 56px;
+  height: 56px;
+  background: rgba(245, 245, 245, 0.219);
+  padding: 0.75rem;
 }
+#more-button:hover {
+  padding: 0.5rem;
+  background: rgb(141, 141, 141) !important;
+}
+#more-button img {
+  width: auto !important;
+  height: auto !important;
+}
+
+
 
 /* Menu "Plus" */
 #more-menu {
@@ -25,31 +41,133 @@
 
 
 .tiles-container {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
   position: fixed;
-  height: 100vh;
-  width: 100vw;
-  font-size: 5rem;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  transition: opacity 0.5s ease, transform 0.5s ease, top 0.5s ease;
   opacity: 0;
-  transform: translateY(10px);
-}
-
-.tiles-container.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events:all;
-}
-
-.tiles-container.hidden {
-  display: none;
   pointer-events: none;
 }
 
-.tile {
-  padding: 10px;
-  margin: 5px;
-  background: #eee;
+
+.tiles-container.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.tiles-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.tile-button {
+  padding: 0.8rem 1.5rem;
+  background: #555;
+  color: white;
   border-radius: 8px;
-  display: inline-block;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.tile-button:hover {
+  background: #777;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+@media (max-width: 900px) {
+  .tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .tile-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #333;
+  border-radius: 8px;
+  padding: 1rem;
+  min-width: 200px;
+  min-height: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.tile img {
+  max-width: 80%;
+  max-height: 120px;
+  margin-bottom: 0.5rem;
+  object-fit: contain;
+}
+
+
+.tile span {
+  font-size: 0.9rem;
+  color: white;
+  pointer-events: none;
+  background: none;
+}
+
+.tile:hover {
+  background: #555;
+  transform: translateY(-4px);
+}
+
+#close-tiles-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+#close-tiles-button:hover {
+  color: #ccc;
+  transform: scale(1.2);
+}
+
+
+/* Personnalisation des tiles */
+#see-github-tile {
+  background: rgba(58, 131, 127, 0.75);
+  color:black;
 }

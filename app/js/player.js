@@ -123,7 +123,6 @@ function playBirdSound(name, {app}, index = 0) {
       console.error("Erreur lecture :", err);
     });
   };
-  hidePopup();
 }
 
 
