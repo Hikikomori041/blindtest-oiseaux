@@ -295,6 +295,10 @@
     "type": "commun",
     "nom_latin": "Dendrocopos major"
   },
+  "Pic mar": {
+    "type": "commun",
+    "nom_latin": "Dendrocoptes medius"
+  },
   "Pic vert": {
     "type": "commun",
     "nom_latin": "Picus viridis"
