@@ -39,7 +39,7 @@
   top: 10%;
   left: 50%;
   transform: translateX(-50%) scale(1);
-  z-index: 9999;
+  z-index: 99;
   padding: 1.5rem;
   font-size: 1.5rem;
   background-color: #f7f7f7d2; /* couleur Bulma is-info */

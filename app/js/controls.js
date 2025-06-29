@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, hideOverlay, hidePopup, showOverlay, validate } from './layout.js';
+import { genererGrilleOiseaux, hideOverlay, hidePopup, showOverlay, updateTiles, validate } from './layout.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -54,6 +54,7 @@ function bindWindow({app}) {
       lastVolume: app.lastVolume,
       volume: app.volume,
       muted: app.muted,
+      confirmSoundMuted: app.confirmSoundMuted,
       selectedTypes: getSelectedTypes()
     });
     window.api.close();
@@ -79,8 +80,8 @@ function bindBirds({app}) {
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
   // Pop-up de résultat
-  document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup({app}); playRandomBird({app}); } );
-  document.getElementById('next-button').addEventListener('click', () => { hidePopup({app}); playRandomBird({app}); });
+  document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); } );
+  document.getElementById('next-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); });
   
   // Menu contextuel
   // Clic ailleurs → on ferme le menu
@@ -195,8 +196,7 @@ function bindBottomButtons({app}) {
 
   // Boutons "Plus"
   document.getElementById('more-button').addEventListener('click', async () => {
-    hidePopup({app});
-    playRandomBird({app});
+    // hidePopup({app});
     const moreMenu = document.getElementById('more-menu');
 
     if (moreMenu.classList.contains('hidden')) {
@@ -231,10 +231,12 @@ function bindBottomButtons({app}) {
   // Pour l'instant, on met ça parce qu'on a rien d'autre à leur faire faire
   let tiles = document.querySelectorAll('.tile');
   for (let tile of tiles) {
-    tile.addEventListener('click', () => {      
-      // On cache le menu
-      hideMoreMenu();
-    });
+    if (tile.id != 'see-github-tile' && tile.id != 'toggle-confirm-sound-tile') {
+      tile.addEventListener('click', () => {
+        // On cache le menu
+        hideMoreMenu();
+      });
+    }
   }
   
   // Tile "Voir les sources"
@@ -245,6 +247,18 @@ function bindBottomButtons({app}) {
 
     // On cache le menu
     hideMoreMenu();
+  });
+
+  // Tile "Activer / désactiver le son de validation"
+  let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
+  confirmSoundMutedTile.addEventListener('click', () => {
+    app.confirmSoundMuted = !app.confirmSoundMuted;
+
+    // On cache le menu
+    // hideMoreMenu();
+
+    // On change l'affichage
+    updateTiles({app});
   });
   
 

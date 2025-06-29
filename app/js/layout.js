@@ -50,7 +50,7 @@ export function showPopup() {
   popup.style.animation = 'popupIn 0.3s forwards';
 }
 
-export function hidePopup({app}) {
+export function hidePopup() {
   hideOverlay();
   const popup = document.getElementById('result-popup');
   popup.style.animation = 'popupOut 0.3s forwards';
@@ -134,11 +134,11 @@ export function validate(guess, {app}) {
     app.score++;
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'green';
-    playSound('succes.mp3', 0.5 * app.volume/100);
+    playSound({app}, 'succes.mp3', 0.5 * app.volume/100);
   } else {
     text.innerHTML = `❌ Raté !`;
     text.style.color = 'red';
-    playSound('erreur.mp3', 0.2 * app.volume/100);
+    playSound({app}, 'erreur.mp3', 0.2 * app.volume/100);
   }
   document.getElementById('score').textContent = `Oiseaux trouvés: ${app.score}/${app.total}`;
   
@@ -168,4 +168,19 @@ export function hideOverlay() {
   overlay.style.zIndex = 0;
   overlay.style.opacity = 0;
   overlay.style.background = "rgba(100, 100, 100, 0.35)";
+}
+
+export function updateTiles({app}) {
+  let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
+  if (app.confirmSoundMuted) {
+    confirmSoundMutedTile.innerHTML = `
+      <img src="../ressources/images/volume-muted-yellow.png" class="tooltip tooltip-top" data-tooltip="Activer les sons de validation"/>
+      <span>Sons de validation désactivés</span>
+    `;
+  } else {
+    confirmSoundMutedTile.innerHTML = `
+      <img src="../ressources/images/volume-3-yellow.png" class="tooltip tooltip-top" data-tooltip="Désactiver les sons de validation"/>
+      <span>Sons de validation activés</span>
+    `;
+  }
 }

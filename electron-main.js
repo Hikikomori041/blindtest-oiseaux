@@ -88,6 +88,7 @@ app.whenReady().then(() => {
       lastVolume: 100,
       volume: 100,
       muted: false,
+      confirmSoundMuted: false,
       selectedTypes: ['commun', 'eau', 'plaine']
     };
     try {

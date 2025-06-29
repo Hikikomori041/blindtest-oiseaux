@@ -2,7 +2,10 @@
 import { toggleSoundControls } from './controls.js';
 
 // Permet de lire un son (victoire, défaire)
-export function playSound(son, volume=1.0) {
+export function playSound({app}, son, volume=1.0) {
+  // Si on ne joue pas les sons de confirmation, on skip
+  if (app.confirmSoundMuted) return;
+
   const chemin = `../ressources/sons/${son}`;
   const audio = new Audio(chemin);
   audio.volume = volume; // de 0.0 à 1.0

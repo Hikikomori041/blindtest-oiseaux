@@ -1,7 +1,7 @@
 import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons} from './controls.js';
 import { playRandomBird, updateVolumeGradient} from './player.js';
-import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth } from './layout.js';
+import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
+  if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   // console.log('Paramètres:', app);
 
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   applySelectedTypes(app.selectedTypes);
   updateVolumeGradient(app.volume);
   startProgressSmooth(app.audio); // pour l'animation du slider de l'audio
+  updateTiles({app});
 
   // On change la taille de la fenêtre
   windowSetSize(app.winWidth, app.winHeight);
