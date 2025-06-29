@@ -4,6 +4,7 @@ Aide: pour push une release, on peut simplement faire:
 
 To do:
 - ajouter un popup de chargement du son ?
+- option pour couper les sons de victoire / défaite
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
@@ -13,6 +14,7 @@ Bugs:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
+- écran de lancement
 - changer la police d'écriture
 - désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné
 

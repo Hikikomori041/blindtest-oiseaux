@@ -1,6 +1,5 @@
 // Ici iront toutes les fonctions liées à la lecture de son
 import { toggleSoundControls } from './controls.js';
-import { hidePopup } from './layout.js';
 
 // Permet de lire un son (victoire, défaire)
 export function playSound(son, volume=1.0) {
@@ -93,23 +92,21 @@ export function checkVolumeButtonIcon(volume) {
 
 
 // Écouter un oiseau
-export function listenToBird(birdName, {app}) {
-  const variants = app.birdsData[birdName]?.variants || [];
+export function listenToBird({app}) {
+  const variants = app.birdsData[app.currentBird]?.variants || [];
 
   if (variants.length > 0) {
-    app.currentBird = birdName;
-    playBirdSound(birdName, {app}, Math.floor(Math.random() * variants.length));
+    playBirdSound({app}, Math.floor(Math.random() * variants.length));
   }
 }
 
 
-function playBirdSound(name, {app}, index = 0) {
+function playBirdSound({app}, index = 0) {
   app.audio.pause();
-  app.currentBird = name;
-  const file = app.birdsData[name].variants[index];
+  const file = app.birdsData[app.currentBird].variants[index];
   app.audio.src = file;
 
-  app.audio.dataset.name = name;
+  app.audio.dataset.name = app.currentBird;
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
@@ -127,12 +124,11 @@ function playBirdSound(name, {app}, index = 0) {
 
 
 export function playNextVariant({app}) {
-  const name = app.currentBird;
   const index = parseInt(app.audio.dataset.index || '0');
-  const variants = app.birdsData[name]?.variants || [];
+  const variants = app.birdsData[app.currentBird]?.variants || [];
   if (variants.length < 2) return;
   const next = (index + 1) % variants.length;
-  playBirdSound(name, {app}, next);
+  playBirdSound({app}, next);
 }
 
 
@@ -155,6 +151,13 @@ export function togglePause({app}) {
   }
 }
 
+function stopAudio({app}) {
+  app.audio.pause();
+  app.audio.currentTime = 0;
+  app.audio.src = "";
+  // console.log("on stoppe et vide l'audio");
+}
+
 
 
 // Choisi un oiseau aléatoire à écouter
@@ -168,8 +171,7 @@ export function playRandomBird({app}) {
   }
   // Si aucun oiseau n'est disponible
   if (pool.length === 0) {
-    app.audio.pause();
-    app.audio.currentTime = 0;
+    stopAudio({app});
 
     document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
 
@@ -204,12 +206,11 @@ export function playRandomBird({app}) {
     }
   }
 
-  // Ajoute une écoute à l'oiseau
   app.currentBird = pool[index];
   // console.log("Oiseau à trouver:", app.currentBird);
   // console.log('---------------------------------------');
   // for (index in app.birdsData) { if (app.birdsData[index].playCount > 0) console.log(index, ":", app.birdsData[index].playCount); }
 
-  playBirdSound(app.currentBird, {app}, 0);
+  listenToBird({app});
 }
 

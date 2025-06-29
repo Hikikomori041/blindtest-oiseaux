@@ -66,6 +66,7 @@ function bindTypes({app}) {
   document.querySelectorAll('#type-selection .button').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.classList.toggle('is-selected');
+      clearSearch();
       await genererGrilleOiseaux({app});
       playRandomBird({app});
     });
@@ -104,7 +105,8 @@ export function bindBirdCell(birdCell, birdName, {app}) {
 
     // Quand on clique sur "Écouter"
     listenButton.onclick = () => {
-      listenToBird(birdName, {app});
+      app.currentBird = birdName;
+      listenToBird({app});
       menu.style.display = 'none';
     };
     // Quand on clique sur "Plus d'infos"
@@ -163,11 +165,11 @@ function bindBottomButtons({app}) {
   document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app}); } );
 
   // Si l'utilisateur clique sur le slider du volume
-  const progressSlider = document.getElementById('progress-slider');
-  progressSlider.addEventListener('input', () => {
+  const audioSlider = document.getElementById('audio-slider');
+  audioSlider.addEventListener('input', () => {
     if (!app.audio || !app.audio.duration) return;
 
-    const percent = progressSlider.value;
+    const percent = audioSlider.value;
     app.audio.currentTime = (percent / 100) * app.audio.duration;
   });
 
@@ -358,8 +360,7 @@ function bindShortcuts({app}) {
 // Toggle les contrôles de l'audio quand aucun oiseau n'est disponible
 export function toggleSoundControls(activate = true) {
   let buttons = [
-    // document.getElementById('volume-button'),
-    // document.getElementById('volume-slider'),
+    document.getElementById('audio-slider'),
     document.getElementById('replay-button'),
     document.getElementById('rewind-button'),
     document.getElementById('pause-button'),
@@ -374,4 +375,6 @@ export function toggleSoundControls(activate = true) {
       button.classList.add("disabled");
     }
   }
+
+
 }

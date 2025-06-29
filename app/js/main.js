@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Chargement des paramètres de l'application
   try {
     app = await loadSettings();
-    // console.log('Paramètres:', app);
   } catch (err) {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   app.total = 0;
   app.currentBird = null;
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
+  // console.log('Paramètres:', app);
 
   // Association des actions aux boutons
   bindAllButtons({ app });
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Application des paramètres de l'application
   applySelectedTypes(app.selectedTypes);
   updateVolumeGradient(app.volume);
-  startProgressSmooth(app.audio); // pour l'animation du slider du volume
+  startProgressSmooth(app.audio); // pour l'animation du slider de l'audio
 
   // On change la taille de la fenêtre
   windowSetSize(app.winWidth, app.winHeight);

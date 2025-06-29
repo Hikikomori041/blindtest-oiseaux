@@ -2,7 +2,7 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playSound, playRandomBird } from './player.js';
+import { playSound } from './player.js';
 
 // Change la version dans le titre
 export const setTitleVersion = async () => {
@@ -104,16 +104,23 @@ export async function genererGrilleOiseaux({app}) {
 
 
 // Met à jour le slider du son pendant la lecture
-const progressSlider = document.getElementById('progress-slider');
+const audioSlider = document.getElementById('audio-slider');
 
 export function startProgressSmooth(audio) {
   function step() {
-      if (audio && audio.duration) {
-          const percent = (audio.currentTime / audio.duration) * 100;
-          progressSlider.value = percent;
-          progressSlider.style.background = `linear-gradient(to right, #1d47b9 ${percent}%, #555 ${percent}%)`;
+    if (!audio || !audio.duration || audio.src == "") {
+    // Pour reset le slider à 0 quand on stop un son
+      if (audio.paused) {
+        audioSlider.value = 0;
+        audioSlider.style.background = `linear-gradient(to right, #1d47b9 0%, #555 0%)`;
       }
-      requestAnimationFrame(step);
+    } else if (audio && audio.duration) {
+    // Met à jour le slider selon la lecture du son
+      const percent = (audio.currentTime / audio.duration) * 100;
+      audioSlider.value = percent;
+      audioSlider.style.background = `linear-gradient(to right, #1d47b9 ${percent}%, #555 ${percent}%)`;
+    }
+    requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
