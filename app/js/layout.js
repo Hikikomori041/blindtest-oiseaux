@@ -174,13 +174,15 @@ export function updateTiles({app}) {
   let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
   if (app.confirmSoundMuted) {
     confirmSoundMutedTile.innerHTML = `
-      <img src="../ressources/images/volume-muted-yellow.png" class="tooltip tooltip-top" data-tooltip="Activer les sons de validation"/>
+      <img src="../ressources/images/volume-muted-yellow.png"/>
       <span>Sons de validation désactivés</span>
     `;
+    confirmSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
   } else {
     confirmSoundMutedTile.innerHTML = `
-      <img src="../ressources/images/volume-3-yellow.png" class="tooltip tooltip-top" data-tooltip="Désactiver les sons de validation"/>
+      <img src="../ressources/images/volume-3-yellow.png"/>
       <span>Sons de validation activés</span>
     `;
+    confirmSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
   }
 }
