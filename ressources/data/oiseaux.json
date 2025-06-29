@@ -171,6 +171,10 @@
     "type": "commun",
     "nom_latin": "Garrulus glandarius"
   },
+  "Gobemouche gris": {
+    "type": "commun",
+    "nom_latin": "Muscicapa striata"
+  },
   "Grand Cormoran": {
     "type": "eau",
     "nom_latin": "Phalacrocorax carbo"
@@ -214,6 +218,10 @@
   "Huppe fasciée": {
     "type": "commun",
     "nom_latin": "Upupa epops"
+  },
+  "Hypolaïs polyglotte": {
+    "type": "commun",
+    "nom_latin": "Hippolais polyglotta"
   },
   "Linotte mélodieuse": {
     "type": "plaine",
@@ -294,6 +302,10 @@
   "Pic épeiche": {
     "type": "commun",
     "nom_latin": "Dendrocopos major"
+  },
+  "Pic épeichette": {
+    "type": "commun",
+    "nom_latin": "Dryobates minor"
   },
   "Pic mar": {
     "type": "commun",
