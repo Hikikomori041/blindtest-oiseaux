@@ -211,6 +211,10 @@
     "type": "eau",
     "nom_latin": "Podiceps nigricollis"
   },
+  "Grosbec casse-noyaux": {
+    "type": "commun",
+    "nom_latin": "Coccothraustes coccothraustes"
+  },
   "Héron cendré": {
     "type": "eau",
     "nom_latin": "Ardea cinerea"
