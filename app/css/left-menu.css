@@ -79,12 +79,17 @@
   background-color: rgb(142, 142, 56);
 }  
 
+#tooltip * {  
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 #tooltip ul {
   text-align: left;
 }
 #tooltip li {
   list-style-type: square;
   margin-bottom: 6px;
+  font-family: 'Franklin Gothic', 'Arial', Arial, sans-serif !important;
 }
 .small-text {
   font-size: 12px;
