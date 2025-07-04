@@ -165,9 +165,13 @@ export function showOverlay(zIndex = 10) {
 
 export function hideOverlay() {
   const overlay = document.getElementById('overlay');
-  overlay.style.zIndex = 0;
-  overlay.style.opacity = 0;
   overlay.style.background = "rgba(100, 100, 100, 0.35)";
+  if (document.getElementById('more-menu').classList.contains('visible') && document.getElementById('result-popup').style.display == "block") {
+    overlay.style.zIndex = 10;
+  } else {
+    overlay.style.zIndex = 0;
+    overlay.style.opacity = 0;
+  }
 }
 
 export function updateTiles({app}) {
