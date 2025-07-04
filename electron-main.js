@@ -17,6 +17,11 @@ try {
   // pas grave si le fichier n'existe pas encore
 }
 
+function logMessage(message) {
+  const now = new Date().toISOString();
+  fs.appendFileSync(logPath, `[${now}] ${message}\n`);
+}
+
 
 const DEFAULT_WIDTH = 1300;
 const DEFAULT_HEIGHT = 750;
@@ -63,7 +68,7 @@ function createWindow() {
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
 app.whenReady().then(() => {
-  log.info('Application démarre...');
+  log.info("Démarrage de l'application");
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -113,7 +118,7 @@ app.whenReady().then(() => {
     }
   });
 
-  log.info('check-update appelé');
+  log.info('On vérifie les mises à jour...');
   autoUpdater.checkForUpdatesAndNotify();
 });
 // À la fermeture de la fenêtre
@@ -202,6 +207,9 @@ ipcMain.handle('check-update', async () => {
   });
 });
 
+ipcMain.handle('log-message', (event, message) => {
+  logMessage(message);
+});
 
 
 // Vérifie la mise à jour en fonction du dernier tag release

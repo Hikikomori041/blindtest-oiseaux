@@ -1,5 +1,6 @@
 // Ici iront toutes les fonctions liées à la lecture de son
 import { toggleSoundControls } from './controls.js';
+import { log } from './strings.js'
 
 // Permet de lire un son (victoire, défaire)
 export function playSound({app}, son, volume=1.0) {
@@ -101,6 +102,7 @@ export function listenToBird({app}) {
   if (variants.length > 0) {
     playBirdSound({app}, Math.floor(Math.random() * variants.length));
   }
+  
 }
 
 
@@ -108,6 +110,12 @@ function playBirdSound({app}, index = 0) {
   app.audio.pause();
   const file = app.birdsData[app.currentBird].variants[index];
   app.audio.src = file;
+
+  // On log l'oiseau lu pour le fun
+  const fileName = decodeURI(new URL(file).pathname).split(/[\\/]/).slice(-2).join('\\'); // coupe sur \ ou /
+  const message = "[oiseau] On écoute: " + fileName;
+  log(message);
+  // console.log(message);
 
   app.audio.dataset.name = app.currentBird;
   app.audio.dataset.index = index;

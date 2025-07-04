@@ -52,7 +52,7 @@
   background-color: rgba(50, 80, 42, 0.65);
 }
 .oiseau-plaine.button.is-selected{
-  background-color: rgba(114, 128, 68, 0.65);
+  background-color: rgb(142, 142, 56);
 }  
 
 #tooltip ul {

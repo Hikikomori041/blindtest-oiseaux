@@ -19,3 +19,7 @@ export function getSelectedTypes() {
 export function getNomLatin(nomFrancais, birdsData) {
   return birdsData[nomFrancais]?.nom_latin || '';
 }
+
+export function log(message) {
+  window.api.logMessage(message);
+}

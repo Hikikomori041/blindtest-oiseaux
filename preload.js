@@ -26,5 +26,7 @@ contextBridge.exposeInMainWorld('api', {
   
   // Pour enregistrer les données utilisateur (localement)
   loadSettings: () => ipcRenderer.invoke('load-settings'),
-  saveSettings: (data) => ipcRenderer.invoke('save-settings', data)
+  saveSettings: (data) => ipcRenderer.invoke('save-settings', data),
+
+  logMessage: (message) => ipcRenderer.invoke('log-message', message)
 });

@@ -2,20 +2,11 @@ Aide: pour push une release, on peut simplement faire:
 > cls;npm run release;
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-To do:
-- valider la liste chatgpt
 
-Ajouter:
-> grand corbeau - commun
-> pouillot sifleur - foret
-> pouillot de bonneli - foret
-> faucon pellerin - commun
-
-
-- ajouter un popup de chargement du son ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
+- dans le tri des oiseaux par ordre alphabétique, les accents sont considérés après le z
 - ?? visuel: sur petit écran, la barre de contrôle de volume prend trop de place -> ne pas la mettre en px fix
 - checker sur le pc de Manou pour les sons "hachés"
 - quand on a le popup de confirmation de l'oiseau, et que l'on clique sur "Plus", puis qu'on pars du menu, cela retire l'overlay du pop-up
@@ -25,7 +16,8 @@ Bugs:
 À faire peut-être:
 - écran de lancement
 - changer la police d'écriture
-- désactiver le slider et le bouton du volume quand y a aucun oiseau de sélectionné
+- système d'historique des sons / des oiseaux
+- ajouter un popup de chargement du son ?
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

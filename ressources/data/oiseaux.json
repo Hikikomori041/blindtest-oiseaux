@@ -147,6 +147,10 @@
     "type": "commun",
     "nom_latin": "Falco tinnunculus"
   },
+  "Faucon pèlerin": {
+    "type": "commun",
+    "nom_latin": "Falco peregrinus"
+  },
   "Fauvette à tête noire": {
     "type": "commun",
     "nom_latin": "Sylvia atricapilla"
@@ -174,6 +178,10 @@
   "Gobemouche gris": {
     "type": "foret",
     "nom_latin": "Muscicapa striata"
+  },
+  "Grand corbeau": {
+    "type": "commun",
+    "nom_latin": "Corvus corax"
   },
   "Grand Cormoran": {
     "type": "eau",
@@ -339,9 +347,17 @@
     "type": "plaine",
     "nom_latin": "Anthus campestris"
   },
+  "Pouillot de Bonelli": {
+    "type": "foret",
+    "nom_latin": "Phylloscopus bonelli"
+  },
   "Pouillot fitis": {
     "type": "foret",
     "nom_latin": "Phylloscopus trochilus"
+  },
+  "Pouillot siffleur": {
+    "type": "foret",
+    "nom_latin": "Phylloscopus sibilatrix"
   },
   "Pouillot véloce": {
     "type": "foret",
