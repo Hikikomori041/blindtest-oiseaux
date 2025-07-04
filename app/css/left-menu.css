@@ -6,7 +6,28 @@
   font-weight: bold;
 }
 
-#type-selection {
+#feedback #score {
+  padding: 4px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#type-selection .title {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 1.1em;
+  text-decoration: underline;
+  margin-bottom: 16px;
+}
+#type-selection .button {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#type-selection h5, #birdCount {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-align: center;
+}
+
+#type-selection * {
   text-align: left;
 }
 #type-selection label {
@@ -15,8 +36,11 @@
 }
 #type-selection .buttons {
   justify-content: flex-start;
-  align-items: flex-start; /* au cas où */
+  align-items: center;
   flex-direction: column; /* pour rester en colonne */
+
+  /* au cas où */
+  /* align-items: flex-start; */
 }
 
 #type-selection .button {

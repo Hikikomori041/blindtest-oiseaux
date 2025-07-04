@@ -8,6 +8,7 @@
 
 #titlebar {
   position: fixed;
+  font-family: 'Courier New', Courier, monospace;
   z-index: 1;
   top: 0;
   left: 0;

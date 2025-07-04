@@ -1,3 +1,24 @@
+*, #search-bar {
+  /* Défaut: police du système */
+  /* font-family: system-ui; */
+  
+  /* Moche évidemment */
+  /* font-family: 'Courier New', Courier, monospace; */
+
+  /* Intéressant */
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+
+  /* Intéressant aussi */
+  /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+
+  /* Bien pour les tooltips et le more-menu */
+  /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+
+  /* font-family:  Garamond, sans-serif; */
+  font-family: Tahoma, sans-serif;
+
+}
+
 html,body {
   overflow: hidden;
   height: 100%;
@@ -5,7 +26,7 @@ html,body {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   background: #f1f5f9;
   color: #1f2937;
   display: flex;
@@ -50,6 +71,9 @@ section {
 
 #colonne-gauche{
   width: 220px;
+}
+#tooltip * {  
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 
