@@ -16,6 +16,7 @@
   "build": {
     "appId": "com.nicobla.oiseaux",
     "productName": "Blind-Test Oiseaux",
+    "asarUnpack": "unpacked/ressources/oiseaux/**",
     "win": {
       "target": "nsis",
       "icon": "ressources/images/oiseau.ico",
