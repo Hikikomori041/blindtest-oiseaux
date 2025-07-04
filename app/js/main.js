@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   app.currentBird = null;
   if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
+  
   // console.log('Paramètres:', app);
 
   // Association des actions aux boutons

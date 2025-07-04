@@ -19,13 +19,21 @@
     "type": "eau",
     "nom_latin": "Recurvirostra avosetta"
   },
+  "Barge à queue noire": {
+    "type": "eau",
+    "nom_latin": "Limosa limosa"
+  },
   "Barge rousse": {
     "type": "eau",
     "nom_latin": "Limosa lapponica"
   },
-  "Barge à queue noire": {
+  "Bécassine des bois": {
+    "type": "foret",
+    "nom_latin": "Gallinago nemoricola"
+  },
+  "Bécassine des marais": {
     "type": "eau",
-    "nom_latin": "Limosa limosa"
+    "nom_latin": "Gallinago gallinago"
   },
   "Bergeronnette grise": {
     "type": "commun",
@@ -66,14 +74,6 @@
   "Butor étoilé": {
     "type": "eau",
     "nom_latin": "Botaurus stellaris"
-  },
-  "Bécassine des bois": {
-    "type": "foret",
-    "nom_latin": "Gallinago nemoricola"
-  },
-  "Bécassine des marais": {
-    "type": "eau",
-    "nom_latin": "Gallinago gallinago"
   },
   "Canard chipeau": {
     "type": "eau",
@@ -191,13 +191,9 @@
     "type": "eau",
     "nom_latin": "Ardea alba"
   },
-  "Grimpereau des jardins": {
-    "type": "foret",
-    "nom_latin": "Certhia brachydactyla"
-  },
-  "Grive musicienne": {
-    "type": "foret",
-    "nom_latin": "Turdus philomelos"
+  "Grèbe à cou noir": {
+    "type": "eau",
+    "nom_latin": "Podiceps nigricollis"
   },
   "Grèbe castagneux": {
     "type": "eau",
@@ -215,9 +211,13 @@
     "type": "eau",
     "nom_latin": "Podiceps grisegena"
   },
-  "Grèbe à cou noir": {
-    "type": "eau",
-    "nom_latin": "Podiceps nigricollis"
+  "Grimpereau des jardins": {
+    "type": "foret",
+    "nom_latin": "Certhia brachydactyla"
+  },
+  "Grive musicienne": {
+    "type": "foret",
+    "nom_latin": "Turdus philomelos"
   },
   "Grosbec casse-noyaux": {
     "type": "foret",
@@ -259,14 +259,6 @@
     "type": "commun",
     "nom_latin": "Turdus merula"
   },
-  "Moineau domestique": {
-    "type": "commun",
-    "nom_latin": "Passer domesticus"
-  },
-  "Mouette rieuse": {
-    "type": "commun",
-    "nom_latin": "Chroicocephalus ridibundus"
-  },
   "Mésange bleue": {
     "type": "foret",
     "nom_latin": "Cyanistes caeruleus"
@@ -282,6 +274,14 @@
   "Mésange noire": {
     "type": "foret",
     "nom_latin": "Periparus ater"
+  },
+  "Moineau domestique": {
+    "type": "commun",
+    "nom_latin": "Passer domesticus"
+  },
+  "Mouette rieuse": {
+    "type": "commun",
+    "nom_latin": "Chroicocephalus ridibundus"
   },
   "Oedicnème criard": {
     "type": "plaine",
@@ -379,13 +379,13 @@
     "type": "foret",
     "nom_latin": "Erithacus rubecula"
   },
-  "Rougequeue noir": {
-    "type": "commun",
-    "nom_latin": "Phoenicurus ochruros"
-  },
   "Rougequeue à front blanc": {
     "type": "foret",
     "nom_latin": "Phoenicurus phoenicurus"
+  },
+  "Rougequeue noir": {
+    "type": "commun",
+    "nom_latin": "Phoenicurus ochruros"
   },
   "Rousserolle effarvatte": {
     "type": "eau",
@@ -399,13 +399,13 @@
     "type": "eau",
     "nom_latin": "Acrocephalus palustris"
   },
-  "Sarcelle d'hiver": {
-    "type": "eau",
-    "nom_latin": "Anas crecca"
-  },
   "Sarcelle d'été": {
     "type": "eau",
     "nom_latin": "Spatula querquedula"
+  },
+  "Sarcelle d'hiver": {
+    "type": "eau",
+    "nom_latin": "Anas crecca"
   },
   "Serin cini": {
     "type": "commun",
