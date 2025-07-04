@@ -126,11 +126,14 @@
 .oiseau-commun {
   background-color: rgba(155, 135, 122, 0.75);
 }
-.oiseau-plaine {
-  background-color: rgba(80, 128, 68, 0.65);
-}
 .oiseau-eau {
   background-color: rgba(106, 165, 195, 0.75);
+}
+.oiseau-foret {
+  background-color: rgba(50, 80, 42, 0.75);
+}
+.oiseau-plaine {
+  background-color: rgba(114, 128, 68, 0.65);
 }
 
 .cell img {

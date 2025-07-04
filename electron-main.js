@@ -89,7 +89,7 @@ app.whenReady().then(() => {
       volume: 100,
       muted: false,
       confirmSoundMuted: false,
-      selectedTypes: ['commun', 'eau', 'plaine']
+      selectedTypes: ['commun', 'eau', 'foret', 'plaine']
     };
     try {
       if (fs.existsSync(settingsPath)) {

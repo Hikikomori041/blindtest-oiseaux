@@ -3,8 +3,16 @@ Aide: pour push une release, on peut simplement faire:
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 To do:
+- valider la liste chatgpt
+
+Ajouter:
+> grand corbeau - commun
+> pouillot sifleur - foret
+> pouillot de bonneli - foret
+> faucon pellerin - commun
+
+
 - ajouter un popup de chargement du son ?
-- option pour couper les sons de victoire / défaite
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:

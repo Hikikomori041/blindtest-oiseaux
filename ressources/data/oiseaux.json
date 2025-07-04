@@ -1,6 +1,6 @@
 {
   "Accenteur mouchet": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Prunella modularis"
   },
   "Aigrette garzette": {
@@ -12,7 +12,7 @@
     "nom_latin": "Alauda arvensis"
   },
   "Alouette lulu": {
-    "type": "plaine",
+    "type": "foret",
     "nom_latin": "Lullula arborea"
   },
   "Avocette élégante": {
@@ -68,7 +68,7 @@
     "nom_latin": "Botaurus stellaris"
   },
   "Bécassine des bois": {
-    "type": "eau",
+    "type": "foret",
     "nom_latin": "Gallinago nemoricola"
   },
   "Bécassine des marais": {
@@ -168,11 +168,11 @@
     "nom_latin": "Gallinula chloropus"
   },
   "Geai des chênes": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Garrulus glandarius"
   },
   "Gobemouche gris": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Muscicapa striata"
   },
   "Grand Cormoran": {
@@ -184,11 +184,11 @@
     "nom_latin": "Ardea alba"
   },
   "Grimpereau des jardins": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Certhia brachydactyla"
   },
   "Grive musicienne": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Turdus philomelos"
   },
   "Grèbe castagneux": {
@@ -212,7 +212,7 @@
     "nom_latin": "Podiceps nigricollis"
   },
   "Grosbec casse-noyaux": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Coccothraustes coccothraustes"
   },
   "Héron cendré": {
@@ -240,7 +240,7 @@
     "nom_latin": "Locustella naevia"
   },
   "Loriot d'Europe": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Oriolus oriolus"
   },
   "Martin-pêcheur d'Europe": {
@@ -260,19 +260,19 @@
     "nom_latin": "Chroicocephalus ridibundus"
   },
   "Mésange bleue": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Cyanistes caeruleus"
   },
   "Mésange charbonnière": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Parus major"
   },
   "Mésange huppée": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Lophophanes cristatus"
   },
   "Mésange noire": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Periparus ater"
   },
   "Oedicnème criard": {
@@ -288,7 +288,7 @@
     "nom_latin": "Anser albifrons"
   },
   "Orite à longue queue": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Aegithalos caudatus"
   },
   "Outarde canepetière": {
@@ -304,19 +304,19 @@
     "nom_latin": "Acrocephalus schoenobaenus"
   },
   "Pic épeiche": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Dendrocopos major"
   },
   "Pic épeichette": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Dryobates minor"
   },
   "Pic mar": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Dendrocoptes medius"
   },
   "Pic vert": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Picus viridis"
   },
   "Pie bavarde": {
@@ -324,15 +324,15 @@
     "nom_latin": "Pica pica"
   },
   "Pigeon ramier": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Columba palumbus"
   },
   "Pinson des arbres": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Fringilla coelebs"
   },
   "Pipit des arbres": {
-    "type": "plaine",
+    "type": "foret",
     "nom_latin": "Anthus trivialis"
   },
   "Pipit rousseline": {
@@ -340,27 +340,27 @@
     "nom_latin": "Anthus campestris"
   },
   "Pouillot fitis": {
-    "type": "plaine",
+    "type": "foret",
     "nom_latin": "Phylloscopus trochilus"
   },
   "Pouillot véloce": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Phylloscopus collybita"
   },
   "Roitelet huppé": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Regulus regulus"
   },
   "Roitelet triple-bandeau": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Regulus ignicapilla"
   },
   "Rossignol philomèle": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Luscinia megarhynchos"
   },
   "Rougegorge familier": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Erithacus rubecula"
   },
   "Rougequeue noir": {
@@ -368,7 +368,7 @@
     "nom_latin": "Phoenicurus ochruros"
   },
   "Rougequeue à front blanc": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Phoenicurus phoenicurus"
   },
   "Rousserolle effarvatte": {
@@ -396,11 +396,11 @@
     "nom_latin": "Serinus serinus"
   },
   "Sittelle torchepot": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Sitta europaea"
   },
   "Sizerin flammé": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Acanthis flammea"
   },
   "Spatule blanche": {
@@ -420,11 +420,11 @@
     "nom_latin": "Saxicola rubicola"
   },
   "Tarin des aulnes": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Carduelis spinus"
   },
   "Tourterelle des bois": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Streptopelia turtur"
   },
   "Tourterelle turque": {
@@ -432,7 +432,7 @@
     "nom_latin": "Streptopelia decaocto"
   },
   "Troglodyte mignon": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Troglodytes troglodytes"
   },
   "Vanneau huppé": {
