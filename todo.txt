@@ -13,9 +13,7 @@ Bugs:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
-- écran de lancement
 - changer la police d'écriture
-- système d'historique des sons / des oiseaux
 - ajouter un popup de chargement du son ?
 
 

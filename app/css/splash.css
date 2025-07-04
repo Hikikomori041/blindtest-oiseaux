@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0c7; /* fond neutre, ajuste si besoin */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.logo {
+  width: 240px;
+  height: auto;
+  user-select: none;
+}

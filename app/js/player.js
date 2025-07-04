@@ -113,7 +113,7 @@ function playBirdSound({app}, index = 0) {
 
   // On log l'oiseau lu pour le fun
   const fileName = decodeURI(new URL(file).pathname).split(/[\\/]/).slice(-2).join('\\'); // coupe sur \ ou /
-  const message = "[oiseau] On écoute: " + fileName;
+  const message = "[oiseau] On écoute: \"" + fileName + "\"";
   log(message);
   // console.log(message);
 

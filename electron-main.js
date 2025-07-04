@@ -26,13 +26,27 @@ function logMessage(message) {
 const DEFAULT_WIDTH = 1300;
 const DEFAULT_HEIGHT = 750;
 
-let win;
+let splash, win;
 let logOn = false;
 const consoleShortCutEnabled = true;
 
+// Création de la fenêtre "splash" avant l'app
+function createSplashWindow() {
+  splash = new BrowserWindow({
+    width: 240, height: 240,
+    frame: false,
+    transparent: false,
+    alwaysOnTop: true,
+  });
+  splash.loadFile('app/splash.html');
+
+  return splash;
+}
+
 // Création de la fenêtre de l'application
-function createWindow() {
+function createMainWindow() {
   win = new BrowserWindow({
+    show: false,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
     minWidth: 1024,
@@ -67,11 +81,16 @@ function createWindow() {
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
+
+
 app.whenReady().then(() => {
   log.info("Démarrage de l'application");
-  createWindow();
+
+  createSplashWindow();
+  createMainWindow();
+
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
   });
 
   // Pour activer la console développeur
@@ -104,7 +123,7 @@ app.whenReady().then(() => {
         return settingsDefault;
       }
   } catch (e) {
-    console.error('Erreur lecture parametres utilisateurs:', e);
+    console.error('Erreur lecture paramètres utilisateurs:', e);
     return settingsDefault;
     }
   });
@@ -112,15 +131,23 @@ app.whenReady().then(() => {
   ipcMain.handle('save-settings', async (event, data) => {
     try {
       fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
-      console.log('Parametres utilisateurs sauvegardes avec succes !');
+      console.log('Paramètres utilisateurs sauvegardés avec succes !');
     } catch (e) {
-      console.error('Erreur sauvegarde parametres utilisateurs:', e);
+      console.error('Erreur sauvegarde paramètres utilisateurs:', e);
     }
   });
 
-  log.info('On vérifie les mises à jour...');
+  log.info('Vérification des mises à jour...');
   autoUpdater.checkForUpdatesAndNotify();
+  
+  
+  // On cache la fenêtre de chargement et on affiche la fenêtre principale
+  win.once('ready-to-show', () => {
+    splash.close();
+    win.show();
+  });
 });
+
 // À la fermeture de la fenêtre
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();

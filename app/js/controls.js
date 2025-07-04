@@ -308,6 +308,12 @@ function bindShortcuts({app}) {
     if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
       return;
     }
+    
+    // Fermer la fenêtre avec Ctrl+W
+    if (e.ctrlKey && e.code === 'KeyW') {
+      e.preventDefault();
+      window.close();
+    }
 
     if (e.code === 'KeyM') {
       e.preventDefault();
