@@ -16,7 +16,8 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 1.1em;
   text-decoration: underline;
-  margin-bottom: 16px;
+  text-underline-offset: 4px;
+  /* margin-bottom: 16px; */
 }
 #type-selection .button {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
