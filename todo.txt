@@ -13,6 +13,7 @@ Bugs:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
+- mettre les controles dans un popup affiché avec une tile dans more-menu ?
 - ajouter un popup de chargement du son ?
 
 
