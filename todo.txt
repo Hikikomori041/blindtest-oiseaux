@@ -10,11 +10,13 @@ Bugs:
 - checker sur le pc de Manou pour les sons "hachés"
 - 0 oiseaux sélectionnés (singulier à gérer)
 - zone des "contrôles" qui se cache derrière le lecteur de son en bas à gauche
+- temps de fade out de l'overlay en sortant du more menu trop long ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
 - mettre les controles dans un popup affiché avec une tile dans more-menu ?
 - ajouter un popup de chargement du son ?
+- animation des tuiles à l'apparition du more-menu
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
