@@ -52,10 +52,10 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 #result-popup.right{
-  background: rgba(40, 105, 40, 0.75);
+  background: rgba(0, 80, 0, 0.75);
 }
 #result-popup.wrong{
-  background: rgba(150, 50, 50, 0.85);
+  background: rgba(80, 0, 0, 0.8);
 }
 @media (min-height: 850px) and (max-height: 999px) {
   #result-popup {
