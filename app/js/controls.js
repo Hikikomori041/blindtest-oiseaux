@@ -259,6 +259,15 @@ function bindBottomButtons({app}) {
     hideMoreMenu();
   });
 
+  // Tile "Voir mes listes persos"
+  document.getElementById('see-birdlists-tile').addEventListener('click', () => {
+
+    //todo
+
+    // On cache le menu
+    hideMoreMenu();
+  });
+
   // Tile "Activer / désactiver le son de validation"
   let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
   confirmSoundMutedTile.addEventListener('click', () => {
