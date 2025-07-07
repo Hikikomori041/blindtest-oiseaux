@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, hideOverlay, hidePopup, showOverlay, updateTiles, validate } from './layout.js';
+import { genererGrilleOiseaux, hideOverlay, hidePopup, hideShortcutsPopup, showOverlay, showShortcutsPopup, updateTiles, validate } from './layout.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -81,6 +81,7 @@ function bindBirds({app}) {
 
   // Pop-up de résultat
   document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); } );
+  document.getElementById('close-shortcuts-popup-button').addEventListener('click', () => { hideShortcutsPopup(); } );
   document.getElementById('next-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); });
   
   // Menu contextuel
@@ -222,22 +223,22 @@ function bindBottomButtons({app}) {
       hideMoreMenu();
     } else {
       // On ferme la pop-up
-      hidePopup({app});
-      playRandomBird({app});
+      if (document.getElementById('shortcuts-popup').classList.contains('active')) {
+        hideShortcutsPopup();
+      } else if (document.getElementById('result-popup').classList.contains('active')) {
+        hidePopup({app});
+        playRandomBird({app});
+      }
     }
   });
 
-  // Tiles du bouton "Plus"
-  // Pour l'instant, on met ça parce qu'on a rien d'autre à leur faire faire
-  let tiles = document.querySelectorAll('.tile');
-  for (let tile of tiles) {
-    if (tile.id != 'see-github-tile' && tile.id != 'toggle-confirm-sound-tile') {
-      tile.addEventListener('click', () => {
-        // On cache le menu
-        hideMoreMenu();
-      });
-    }
-  }
+  // Tiles du bouton "Plus"  
+  // Tile "Voir mes listes persos"
+  document.getElementById('see-shortcuts-tile').addEventListener('click', () => {
+    // On cache le menu
+    hideMoreMenu();
+    showShortcutsPopup();
+  });
   
   // Tile "Signaler un bug"
   document.getElementById('report-issue-tile').addEventListener('click', () => {

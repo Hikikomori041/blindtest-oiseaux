@@ -46,6 +46,7 @@ function showImage(birdName) {
 export function showPopup() {
   showOverlay();
   const popup = document.getElementById('result-popup');
+  popup.classList.add("active");
   popup.style.display = 'block';
   popup.style.animation = 'popupIn 0.3s forwards';
 }
@@ -53,6 +54,7 @@ export function showPopup() {
 export function hidePopup() {
   hideOverlay();
   const popup = document.getElementById('result-popup');
+  popup.classList.remove("active");
   popup.style.animation = 'popupOut 0.3s forwards';
   
   // après l'animation (300ms), on remet display: none
@@ -63,6 +65,30 @@ export function hidePopup() {
   }, 300);
   clearSearch();
 }
+
+export function showShortcutsPopup() {
+  showOverlay();
+  const popup = document.getElementById('shortcuts-popup');
+  popup.classList.add("active");
+  popup.style.display = 'block';
+  popup.style.animation = 'popupIn 0.3s forwards';
+}
+export function hideShortcutsPopup() {
+  if (!document.getElementById('result-popup').classList.contains('active')) {
+    hideOverlay();
+  }
+  const popup = document.getElementById('shortcuts-popup');
+  popup.classList.remove("active");
+  popup.style.animation = 'popupOut 0.3s forwards';
+  
+  // après l'animation (300ms), on remet display: none
+  setTimeout(() => {
+    if (document.getElementById('overlay').style.zIndex == 0) {
+      popup.style.display = 'none';
+    }
+  }, 300);
+}
+
 
 
 // Pour générer dynamiquement la grille des oiseaux
