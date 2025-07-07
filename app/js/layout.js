@@ -98,7 +98,18 @@ export async function genererGrilleOiseaux({app}) {
     
     grid.appendChild(divCell);
   }
-  document.getElementById('birdCount').innerHTML = app.birdList.length;
+  let birdCountText = app.birdList.length;
+  if (app.birdList.length == 0) {
+    document.getElementById('bird-animation').classList.add("hidden");
+  } else {
+    document.getElementById('bird-animation').classList.remove("hidden");
+  }
+  if (app.birdList.length <= 1) {
+    birdCountText += " oiseau sélectionné";
+  } else {
+    birdCountText += " oiseaux sélectionnés";
+  }
+  document.getElementById('birdCount').innerHTML = birdCountText;
 }
 
 
@@ -129,15 +140,27 @@ export function startProgressSmooth(audio) {
 export function validate(guess, {app}) {
   app.total++;
   
-  const text = document.getElementById('result-text');
+  const popup = document.getElementById('result-popup');
+  const text  = document.getElementById('result-text');
   if (guess === app.currentBird) {
+    // Bonne réponse
     app.score++;
+
+    popup.classList.remove('wrong');
+    popup.classList.add('right');
+
     text.innerHTML = `✔️ Bonne réponse !`;
-    text.style.color = 'green';
+    text.style.color = 'rgb(24, 196, 24)';
+
     playSound({app}, 'succes.mp3', 0.5 * app.volume/100);
   } else {
-    text.innerHTML = `❌ Raté !`;
+    // Mauvaise réponse
+    popup.classList.remove('right');
+    popup.classList.add('wrong');
+
+    text.innerHTML = `❌ Mauvaise réponse !`;
     text.style.color = 'red';
+
     playSound({app}, 'erreur.mp3', 0.2 * app.volume/100);
   }
   document.getElementById('score').textContent = `Oiseaux trouvés: ${app.score}/${app.total}`;

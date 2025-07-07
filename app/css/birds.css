@@ -48,7 +48,7 @@
 #quiz {
   margin-top: 12px;
   /* max-height: 640px; */
-  height: calc(100vh - 180px);
+  max-height: calc(100vh - 180px);
   overflow-y: scroll;
   margin-bottom:4px;
 }
@@ -95,6 +95,10 @@
   height: 64px;
   width: 64px;
   margin: 10px;
+}
+#bird-animation.hidden {
+  display: none;
+  /* visibility: hidden; */
 }
 
 /* ------------------------------------------------------- */

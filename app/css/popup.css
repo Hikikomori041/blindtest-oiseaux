@@ -51,6 +51,12 @@
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+#result-popup.right{
+  background: rgba(40, 105, 40, 0.75);
+}
+#result-popup.wrong{
+  background: rgba(150, 50, 50, 0.85);
+}
 @media (min-height: 850px) and (max-height: 999px) {
   #result-popup {
     top: 15%;
@@ -112,11 +118,12 @@
 
 #result-birdname {
   display: block;
-  padding: 20px;
+  padding: 12px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
   /* margin-top: 20px; */
-  color: black;
-  background-color: rgba(247, 247, 247, 0.637);
-  border-radius: 50%;
+  /* background-color: rgba(247, 247, 247, 0.637); */
+  /* border-radius: 50%; */
 }
 
 #result-birdname-latin {
@@ -127,17 +134,27 @@
   /* margin-top: 0; */
   line-height: 1;
 }
+
+#result-text{
+  text-shadow: 1px 1px 2px black;
+  padding: 8px;
+  background-color: rgba(0,0,0,0.2);
+  border: 1px white;
+  border-radius: 8px;
+}
+
 #next-button {
   height: 56px;
   width: 240px;
   border-radius: 16px;
   transition: 0.15s ease;
+  /* background-color: gray; */
 }
 #next-button:hover {
   background: #496081;
   /* border: 2px solid gray; */
 }
 #next-button:active {
-  background: #496081; /* le même effet que :hover */
+  background: #3b5477; /* le même effet que :hover */
   transform: scale(0.95); /* petit effet de clic visuel */
 }

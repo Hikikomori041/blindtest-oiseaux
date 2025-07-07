@@ -8,11 +8,8 @@ Aide: pour push une release, on peut simplement faire:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
-- ?? visuel: sur petit écran, la barre de contrôle de volume prend trop de place -> ne pas la mettre en px fix
 - texte "0 oiseaux sélectionnés" (singulier à gérer)
   - effacer l'image si aucun oiseau n'est sélectionné
-- zone des "contrôles" qui se cache derrière le lecteur de son en bas à gauche
-  - mettre cette zone dans une tile pop-up ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:

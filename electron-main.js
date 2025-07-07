@@ -142,10 +142,10 @@ app.whenReady().then(() => {
   
   
   // On cache la fenêtre de chargement et on affiche la fenêtre principale
-  win.once('ready-to-show', () => {
-    splash.close();
-    win.show();
-  });
+  // win.once('ready-to-show', () => {
+  //   splash.close();
+  //   win.show();
+  // });
 });
 
 // À la fermeture de la fenêtre
@@ -161,6 +161,13 @@ app.on('will-quit', () => {
 
 
 // Réception des événements envoyés depuis preload → renderer
+
+ipcMain.handle('show-window', () => {
+  // On cache la fenêtre de chargement et on affiche la fenêtre principale
+  splash.close();
+  win.show();
+})
+
 // Fonctions des boutons de la bordure de fenêtre
 
 ipcMain.on('window-close', () => {

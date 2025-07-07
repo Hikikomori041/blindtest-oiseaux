@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // On génère enfin la grille des oiseaux à afficher
   await genererGrilleOiseaux({app});
 
+  // On affiche la fenêtre une fois que tout est chargé correctement
+  window.api.showWindow();
+
   // On lance directement un son d'oiseau au démarrage
   playRandomBird({app});
 })
