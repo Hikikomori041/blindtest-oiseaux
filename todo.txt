@@ -3,19 +3,20 @@ Aide: pour push une release, on peut simplement faire:
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 > afficher plus clairement la progression du téléchargement / de la mise à jour
+- faire en sorte que l'ouverture de l'app ne fait que ré-ouvrir la fenetre si le programme est deja lancé
+- 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
 - ?? visuel: sur petit écran, la barre de contrôle de volume prend trop de place -> ne pas la mettre en px fix
-- checker sur le pc de Manou pour les sons "hachés"
-- 0 oiseaux sélectionnés (singulier à gérer)
+- texte "0 oiseaux sélectionnés" (singulier à gérer)
+  - effacer l'image si aucun oiseau n'est sélectionné
 - zone des "contrôles" qui se cache derrière le lecteur de son en bas à gauche
-- temps de fade out de l'overlay en sortant du more menu trop long ?
+  - mettre cette zone dans une tile pop-up ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
 - mettre les controles dans un popup affiché avec une tile dans more-menu ?
-- ajouter un popup de chargement du son ?
 - animation des tuiles à l'apparition du more-menu
 
 

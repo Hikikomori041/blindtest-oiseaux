@@ -43,6 +43,7 @@ body {
   flex: 1;
 }
 
+
 #page {
   display: flex;
   flex-direction: column;
@@ -51,6 +52,17 @@ body {
 
 #content {
   flex-grow: 1;
+  position: absolute;
+  top: 0px; /* hauteur exacte de ton #titlebar */
+  bottom: 132px; /* hauteur approximative de ton #controls */
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
+}
+#content::after {
+  content: "";
+  display: block;
+  height: 132px; /* hauteur approximative de ton #controls */
 }
 
 #container {

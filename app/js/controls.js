@@ -239,6 +239,16 @@ function bindBottomButtons({app}) {
     }
   }
   
+  // Tile "Signaler un bug"
+  document.getElementById('report-issue-tile').addEventListener('click', () => {
+    // On ouvre GitHub sur la page de création d'une nouvelle issue
+    const link = `https://github.com/Hikikomori041/blindtest-oiseaux/issues/new`;
+    window.open(link, '_blank');
+
+    // On cache le menu
+    hideMoreMenu();
+  });
+
   // Tile "Voir les sources"
   document.getElementById('see-github-tile').addEventListener('click', () => {
     // On ouvre GitHub sur un navigateur intégré

@@ -46,10 +46,11 @@
 /*                   Section des oiseaux                   */
 /* ------------------------------------------------------- */
 #quiz {
-  margin-top:12px;
+  margin-top: 12px;
   /* max-height: 640px; */
-  max-height: 80vh; /* ou la hauteur que tu veux */
+  height: calc(100vh - 180px);
   overflow-y: scroll;
+  margin-bottom:4px;
 }
 
 #quiz button {

@@ -166,9 +166,23 @@
 
 
 /* Personnalisation des tiles */
+#see-shortcuts-tile {
+  background: rgba(36, 100, 12, 0.75);
+}
+
+#report-issue-tile {
+  background: rgba(102, 67, 25, 0.75);
+}
+
 #see-github-tile {
-  background: rgba(58, 131, 127, 0.75);
-  color:black;
+  background: rgba(14, 90, 86, 0.75);
+}
+
+#toggle-confirm-sound-tile {
+  background: rgba(62, 147, 93, 0.75);
+}
+#toggle-confirm-sound-tile.activated {
+  background: rgba(41, 94, 60, 0.75);
 }
 
 

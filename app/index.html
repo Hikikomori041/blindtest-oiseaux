@@ -65,7 +65,7 @@
             <h5 style="font-size: 12px;"><span id="birdCount">35</span> oiseaux sélectionnés</h5>
           </section>
           
-          <section id="tooltip" class="box">
+          <section id="tooltip" class="box" style="display: none;">
             <h5 class="title is-5" class="mt-3">Contrôles</h5>
             <ul class="dashed">
               <li class="small-text li"><span style="font-weight: bold;">Espace</span><br/>Play / Pause / Suivant</li>
@@ -79,7 +79,7 @@
         </div>
 
         <!-- Colonne droite : tout le reste en pile -->
-        <div class="column">
+        <div id="colonne-droite" class="column">
           <section id="quiz" class="box">
             <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
             <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
@@ -158,24 +158,24 @@
       </div> -->
 
       <div class="tile-grid">
-        <div class="tile" id="">
-          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 1"/>
-          <span>Work In Progress</span>
-        </div>
-        <div class="tile" id="">
-          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 2"/>
-          <span>Work In Progress</span>
+        <div class="tile tooltip tooltip-top" id="see-shortcuts-tile" data-tooltip="Voir les contrôles">
+          <img src="../ressources/images/keyboard.png"/>
+          <span>Raccourcis clavier</span>
         </div>
         <div class="tile tooltip tooltip-top" id="see-github-tile" data-tooltip="Voir les sources du projet">
-          <img src="../ressources/images/github.png" class="tooltip tooltip-top" data-tooltip="Voir les sources du projet"/>
+          <img src="../ressources/images/github.png"/>
           <span>Voir les sources du projet</span>
         </div>
-        <div class="tile" id="">
-          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 4"/>
+        <div class="tile tooltip tooltip-top" id="report-issue-tile" data-tooltip="Signaler un bug">
+          <img src="../ressources/images/bug.png"/>
+          <span>Signaler un bug</span>
+        </div>
+        <div class="tile tooltip tooltip-top" id="" data-tooltip="Tile 4">
+          <img src="../ressources/images/wip.png"/>
           <span>Work In Progress</span>
         </div>
-        <div class="tile" id="">
-          <img src="../ressources/images/wip.png" class="tooltip tooltip-top" data-tooltip="Tile 5"/>
+        <div class="tile tooltip tooltip-top" id="" data-tooltip="Tile 5">
+          <img src="../ressources/images/wip.png"/>
           <span>Work In Progress</span>
         </div>
         <div class="tile tooltip tooltip-top" id="toggle-confirm-sound-tile" data-tooltip="Désactiver les sons de validation">

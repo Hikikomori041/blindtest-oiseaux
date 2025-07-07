@@ -177,12 +177,14 @@ export function hideOverlay() {
 export function updateTiles({app}) {
   let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
   if (app.confirmSoundMuted) {
+    confirmSoundMutedTile.classList.add("activated");
     confirmSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-muted-yellow.png"/>
       <span>Sons de validation désactivés</span>
     `;
     confirmSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
   } else {
+    confirmSoundMutedTile.classList.remove("activated");
     confirmSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-3-yellow.png"/>
       <span>Sons de validation activés</span>
