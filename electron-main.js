@@ -6,6 +6,59 @@ app.setAppUserModelId(process.execPath);
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+let updateWindow = null;
+
+function createUpdateWindow() {
+  if (updateWindow) return; // éviter les doublons
+
+  updateWindow = new BrowserWindow({
+    width: 400,
+    height: 120,
+    frame: false,
+    resizable: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+
+  updateWindow.loadFile('app/update.html');
+
+  updateWindow.on('closed', () => {
+    updateWindow = null;
+  });
+}
+
+// MAJ la progression
+autoUpdater.on('download-progress', (progressObj) => {
+  if (updateWindow) {
+    updateWindow.webContents.send('update-progress', progressObj.percent);
+  }
+});
+
+
+autoUpdater.on('update-available', () => {
+  createUpdateWindow();
+});
+
+autoUpdater.on('update-not-available', () => {
+  if (updateWindow) {
+    updateWindow.close();
+    updateWindow = null;
+  }
+});
+
+autoUpdater.on('update-downloaded', () => {
+  if (updateWindow) {
+    updateWindow.close();
+    updateWindow = null;
+  }
+  autoUpdater.quitAndInstall();
+});
+
+
 
 
 const fs = require('fs');
@@ -116,8 +169,14 @@ if (!gotTheLock) {
     });
 
     log.info('Vérification des mises à jour...');
-    autoUpdater.checkForUpdatesAndNotify();
-    // log.info('Vérification terminée !');
+    
+    if (!app.isPackaged) {
+      console.log('🚫 Update skipped: app not packaged.');
+    } else {
+      autoUpdater.checkForUpdates();
+    }
+
+    log.info('Vérification terminée !');
     
     // On cache la fenêtre de chargement et on affiche la fenêtre principale
     win.once('ready-to-show', () => {

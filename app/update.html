@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body style="display:flex;justify-content:center;align-items:center;height:100%;background:#222;color:#fff;">
+    <div>
+      <p id="status">Mise à jour en cours...</p>
+      <progress id="progressBar" max="100" value="0" style="width:300px;"></progress>
+    </div>
+    <script>
+      window.updateApi.onProgress((percent) => {
+        document.getElementById('progressBar').value = percent;
+        document.getElementById('status').innerText = `Téléchargement... ${percent.toFixed(0)}%`;
+      });
+    </script>
+  </body>
+</html>

@@ -33,5 +33,8 @@ contextBridge.exposeInMainWorld('api', {
 
   // Pour les contrôles dans la barre des tâches
   onPlayerControl: (callback) => ipcRenderer.on('player-control', (event, action) => callback(action)),
-  updateThumbar: (isPlaying, isMuted) => ipcRenderer.send('update-thumbar', isPlaying, isMuted)
+  updateThumbar: (isPlaying, isMuted) => ipcRenderer.send('update-thumbar', isPlaying, isMuted),
+
+  // Pour la fenêtre de mises à jour
+  onProgress: (callback) => ipcRenderer.on('update-progress', (event, percent) => callback(percent))
 });

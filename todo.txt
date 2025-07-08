@@ -2,8 +2,11 @@ Aide: pour push une release, on peut simplement faire:
 > cls;npm run release;
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-> afficher plus clairement la progression du téléchargement / de la mise à jour
-- 
+À tester pour voir si ça marche:
+  - afficher plus clairement la progression du téléchargement / de la mise à jour
+
+À faire:
+ - 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
