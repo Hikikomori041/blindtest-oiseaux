@@ -1,6 +1,6 @@
 import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
-import { playRandomBird, updateVolumeGradient } from './player.js';
+import { playRandomBird, togglePause, updateVolumeGradient } from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -20,17 +20,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   app.total = 0;
   app.currentBird = null;
   if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
+  if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
+  
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   
   // console.log('Paramètres:', app);
 
   // Association des actions aux boutons
-  bindAllButtons({ app });
+  bindAllButtons({app});
 
   // Application des paramètres de l'application
   applySelectedTypes(app.selectedTypes);
   updateVolumeGradient(app.volume);
-  startProgressSmooth(app.audio); // pour l'animation du slider de l'audio
+  startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
   updateTiles({app});
 
   // On change la taille de la fenêtre
@@ -48,6 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // On charge les boutons dans la barre des tâches
   loadTaskbarButtons({app});
 
-  // On lance directement un son d'oiseau au démarrage
+  // On lance directement un son d'oiseau au démarrage (sauf si on a désactivé l'option)
   playRandomBird({app});
 })

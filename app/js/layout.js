@@ -227,19 +227,38 @@ export function hideOverlay() {
 
 export function updateTiles({app}) {
   let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
+  let autoplayTile = document.getElementById('toggle-autoplay-tile');
+
   if (app.confirmSoundMuted) {
     confirmSoundMutedTile.classList.add("activated");
+    confirmSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
     confirmSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-muted-yellow.png"/>
       <span>Sons de validation désactivés</span>
     `;
-    confirmSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
   } else {
+    confirmSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
     confirmSoundMutedTile.classList.remove("activated");
     confirmSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-3-yellow.png"/>
       <span>Sons de validation activés</span>
     `;
-    confirmSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
+  }
+
+
+  if (app.autoplayAtStart) {
+    autoplayTile.classList.add("activated");
+    autoplayTile.setAttribute("data-tooltip", "Désactiver la lecture au démarrage de l'application");
+    autoplayTile.innerHTML = `
+      <img src="../ressources/images/autoplay-on.png"/>
+      <span>Lecture au démarrage activée</span>
+    `;
+  } else {
+    autoplayTile.classList.remove("activated");
+    autoplayTile.setAttribute("data-tooltip", "Activer la lecture au démarrage de l'application");
+    autoplayTile.innerHTML = `
+      <img src="../ressources/images/autoplay-off.png"/>
+      <span>Lecture au démarrage désactivée</span>
+    `;
   }
 }

@@ -55,6 +55,7 @@ function bindWindow({app}) {
       volume: app.volume,
       muted: app.muted,
       confirmSoundMuted: app.confirmSoundMuted,
+      autoplayAtStart: app.autoplayAtStart,
       selectedTypes: getSelectedTypes()
     });
     window.api.close();
@@ -287,8 +288,7 @@ function bindBottomButtons({app}) {
   });
 
   // Tile "Activer / désactiver le son de validation"
-  let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
-  confirmSoundMutedTile.addEventListener('click', () => {
+  document.getElementById('toggle-confirm-sound-tile').addEventListener('click', () => {
     app.confirmSoundMuted = !app.confirmSoundMuted;
 
     // On cache le menu
@@ -298,6 +298,18 @@ function bindBottomButtons({app}) {
     updateTiles({app});
   });
   
+
+
+  // Tile "Activer / désactiver la lecture automatique au démarrage"
+  document.getElementById('toggle-autoplay-tile').addEventListener('click', () => {
+    app.autoplayAtStart = !app.autoplayAtStart;
+
+    // On cache le menu
+    // closeMoreMenu();
+
+    // On change l'affichage
+    updateTiles({app});
+  });
 
 }
 

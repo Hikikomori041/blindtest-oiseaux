@@ -107,7 +107,8 @@ export function listenToBird({app}) {
 
 
 function playBirdSound({app}, index = 0) {
-  app.audio.pause();
+  // app.audio.pause();
+  stopAudio({app});
   const file = app.birdsData[app.currentBird].variants[index];
   app.audio.src = file;
 
@@ -127,6 +128,14 @@ function playBirdSound({app}, index = 0) {
 function startAudio({app}) {
   app.audio.preload = 'auto';
   app.audio.load();
+
+  if (!app.autoplayAtStart && app.total == 0) {
+    document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
+    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+    window.api.updateThumbar(app.audio.paused, app.muted);
+    return;
+  };
+
   app.audio.oncanplaythrough = () => {
     app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
@@ -150,17 +159,6 @@ export function playNextVariant({app}) {
 
 export function togglePause({app}) {
   if (app.audio.paused) {
-    // app.audio.preload = 'auto';
-    // app.audio.load();
-    // app.audio.oncanplaythrough = () => {
-    //   app.audio.play().then(() => {
-    //     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-    //     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
-    //   }).catch(err => {
-    //     console.error("Erreur lecture :", err);
-    //   });
-    // };
-    
     app.audio.play();
     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
@@ -169,7 +167,6 @@ export function togglePause({app}) {
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
-  
   window.api.updateThumbar(app.audio.paused, app.muted);
 }
 

@@ -222,6 +222,7 @@ ipcMain.handle('load-settings', async () => {
     volume: 100,
     muted: false,
     confirmSoundMuted: false,
+    autoplayAtStart: true,
     selectedTypes: ['commun', 'eau', 'foret', 'plaine']
   };
   try {

@@ -187,17 +187,29 @@
 }
 
 #toggle-confirm-sound-tile {
-  /* background: rgba(62, 147, 93, 0.75); */
   background: rgba(128, 128, 56, 0.75);
 }
 #toggle-confirm-sound-tile.activated {
-  /* background: rgba(41, 94, 60, 0.75); */
   background: rgba(54, 49, 9, 0.75);
-  color: gray;
 }
 
 #toggle-confirm-sound-tile.activated span {
-  color: gray
+  color: gray;
 }
+
+
+
+#toggle-autoplay-tile {
+  /* background: rgba(121, 121, 121, 0.75); */
+  background: rgba(58, 96, 86, 0.75);
+}
+#toggle-autoplay-tile.activated {
+  background-color: rgba(107, 190, 199, 0.75);
+}
+
+/* #toggle-autoplay-tile.activated span {
+  color: black;
+  text-shadow: 1px 1px 2px white;
+} */
 
 
