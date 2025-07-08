@@ -273,7 +273,7 @@ function setThumbar(isPlaying = true, isMuted = true) {
     ? path.join(__dirname, 'ressources/images/volume-muted-black.png')
     : path.join(__dirname, 'ressources/images/volume-3-black.png');
 
-    const success = win.setThumbarButtons([
+    win.setThumbarButtons([
     {
       tooltip: pauseTooltip,
       icon: nativeImage.createFromPath(pauseIconPath),
@@ -289,7 +289,6 @@ function setThumbar(isPlaying = true, isMuted = true) {
       }
     }
   ]);
-  if (success) {console.log('Boutons de la taskbar (re)définis !') };
 }
 
 

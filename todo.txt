@@ -3,7 +3,6 @@ Aide: pour push une release, on peut simplement faire:
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 > afficher plus clairement la progression du téléchargement / de la mise à jour
-- faire en sorte que l'ouverture de l'app ne fait que ré-ouvrir la fenetre si le programme est deja lancé
 - 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
