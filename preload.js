@@ -29,5 +29,9 @@ contextBridge.exposeInMainWorld('api', {
   saveSettings: (data) => ipcRenderer.invoke('save-settings', data),
 
   logMessage: (message) => ipcRenderer.invoke('log-message', message),
-  showWindow: () => ipcRenderer.invoke('show-window')
+  showWindow: () => ipcRenderer.invoke('show-window'),
+
+  // Pour les contrôles dans la barre des tâches
+  onPlayerControl: (callback) => ipcRenderer.on('player-control', (event, action) => callback(action)),
+  updateThumbar: (isPlaying, isMuted) => ipcRenderer.send('update-thumbar', isPlaying, isMuted)
 });

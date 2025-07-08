@@ -185,6 +185,7 @@ function bindBottomButtons({app}) {
     } else {
       document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+      window.api.updateThumbar(app.audio.paused, app.muted);
     }
   });
 
@@ -417,6 +418,16 @@ export function toggleSoundControls(activate = true) {
       button.classList.add("disabled");
     }
   }
+}
 
 
+export function loadTaskbarButtons({app}) {
+  window.api.onPlayerControl((action) => {
+    if (action === 'play-pause') {
+      togglePause({app}); // ta fonction existante
+    }
+    else if (action === 'mute-unmute') {
+      muteAudio({app}); // ta fonction existante
+    }
+  });
 }

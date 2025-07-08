@@ -38,7 +38,7 @@ export function muteAudio({app}) {
   changeAudio({app});
 }
 
-export function slideVolume ({app}) {
+export function slideVolume({app}) {
   app.volume = volumeSlider.value;
   if (app.volume == 0 && !app.muted) muteAudio({app});
   else if (app.volume > 0) app.muted = false;
@@ -47,6 +47,7 @@ export function slideVolume ({app}) {
 
 export function changeAudio({app}) {
   app.audio.volume = app.volume/100;
+  window.api.updateThumbar(app.audio.paused, app.muted);
   updateVolumeGradient(app.volume);
 }
 
@@ -102,7 +103,6 @@ export function listenToBird({app}) {
   if (variants.length > 0) {
     playBirdSound({app}, Math.floor(Math.random() * variants.length));
   }
-  
 }
 
 
@@ -121,16 +121,17 @@ function playBirdSound({app}, index = 0) {
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
-  startAudio(app.audio);
+  startAudio({app});
 }
 
-function startAudio(audio) {
-  audio.preload = 'auto';
-  audio.load();
-  audio.oncanplaythrough = () => {
-    audio.play().then(() => {
+function startAudio({app}) {
+  app.audio.preload = 'auto';
+  app.audio.load();
+  app.audio.oncanplaythrough = () => {
+    app.audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+      window.api.updateThumbar(app.audio.paused, app.muted);
     }).catch(err => {
       console.error("Erreur lecture :", err);
     });
@@ -168,6 +169,8 @@ export function togglePause({app}) {
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
   }
+  
+  window.api.updateThumbar(app.audio.paused, app.muted);
 }
 
 function stopAudio({app}) {
@@ -175,6 +178,7 @@ function stopAudio({app}) {
   app.audio.currentTime = 0;
   app.audio.src = "";
   // console.log("on stoppe et vide l'audio");
+  window.api.updateThumbar(app.audio.paused, app.muted);
 }
 
 

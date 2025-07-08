@@ -1,8 +1,7 @@
 import { loadSettings, windowSetSize } from './settings.js';
-import { bindAllButtons} from './controls.js';
-import { playRandomBird, updateVolumeGradient} from './player.js';
+import { bindAllButtons, loadTaskbarButtons } from './controls.js';
+import { playRandomBird, updateVolumeGradient } from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
-
 
 document.addEventListener('DOMContentLoaded', async () => {
   let app = {}; // Paramètres de l'application
@@ -45,6 +44,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // On affiche la fenêtre une fois que tout est chargé correctement
   window.api.showWindow();
+
+  // On charge les boutons dans la barre des tâches
+  loadTaskbarButtons({app});
 
   // On lance directement un son d'oiseau au démarrage
   playRandomBird({app});

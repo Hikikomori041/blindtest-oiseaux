@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, net } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+
+app.setAppUserModelId(process.execPath);
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -10,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
+
 try {
   fs.unlinkSync(logPath);
   console.log('✅ Log effacé au démarrage');
@@ -78,12 +81,13 @@ function createMainWindow() {
   win.on('unmaximize', () => {
     win.webContents.send('window-unmaximize');
   });
+
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
-    app.quit();
+  app.quit();
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     if (win) {
@@ -113,13 +117,14 @@ if (!gotTheLock) {
 
     log.info('Vérification des mises à jour...');
     autoUpdater.checkForUpdatesAndNotify();
-    
+    // log.info('Vérification terminée !');
     
     // On cache la fenêtre de chargement et on affiche la fenêtre principale
-    // win.once('ready-to-show', () => {
-    //   splash.close();
-    //   win.show();
-    // });
+    win.once('ready-to-show', () => {
+      // splash.close();
+      // win.show();
+    });
+
   });
 
   // À la fermeture de la fenêtre
@@ -131,6 +136,7 @@ if (!gotTheLock) {
     globalShortcut.unregisterAll();
   });
 }
+
 
 
 // Réception des événements envoyés depuis preload → renderer
@@ -169,10 +175,11 @@ ipcMain.handle('save-settings', async (event, data) => {
   }
 });
 
-ipcMain.handle('show-window', () => {
+ipcMain.handle('show-window', () => {  
   // On cache la fenêtre de chargement et on affiche la fenêtre principale
   splash.close();
   win.show();
+  setThumbar(true, true);
 })
 
 // Fonctions des boutons de la bordure de fenêtre
@@ -250,6 +257,40 @@ ipcMain.handle('check-update', async () => {
 ipcMain.handle('log-message', (event, message) => {
   logMessage(message);
 });
+
+ipcMain.on('update-thumbar', (event, isPlaying, isMuted) => {
+  setThumbar(isPlaying, isMuted);
+});
+
+function setThumbar(isPlaying = true, isMuted = true) {
+  const pauseTooltip = !isPlaying ? "Pause" : "Play";
+  const pauseIconPath = !isPlaying
+    ? path.join(__dirname, 'ressources/images/pause-button.png')
+    : path.join(__dirname, 'ressources/images/play-button.png');
+
+  const muteTooltip = isMuted ? "Unmute" : "Mute";
+  const muteIconPath = isMuted
+    ? path.join(__dirname, 'ressources/images/volume-muted-black.png')
+    : path.join(__dirname, 'ressources/images/volume-3-black.png');
+
+    const success = win.setThumbarButtons([
+    {
+      tooltip: pauseTooltip,
+      icon: nativeImage.createFromPath(pauseIconPath),
+      click () {
+        win.webContents.send('player-control', 'play-pause');
+      }
+    },
+    {
+      tooltip: muteTooltip,
+      icon: nativeImage.createFromPath(muteIconPath),
+      click () {
+        win.webContents.send('player-control', 'mute-unmute');
+      }
+    }
+  ]);
+  if (success) {console.log('Boutons de la taskbar (re)définis !') };
+}
 
 
 // Vérifie la mise à jour en fonction du dernier tag release
