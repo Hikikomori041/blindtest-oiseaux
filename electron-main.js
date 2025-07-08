@@ -46,7 +46,7 @@ function createUpdateWindow() {
 
 // MAJ la progression
 const downloadProgressHandler = (progressObj) => {
-  logMessage(`📥 Download progress: ${(progressObj.percent).toFixed(2)}%`);
+  logMessage(`[download]📥 Download progress: ${(progressObj.percent).toFixed(2)}%`);
   if (updateWindow && updateWindow.webContents.isLoading() === false) {
     // logMessage(`Envoi à updateWindow: ${(progressObj.percent).toFixed(2)}%`);
     updateWindow.webContents.send('update-progress', progressObj.percent);
