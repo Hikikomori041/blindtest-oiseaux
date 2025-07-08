@@ -71,12 +71,27 @@
   background-color: rgba(48, 48, 48, 0.65);
   padding: 2rem;
 }
+#shortcuts-popup table {
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: black;
+}
 #shortcuts-popup table, #shortcuts-popup th, #shortcuts-popup td {
   border: 1px solid black;
-  border-collapse: collapse;
 }
 #shortcuts-popup th {
-  background-color: rgba(100, 100, 100, 0.35);
+  background-color: rgba(255, 255, 255, 0.65);
+}
+#shortcuts-popup td {
+  background-color: white;
+}
+
+#close-shortcuts-popup-button2 {
+  width: 100px;
+}
+#close-shortcuts-popup-button:active, #close-shortcuts-popup-button2:active {
+  transform: scale(0.95); /* petit effet de clic visuel */
 }
 
 /* #result-text {
