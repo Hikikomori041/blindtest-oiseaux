@@ -1,6 +1,11 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const fs = require('fs');
+const path = require('path');
+
+const settingsPath = path.join(app.getPath('userData'), 'settings.json');
+const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
 
 app.setAppUserModelId(process.execPath);
 
@@ -28,15 +33,30 @@ function createUpdateWindow() {
 
   updateWindow.on('closed', () => {
     updateWindow = null;
+    // Stopper le téléchargement proprement
+    try {
+      autoUpdater.cancelDownload();
+      console.log("✅ Téléchargement annulé proprement après fermeture de la fenêtre.");
+    } catch (err) {
+      console.error("❌ Erreur lors de l'annulation du téléchargement :", err);
+    }
+    autoUpdater.removeListener('download-progress', downloadProgressHandler);
   });
 }
 
 // MAJ la progression
-autoUpdater.on('download-progress', (progressObj) => {
-  if (updateWindow) {
+const downloadProgressHandler = (progressObj) => {
+  logMessage(`📥 Download progress: ${(progressObj.percent).toFixed(2)}%`);
+  if (updateWindow && updateWindow.webContents.isLoading() === false) {
+    // logMessage(`Envoi à updateWindow: ${(progressObj.percent).toFixed(2)}%`);
     updateWindow.webContents.send('update-progress', progressObj.percent);
+  } else {
+    updateWindow.webContents.once('did-finish-load', () => {
+      updateWindow.webContents.send('update-progress', progressObj.percent);
+    });
   }
-});
+};
+autoUpdater.on('download-progress', downloadProgressHandler);
 
 
 autoUpdater.on('update-available', () => {
@@ -58,14 +78,6 @@ autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall();
 });
 
-
-
-
-const fs = require('fs');
-const path = require('path');
-const settingsPath = path.join(app.getPath('userData'), 'settings.json');
-const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
-
 try {
   fs.unlinkSync(logPath);
   console.log('✅ Log effacé au démarrage');
@@ -83,7 +95,7 @@ const DEFAULT_WIDTH = 1300;
 const DEFAULT_HEIGHT = 750;
 
 let splash, win;
-let logOn = false;
+let consoleOn = false;
 const consoleShortCutEnabled = true;
 
 // Création de la fenêtre "splash" avant l'app
@@ -162,9 +174,9 @@ if (!gotTheLock) {
     // Pour activer la console développeur
     globalShortcut.register('Control+I', () => {
       if (consoleShortCutEnabled) {
-        if (!logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
+        if (!consoleOn) win.webContents.openDevTools(); // Affiche les outils développeurs
         else win.webContents.closeDevTools(); // Cache les outils développeurs
-        logOn = !logOn;
+        consoleOn = !consoleOn;
       }
     });
 
@@ -243,12 +255,20 @@ ipcMain.handle('show-window', () => {
 
 // Fonctions des boutons de la bordure de fenêtre
 ipcMain.on('window-close', () => {
+  if (updateWindow && !updateWindow.isDestroyed())  updateWindow.close();
+  if (splash && !splash.isDestroyed()) splash.close();
   if (win) win.close();
 });
 
 ipcMain.on('window-minimize', () => {
   if (win) win.minimize();
 });
+ipcMain.on('window-minimize-update', () => {
+  if (updateWindow) {
+    updateWindow.minimize();
+  }
+});
+
 
 // Pour agrandir / réduire la fenêtre
 let ignoreNext = false;

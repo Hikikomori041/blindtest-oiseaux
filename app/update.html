@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <body style="display:flex;justify-content:center;align-items:center;height:100%;background:#222;color:#fff;">
+  <body>
+    <style>
+      body {
+        -webkit-app-region: drag;
+        user-select: none;
+        
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100%;
+        background:#222;
+        color:#fff;
+        overflow: hidden;
+      }
+
+      /* Pour les éléments interactifs comme boutons (si tu en ajoutes), annule le drag : */
+      button, progress {
+        -webkit-app-region: no-drag;
+      }
+
+      #info {
+        font-size: 0.75em;
+        font-style: italic;
+        color: #ddd
+      }
+    </style>
+
+    <button id="minimize-button" style="
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: #444;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    ">_</button>
+
+
     <div>
       <p id="status">Mise à jour en cours...</p>
       <progress id="progressBar" max="100" value="0" style="width:300px;"></progress>
+      <p id="info">(c'est normal si ça prend du temps au début)</p>
     </div>
     <script>
+      document.getElementById('minimize-button').addEventListener('click', () => {
+        window.updateApi.minimize();
+      });
       window.updateApi.onProgress((percent) => {
         document.getElementById('progressBar').value = percent;
         document.getElementById('status').innerText = `Téléchargement... ${percent.toFixed(0)}%`;
+      });
+      document.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+      });
+      document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
       });
     </script>
   </body>
