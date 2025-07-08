@@ -42,7 +42,7 @@
   z-index: 99;
   padding: 1.5rem;
   font-size: 1.5rem;
-  background-color: #f7f7f7d2; /* couleur Bulma is-info */
+  /* background-color: #f7f7f7d2; */
   color: white;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -68,6 +68,7 @@
   }
 }
 #shortcuts-popup {
+  background-color: rgba(48, 48, 48, 0.65);
   padding: 2rem;
 }
 #shortcuts-popup table, #shortcuts-popup th, #shortcuts-popup td {

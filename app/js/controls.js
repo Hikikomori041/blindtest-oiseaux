@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, hideOverlay, hidePopup, hideShortcutsPopup, showOverlay, showShortcutsPopup, updateTiles, validate } from './layout.js';
+import { genererGrilleOiseaux, hideOverlay, closePopup, hideShortcutsPopup, showOverlay, showShortcutsPopup, updateTiles, validate } from './layout.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -80,10 +80,10 @@ function bindBirds({app}) {
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
   // Pop-up de résultat
-  document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); } );
+  document.getElementById('close-popup-button').addEventListener('click', () => { closePopup(); playRandomBird({app}); } );
   document.getElementById('close-shortcuts-popup-button').addEventListener('click', () => { hideShortcutsPopup(); } );
   document.getElementById('close-shortcuts-popup-button2').addEventListener('click', () => { hideShortcutsPopup(); } );
-  document.getElementById('next-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); });
+  document.getElementById('next-button').addEventListener('click', () => { closePopup(); playRandomBird({app}); });
   
   // Menu contextuel
   // Clic ailleurs → on ferme le menu
@@ -189,9 +189,27 @@ function bindBottomButtons({app}) {
     }
   });
 
-  function hideMoreMenu() {
+  function openMoreMenu() {
+    showOverlay(100);
+    const moreMenu = document.getElementById('more-menu');
+    moreMenu.classList.remove('hidden');
+      // Trigger reflow to allow transition
+      void moreMenu.offsetWidth;
+    moreMenu.classList.add('visible');
+
+    const tiles = moreMenu.querySelectorAll('.tile');
+    tiles.forEach((tile, index) => {
+      setTimeout(() => {
+        tile.classList.add('visible');
+      }, index * 75); // delay de 100ms entre chaque tile
+    });
+  }
+  function closeMoreMenu() {
     hideOverlay();
     const moreMenu = document.getElementById('more-menu');
+    const tiles = moreMenu.querySelectorAll('.tile');
+    tiles.forEach(tile => tile.classList.remove('visible'));
+
     moreMenu.classList.remove('visible');
     moreMenu.addEventListener('transitionend', () => {
       moreMenu.classList.add('hidden');
@@ -200,19 +218,15 @@ function bindBottomButtons({app}) {
 
   // Boutons "Plus"
   document.getElementById('more-button').addEventListener('click', async () => {
-    // hidePopup({app});
+    // closePopup({app});
     const moreMenu = document.getElementById('more-menu');
 
     if (moreMenu.classList.contains('hidden')) {
-      showOverlay(100);
       // On affiche le menu
-      moreMenu.classList.remove('hidden');
-      // Trigger reflow to allow transition
-      void moreMenu.offsetWidth;
-      moreMenu.classList.add('visible');
+      openMoreMenu();
     } else {
       // On cache le menu
-      hideMoreMenu();
+      closeMoreMenu();
     }
   });
 
@@ -223,13 +237,13 @@ function bindBottomButtons({app}) {
   document.getElementById('overlay').addEventListener('click', () => {
     if (document.getElementById('more-menu').classList.contains('visible')) {
       // On cache le menu
-      hideMoreMenu();
+      closeMoreMenu();
     } else {
       // On ferme la pop-up
       if (document.getElementById('shortcuts-popup').classList.contains('active')) {
         hideShortcutsPopup();
       } else if (document.getElementById('result-popup').classList.contains('active')) {
-        hidePopup({app});
+        closePopup({app});
         playRandomBird({app});
       }
     }
@@ -239,7 +253,7 @@ function bindBottomButtons({app}) {
   // Tile "Voir mes listes persos"
   document.getElementById('see-shortcuts-tile').addEventListener('click', () => {
     // On cache le menu
-    hideMoreMenu();
+    closeMoreMenu();
     showShortcutsPopup();
   });
   
@@ -250,7 +264,7 @@ function bindBottomButtons({app}) {
     window.open(link, '_blank');
 
     // On cache le menu
-    hideMoreMenu();
+    closeMoreMenu();
   });
 
   // Tile "Voir les sources"
@@ -260,7 +274,7 @@ function bindBottomButtons({app}) {
     window.open(link, '_blank');
 
     // On cache le menu
-    hideMoreMenu();
+    closeMoreMenu();
   });
 
   // Tile "Voir mes listes persos"
@@ -269,7 +283,7 @@ function bindBottomButtons({app}) {
     //todo
 
     // On cache le menu
-    hideMoreMenu();
+    closeMoreMenu();
   });
 
   // Tile "Activer / désactiver le son de validation"
@@ -278,7 +292,7 @@ function bindBottomButtons({app}) {
     app.confirmSoundMuted = !app.confirmSoundMuted;
 
     // On cache le menu
-    // hideMoreMenu();
+    // closeMoreMenu();
 
     // On change l'affichage
     updateTiles({app});

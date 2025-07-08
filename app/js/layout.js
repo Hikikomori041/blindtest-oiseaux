@@ -43,7 +43,7 @@ function showImage(birdName) {
   container.appendChild(img);
 }
 
-export function showPopup() {
+export function openPopup() {
   showOverlay();
   const popup = document.getElementById('result-popup');
   popup.classList.add("active");
@@ -51,7 +51,7 @@ export function showPopup() {
   popup.style.animation = 'popupIn 0.3s forwards';
 }
 
-export function hidePopup() {
+export function closePopup() {
   hideOverlay();
   const popup = document.getElementById('result-popup');
   popup.classList.remove("active");
@@ -172,8 +172,8 @@ export function validate(guess, {app}) {
     // Bonne réponse
     app.score++;
 
-    popup.classList.remove('wrong');
-    popup.classList.add('right');
+    // popup.classList.remove('wrong');
+    // popup.classList.add('right');
 
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'rgb(24, 196, 24)';
@@ -181,8 +181,8 @@ export function validate(guess, {app}) {
     playSound({app}, 'succes.mp3', 0.5 * app.volume/100);
   } else {
     // Mauvaise réponse
-    popup.classList.remove('right');
-    popup.classList.add('wrong');
+    // popup.classList.remove('right');
+    // popup.classList.add('wrong');
 
     text.innerHTML = `❌ Mauvaise réponse !`;
     text.style.color = 'red';
@@ -195,10 +195,12 @@ export function validate(guess, {app}) {
   app.birdsData[app.currentBird].playCount = (app.birdsData[app.currentBird].playCount || 0) + 1;
 
   // Afficher la popup
+  [...popup.classList].filter(c => c.startsWith('oiseau-')).forEach(c => popup.classList.remove(c));
+  popup.classList.add(`oiseau-` + app.birdsData[app.currentBird].type);
   document.getElementById('result-birdname-french').innerHTML = app.currentBird;
   document.getElementById('result-birdname-latin').innerHTML = `(${getNomLatin(app.currentBird, app.birdsData)})`;
   showImage(app.currentBird);
-  showPopup();
+  openPopup();
 }
 
 
