@@ -81,86 +81,93 @@ function createMainWindow() {
 }
 
 // Ouverture de la fenêtre (ça fait des courants d'air)
-
-
-app.whenReady().then(() => {
-  log.info("Démarrage de l'application");
-
-  createSplashWindow();
-  createMainWindow();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
-  });
-
-  // Pour activer la console développeur
-  globalShortcut.register('Control+I', () => {
-    if (consoleShortCutEnabled) {
-      if (!logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
-      else win.webContents.closeDevTools(); // Cache les outils développeurs
-      logOn = !logOn;
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    if (win) {
+      if (win.isMinimized()) win.restore();
+      win.focus();
     }
   });
 
+  app.whenReady().then(() => {
+    log.info("Démarrage de l'application");
 
-  ipcMain.handle('load-settings', async () => {
-    const settingsDefault = {
-      isMaximized: false,
-      winWidth: DEFAULT_WIDTH,
-      winHeight: DEFAULT_HEIGHT,
-      replayMode: true,
-      lastVolume: 100,
-      volume: 100,
-      muted: false,
-      confirmSoundMuted: false,
-      selectedTypes: ['commun', 'eau', 'foret', 'plaine']
-    };
-    try {
-      if (fs.existsSync(settingsPath)) {
-        const raw = fs.readFileSync(settingsPath);
-        return JSON.parse(raw);
-      } else {
-        return settingsDefault;
+    createSplashWindow();
+    createMainWindow();
+
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    });
+
+    // Pour activer la console développeur
+    globalShortcut.register('Control+I', () => {
+      if (consoleShortCutEnabled) {
+        if (!logOn) win.webContents.openDevTools(); // Affiche les outils développeurs
+        else win.webContents.closeDevTools(); // Cache les outils développeurs
+        logOn = !logOn;
       }
-  } catch (e) {
-    console.error('Erreur lecture paramètres utilisateurs:', e);
-    return settingsDefault;
-    }
+    });
+
+    log.info('Vérification des mises à jour...');
+    autoUpdater.checkForUpdatesAndNotify();
+    
+    
+    // On cache la fenêtre de chargement et on affiche la fenêtre principale
+    // win.once('ready-to-show', () => {
+    //   splash.close();
+    //   win.show();
+    // });
   });
 
-  ipcMain.handle('save-settings', async (event, data) => {
-    try {
-      fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
-      console.log('Paramètres utilisateurs sauvegardés avec succes !');
-    } catch (e) {
-      console.error('Erreur sauvegarde paramètres utilisateurs:', e);
-    }
+  // À la fermeture de la fenêtre
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
   });
 
-  log.info('Vérification des mises à jour...');
-  autoUpdater.checkForUpdatesAndNotify();
-  
-  
-  // On cache la fenêtre de chargement et on affiche la fenêtre principale
-  // win.once('ready-to-show', () => {
-  //   splash.close();
-  //   win.show();
-  // });
-});
-
-// À la fermeture de la fenêtre
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
-});
-
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-});
-
-
+  app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
+  });
+}
 
 
 // Réception des événements envoyés depuis preload → renderer
+
+ipcMain.handle('load-settings', async () => {
+  const settingsDefault = {
+    isMaximized: false,
+    winWidth: DEFAULT_WIDTH,
+    winHeight: DEFAULT_HEIGHT,
+    replayMode: true,
+    lastVolume: 100,
+    volume: 100,
+    muted: false,
+    confirmSoundMuted: false,
+    selectedTypes: ['commun', 'eau', 'foret', 'plaine']
+  };
+  try {
+    if (fs.existsSync(settingsPath)) {
+      const raw = fs.readFileSync(settingsPath);
+      return JSON.parse(raw);
+    } else {
+      return settingsDefault;
+    }
+} catch (e) {
+  console.error('Erreur lecture paramètres utilisateurs:', e);
+  return settingsDefault;
+  }
+});
+
+ipcMain.handle('save-settings', async (event, data) => {
+  try {
+    fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
+    console.log('Paramètres utilisateurs sauvegardés avec succes !');
+  } catch (e) {
+    console.error('Erreur sauvegarde paramètres utilisateurs:', e);
+  }
+});
 
 ipcMain.handle('show-window', () => {
   // On cache la fenêtre de chargement et on affiche la fenêtre principale
@@ -169,7 +176,6 @@ ipcMain.handle('show-window', () => {
 })
 
 // Fonctions des boutons de la bordure de fenêtre
-
 ipcMain.on('window-close', () => {
   if (win) win.close();
 });

@@ -8,12 +8,10 @@ Aide: pour push une release, on peut simplement faire:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
-- texte "0 oiseaux sélectionnés" (singulier à gérer)
-  - effacer l'image si aucun oiseau n'est sélectionné
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
-- mettre les controles dans un popup affiché avec une tile dans more-menu ?
 - animation des tuiles à l'apparition du more-menu
 
 
