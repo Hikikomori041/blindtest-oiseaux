@@ -82,6 +82,7 @@ function bindBirds({app}) {
   // Pop-up de résultat
   document.getElementById('close-popup-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); } );
   document.getElementById('close-shortcuts-popup-button').addEventListener('click', () => { hideShortcutsPopup(); } );
+  document.getElementById('close-shortcuts-popup-button2').addEventListener('click', () => { hideShortcutsPopup(); } );
   document.getElementById('next-button').addEventListener('click', () => { hidePopup(); playRandomBird({app}); });
   
   // Menu contextuel
@@ -179,7 +180,8 @@ function bindBottomButtons({app}) {
   // Action automatique à la fin de la lecture du son
   app.audio.addEventListener('ended', () => {
     if (app.replayMode) {
-      togglePause({app});
+      app.audio.currentTime = 0;
+      app.audio.play();
     } else {
       document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
@@ -349,7 +351,7 @@ function bindShortcuts({app}) {
     }
     else if (e.code === 'Space') {
       e.preventDefault();
-      if (document.getElementById('overlay').style.zIndex == 10) {
+      if (document.getElementById('result-popup').classList.contains('active')) {
         simulateClick(document.getElementById('next-button'));
       } else {
         simulateClick(document.getElementById('pause-button'));

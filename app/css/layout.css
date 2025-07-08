@@ -99,3 +99,8 @@ button:disabled {
 button:not(.disabled) {
   cursor: pointer;
 }
+
+
+table.table tr th {
+  text-align: center!important;
+}

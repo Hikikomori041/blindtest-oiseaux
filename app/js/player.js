@@ -121,10 +121,14 @@ function playBirdSound({app}, index = 0) {
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
-  app.audio.preload = 'auto';
-  app.audio.load();
-  app.audio.oncanplaythrough = () => {
-    app.audio.play().then(() => {
+  startAudio(app.audio);
+}
+
+function startAudio(audio) {
+  audio.preload = 'auto';
+  audio.load();
+  audio.oncanplaythrough = () => {
+    audio.play().then(() => {
       document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
       document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
     }).catch(err => {
@@ -145,16 +149,20 @@ export function playNextVariant({app}) {
 
 export function togglePause({app}) {
   if (app.audio.paused) {
-    app.audio.preload = 'auto';
-    app.audio.load();
-    app.audio.oncanplaythrough = () => {
-      app.audio.play().then(() => {
-        document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-        document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
-      }).catch(err => {
-        console.error("Erreur lecture :", err);
-      });
-    };
+    // app.audio.preload = 'auto';
+    // app.audio.load();
+    // app.audio.oncanplaythrough = () => {
+    //   app.audio.play().then(() => {
+    //     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+    //     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+    //   }).catch(err => {
+    //     console.error("Erreur lecture :", err);
+    //   });
+    // };
+    
+    app.audio.play();
+    document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
+    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
   } else {
     app.audio.pause();
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
