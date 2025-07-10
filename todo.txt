@@ -2,12 +2,17 @@ Aide: pour push une release, on peut simplement faire:
 > cls;npm run release;
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire:
+- regarder pour stuck la barre de recherche au scroll
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
+- charger les sons de validation en avance ?
+- regarder le padding du grosbec casse-noyaux (était sur 2 lignes quand survol sur ordi de Manou)
+- oiseau cell: noms plus gros et case plus haute ?
+- bouton autre son plus gros ?
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 V2:

@@ -196,7 +196,7 @@ export function validate(guess, {app}) {
 
   // Afficher la popup
   [...popup.classList].filter(c => c.startsWith('oiseau-')).forEach(c => popup.classList.remove(c));
-  popup.classList.add(`oiseau-` + app.birdsData[app.currentBird].type);
+  popup.classList.add(`oiseau-` + app.birdsData[app.currentBird].type + '-opaque');
   document.getElementById('result-birdname-french').innerHTML = app.currentBird;
   document.getElementById('result-birdname-latin').innerHTML = `(${getNomLatin(app.currentBird, app.birdsData)})`;
   showImage(app.currentBird);
