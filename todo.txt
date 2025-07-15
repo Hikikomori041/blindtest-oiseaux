@@ -3,13 +3,19 @@ Aide: pour push une release, on peut simplement faire:
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire:
 - regarder pour stuck la barre de recherche au scroll
+- fonction "plein écran" (bouton à droite du volume)
+
+Ajouter:
+- fauvette grisette - plaine
+- grive draine - commun
+- Bergeronnette des ruisseaux - commun
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 À faire peut-être:
-- charger les sons de validation en avance ?
+- charger les sons de validation en avance ? (fonction playSuccessSound(success = true))
 - regarder le padding du grosbec casse-noyaux (était sur 2 lignes quand survol sur ordi de Manou)
 - oiseau cell: noms plus gros et case plus haute ?
 - bouton autre son plus gros ?
