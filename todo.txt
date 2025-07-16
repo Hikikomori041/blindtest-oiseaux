@@ -9,6 +9,9 @@ Ajouter:
 - fauvette grisette - plaine
 - grive draine - commun
 - Bergeronnette des ruisseaux - commun
+- Pie-grièche écorcheur - type à demander à GPT (probablement plaine)
+- Busard cendré - plaine
+- Busard St Martin - plaine
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Bugs:
