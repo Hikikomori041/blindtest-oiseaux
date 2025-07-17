@@ -202,7 +202,7 @@ function bindBottomButtons({app}) {
     tiles.forEach((tile, index) => {
       setTimeout(() => {
         tile.classList.add('visible');
-      }, index * 75); // delay de 100ms entre chaque tile
+      }, index * 50); // delay de 100ms entre chaque tile
     });
   }
   function closeMoreMenu() {
