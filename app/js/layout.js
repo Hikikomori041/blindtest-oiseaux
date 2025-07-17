@@ -106,7 +106,7 @@ export async function genererGrilleOiseaux({app}) {
     info.variants = await window.api.getMp3Paths(birdName);
 
     const divCell = document.createElement('div');
-    divCell.className = `cell oiseau-${info.type}`;
+    divCell.className = `cell oiseau-${info.type}-opaque`;
     divCell.dataset.name = birdName;
 
     divCell.innerHTML = `
