@@ -35,6 +35,10 @@
     "type": "eau",
     "nom_latin": "Gallinago gallinago"
   },
+  "Bergeronnette des ruisseaux": {
+    "type": "commun",
+    "nom_latin": "Motacilla cinerea"
+  },
   "Bergeronnette grise": {
     "type": "commun",
     "nom_latin": "Motacilla alba"
@@ -70,6 +74,14 @@
   "Bruant zizi": {
     "type": "plaine",
     "nom_latin": "Emberiza cirlus"
+  },
+  "Busard cendré": {
+    "type": "plaine",
+    "nom_latin": "Circus pygargus"
+  },
+  "Busard Saint-Martin": {
+    "type": "plaine",
+    "nom_latin": "Circus cyaneus"
   },
   "Butor étoilé": {
     "type": "eau",
@@ -159,6 +171,10 @@
     "type": "commun",
     "nom_latin": "Sylvia borin"
   },
+  "Fauvette grisette": {
+    "type": "plaine",
+    "nom_latin": "Curruca communis"
+  },
   "Foulque macroule": {
     "type": "eau",
     "nom_latin": "Fulica atra"
@@ -214,6 +230,10 @@
   "Grimpereau des jardins": {
     "type": "foret",
     "nom_latin": "Certhia brachydactyla"
+  },
+  "Grive draine": {
+    "type": "commun",
+    "nom_latin": "Turdus viscivorus"
   },
   "Grive musicienne": {
     "type": "foret",
@@ -330,6 +350,10 @@
   "Pie bavarde": {
     "type": "commun",
     "nom_latin": "Pica pica"
+  },
+  "Pie-grièche écorcheur": {
+    "type": "plaine",
+    "nom_latin": "Lanius collurio"
   },
   "Pigeon ramier": {
     "type": "foret",
