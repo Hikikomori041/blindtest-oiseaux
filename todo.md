@@ -1,10 +1,4 @@
 # Oiseaux à ajouter
-- Fauvette grisette - plaine
-- Grive draine - commun
-- Bergeronnette des ruisseaux - commun
-- Pie-grièche écorcheur - plaine
-- Busard cendré - plaine
-- Busard St Martin - plaine
 
 ---
 # À faire
@@ -13,6 +7,7 @@
 
 ---
 # Bugs à fix
+- quand on a écouté 0 oiseau, et qu'on fait "écouter cet oiseau" alors qu'on a le démarrage auto désactivé, le son ne se lance pas avant d'appuyer sur play manuellement
 
 ---
 # À faire peut-être

@@ -131,6 +131,13 @@ input.disabled {
   width: auto!important;
 }
 
+#switch-button {
+  width: 96px!important;
+  border-radius: 16px!important;
+  margin-left: -10px!important;
+}
+
+
 #controls-right {
   display: flex;
   align-items: center;
