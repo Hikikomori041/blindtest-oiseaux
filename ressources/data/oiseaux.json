@@ -243,6 +243,10 @@
     "type": "foret",
     "nom_latin": "Coccothraustes coccothraustes"
   },
+  "Guêpier d'Europe": {
+    "type": "plaine",
+    "nom_latin": "Merops apiaster"
+  },
   "Héron cendré": {
     "type": "eau",
     "nom_latin": "Ardea cinerea"
