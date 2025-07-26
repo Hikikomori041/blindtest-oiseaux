@@ -105,7 +105,7 @@ export function bindMoreMenu({app}) {
     const isFullscreen = await window.api.toggleFullscreen();
     const fullscreenButton = document.getElementById("fullscreen-button");
     const appBar = document.getElementById("titlebar");
-    const content = document.getElementById('subcontent');
+    const content = document.getElementById('blindtest-content');
 
     if (isFullscreen) {
       fullscreenButton.classList.add("activated");

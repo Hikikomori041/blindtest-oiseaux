@@ -22,6 +22,7 @@ export async function loadBirdlistIntoContent() {
     const doc = parser.parseFromString(htmlText, 'text/html');
 
     previousBirdlistElement = document.createElement('div');
+    previousBirdlistElement.id = "birdlists-content";
     previousBirdlistElement.innerHTML = doc.body.innerHTML;
     contentElement.appendChild(previousBirdlistElement);
 
