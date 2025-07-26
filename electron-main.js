@@ -250,7 +250,9 @@ ipcMain.handle('save-settings', async (event, data) => {
 
 ipcMain.handle('show-window', () => {  
   // On cache la fenêtre de chargement et on affiche la fenêtre principale
-  splash.close();
+  if (splash && !splash.isDestroyed()) {
+    splash.close();
+  }
   win.show();
   setThumbar(true, true);
 })
@@ -384,6 +386,10 @@ ipcMain.handle("toggle-fullscreen", (event) => {
 });
 
 
+
+
+
+// Suppression automatique des fichiers de mises à jours au démarrage de l'application
 function cleanUpdaterFiles() {
   const updaterPath = path.join(
     process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'),

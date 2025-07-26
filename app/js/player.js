@@ -171,8 +171,8 @@ export function playNextVariant({app}) {
 }
 
 
-export function togglePause({app}) {
-  if (app.audio.paused) {
+export function togglePause({app}, forcepause = false) {
+  if (app.audio.paused && !forcepause) {
     app.audio.play();
     document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";

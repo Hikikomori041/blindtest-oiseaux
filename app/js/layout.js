@@ -162,6 +162,15 @@ export function startProgressSmooth(audio) {
   requestAnimationFrame(step);
 }
 
+// export function updateScore({app}) {
+//   let text = "Oiseaux trouvés: ";
+//   if (app.total == 0) {
+//     text += "-/-";
+//   } else {
+//     text += `${app.score}/${app.total}`;
+//   }
+//   document.getElementById('score').textContent = text;
+// }
 
 export function validate(guess, {app}) {
   app.total++;

@@ -1,8 +1,9 @@
 import { saveSettings } from './settings.js';
-import { getSelectedTypes, slugify } from './strings.js';
 import { clearSearch, searchBird } from './search.js';
+import { getSelectedTypes, slugify } from './strings.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, hideOverlay, closePopup, hideShortcutsPopup, showOverlay, showShortcutsPopup, updateTiles, validate } from './layout.js';
+import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate } from './layout.js';
+import { bindMoreMenu } from './controls-more.js';
 
 export function bindAllButtons({app}) {
   bindWindow({app});
@@ -40,7 +41,7 @@ function bindWindow({app}) {
       app.winWidth = window.outerWidth;
       app.winHeight = window.outerHeight;
     }
-});
+  });
 
   
   // Fermer la fenêtre
@@ -89,7 +90,8 @@ function bindBirds({app}) {
   // Menu contextuel
   // Clic ailleurs → on ferme le menu
   document.addEventListener('click', () => {
-    document.getElementById('context-menu').style.display = 'none';
+    const ctxMenu = document.getElementById('context-menu');
+    if (ctxMenu) ctxMenu.style.display = 'none';
     // document.getElementById('tiles-container').style.display = 'none';//todo: voir si y en a besoin ici pour tiles-container
   });
 }
@@ -125,6 +127,14 @@ export function bindBirdCell(birdCell, birdName, {app}) {
 
 // Tous les boutons en bas de la fenêtre (essentiellement liés à l'audio)
 function bindBottomButtons({app}) {
+  bindAudioButtons({app});
+  bindVolumeInputs({app});
+
+  bindMoreMenu({app});
+}
+
+
+function bindAudioButtons({app}) {
   // Bouton de toggle du replay
   const replayModeButton = document.getElementById('replay-mode-button');
   replayModeButton.addEventListener('click', () => { toggleReplayMode({app}); });
@@ -163,7 +173,9 @@ function bindBottomButtons({app}) {
 
   // Bouton "autre son de l'oiseau"
   document.getElementById('switch-button').addEventListener('click', () => { playNextVariant({app}); } );
+}
 
+function bindVolumeInputs({app}) {
   // Gestion du volume
   document.getElementById('volume-button').addEventListener('click', () => { muteAudio({app}); } );
   document.getElementById('volume-slider').addEventListener('input', () => { slideVolume({app}); } );
@@ -177,7 +189,6 @@ function bindBottomButtons({app}) {
     app.audio.currentTime = (percent / 100) * app.audio.duration;
   });
 
-
   // Action automatique à la fin de la lecture du son
   app.audio.addEventListener('ended', () => {
     if (app.replayMode) {
@@ -189,147 +200,6 @@ function bindBottomButtons({app}) {
       window.api.updateThumbar(app.audio.paused, app.muted);
     }
   });
-
-  function openMoreMenu() {
-    showOverlay(100);
-    const moreMenu = document.getElementById('more-menu');
-    moreMenu.classList.remove('hidden');
-      // Trigger reflow to allow transition
-      void moreMenu.offsetWidth;
-    moreMenu.classList.add('visible');
-
-    const tiles = moreMenu.querySelectorAll('.tile');
-    tiles.forEach((tile, index) => {
-      setTimeout(() => {
-        tile.classList.add('visible');
-      }, index * 50); // delay de 100ms entre chaque tile
-    });
-  }
-  function closeMoreMenu() {
-    hideOverlay();
-    const moreMenu = document.getElementById('more-menu');
-    const tiles = moreMenu.querySelectorAll('.tile');
-    tiles.forEach(tile => tile.classList.remove('visible'));
-
-    moreMenu.classList.remove('visible');
-    moreMenu.addEventListener('transitionend', () => {
-      moreMenu.classList.add('hidden');
-    }, { once: true });
-  }
-
-  // Boutons "Plus"
-  document.getElementById('more-button').addEventListener('click', async () => {
-    // closePopup({app});
-    const moreMenu = document.getElementById('more-menu');
-
-    if (moreMenu.classList.contains('hidden')) {
-      // On affiche le menu
-      openMoreMenu();
-    } else {
-      // On cache le menu
-      closeMoreMenu();
-    }
-  });
-
-  // Bouton pour fermer les tiles
-  document.getElementById('close-tiles-button').addEventListener('click', () => {
-    document.getElementById('more-button').click();
-  });
-  document.getElementById('overlay').addEventListener('click', () => {
-    if (document.getElementById('more-menu').classList.contains('visible')) {
-      // On cache le menu
-      closeMoreMenu();
-    } else {
-      // On ferme la pop-up
-      if (document.getElementById('shortcuts-popup').classList.contains('active')) {
-        hideShortcutsPopup();
-      } else if (document.getElementById('result-popup').classList.contains('active')) {
-        closePopup({app});
-        playRandomBird({app});
-      }
-    }
-  });
-
-  // Tiles du bouton "Plus"  
-  // Tile "Voir mes listes persos"
-  document.getElementById('see-shortcuts-tile').addEventListener('click', () => {
-    // On cache le menu
-    closeMoreMenu();
-    showShortcutsPopup();
-  });
-  
-  // Tile "Signaler un bug"
-  document.getElementById('report-issue-tile').addEventListener('click', () => {
-    // On ouvre GitHub sur la page de création d'une nouvelle issue
-    const link = `https://github.com/Hikikomori041/blindtest-oiseaux/issues/new`;
-    window.open(link, '_blank');
-
-    // On cache le menu
-    closeMoreMenu();
-  });
-
-  // Tile "Voir les sources"
-  document.getElementById('see-github-tile').addEventListener('click', () => {
-    // On ouvre GitHub sur un navigateur intégré
-    const link = `https://github.com/Hikikomori041/blindtest-oiseaux/tree/main`;
-    window.open(link, '_blank');
-
-    // On cache le menu
-    closeMoreMenu();
-  });
-
-  // Tile "Voir mes listes persos"
-  document.getElementById('see-birdlists-tile').addEventListener('click', () => {
-
-    //todo
-
-    // On cache le menu
-    closeMoreMenu();
-  });
-
-  // Tile "Activer / désactiver le son de validation"
-  document.getElementById('toggle-confirm-sound-tile').addEventListener('click', () => {
-    app.confirmSoundMuted = !app.confirmSoundMuted;
-
-    // On cache le menu
-    // closeMoreMenu();
-
-    // On change l'affichage
-    updateTiles({app});
-  });
-  
-
-
-  // Tile "Activer / désactiver la lecture automatique au démarrage"
-  document.getElementById('toggle-autoplay-tile').addEventListener('click', () => {
-    app.autoplayAtStart = !app.autoplayAtStart;
-
-    // On cache le menu
-    // closeMoreMenu();
-
-    // On change l'affichage
-    updateTiles({app});
-  });
-
-
-  document.getElementById("fullscreen-button").addEventListener("click", async () => {
-    const isFullscreen = await window.api.toggleFullscreen();
-    const fullscreenButton = document.getElementById("fullscreen-button");
-    const appBar = document.getElementById("titlebar");
-    const content = document.getElementById('subcontent');
-
-    if (isFullscreen) {
-      fullscreenButton.classList.add("activated");
-      appBar.classList.add("hidden");
-      content.classList.remove('mt-5');
-    } else {
-      fullscreenButton.classList.remove("activated");
-      appBar.classList.remove("hidden");
-      content.classList.add('mt-5');
-    }
-  });
-
-
 }
 
 

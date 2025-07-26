@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des oiseaux</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    #back-button {
+      margin-bottom: 1.5rem;
+      padding: 0.5em 1em;
+      border: none;
+      background: #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    ul#bird-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul#bird-list li {
+      padding: 0.5em;
+      background: white;
+      border: 1px solid #ddd;
+      margin-bottom: 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="back-button">⬅ Revenir</button>
+
+  <h1>Liste des oiseaux</h1>
+
+  <ul id="bird-list">
+    <!-- Injecté par JS -->
+  </ul>
+
+
+  <script type="module" src="js/birdlists-script.js"></script>
+
+</body>
+</html>
