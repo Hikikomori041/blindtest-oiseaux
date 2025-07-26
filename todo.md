@@ -7,13 +7,12 @@
 
 ---
 # Bugs à fix
-- quand on a écouté 0 oiseau, et qu'on fait "écouter cet oiseau" alors qu'on a le démarrage auto désactivé, le son ne se lance pas avant d'appuyer sur play manuellement
+- #427: quand on a écouté 0 oiseau, et qu'on fait "écouter cet oiseau" alors qu'on a le démarrage auto désactivé, le son ne se lance pas avant d'appuyer sur play manuellement
 
 ---
 # À faire peut-être
-- oiseau cell: noms plus gros et case plus haute ?
-- regarder le padding du grosbec casse-noyaux (était sur 2 lignes quand survol si largeur d'une certaine taille)
-
+- enregistrer en local la liste des oiseaux lus, afin de revenir en arrière (et de fix le bug #427)
+- enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 
 ---
 ---
