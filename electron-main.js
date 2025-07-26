@@ -162,6 +162,7 @@ if (!gotTheLock) {
   });
 
   app.whenReady().then(() => {
+    cleanUpdaterFiles();
     log.info("Démarrage de l'application");
 
     createSplashWindow();
@@ -381,6 +382,39 @@ ipcMain.handle("toggle-fullscreen", (event) => {
   }
   return false;
 });
+
+
+function cleanUpdaterFiles() {
+  const updaterPath = path.join(
+    process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'),
+    'blindtest-oiseaux-updater'
+  );
+
+  // Supprimer l'exe racine
+  const installerExe = path.join(updaterPath, 'installer.exe');
+  if (fs.existsSync(installerExe)) {
+    log.info("Suppression des fichiers de mises à jour...");
+    try {
+      fs.unlinkSync(installerExe);
+      log.info('[Updater Cleanup] Supprimé : installer.exe');
+    } catch (err) {
+      log.error('[Updater Cleanup] Échec suppression installer.exe:', err);
+    }
+  }
+
+  // Supprimer les fichiers dans "pending"
+  const pendingDir = path.join(updaterPath, 'pending');
+  if (fs.existsSync(pendingDir)) {
+    fs.readdirSync(pendingDir).forEach(file => {
+      try {
+        fs.unlinkSync(path.join(pendingDir, file));
+        log.info(`[Updater Cleanup] Supprimé dans pending : ${file}`);
+      } catch (err) {
+        log.error(`[Updater Cleanup] Échec suppression ${file} :`, err);
+      }
+    });
+  }
+}
 
 
 // Vérifie la mise à jour en fonction du dernier tag release
