@@ -2,19 +2,33 @@
 import { toggleSoundControls } from './controls.js';
 import { log } from './strings.js'
 
+// Chargement des sons de validation
+const successSound = new Audio("../ressources/sons/success.mp3");
+const errorSound = new Audio("../ressources/sons/error.mp3");
+successSound.preload = 'auto';
+successSound.load();
+errorSound.preload = 'auto';
+errorSound.load();
+
 // Permet de lire un son (victoire, défaire)
-export function playSound({app}, son, volume=1.0) {
+export function playValidationSound({app}, isSuccess, volume=1.0) {
   // Si on ne joue pas les sons de confirmation, on skip
   if (app.confirmSoundMuted) return;
 
-  const chemin = `../ressources/sons/${son}`;
-  const audio = new Audio(chemin);
+  let audio = null;
+  if (isSuccess) {
+    audio = successSound;
+  } else {
+    audio = errorSound;
+  }
+
+  if (!audio) return;
+
   audio.volume = volume; // de 0.0 à 1.0
-  audio.preload = 'auto';
-  audio.load();
-  audio.oncanplaythrough = () => {
-    audio.play();
-  };
+  audio.currentTime = 0;
+  // audio.oncanplaythrough = () => {
+  audio.play();
+  // };
 }
 
 

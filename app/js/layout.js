@@ -2,7 +2,7 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playSound } from './player.js';
+import { playValidationSound } from './player.js';
 
 // Change la version dans le titre
 export const setTitleVersion = async () => {
@@ -178,7 +178,7 @@ export function validate(guess, {app}) {
     text.innerHTML = `✔️ Bonne réponse !`;
     text.style.color = 'rgb(24, 196, 24)';
 
-    playSound({app}, 'succes.mp3', 0.5 * app.volume/100);
+    playValidationSound({app}, true, 0.5 * app.volume/100);
   } else {
     // Mauvaise réponse
     // popup.classList.remove('right');
@@ -187,7 +187,7 @@ export function validate(guess, {app}) {
     text.innerHTML = `❌ Mauvaise réponse !`;
     text.style.color = 'red';
 
-    playSound({app}, 'erreur.mp3', 0.2 * app.volume/100);
+    playValidationSound({app}, false, 0.2 * app.volume/100);
   }
   document.getElementById('score').textContent = `Oiseaux trouvés: ${app.score}/${app.total}`;
   

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
-  
+
   // Chargement des oiseaux
   app.audio = new Audio();
   app.score = 0;
