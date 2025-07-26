@@ -393,7 +393,7 @@ function cleanUpdaterFiles() {
   // Supprimer l'exe racine
   const installerExe = path.join(updaterPath, 'installer.exe');
   if (fs.existsSync(installerExe)) {
-    log.info("Suppression des fichiers de mises à jour...");
+    log.info("[Updater Cleanup] Suppression des fichiers de mises à jour...");
     try {
       fs.unlinkSync(installerExe);
       log.info('[Updater Cleanup] Supprimé : installer.exe');
