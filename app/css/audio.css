@@ -138,8 +138,8 @@ input.disabled {
 }
 
 
-#controls-right {
-  display: flex;
+#controls-right div {
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
@@ -211,4 +211,23 @@ input.disabled {
   background: linear-gradient(to right, #1db954 50%, #555 50%);
   height: 6px;
   border-radius: 3px;
+}
+
+
+
+#fullscreen-button {
+  width: 24px !important;
+  height: 32px !important;
+  padding: 0;
+  /* border-radius: 10px !important; */
+  border:none!important;
+  background: none!important;
+}
+#fullscreen-button:active{
+  border: none!important;
+}
+
+
+#fullscreen-button.activated img {
+  content:url("../../ressources/images/fullscreen-button-on.svg");
 }

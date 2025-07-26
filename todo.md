@@ -3,7 +3,6 @@
 ---
 # À faire
 - regarder pour stuck la barre de recherche au scroll
-- fonction "plein écran" (bouton à droite du volume)
 
 ---
 # Bugs à fix

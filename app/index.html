@@ -46,7 +46,7 @@
 
       <div id="overlay"></div>
 
-      <div class="columns mt-5 mx-1">
+      <div class="columns mt-5 mx-1" id="subcontent">
       
         <!-- Colonne gauche : types d'oiseaux -->
         <div id="colonne-gauche" class="column is-one-fifth">
@@ -132,8 +132,15 @@
 
         <!-- Partie droite : volume -->
         <div id="controls-right">
-          <img for="volume-slider" id="volume-button" class="tooltip tooltip-top volume-3" alt="Volume" data-tooltip="Mute (m)"/>
-          <input id="volume-slider" type="range" min="0" max="100" value="100" class="tooltip tooltip-top" data-tooltip="100%">
+          <div>
+            <img for="volume-slider" id="volume-button" class="tooltip tooltip-top volume-3" alt="Volume" data-tooltip="Mute (m)"/>
+            <input id="volume-slider" type="range" min="0" max="100" value="100" class="tooltip tooltip-top" data-tooltip="100%">
+          </div>
+          <div>
+            <button id="fullscreen-button" class="button tooltip tooltip-top" data-tooltip="Mode plein écran">
+              <img src="../ressources/images/fullscreen-button-off.svg" alt="Plein écran"/>
+            </button>
+          </div>
         </div>
 
       </div>

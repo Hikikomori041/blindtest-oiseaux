@@ -311,6 +311,25 @@ function bindBottomButtons({app}) {
     updateTiles({app});
   });
 
+
+  document.getElementById("fullscreen-button").addEventListener("click", async () => {
+    const isFullscreen = await window.api.toggleFullscreen();
+    const fullscreenButton = document.getElementById("fullscreen-button");
+    const appBar = document.getElementById("titlebar");
+    const content = document.getElementById('subcontent');
+
+    if (isFullscreen) {
+      fullscreenButton.classList.add("activated");
+      appBar.classList.add("hidden");
+      content.classList.remove('mt-5');
+    } else {
+      fullscreenButton.classList.remove("activated");
+      appBar.classList.remove("hidden");
+      content.classList.add('mt-5');
+    }
+  });
+
+
 }
 
 

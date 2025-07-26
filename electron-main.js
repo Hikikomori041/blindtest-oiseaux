@@ -372,6 +372,17 @@ function setThumbar(isPlaying = true, isMuted = true) {
 }
 
 
+ipcMain.handle("toggle-fullscreen", (event) => {
+  const focusedWin = BrowserWindow.getFocusedWindow();
+  if (focusedWin) {
+    const newState = !focusedWin.isFullScreen();
+    focusedWin.setFullScreen(newState);
+    return newState;
+  }
+  return false;
+});
+
+
 // Vérifie la mise à jour en fonction du dernier tag release
 // ipcMain.handle('check-update', async () => {
 //   return new Promise((resolve, reject) => {

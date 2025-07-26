@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('api', {
   onWindowMaximize: (callback) => ipcRenderer.on('window-maximize', callback),
   onWindowUnmaximize: (callback) => ipcRenderer.on('window-unmaximize', callback),
 
+  toggleFullscreen: () => ipcRenderer.invoke("toggle-fullscreen"),
 
   // Pour charger les fichiers ressources
   getBirdsData: (filePath) => ipcRenderer.invoke('get-birds-data', filePath),

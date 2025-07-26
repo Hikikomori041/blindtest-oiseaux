@@ -52,3 +52,7 @@
 #close-button:hover {
   background-color: rgba(204, 9, 9, 0.801)!important;
 }
+
+#titlebar.hidden{
+  display: none;
+}
