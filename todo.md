@@ -2,7 +2,7 @@
 
 ---
 # À faire
-- regarder pour stuck la barre de recherche au scroll
+- supprimer les fichiers d'installation après une mise à jour
 
 ---
 # Bugs à fix
@@ -12,7 +12,6 @@
 # À faire peut-être
 - charger les sons de validation en avance ? (fonction playSuccessSound(success = true))
 - oiseau cell: noms plus gros et case plus haute ?
-- bouton autre son plus gros ?
 - système de liste persos
   -> enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 - regarder le padding du grosbec casse-noyaux (était sur 2 lignes quand survol si largeur d'une certaine taille)

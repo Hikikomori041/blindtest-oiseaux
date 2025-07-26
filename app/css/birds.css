@@ -6,12 +6,27 @@
   align-items: center;
 }
 
+#search-bar-field {
+  position: sticky;
+  top: 0;
+  z-index: 10; /* pour être au-dessus des oiseaux */
+  opacity: 0.75;
+  transition: opacity 0.25s ease;
+}
+#search-bar-field:hover{
+  opacity: 1;
+}
+
+
 #search-bar-control {
   /* width: 50%; */
   width: 420px;
   min-width: 300px;
   margin: 0 auto;
   margin-bottom: 20px;
+}
+#search-bar-control:hover #clear-search {
+  opacity: 1;
 }
 
 
@@ -31,6 +46,8 @@
   padding: 0 0.5em;
   font-size: 1rem; /* pour forcer la taille */
   color: #aaa; /* couleur par défaut */
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 #clear-search:hover {
