@@ -51,6 +51,10 @@
     "type": "eau",
     "nom_latin": "Ixobrychus minutus"
   },
+  "Bondrée apivore": {
+    "type": "foret",
+    "nom_latin": "Pernis apivorus"
+  },
   "Bouscarle de Cetti": {
     "type": "commun",
     "nom_latin": "Cettia cetti"
@@ -232,8 +236,12 @@
     "nom_latin": "Certhia brachydactyla"
   },
   "Grive draine": {
-    "type": "commun",
+    "type": "foret",
     "nom_latin": "Turdus viscivorus"
+  },
+  "Grive litorne": {
+    "type": "plaine",
+    "nom_latin": "Turdus pilaris"
   },
   "Grive musicienne": {
     "type": "foret",
