@@ -1,4 +1,8 @@
 # Oiseaux à ajouter
+- Grive litorne (plaine)
+- (grive draine) -> foret
+- Bondrée apricorne (foret)
+- bondrée apivore
 
 ---
 # À faire

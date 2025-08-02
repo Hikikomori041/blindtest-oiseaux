@@ -1,9 +1,9 @@
 import { restorePreviousContent } from './birdlists.js';
 import { getApp } from './init.js';
 
-caca();
+birdlistMain();
 
-async function caca() {
+async function birdlistMain() {
   let app = await getApp();
   if (!app.birdsData) {
     console.error("app.birdsData est introuvable !");
