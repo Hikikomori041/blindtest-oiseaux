@@ -18,7 +18,28 @@ async function birdlistMain() {
   //   list.appendChild(item);
   // });
 
-  document.getElementById('back-button').addEventListener('click', () => {
-    restorePreviousContent();
+  document.getElementById('back-button').addEventListener("click", (e) => {
+    restorePreviousContent({app});
   });
+
+
+  const birdLists = document.getElementById('my-lists');
+  // console.log(birdLists);
+  for (let birdList of birdLists.getElementsByClassName('list-cell')) {
+    const editButton = birdList.getElementsByClassName('edit-button')[0];
+    const loadButton = birdList.getElementsByClassName('load-button')[0];
+
+    if (birdList.id == 'default-list') {
+      birdList.addEventListener('click', () => {
+        console.log(`On choisit la liste par défaut`);
+      });
+    } else {
+      birdList.addEventListener('click', () => {
+        console.log(`On choisit la liste ${birdList.id}`);
+      });
+    }
+  }
+  
 };
+
+

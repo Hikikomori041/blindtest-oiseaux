@@ -146,7 +146,7 @@ function startAudio({app}) {
   if (app.total > 0) {
     app.birdHasBeenPlayed = true;
   }
-  console.log(`on essaye de lire: ${app.currentBird}, avec app.birdHasBeenPlayed=${app.birdHasBeenPlayed}`);
+  // console.log(`on essaye de lire: ${app.currentBird}, avec app.birdHasBeenPlayed=${app.birdHasBeenPlayed}`);
 
   if (!app.autoplayAtStart && !app.birdHasBeenPlayed) {
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";

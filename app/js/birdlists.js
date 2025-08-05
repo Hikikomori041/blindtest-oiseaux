@@ -4,20 +4,12 @@ import { toggleSoundControls } from './controls.js';
 
 let previousBirdlistElement = null;
 
-document.addEventListener('DOMContentLoaded', async () => {
-  document.addEventListener("click", (e) => {
-    if (e.target.id === "back-button") {
-      restorePreviousContent();
-    }
-  });
-})
-
-
-
 
 export async function loadBirdlistIntoContent() {
   const response = await fetch('birdlists.html');
   const htmlText = await response.text();
+
+  // const app = await getApp();
 
   const contentElement = document.getElementById('content');
 
@@ -50,8 +42,23 @@ export async function loadBirdlistIntoContent() {
   }
 }
 
+async function resetBirds({app}) {
+  app.score = 0;
+  app.total = 0;
+  document.getElementById('score').textContent = `Oiseaux trouvés: -/-`;
+  toggleSoundControls(true);
 
-export async function restorePreviousContent() {
+  // if (app.autoplayAtStart) {
+  //   playRandomBird({app});
+  // }
+  app.birdHasBeenPlayed = true;
+  playRandomBird({app});
+  // loadApp();
+}
+
+
+
+export async function restorePreviousContent({app}) {
   const contentElement = document.getElementById('content');
 
   // Supprime le birdlist injecté
@@ -66,24 +73,8 @@ export async function restorePreviousContent() {
   });
 
   //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
-  resetBirds();
+  resetBirds({app});
 
   //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
 }
 
-
-
-async function resetBirds() {
-  const app = await getApp();
-  app.score = 0;
-  app.total = 0;
-  document.getElementById('score').textContent = `Oiseaux trouvés: -/-`;
-  toggleSoundControls(true);
-
-  // if (app.autoplayAtStart) {
-  //   playRandomBird({app});
-  // }
-  app.birdHasBeenPlayed = true;
-  playRandomBird({app});
-  // loadApp();
-}
