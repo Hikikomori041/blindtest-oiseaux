@@ -2,9 +2,18 @@ import { getApp, loadApp } from "./init.js";
 import { playRandomBird } from "./player.js";
 import { toggleSoundControls } from './controls.js';
 
-
-
 let previousBirdlistElement = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "back-button") {
+      restorePreviousContent();
+    }
+  });
+})
+
+
+
 
 export async function loadBirdlistIntoContent() {
   const response = await fetch('birdlists.html');
@@ -57,6 +66,14 @@ export async function restorePreviousContent() {
   });
 
   //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
+  resetBirds();
+
+  //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
+}
+
+
+
+async function resetBirds() {
   const app = await getApp();
   app.score = 0;
   app.total = 0;
@@ -70,16 +87,3 @@ export async function restorePreviousContent() {
   playRandomBird({app});
   // loadApp();
 }
-
-
-
-
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-  document.addEventListener("click", (e) => {
-    if (e.target.id === "back-button") {
-      restorePreviousContent();
-    }
-  });
-})

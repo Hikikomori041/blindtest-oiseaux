@@ -1,6 +1,7 @@
 
 import { loadBirdlistIntoContent } from './birdlists.js';
 import { playRandomBird, togglePause } from './player.js'
+import { toggleSoundControls } from './controls.js'
 import { showOverlay, hideOverlay, closePopup, showShortcutsPopup, hideShortcutsPopup, updateTiles } from './layout.js';
 
 export function bindMoreMenu({app}) {
