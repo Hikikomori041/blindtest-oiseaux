@@ -113,10 +113,6 @@
   width: 64px;
   margin: 10px;
 }
-#bird-animation.hidden {
-  display: none;
-  /* visibility: hidden; */
-}
 
 /* ------------------------------------------------------- */
 /*                   Grille des oiseaux                    */
@@ -258,4 +254,24 @@ button.validate-bird {
 }
 #context-menu span:hover {
   background: #88a4af;
+}
+
+
+
+#bird-face img {
+  border-radius: 5%;
+}
+/*
+#bird-face:hover {
+  border: 2px dashed black;
+  cursor: pointer;
+} */
+#next-bird {
+  height: 80px;
+  width: 100%;
+}
+#next-bird button {
+  display: inline-block;
+  color: white;
+  width: 300px!important;
 }

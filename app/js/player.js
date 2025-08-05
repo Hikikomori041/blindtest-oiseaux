@@ -111,16 +111,16 @@ export function checkVolumeButtonIcon(volume) {
 
 
 // Écouter un oiseau
-export function listenToBird({app}) {
+export function playBird({app}, forceplay = false) {
   const variants = app.birdsData[app.currentBird]?.variants || [];
 
   if (variants.length > 0) {
-    playBirdSound({app}, Math.floor(Math.random() * variants.length));
+    playBirdSound({app}, Math.floor(Math.random() * variants.length), forceplay);
   }
 }
 
 
-function playBirdSound({app}, index = 0) {
+function playBirdSound({app}, index = 0, forceplay) {
   // app.audio.pause();
   stopAudio({app});
   const file = app.birdsData[app.currentBird].variants[index];
@@ -136,14 +136,14 @@ function playBirdSound({app}, index = 0) {
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
-  startAudio({app});
+  startAudio({app}, forceplay);
 }
 
-function startAudio({app}) {
+function startAudio({app}, forceplay) {
   app.audio.preload = 'auto';
   app.audio.load();
 
-  if (!app.autoplayAtStart && app.total == 0) {
+  if (!app.autoplayAtStart && app.total == 0 && !forceplay) {
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
     window.api.updateThumbar(app.audio.paused, app.muted);
@@ -207,7 +207,9 @@ export function playRandomBird({app}) {
   if (pool.length === 0) {
     stopAudio({app});
 
-    document.getElementById('titre').innerHTML = "Aucun oiseau n'est sélectionné !";
+    // document.getElementById('what-bird-title').innerHTML = "Aucun oiseau n'est sélectionné !";
+    document.getElementById('no-bird-selected').classList.remove('display-none');
+    document.getElementById('what-bird-title').classList.add('display-none');
 
     // On désactive les commandes de son
     toggleSoundControls(false);
@@ -215,7 +217,9 @@ export function playRandomBird({app}) {
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
     return;
   } else {
-    document.getElementById('titre').innerHTML = "Quel est cet oiseau ?";
+    // document.getElementById('what-bird-title').innerHTML = "Quel est cet oiseau ?";
+    document.getElementById('no-bird-selected').classList.add('display-none');
+    document.getElementById('what-bird-title').classList.remove('display-none');
     document.getElementById('search-bar-control').style.display = 'block';
     toggleSoundControls();
   }
@@ -245,6 +249,6 @@ export function playRandomBird({app}) {
   // console.log('---------------------------------------');
   // for (index in app.birdsData) { if (app.birdsData[index].playCount > 0) console.log(index, ":", app.birdsData[index].playCount); }
 
-  listenToBird({app});
+  playBird({app});
 }
 

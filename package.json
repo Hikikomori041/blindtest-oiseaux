@@ -1,7 +1,7 @@
 {
   "author": "Nicolas BLACHÈRE <nicolas.blachere@gmail.com> (https://github.com/Hikikomori041)",
   "name": "blindtest-oiseaux",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Blind-test de chants d'oiseaux",
   "main": "electron-main.js",
   "scripts": {

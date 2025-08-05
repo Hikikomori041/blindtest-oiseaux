@@ -70,8 +70,11 @@
         <!-- Colonne droite : tout le reste en pile -->
         <div id="colonne-droite" class="column">
           <section id="quiz" class="box">
-            <h2 id="titre" class="title is-4">Quel est cet oiseau ?</h2>
+            <h2 id="no-bird-selected" class="title is-4 display-none">Aucun oiseau n'est sélectionné !</h2>
+            <h2 id="what-bird-title" class="title is-4">Quel est cet oiseau ?</h2>
             <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
+            <div id="bird-face" class="tooltip tooltip-right display-none" data-tooltip="Clique pour en savoir plus sur cet oiseau"></div>
+
             <div class="field" id="search-bar-field">
               <div id="search-bar-control" class="control has-icons-left has-icons-right">
                 <input id="search-bar" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
@@ -82,6 +85,9 @@
                   ✖
                 </span>
               </div>
+            </div>
+            <div id="next-bird" class="display-none">
+              <button id="next-bird-button" class="button tooltip tooltip-bottom" data-tooltip="Jouer un autre oiseau aléatoire">Jouer un autre oiseau</button>
             </div>
             <div id="bird-grid" class="grid"></div>
           </section>

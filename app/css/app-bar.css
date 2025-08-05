@@ -21,7 +21,9 @@
   align-items: center;
   background: #1f2937;
   color: white;
-  padding: 0 10px;
+  /* padding: 0 10px; */
+  padding-left: 10px;
+
 }
 #titlebar .title {
   margin: 0;
@@ -34,9 +36,15 @@
 }
 
 
+#window-controls {
+  height: 32px;
+}
+
 
 #titlebar button {
   -webkit-app-region: no-drag;
+  height: 32px;
+  width: 32px;
   background: transparent;
   border: none;
   color: white;
@@ -47,7 +55,7 @@
 }
 #titlebar button:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  /* border-radius: 4px; */
 }
 #close-button:hover {
   background-color: rgba(204, 9, 9, 0.801)!important;

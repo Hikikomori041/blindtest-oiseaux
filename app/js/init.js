@@ -54,7 +54,7 @@ export async function loadApp() {
   // On lance directement un son d'oiseau au démarrage (sauf si on a désactivé l'option)
   playRandomBird({app});
 
-  console.log(app);
+  // console.log(app);
 }
 
 export async function getApp() {

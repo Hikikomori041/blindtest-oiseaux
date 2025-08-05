@@ -2,9 +2,9 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playValidationSound } from './player.js';
+import { playBird, playValidationSound } from './player.js';
 
-// Change la version dans le titre
+// Change la version dans l'app-bar
 export const setTitleVersion = async () => {
   const version = await window.api.getVersion();
   document.querySelector('#titlebar .title').textContent = `Blind-Test Oiseaux v${version}`;
@@ -24,15 +24,13 @@ export function applySelectedTypes(selectedTypes) {
 }
 
 
-function showImage(birdName) {
-  const container = document.getElementById('result-image');
+function showImage(birdName, id='result-image') {
+  const container = document.getElementById(id);
   const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
   const img = document.createElement('img');
 
   container.innerHTML = '';
   img.src = `../ressources/oiseaux/${birdName}/image.jpg`;
-  img.style.maxWidth = '300px';
-  img.style.cursor = 'pointer';
   img.onclick = () => {
     console.log(link);
     window.open(link, '_blank');
@@ -125,11 +123,11 @@ export async function genererGrilleOiseaux({app}) {
     grid.appendChild(divCell);
   }
   let birdCountText = app.birdList.length;
-  if (app.birdList.length == 0) {
-    document.getElementById('bird-animation').classList.add("hidden");
-  } else {
-    document.getElementById('bird-animation').classList.remove("hidden");
-  }
+  // if (app.birdList.length == 0) {
+  //   document.getElementById('bird-animation').classList.add("display-none");
+  // } else {
+  //   document.getElementById('bird-animation').classList.remove("display-none");
+  // }
   if (app.birdList.length <= 1) {
     birdCountText += " oiseau sélectionné";
   } else {
@@ -270,4 +268,41 @@ export function updateTiles({app}) {
       <span>Lecture au démarrage désactivée</span>
     `;
   }
+}
+
+export function listenToBird({app}) {
+  hideBirdCells({app});
+  playBird({app}, true);
+}
+
+
+function hideBirdCells({app}) {
+  document.getElementById('search-bar-field').classList.add("display-none");
+  document.getElementById('bird-animation').classList.add("display-none");
+  document.getElementById('bird-grid').classList.add("display-none");
+
+  // const birdCells = birdGrid.getElementsByClassName('cell');
+  // console.log(allCells);
+  // for (let birdCell of birdCells) {
+  //   if (birdCell.dataset.name != app.currentBird) {
+  //     birdCell.classList.add("display-none");
+  //   }
+  // }
+
+  document.getElementById('what-bird-title').innerHTML = `On écoute:<br/><br/>${app.currentBird} (<i>${app.birdsData[app.currentBird].nom_latin}</i>)`;
+  document.getElementById('bird-face').src = `../ressources/oiseaux/${app.currentBird}/image.jpg`;
+  // document.getElementById('bird-face').alt = `${app.currentBird}`;
+  showImage(app.currentBird, "bird-face")
+  document.getElementById('bird-face').classList.remove("display-none");
+  document.getElementById('next-bird').classList.remove("display-none");
+}
+
+
+export function showBirdCells() {
+  document.getElementById('search-bar-field').classList.remove("display-none");
+  document.getElementById('bird-grid').classList.remove("display-none");
+  document.getElementById('bird-animation').classList.remove("display-none");
+  document.getElementById('what-bird-title').innerHTML = `Quel est cet oiseau ?`;
+  document.getElementById('bird-face').classList.add("display-none");
+  document.getElementById('next-bird').classList.add("display-none");
 }

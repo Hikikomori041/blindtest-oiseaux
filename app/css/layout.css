@@ -104,3 +104,7 @@ button:not(.disabled) {
 table.table tr th {
   text-align: center!important;
 }
+
+.display-none {
+  display: none !important;
+}

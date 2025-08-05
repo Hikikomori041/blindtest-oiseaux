@@ -1,8 +1,8 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, listenToBird } from './player.js'
-import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate } from './layout.js';
+import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
+import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu } from './controls-more.js';
 
 export function bindAllButtons({app}) {
@@ -71,6 +71,7 @@ function bindTypes({app}) {
       btn.classList.toggle('is-selected');
       clearSearch();
       await genererGrilleOiseaux({app});
+      showBirdCells();
       playRandomBird({app});
     });
   });
@@ -94,6 +95,8 @@ function bindBirds({app}) {
     if (ctxMenu) ctxMenu.style.display = 'none';
     // document.getElementById('tiles-container').style.display = 'none';//todo: voir si y en a besoin ici pour tiles-container
   });
+
+  document.getElementById('next-bird-button').addEventListener('click', () => { showBirdCells({app}); playRandomBird({app}); });
 }
 
 export function bindBirdCell(birdCell, birdName, {app}) {
