@@ -111,16 +111,16 @@ export function checkVolumeButtonIcon(volume) {
 
 
 // Écouter un oiseau
-export function playBird({app}, forceplay = false) {
+export function playBird({app}) {
   const variants = app.birdsData[app.currentBird]?.variants || [];
 
   if (variants.length > 0) {
-    playBirdSound({app}, Math.floor(Math.random() * variants.length), forceplay);
+    playBirdSound({app}, Math.floor(Math.random() * variants.length));
   }
 }
 
 
-function playBirdSound({app}, index = 0, forceplay) {
+function playBirdSound({app}, index = 0) {
   // app.audio.pause();
   stopAudio({app});
   const file = app.birdsData[app.currentBird].variants[index];
@@ -136,14 +136,19 @@ function playBirdSound({app}, index = 0, forceplay) {
   app.audio.dataset.index = index;
   app.audio.volume = app.volume/100;
 
-  startAudio({app}, forceplay);
+  startAudio({app});
 }
 
-function startAudio({app}, forceplay) {
+function startAudio({app}) {
   app.audio.preload = 'auto';
   app.audio.load();
 
-  if (!app.autoplayAtStart && app.total == 0 && !forceplay) {
+  if (app.total > 0) {
+    app.birdHasBeenPlayed = true;
+  }
+  console.log(`on essaye de lire: ${app.currentBird}, avec app.birdHasBeenPlayed=${app.birdHasBeenPlayed}`);
+
+  if (!app.autoplayAtStart && !app.birdHasBeenPlayed) {
     document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
     document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
     window.api.updateThumbar(app.audio.paused, app.muted);

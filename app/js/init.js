@@ -19,6 +19,7 @@ export async function loadApp() {
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
+  app.birdHasBeenPlayed = false;
   if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
   if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
   
@@ -58,6 +59,6 @@ export async function loadApp() {
 }
 
 export async function getApp() {
-  console.log(app);
+  // console.log(app);
   return app;
 }

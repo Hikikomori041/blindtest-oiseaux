@@ -10,13 +10,13 @@ async function birdlistMain() {
     return;
   }
 
-  const list = document.getElementById('bird-list');
+  // const list = document.getElementById('bird-list');
 
-  Object.entries(app.birdsData).forEach(([nomFrancais, data]) => {
-    const item = document.createElement('li');
-    item.textContent = `${nomFrancais} (${data.nom_latin}) – ${data.type}`;
-    list.appendChild(item);
-  });
+  // Object.entries(app.birdsData).forEach(([nomFrancais, data]) => {
+  //   const item = document.createElement('li');
+  //   item.textContent = `${nomFrancais} (${data.nom_latin}) – ${data.type}`;
+  //   list.appendChild(item);
+  // });
 
   document.getElementById('back-button').addEventListener('click', () => {
     restorePreviousContent();

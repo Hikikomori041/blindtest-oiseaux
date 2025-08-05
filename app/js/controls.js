@@ -1,6 +1,7 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
+import { loadBirdlistIntoContent } from './birdlists.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu } from './controls-more.js';
@@ -74,6 +75,14 @@ function bindTypes({app}) {
       showBirdCells();
       playRandomBird({app});
     });
+  });
+
+  document.getElementById('my-lists-button').addEventListener('click', () => { 
+    togglePause({app}, true);
+    toggleSoundControls(false);
+
+    // Charger la nouvelle vue
+    loadBirdlistIntoContent();
   });
 }
 

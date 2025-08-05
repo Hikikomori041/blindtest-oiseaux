@@ -68,6 +68,7 @@ export function bindMoreMenu({app}) {
   // Tile "Voir mes listes persos"
   document.getElementById('see-birdlists-tile').addEventListener('click', () => {
     togglePause({app}, true);
+    toggleSoundControls(false);
 
     // Charger la nouvelle vue
     loadBirdlistIntoContent();

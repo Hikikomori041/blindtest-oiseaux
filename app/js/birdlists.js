@@ -1,5 +1,6 @@
 import { getApp, loadApp } from "./init.js";
 import { playRandomBird } from "./player.js";
+import { toggleSoundControls } from './controls.js';
 
 
 
@@ -55,16 +56,24 @@ export async function restorePreviousContent() {
     child.style.display = '';
   });
 
-  //todo: voir s'il faut lire un nouvel oiseau
+  //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
   const app = await getApp();
   app.score = 0;
   app.total = 0;
   document.getElementById('score').textContent = `Oiseaux trouvés: -/-`;
-  if (app.autoplayAtStart) {
-    playRandomBird({app});
-  }
+  toggleSoundControls(true);
+
+  // if (app.autoplayAtStart) {
+  //   playRandomBird({app});
+  // }
+  app.birdHasBeenPlayed = true;
+  playRandomBird({app});
   // loadApp();
 }
+
+
+
+
 
 
 document.addEventListener('DOMContentLoaded', async () => {

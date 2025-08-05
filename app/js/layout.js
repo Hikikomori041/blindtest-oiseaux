@@ -272,7 +272,8 @@ export function updateTiles({app}) {
 
 export function listenToBird({app}) {
   hideBirdCells({app});
-  playBird({app}, true);
+  app.birdHasBeenPlayed = true;
+  playBird({app});
 }
 
 
