@@ -37,17 +37,16 @@ export async function loadApp() {
   startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
   updateTiles({app});
 
+
+  // La fenêtre s'affiche toute seule une fois la page chargée normalement (voir electron-main.js: "once('ready-to-show',...)")
+  // On génère enfin la grille des oiseaux à afficher
+  await genererGrilleOiseaux({app});
+
   // On change la taille de la fenêtre
   windowSetSize(app.winWidth, app.winHeight);
   if (app.isMaximized) {
     window.api.maximize();
   }
-
-  // On génère enfin la grille des oiseaux à afficher
-  await genererGrilleOiseaux({app});
-
-  // On affiche la fenêtre une fois que tout est chargé correctement
-  window.api.showWindow();
 
   // On charge les boutons dans la barre des tâches
   loadTaskbarButtons({app});

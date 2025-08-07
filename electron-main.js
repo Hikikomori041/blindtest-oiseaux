@@ -193,8 +193,11 @@ if (!gotTheLock) {
     
     // On cache la fenêtre de chargement et on affiche la fenêtre principale
     win.once('ready-to-show', () => {
-      // splash.close();
-      // win.show();
+      if (splash && !splash.isDestroyed()) {
+        splash.close();
+      }
+      win.show();
+      setThumbar(true, true);
     });
 
   });
@@ -247,15 +250,6 @@ ipcMain.handle('save-settings', async (event, data) => {
     console.error('Erreur sauvegarde paramètres utilisateurs:', e);
   }
 });
-
-ipcMain.handle('show-window', () => {  
-  // On cache la fenêtre de chargement et on affiche la fenêtre principale
-  if (splash && !splash.isDestroyed()) {
-    splash.close();
-  }
-  win.show();
-  setThumbar(true, true);
-})
 
 // Fonctions des boutons de la bordure de fenêtre
 ipcMain.on('window-close', () => {
