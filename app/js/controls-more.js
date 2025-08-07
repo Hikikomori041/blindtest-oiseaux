@@ -1,5 +1,5 @@
 
-import { loadBirdlists } from './birdlists.js';
+import { loadBirdlistsPage } from './birdlists.js';
 import { playRandomBird, togglePause } from './player.js'
 import { toggleSoundControls } from './controls.js'
 import { showOverlay, hideOverlay, closePopup, showShortcutsPopup, hideShortcutsPopup, updateTiles } from './layout.js';
@@ -72,7 +72,7 @@ export function bindMoreMenu({app}) {
     toggleSoundControls(false);
 
     // Charger la nouvelle vue
-    loadBirdlists();
+    loadBirdlistsPage();
 
     // On cache le menu
     closeMoreMenu();
