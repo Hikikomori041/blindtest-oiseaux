@@ -23,6 +23,8 @@ contextBridge.exposeInMainWorld('api', {
   // Pour charger les fichiers ressources
   getBirdsData: (filePath) => ipcRenderer.invoke('get-birds-data', filePath),
   getMp3Paths: (oiseauName) => ipcRenderer.invoke('get-mp3-paths', oiseauName),
+  // Pour les listes
+  getListName: (listId) => ipcRenderer.invoke('get-list-name', listId),
 
   
   // Pour enregistrer les données utilisateur (localement)

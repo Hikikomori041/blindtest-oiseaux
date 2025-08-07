@@ -12,15 +12,29 @@ export const setTitleVersion = async () => {
 };
 
 // Applique une sélection de types sur le programme
-export function applySelectedTypes(selectedTypes) {
+export function applySelectedTypes({app}) {
   document.querySelectorAll('#type-selection .button').forEach(button => {
     const type = button.getAttribute('data-type');
-    if (selectedTypes.includes(type)) {
+    if (app.selectedTypes.includes(type)) {
       button.classList.add('is-selected');
     } else {
       button.classList.remove('is-selected');
     }
   });
+  // updateBirdCounter({app});
+}
+
+export async function applySelectedList({app}) {
+  let listId = app.loadedList;
+
+  const listName = await window.api.getListName(listId);
+  document.getElementById('loaded-list-name').innerHTML = listName;
+
+  if (listId !== "default-list") {
+    app.selectedTypes = ['commun', 'eau', 'foret', 'plaine'];
+    applySelectedTypes({app});
+  }
+  updateBirdCounter({app});
 }
 
 
@@ -122,12 +136,13 @@ export async function genererGrilleOiseaux({app}) {
     
     grid.appendChild(divCell);
   }
+
+  updateBirdCounter({app});
+}
+
+function updateBirdCounter({app}) {
   let birdCountText = app.birdList.length;
-  // if (app.birdList.length == 0) {
-  //   document.getElementById('bird-animation').classList.add("display-none");
-  // } else {
-  //   document.getElementById('bird-animation').classList.remove("display-none");
-  // }
+
   if (app.birdList.length <= 1) {
     birdCountText += " oiseau sélectionné";
   } else {

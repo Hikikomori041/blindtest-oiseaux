@@ -1,14 +1,15 @@
 import { playRandomBird } from "./player.js";
 import { toggleSoundControls } from './controls.js';
+import { applySelectedList } from "./layout.js";
 
 
-export async function loadBirdlistsPage() {
+export async function loadBirdlistsPage({app}) {
   animateBirdlistsFadeIn();
-  loadBirdlists();
+  loadBirdlists({app});
 }
 
 
-async function loadBirdlists() {
+async function loadBirdlists({app}) {
   const birdLists = document.getElementById('my-lists');
   birdLists.innerHTML = "";
 
@@ -17,12 +18,12 @@ async function loadBirdlists() {
   defaultListElement.className = "list-cell";
   defaultListElement.id = "default-list";
   defaultListElement.innerHTML = `
-    <div id="list-title">
-      <p>Tous les oiseaux</p>
-      <p id="current-list-p">Liste actuelle</p>
+    <div class="list-title">
+      <p id="${defaultListElement.id}-name">Tous les oiseaux</p>
+      <p class="current-list-p${defaultListElement.id !== app.loadedList ? ' visibility-hidden' : ''}">Liste actuelle</p>
     </div>
     <div>
-      <button id="load-list-1-button" class="button load-button tooltip tooltip-top" data-tooltip="Charger cette liste">
+      <button id="load-list-1-button" class="button load-button tooltip tooltip-bottom" data-tooltip="Charger cette liste">
         <img src="../ressources/images/load-button.svg" alt="Charger"/>
       </button>
     </div>
@@ -30,20 +31,23 @@ async function loadBirdlists() {
   birdLists.appendChild(defaultListElement);
 
   // On ajoute les autres listes
-  for(let i=1; i<=3; i++) {
+  for(let i=1; i<=7; i++) {
+
     let listElmt = document.createElement('div');
     listElmt.className = "list-cell";
     listElmt.id = `list-${i}`;
+
+    const listName = await window.api.getListName(listElmt.id);
     listElmt.innerHTML = `
-      <div id="list-title">
-        <p>Liste ${i} exemple</p>
-        <p id="current-list-p" class="visibility-hidden">Liste actuelle</p>
+      <div class="list-title">
+        <p id="${listElmt.id}-name">${listName}</p>
+        <p class="current-list-p${listElmt.id !== app.loadedList ? ' visibility-hidden' : ''}">Liste actuelle</p>
       </div>
       <div>
-        <button id="edit-list-${i}-button" class="button edit-button tooltip tooltip-top" data-tooltip="Modifier cette liste">
+        <button id="edit-list-${i}-button" class="button edit-button tooltip tooltip-bottom" data-tooltip="Modifier cette liste">
           <img src="../ressources/images/edit-button.svg" alt="Modifier"/>
         </button>
-        <button id="load-list-${i}-button" class="button load-button tooltip tooltip-top" data-tooltip="Charger cette liste">
+        <button id="load-list-${i}-button" class="button load-button tooltip tooltip-bottom" data-tooltip="Charger cette liste">
           <img src="../ressources/images/load-button.svg" alt="Charger"/>
         </button>
       </div>
@@ -60,6 +64,7 @@ async function loadBirdlists() {
     if (birdList.id == 'default-list') {
       loadButton.addEventListener('click', () => {
         console.log(`On charge la liste par défaut`);
+        loadList({app}, birdList.id);
       });
     } else {
       editButton.addEventListener('click', () => {
@@ -67,9 +72,25 @@ async function loadBirdlists() {
       });
       loadButton.addEventListener('click', () => {
         console.log(`On charge la liste "${birdList.id}"`);
+        loadList({app}, birdList.id);
       });
     }
   }
+}
+
+function loadList({app}, listId) {
+  if (app.loadedList != listId) {
+    // Si on charge une autre liste que la liste actuelle
+    app.loadedList = listId;
+
+    applySelectedList({app});
+    
+    // const listName = document.getElementById(`${listId}-name`).innerHTML;
+    // app.loadedList = listId;
+    // document.getElementById('loaded-list-name').innerHTML = listName;
+  }
+
+  restoreBlindtestPage({app});
 }
 
 async function animateBirdlistsFadeIn() {
@@ -138,6 +159,17 @@ async function animateBirdlistsFadeOut() {
       controlsElement.classList.add("fade-in-active");
     });
   }, 125); // match la durée de .fade-out
+  
+
+  // Pour supprimer les classes inutiles après et éviter les bugs
+  await new Promise(resolve => setTimeout(resolve, 250));
+  
+  Array.from(contentElement.children).forEach(child => {
+    if (child !== birdlistsElement) {
+      child.classList.remove("fade-in", "fade-in-active");
+    }
+  });
+  controlsElement.classList.remove("fade-in", "fade-in-active");
 }
 
 async function resetBirds({app}) {
@@ -159,22 +191,10 @@ export async function restoreBlindtestPage({app}) {
   animateBirdlistsFadeOut();
 
   //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
+  // genre if loadedList est deja egal a la liste selectionnee
   resetBirds({app});
 
   //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
 
-
-
-  
-  // birdlistsElement.classList.remove("fade-out");
-
-  await new Promise(resolve => setTimeout(resolve, 250));
-  
-  Array.from(contentElement.children).forEach(child => {
-    if (child !== birdlistsElement) {
-      child.classList.remove("fade-in", "fade-in-active");
-    }
-  });
-  controlsElement.classList.remove("fade-in", "fade-in-active");
 }
 

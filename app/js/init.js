@@ -1,7 +1,7 @@
 import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, updateVolumeGradient } from './player.js';
-import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
+import { applySelectedTypes, applySelectedList, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 let app = {}; // Paramètres de l'application
 
@@ -22,6 +22,7 @@ export async function loadApp() {
   app.birdHasBeenPlayed = false;
   if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
   if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
+  if (app.loadedList === undefined) { app.loadedList = "default-list"; }
   
   // Chargement des oiseaux
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
@@ -32,7 +33,8 @@ export async function loadApp() {
   bindAllButtons({app});
 
   // Application des paramètres de l'application
-  applySelectedTypes(app.selectedTypes);
+  applySelectedTypes({app});
+  applySelectedList({app});
   updateVolumeGradient(app.volume);
   startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
   updateTiles({app});

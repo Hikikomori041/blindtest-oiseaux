@@ -72,7 +72,7 @@ export function bindMoreMenu({app}) {
     toggleSoundControls(false);
 
     // Charger la nouvelle vue
-    loadBirdlistsPage();
+    loadBirdlistsPage({app});
 
     // On cache le menu
     closeMoreMenu();

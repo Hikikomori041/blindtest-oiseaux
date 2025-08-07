@@ -64,7 +64,8 @@ function bindWindow({app}) {
       muted: app.muted,
       confirmSoundMuted: app.confirmSoundMuted,
       autoplayAtStart: app.autoplayAtStart,
-      selectedTypes: getSelectedTypes()
+      selectedTypes: getSelectedTypes(),
+      loadedList: app.loadedList
     });
     window.api.close();
   });
@@ -88,7 +89,7 @@ function bindTypes({app}) {
     toggleSoundControls(false);
 
     // Charger la nouvelle vue
-    loadBirdlistsPage();
+    loadBirdlistsPage({app});
   });
 }
 

@@ -227,7 +227,8 @@ ipcMain.handle('load-settings', async () => {
     muted: false,
     confirmSoundMuted: false,
     autoplayAtStart: true,
-    selectedTypes: ['commun', 'eau', 'foret', 'plaine']
+    selectedTypes: ['commun', 'eau', 'foret', 'plaine'],
+    loadedList: "default-list"
   };
   try {
     if (fs.existsSync(settingsPath)) {
@@ -299,6 +300,24 @@ ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
   const fullPaths = mp3Files.map(file => 'file://' + path.join(dirPath, file));
   return fullPaths;
 });
+
+// Récupère le nom d'une liste
+ipcMain.handle('get-list-name', (event, listId) => {
+  if (listId === "default-list") return "Tous les oiseaux";
+
+  const filePath = path.join(app.getPath('userData'), "my_lists", `${listId}.json`);
+  const jsonString = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(jsonString).name;
+});
+
+// Récupère les listes
+ipcMain.handle('get-lists-data', (event) => {
+  //todo: faire cette fonction
+  const fullPath = path.join(__dirname, "my_lists");
+  const jsonString = fs.readFileSync(fullPath, 'utf-8');
+  return JSON.parse(jsonString);
+});
+
 
 
 // Récupère la version de l'application depuis package.json

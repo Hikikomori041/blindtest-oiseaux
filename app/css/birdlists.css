@@ -68,7 +68,7 @@
   border-radius: 8px;
 }
 .list-title{
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .list-cell button {
@@ -99,6 +99,6 @@
 }
 
 
-#current-list-p {
+.current-list-p {
   font-style: italic;
 }
