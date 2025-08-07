@@ -136,7 +136,7 @@ export async function restorePreviousContent({app}) {
   
   // birdlistsElement.classList.remove("fade-out");
 
-  await new Promise(resolve => setTimeout(resolve, 150));
+  await new Promise(resolve => setTimeout(resolve, 250));
   
   Array.from(contentElement.children).forEach(child => {
     if (child !== birdlistsElement) {
