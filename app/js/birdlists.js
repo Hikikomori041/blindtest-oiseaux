@@ -1,5 +1,5 @@
-import { playRandomBird } from "./player.js";
-import { toggleSoundControls } from './controls.js';
+import { playRandomBird, togglePause } from "./player.js";
+import { toggleSoundControls, simulateClick } from './controls.js';
 import { applySelectedList } from "./layout.js";
 
 
@@ -31,6 +31,7 @@ async function loadBirdlists({app}) {
   birdLists.appendChild(defaultListElement);
 
   // On ajoute les autres listes
+  //todo: là il faudra charger tous les json dans my_lists et faire un compteur ou qqc
   for(let i=1; i<=7; i++) {
 
     let listElmt = document.createElement('div');
@@ -79,8 +80,7 @@ async function loadBirdlists({app}) {
 }
 
 function loadList({app}, listId) {
-  if (app.loadedList != listId) {
-    // Si on charge une autre liste que la liste actuelle
+  if (app.loadedList != listId) {    // Seulement si on charge une autre liste que la liste actuelle
     app.loadedList = listId;
 
     applySelectedList({app});
@@ -88,6 +88,12 @@ function loadList({app}, listId) {
     // const listName = document.getElementById(`${listId}-name`).innerHTML;
     // app.loadedList = listId;
     // document.getElementById('loaded-list-name').innerHTML = listName;
+
+    //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
+    // genre if loadedList est deja egal a la liste selectionnee
+    resetBirds({app});
+
+    //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
   }
 
   restoreBlindtestPage({app});
@@ -176,7 +182,6 @@ async function resetBirds({app}) {
   app.score = 0;
   app.total = 0;
   document.getElementById('score').textContent = `Oiseaux trouvés: -/-`;
-  toggleSoundControls(true);
 
   // if (app.autoplayAtStart) {
   //   playRandomBird({app});
@@ -189,12 +194,10 @@ async function resetBirds({app}) {
 
 export async function restoreBlindtestPage({app}) {
   animateBirdlistsFadeOut();
-
-  //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
-  // genre if loadedList est deja egal a la liste selectionnee
-  resetBirds({app});
-
-  //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
-
+  toggleSoundControls(true);
+  if (app.autoplayAtStart) {
+    // togglePause();
+    simulateClick(document.getElementById('pause-button'));
+  }
 }
 

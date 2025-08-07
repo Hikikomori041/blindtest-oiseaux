@@ -323,15 +323,14 @@ function bindShortcuts({app}) {
       slideVolume({app});
     }
   });
-  
-  
-  function simulateClick(button) {
-    button.classList.add('active');
-    setTimeout(() => {
-        button.classList.remove('active');
-    }, 150); // durée de l'animation en ms
-    button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
-  }
+}
+
+export function simulateClick(button) {
+  button.classList.add('active');
+  setTimeout(() => {
+      button.classList.remove('active');
+  }, 150); // durée de l'animation en ms
+  button.click(); // optionnel si tu veux aussi déclencher l’action du bouton
 }
 
 // Toggle les contrôles de l'audio quand aucun oiseau n'est disponible
