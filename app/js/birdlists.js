@@ -124,12 +124,25 @@ export async function restorePreviousContent({app}) {
       controlsElement.classList.add("fade-in-active");
     });
   }, 125); // match la durée de .fade-out
-  // birdlistsElement.classList.remove("fade-out");
 
 
   //todo: voir s'il faut lire un nouvel oiseau et reset le score (si on ne lit plus la même liste)
   resetBirds({app});
 
   //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
+
+
+
+  
+  // birdlistsElement.classList.remove("fade-out");
+
+  await new Promise(resolve => setTimeout(resolve, 150));
+  
+  Array.from(contentElement.children).forEach(child => {
+    if (child !== birdlistsElement) {
+      child.classList.remove("fade-in", "fade-in-active");
+    }
+  });
+  controlsElement.classList.remove("fade-in", "fade-in-active");
 }
 
