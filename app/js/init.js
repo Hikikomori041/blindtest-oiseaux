@@ -59,6 +59,5 @@ export async function loadApp() {
 }
 
 export async function getApp() {
-  // console.log(app);
   return app;
 }

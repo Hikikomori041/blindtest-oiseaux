@@ -1,7 +1,7 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { loadBirdlistIntoContent } from './birdlists.js';
+import { loadBirdlists, restorePreviousContent } from './birdlists.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu } from './controls-more.js';
@@ -12,6 +12,12 @@ export function bindAllButtons({app}) {
   bindBirds({app});
   bindBottomButtons({app});
   bindShortcuts({app});
+
+  
+  // L'action du bouton retour de l'écran des listes persos
+  document.getElementById('back-button').addEventListener("click", (e) => {
+    restorePreviousContent({app});
+  });
 }
 
 
@@ -82,7 +88,7 @@ function bindTypes({app}) {
     toggleSoundControls(false);
 
     // Charger la nouvelle vue
-    loadBirdlistIntoContent();
+    loadBirdlists();
   });
 }
 

@@ -1,3 +1,17 @@
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.125s ease-out;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+}
+.fade-in-active {
+  opacity: 1;
+}
+
+
 #birdlists-content {
   margin-top: 40px;
 }

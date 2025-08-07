@@ -13,7 +13,7 @@
 
 ---
 # Bugs à fix
-
+- quand on fait retour depuis "mes listes" 2 fois de suite, ça marche pas :/
 
 ---
 # À faire peut-être
@@ -21,8 +21,11 @@
 - enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 - section "notes de mise à jour" pour marquer la release
   -> pop-up au lancement après une maj pour afficher lesdîtes notes 🤔
-- agrandir la zone d'action des boutons de la fenêtre (pour pouvoir juste aller en haut à droite pour fermer la fenêtre rapidement)
 - demander a gpt une page html pour comparer les images des oiseaux avec leurs images oiseaux.net (corriger les oiseaux mal mis)
+
+
+# Idées abandonnées
+- ajouter la langue anglaise ? (un peu long pour pas grand chose d'utile, mais possible à faire)
 
 ---
 ---
