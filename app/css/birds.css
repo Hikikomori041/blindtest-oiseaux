@@ -32,7 +32,7 @@
 
 #search-bar {
   padding-right: 2.5em; /* assez de place pour le bouton clear */
-  height: 50px;
+  height: 60px;
   border-radius: 24px;
 }
 
@@ -117,7 +117,7 @@
 /* ------------------------------------------------------- */
 /*                   Grille des oiseaux                    */
 /* ------------------------------------------------------- */
-.grid {
+#bird-grid {
   display: grid;
   grid-auto-flow: row dense;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -128,38 +128,71 @@
 
 .cell {
   display: flex;
-  min-width: 100px;
-  height: 72px;
   align-items: center; /* centre verticalement */
   padding: 0.25rem;
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
-  font-size: 0.9em;
   transition: 0.35s ease, border 0.15s ease;
   cursor: pointer;
   text-shadow: 1px 1px 2px black;
   margin-top: 4px;
   margin-bottom: 4px;
 }
+.cell.small {
+  height: 48px;
+  min-width: 80px;
+  font-size: 0.8em;
+}
+.cell.default {
+  height: 72px;
+  min-width: 100px;
+  font-size: 0.9em;
+}
+.cell.big {
+  height: 96px;
+  min-width: 120px;
+  font-size: 1.2em;
+}
 
 .cell img {
-  max-width: 80px;
   height: auto;
-  border-radius: 8px;
   margin-top: 4px;
+  border-radius: 8px;
   transition: 0.35s ease, border 0.15s ease;
+}
+.cell.small img {
+  max-width: 56px;
+  max-height: 48px;
+}
+.cell.default img {
+  max-width: 80px;
+  max-height: 72px;
+}
+.cell.big img {
+  max-width: 104px;
+  max-height: 96px;
 }
 
 .cell:hover {
-  font-size: 1em;
   background-color: rgba(0, 0, 0, 0.75);
   color:black;
   border: 2px solid black;
   transform: translateY(-8px);
   margin-top: 0px;
   margin-bottom: 0px;
+}
+.cell.small:hover{
+  height: 56px;
+  font-size: 0.9em;
+}
+.cell.default:hover{
   height: 80px;
+  font-size: 1em;
+}
+.cell.big:hover{
+  height: 104px;
+  font-size: 1.4em;
 }
 /* .cell:hover img {
   margin-top: -8px;
@@ -260,6 +293,7 @@ button.validate-bird {
 
 #bird-face img {
   border-radius: 5%;
+  max-height: 300px;
 }
 /*
 #bird-face:hover {

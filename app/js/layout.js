@@ -107,6 +107,14 @@ export function hideShortcutsPopup() {
 export async function genererGrilleOiseaux({app}) {
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
+  
+  if (app.birdsSize == "small") {
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
+  } else if (app.birdsSize == "default") {
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(300px, 1fr))";
+  } else { //big
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(360px, 1fr))";
+  }
 
   const selectedTypes = getSelectedTypes();
   app.birdList = [];
@@ -118,7 +126,7 @@ export async function genererGrilleOiseaux({app}) {
     info.variants = await window.api.getMp3Paths(birdName);
 
     const divCell = document.createElement('div');
-    divCell.className = `cell oiseau-${info.type}-opaque`;
+    divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);
     divCell.dataset.name = birdName;
 
     divCell.innerHTML = `
@@ -226,7 +234,6 @@ export function validate(guess, {app}) {
 }
 
 
-
 export function showOverlay(zIndex = 10) {
   const overlay = document.getElementById('overlay');
   overlay.style.zIndex = zIndex;
@@ -248,8 +255,43 @@ export function hideOverlay() {
 }
 
 export function updateTiles({app}) {
-  let validationSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
+
+  // Change la tile du démarrage automatique
   let autoplayTile = document.getElementById('toggle-autoplay-tile');
+
+  if (app.autoplayAtStart) {
+    autoplayTile.classList.add("activated");
+    autoplayTile.setAttribute("data-tooltip", "Désactiver la lecture au démarrage de l'application");
+    autoplayTile.innerHTML = `
+      <img src="../ressources/images/autoplay-on.png"/>
+      <span>Lecture au démarrage activée</span>
+    `;
+  } else {
+    autoplayTile.classList.remove("activated");
+    autoplayTile.setAttribute("data-tooltip", "Activer la lecture au démarrage de l'application");
+    autoplayTile.innerHTML = `
+      <img src="../ressources/images/autoplay-off.png"/>
+      <span>Lecture au démarrage désactivée</span>
+    `;
+  }
+
+  // Change la tile de la taille des oiseaux
+  const birdsSizeTile = document.getElementById("birds-tile-img");
+  birdsSizeTile.classList.remove("small", "default", "big");
+  birdsSizeTile.classList.add(app.birdsSize);
+  
+  const birdsSizeSpan = document.getElementById("birds-tile-span");
+  if (app.birdsSize == "small") {
+    birdsSizeSpan.innerHTML = "Taille des oiseaux: petite";
+  } else if (app.birdsSize == "default") {
+    birdsSizeSpan.innerHTML = "Taille des oiseaux: par défaut";
+  } else { // big
+    birdsSizeSpan.innerHTML = "Taille des oiseaux: grande";
+  }
+
+
+  // Change la tile des sons de validation
+  let validationSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
 
   if (app.validationSoundMuted) {
     validationSoundMutedTile.classList.add("activated");
@@ -267,22 +309,6 @@ export function updateTiles({app}) {
     `;
   }
 
-
-  if (app.autoplayAtStart) {
-    autoplayTile.classList.add("activated");
-    autoplayTile.setAttribute("data-tooltip", "Désactiver la lecture au démarrage de l'application");
-    autoplayTile.innerHTML = `
-      <img src="../ressources/images/autoplay-on.png"/>
-      <span>Lecture au démarrage activée</span>
-    `;
-  } else {
-    autoplayTile.classList.remove("activated");
-    autoplayTile.setAttribute("data-tooltip", "Activer la lecture au démarrage de l'application");
-    autoplayTile.innerHTML = `
-      <img src="../ressources/images/autoplay-off.png"/>
-      <span>Lecture au démarrage désactivée</span>
-    `;
-  }
 }
 
 export function listenToBird({app}) {

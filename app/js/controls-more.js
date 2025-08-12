@@ -70,31 +70,42 @@ export function bindMoreMenu({app}) {
   document.getElementById('change-birds-size-tile').addEventListener('click', () => {
     const birdsTileImg = document.getElementById('birds-tile-img');
     const birdsTileSpan = document.getElementById('birds-tile-span');
-    // todo: changer la taille des tiles
 
-    if (birdsTileImg.classList.contains('big')) {
+    if (app.birdsSize === "big") {
       // Passe de gros à petit
-      birdsTileImg.classList.remove('big');
-      birdsTileImg.classList.add('small');
-
-      birdsTileSpan.innerHTML = "Taille des oiseaux: petite";
       app.birdsSize = "small";
+      birdsTileSpan.innerHTML = "Taille des oiseaux: petite";
 
-    } else if (birdsTileImg.classList.contains('small')) {
+    } else if (app.birdsSize === "small") {
       // Passe de petit à moyen
-      birdsTileImg.classList.remove('small');
-      birdsTileImg.classList.add('default');
-
-      birdsTileSpan.innerHTML = "Taille des oiseaux: par défaut";
       app.birdsSize = "default";
+      birdsTileSpan.innerHTML = "Taille des oiseaux: par défaut";
 
     } else { // contains default
       // Passe de moyen à gros
-      birdsTileImg.classList.remove('default');
-      birdsTileImg.classList.add('big');
-      
-      birdsTileSpan.innerHTML = "Taille des oiseaux: grande";
       app.birdsSize = "big";
+      birdsTileSpan.innerHTML = "Taille des oiseaux: grande";
+    }
+
+    // Applique le changement à la tile
+    birdsTileImg.classList.remove("small", "default", "big");
+    birdsTileImg.classList.add(app.birdsSize);
+
+    // Applique le changement à la grille d'oiseaux
+    const birdGrid = document.getElementById('bird-grid');
+    
+    if (app.birdsSize == "small") {
+      birdGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
+    } else if (app.birdsSize == "default") {
+      birdGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(300px, 1fr))";
+    } else { //big
+      birdGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(360px, 1fr))";
+    }
+
+    // Applique le changement à toutes les cell d'oiseaux
+    for (let birdCell of document.getElementById('bird-grid').getElementsByClassName('cell')) {
+      birdCell.classList.remove("small", "default", "big");
+      birdCell.classList.add(app.birdsSize);
     }
 
   });

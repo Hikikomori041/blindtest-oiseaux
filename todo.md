@@ -1,32 +1,34 @@
 # Notes de mises à jour 2.2.7
+- Ajout d'une option pour changer la taille des oiseaux affichés
 - Maintenant, "Écouter cet oiseau" affiche un écran différent et permet de relire l'oiseau précédent pour continuer le Blind-Test
 - Petits changements:
-  - Agrandissement des boutons: ━ , 🗖 et ✖
-  - Appuyer sur flèche haut ou flèche bas pour changer le volume affiche la tooltip brievement
-  - Dans la barre de recherche, la touche Entrée valide le premier oiseau affiché, la touche Échap unfocus la zone
   - La recherche des oiseaux a été améliorée
-  - Au survol d'un oiseau, appuyer sur la touche Entrée valide cet oiseau
+  - Dans la barre de recherche, la touche Entrée valide le premier oiseau affiché, la touche Échap unfocus la zone
+  - Appuyer sur flèche haut ou flèche bas pour changer le volume affiche la tooltip brievement
+  - Au survol d'un oiseau avec la souris, appuyer sur la touche Entrée valide cet oiseau
+  - Agrandissement des boutons: ━ , 🗖 et ✖ de la fenêtre
+
+- Oiseaux:
+  - Changements des images de la Grande Aigrette et du Pic vert pour qu'ils soient plus reconnaissables
+  - 
 
 - Correction de bugs
 
 
 # EN COURS
-- mettre un truc taille cell oiseau petit normal grand
 - système de liste persos
   -> enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 
 
 # Oiseaux à ajouter / modifier
-- grande aigrette: mettre une image avec un bec jaune car plus reconnaissable
 - modifier le chant de la bouscarle de cetti et de la fauvette grisette
-- pic vert : changer image pour le ;ettre au sol pcq le pic ne tape pas contre les arbres
 
 ---
 # À faire
 
 ---
 # Bugs à fix
-- quand on retourne de mes listes apres avoir fait ecouter ce piaf
+- quand on retourne de mes listes apres avoir fait ecouter ce piaf (sera corrigé quand on rechargera la grid et l'oiseau lu)
 
 ---
 # À faire peut-être
@@ -39,7 +41,7 @@
 
 
 # Idées abandonnées
-- ajouter la langue anglaise ? (un peu long pour pas grand chose d'utile, mais possible à faire)
+- ajouter la langue anglaise ? (un peu long pour pas grand chose d'utile, mais techniquement possible à faire)
 
 ---
 ---

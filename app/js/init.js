@@ -15,9 +15,10 @@ export async function loadApp() {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
 
+  if (app.autoplayAtStart === undefined)      { app.autoplayAtStart = true; }
+  if (app.birdsSize === undefined)            { app.birdsSize = "default"; }
+  if (app.loadedList === undefined)           { app.loadedList = "default-list"; }
   if (app.validationSoundMuted === undefined) { app.validationSoundMuted = false; }
-  if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
-  if (app.loadedList === undefined) { app.loadedList = "default-list"; }
 
   app.audio = new Audio();
   app.score = 0;
@@ -28,7 +29,6 @@ export async function loadApp() {
   // Chargement des oiseaux
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
   
-  // console.log('Paramètres:', app);
 
   // Association des actions aux boutons
   bindAllButtons({app});
@@ -57,7 +57,7 @@ export async function loadApp() {
   // On lance directement un son d'oiseau au démarrage (sauf si on a désactivé l'option)
   playRandomBird({app});
 
-  // console.log(app);
+  console.log('Paramètres:', app);
 }
 
 export async function getApp() {

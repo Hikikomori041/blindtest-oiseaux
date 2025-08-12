@@ -68,14 +68,17 @@ function bindWindow({app}) {
       isMaximized: app.isMaximized,
       winWidth: app.winWidth,
       winHeight: app.winHeight,
-      replayMode: app.replayMode,
-      lastVolume: app.lastVolume,
+
       volume: app.volume,
       muted: app.muted,
-      validationSoundMuted: app.validationSoundMuted,
+      lastVolume: app.lastVolume,
+      replayMode: app.replayMode,
+
       autoplayAtStart: app.autoplayAtStart,
+      birdsSize: app.birdsSize,
+      loadedList: app.loadedList,
       selectedTypes: getSelectedTypes(),
-      loadedList: app.loadedList
+      validationSoundMuted: app.validationSoundMuted,
     });
     window.api.close();
   });
