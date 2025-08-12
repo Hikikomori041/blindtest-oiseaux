@@ -10,7 +10,7 @@
 
 - Oiseaux:
   - Changements des images de la Grande Aigrette et du Pic vert pour qu'ils soient plus reconnaissables
-  - 
+  - Changements des sons de la Bouscarle de Cetti et de la Fauvette grisette
 
 - Correction de bugs
 
@@ -21,7 +21,6 @@
 
 
 # Oiseaux à ajouter / modifier
-- modifier le chant de la bouscarle de cetti et de la fauvette grisette
 
 ---
 # À faire
