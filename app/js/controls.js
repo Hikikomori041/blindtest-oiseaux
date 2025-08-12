@@ -157,6 +157,7 @@ function bindBirds({app}) {
   // Quand on a fait "Écouter cet oiseau"
   // Bouton pour revenir à l'oiseau précédent
   document.getElementById('previous-bird-button').addEventListener('click', () => {
+    clearSearch();
     showBirdCells({app});
     app.currentBird = app.previousBird;
     playBird({app});
@@ -296,7 +297,12 @@ function bindShortcuts({app}) {
     if (e.ctrlKey && e.code === 'KeyW') {
       e.preventDefault();
       window.close();
+    } else if ((e.code === 'ControlLeft' || e.code === 'ControlRight') && !e.shiftKey && !e.altKey && !e.metaKey) {
+      e.preventDefault();
+      const searchBar = document.getElementById('search-bar');
+      if (searchBar) searchBar.focus();
     }
+
 
     if (e.code === 'KeyM') {
       e.preventDefault();

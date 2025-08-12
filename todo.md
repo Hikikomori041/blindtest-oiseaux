@@ -1,18 +1,7 @@
-# Notes de mises à jour 2.2.7
-- Ajout d'une option pour changer la taille des oiseaux affichés
-- Maintenant, "Écouter cet oiseau" affiche un écran différent et permet de relire l'oiseau précédent pour continuer le Blind-Test
-- Petits changements:
-  - La recherche des oiseaux a été améliorée
-  - Dans la barre de recherche, la touche Entrée valide le premier oiseau affiché, la touche Échap unfocus la zone
-  - Appuyer sur flèche haut ou flèche bas pour changer le volume affiche la tooltip brievement
-  - Au survol d'un oiseau avec la souris, appuyer sur la touche Entrée valide cet oiseau
-  - Agrandissement des boutons: ━ , 🗖 et ✖ de la fenêtre
+# Notes de mise à jour 2.2.8
+- Petites modifications:
+  - La touche Ctrl permet d'écrire rapidement dans la barre de recherche
 
-- Oiseaux:
-  - Changements des images de la Grande Aigrette et du Pic vert pour qu'ils soient plus reconnaissables
-  - Changements des sons de la Bouscarle de Cetti et de la Fauvette grisette
-
-- Correction de bugs
 
 
 # EN COURS
@@ -27,7 +16,7 @@
 
 ---
 # Bugs à fix
-- quand on retourne de mes listes apres avoir fait ecouter ce piaf (sera corrigé quand on rechargera la grid et l'oiseau lu)
+- quand on retourne de mes listes apres avoir fait ecouter ce piaf (sera corrigé quand on chargera la nouvelle grid et l'oiseau lu)
 
 ---
 # À faire peut-être

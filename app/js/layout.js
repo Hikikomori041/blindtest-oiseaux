@@ -214,7 +214,8 @@ export function validate(guess, {app}) {
     // popup.classList.remove('right');
     // popup.classList.add('wrong');
 
-    text.innerHTML = `❌ Mauvaise réponse !`;
+      text.innerHTML = `❌ Mauvaise réponse !`;
+    // text.innerHTML = `❌ Mauvaise réponse !<br/>Ce n'était pas:${guess}<br/>Mais:`;
     text.style.color = 'red';
 
     playValidationSound({app}, false, 0.2 * app.volume/100);
