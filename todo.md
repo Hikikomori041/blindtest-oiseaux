@@ -1,5 +1,5 @@
 # Notes de mises à jour 2.2.7
-- "Écouter cet oiseau" affiche maintenant un écran différent
+- Maintenant, "Écouter cet oiseau" affiche un écran différent et permet de relire l'oiseau précédent pour continuer le Blind-Test
 - Petits changements:
   - Agrandissement des boutons: ━ , 🗖 et ✖
   - Appuyer sur flèche haut ou flèche bas pour changer le volume affiche la tooltip brievement
@@ -23,7 +23,6 @@
 
 ---
 # À faire
-- dans "écouter cet oiseau", faire revenir a l'oiseau precedent pas nouveau oiseau
 
 ---
 # Bugs à fix

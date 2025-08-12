@@ -2,7 +2,7 @@ import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
 import { loadBirdlistsPage, restoreBlindtestPage } from './birdlists.js';
-import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
+import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, stopAudio, startAudio } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
 
@@ -151,7 +151,16 @@ function bindBirds({app}) {
     // document.getElementById('tiles-container').style.display = 'none';//todo: voir si y en a besoin ici pour tiles-container
   });
 
-  document.getElementById('next-bird-button').addEventListener('click', () => { showBirdCells({app}); playRandomBird({app}); });
+  // Quand on a fait "Écouter cet oiseau"
+  // Bouton pour revenir à l'oiseau précédent
+  document.getElementById('previous-bird-button').addEventListener('click', () => {
+    showBirdCells({app});
+    app.currentBird = app.previousBird;
+    playBird({app});
+    // stopAudio({app});
+    // app.audio       = app.previousAudio;
+    // startAudio({app});
+  });
 }
 
 export function bindBirdCell(birdCell, birdName, {app}) {
@@ -176,6 +185,8 @@ export function bindBirdCell(birdCell, birdName, {app}) {
 
     // Quand on clique sur "Écouter"
     listenButton.onclick = () => {
+      // app.previousAudio = app.audio;
+      app.previousBird  = app.currentBird;
       app.currentBird = birdName;
       listenToBird({app});
       menu.style.display = 'none';
@@ -267,40 +278,6 @@ function bindVolumeInputs({app}) {
   });
 }
 
-
-// document.getElementById('update-search-button').onclick = async () => {
-//   try {
-//     const remoteVersion = await window.api.checkUpdate();
-//     const localVersion = await window.api.getVersion();
-
-//     if (compareVersions(remoteVersion, localVersion) > 0) {
-//       alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
-//     } else {
-//       alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     alert('Impossible de vérifier les mises à jour.');
-//   }
-// }
-
-// Fonction qui permet de savoir si le programme doit être mis à jour
-// function compareVersions(v1, v2) {
-//   console.log("Git:",v1,"Local:",v2);
-//   const v1parts = v1.split('.').map(Number);
-//   const v2parts = v2.split('.').map(Number);
-
-//   for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
-//     const a = v1parts[i] || 0;
-//     const b = v2parts[i] || 0;
-
-//     if (a > b) return 1;
-//     if (a < b) return -1;
-//   }
-//   return 0;
-// }
-
-
 // Tous les raccourcis clavier et souris
 function bindShortcuts({app}) {
   const volumeSlider = document.getElementById('volume-slider');
@@ -391,6 +368,7 @@ function bindShortcuts({app}) {
   });
 }
 
+// Simule un clic sur un bouton (avec l'effet de clic)
 export function simulateClick(button) {
   button.classList.add('active');
   setTimeout(() => {
@@ -419,7 +397,7 @@ export function toggleSoundControls(activate = true) {
   }
 }
 
-
+// Associe les actions de la taskbar à l'application
 export function loadTaskbarButtons({app}) {
   window.api.onPlayerControl((action) => {
     if (action === 'play-pause') {
@@ -431,12 +409,47 @@ export function loadTaskbarButtons({app}) {
   });
 }
 
-
-
-function flashTooltip(el, text, ms = 150) {
+// Pour afficher brièvement le tooltip d'un élément (hors survol de la souris)
+function flashTooltip(el, text, ms = 400) {
   if (!el) return;
   if (text != null) el.setAttribute('data-tooltip', text);
   el.classList.add('tooltip-show');
   clearTimeout(el._tt);
   el._tt = setTimeout(() => el.classList.remove('tooltip-show'), ms);
 }
+
+
+
+
+
+// document.getElementById('update-search-button').onclick = async () => {
+//   try {
+//     const remoteVersion = await window.api.checkUpdate();
+//     const localVersion = await window.api.getVersion();
+//
+//     if (compareVersions(remoteVersion, localVersion) > 0) {
+//       alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);
+//     } else {
+//       alert(`Pas de mise à jour : vous êtes à jour (v${localVersion})`);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert('Impossible de vérifier les mises à jour.');
+//   }
+// }
+//
+// Fonction qui permet de savoir si le programme doit être mis à jour
+// function compareVersions(v1, v2) {
+//   console.log("Git:",v1,"Local:",v2);
+//   const v1parts = v1.split('.').map(Number);
+//   const v2parts = v2.split('.').map(Number);
+
+//   for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
+//     const a = v1parts[i] || 0;
+//     const b = v2parts[i] || 0;
+//
+//     if (a > b) return 1;
+//     if (a < b) return -1;
+//   }
+//   return 0;
+// }

@@ -266,11 +266,11 @@ button.validate-bird {
   border: 2px dashed black;
   cursor: pointer;
 } */
-#next-bird {
+#previous-bird {
   height: 80px;
   width: 100%;
 }
-#next-bird button {
+#previous-bird button {
   display: inline-block;
   color: white;
   width: 300px!important;

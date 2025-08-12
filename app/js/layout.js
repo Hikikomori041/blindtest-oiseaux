@@ -310,7 +310,7 @@ function hideBirdCells({app}) {
   // document.getElementById('bird-face').alt = `${app.currentBird}`;
   showImage(app.currentBird, "bird-face")
   document.getElementById('bird-face').classList.remove("display-none");
-  document.getElementById('next-bird').classList.remove("display-none");
+  document.getElementById('previous-bird').classList.remove("display-none");
 }
 
 
@@ -320,5 +320,5 @@ export function showBirdCells() {
   document.getElementById('bird-animation').classList.remove("display-none");
   document.getElementById('what-bird-title').innerHTML = `Quel est cet oiseau ?`;
   document.getElementById('bird-face').classList.add("display-none");
-  document.getElementById('next-bird').classList.add("display-none");
+  document.getElementById('previous-bird').classList.add("display-none");
 }

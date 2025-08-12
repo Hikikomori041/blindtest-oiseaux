@@ -139,7 +139,7 @@ function playBirdSound({app}, index = 0) {
   startAudio({app});
 }
 
-function startAudio({app}) {
+export function startAudio({app}) {
   app.audio.preload = 'auto';
   app.audio.load();
 
@@ -189,7 +189,7 @@ export function togglePause({app}, forcepause = false) {
   window.api.updateThumbar(app.audio.paused, app.muted);
 }
 
-function stopAudio({app}) {
+export function stopAudio({app}) {
   app.audio.pause();
   app.audio.currentTime = 0;
   app.audio.src = "";
