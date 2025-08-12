@@ -297,10 +297,6 @@ function bindShortcuts({app}) {
     if (e.ctrlKey && e.code === 'KeyW') {
       e.preventDefault();
       window.close();
-    } else if ((e.code === 'ControlLeft' || e.code === 'ControlRight') && !e.shiftKey && !e.altKey && !e.metaKey) {
-      e.preventDefault();
-      const searchBar = document.getElementById('search-bar');
-      if (searchBar) searchBar.focus();
     }
 
 
@@ -361,6 +357,15 @@ function bindShortcuts({app}) {
     else if (e.code === 'ArrowLeft') {
       e.preventDefault();
       simulateClick(document.getElementById('rewind-button'));
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    // Ctrl tout seul -> focus recherche (sur keyup pour ne pas casser les combos)
+    if ((e.code === 'ControlLeft' || e.code === 'ControlRight')
+        && !e.shiftKey && !e.altKey && !e.metaKey && !e.ctrlKey && !e.repeat) {
+      const searchBar = document.getElementById('search-bar');
+      if (searchBar) searchBar.focus();
     }
   });
 
