@@ -248,20 +248,20 @@ export function hideOverlay() {
 }
 
 export function updateTiles({app}) {
-  let confirmSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
+  let validationSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
   let autoplayTile = document.getElementById('toggle-autoplay-tile');
 
-  if (app.confirmSoundMuted) {
-    confirmSoundMutedTile.classList.add("activated");
-    confirmSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
-    confirmSoundMutedTile.innerHTML = `
+  if (app.validationSoundMuted) {
+    validationSoundMutedTile.classList.add("activated");
+    validationSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
+    validationSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-muted-yellow.png"/>
       <span>Sons de validation désactivés</span>
     `;
   } else {
-    confirmSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
-    confirmSoundMutedTile.classList.remove("activated");
-    confirmSoundMutedTile.innerHTML = `
+    validationSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
+    validationSoundMutedTile.classList.remove("activated");
+    validationSoundMutedTile.innerHTML = `
       <img src="../ressources/images/volume-3-yellow.png"/>
       <span>Sons de validation activés</span>
     `;

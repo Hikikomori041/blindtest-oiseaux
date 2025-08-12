@@ -77,7 +77,12 @@
           <section id="my-lists-section">
             <!-- <h2 class="title">Mes listes</h2> -->
             <h5 style="margin-bottom: 8px;">Liste actuelle: <span id='loaded-list-name' style="font-style: italic;">Tous les oiseaux</span></h5>
-            <button id="my-lists-button" class="button tooltip tooltip-bottom" data-tooltip="Voir mes listes d'oiseaux">Mes listes</button>
+            <!-- <button id="my-lists-button" class="button tooltip tooltip-bottom" data-tooltip="Voir mes listes d'oiseaux">Mes listes</button> -->
+             
+            <button id="my-lists-button" class="button tooltip tooltip-bottom" data-tooltip="Voir mes listes d'oiseaux">
+              <!-- <img src="../ressources/images/my-lists.png" alt="Mes listes"/> -->
+              Mes listes
+            </button>
           </section>
           
         </div>
@@ -178,8 +183,12 @@
               <th>Action</th>
             </tr>
             <tr>
+              <td class="touche">Entrée</td>
+              <td>Valider / Suivant</td>
+            </tr>
+            <tr>
               <td class="touche">Espace</td>
-              <td>Play / Pause / Suivant</td>
+              <td>Play / Pause</td>
             </tr>
             <tr>
               <td class="touche">M</td>
@@ -200,6 +209,10 @@
             <tr>
               <td class="touche">↑ / ↓</td>
               <td>Contrôler le volume</td>
+            </tr>
+            <tr>
+              <td class="touche">F11</td>
+              <td>Basculer le mode plein écran</td>
             </tr>
           </table>
           <button id="close-shortcuts-popup-button2" class="button is-info">Fermer</button>
@@ -226,9 +239,9 @@
           <img src="../ressources/images/volume-3-yellow.png"/>
           <span>Sons de validation activés</span>
         </div>
-        <div class="tile tooltip tooltip-top" id="see-birdlists-tile" data-tooltip="Consulter tes listes persos">
-          <img src="../ressources/images/birdlist.png"/>
-          <span>Mes listes d'oiseaux (WIP)</span>
+        <div class="tile tooltip tooltip-top" id="change-birds-size-tile" data-tooltip="Changer la taille des oiseaux">
+          <img src="../ressources/images/birds.png" id="birds-tile-img" class="default"/>
+          <span style="position: absolute; bottom: 16px;" id="birds-tile-span">Taille des oiseaux: par défaut</span>
         </div>
         <div class="tile tooltip tooltip-top" id="toggle-autoplay-tile" data-tooltip="Désactiver la lecture au démarrage de l'application">
           <img src="../ressources/images/autoplay-on.png"/>
@@ -236,8 +249,6 @@
         </div>
       </div>
     </div>
-
-
 
   </div>
   <script type="module" src="js/main.js"></script>

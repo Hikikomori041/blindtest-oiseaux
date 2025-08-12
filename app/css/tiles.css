@@ -182,9 +182,21 @@
   background: rgba(14, 90, 86, 0.75);
 }
 
-#see-birdlists-tile {
+#change-birds-size-tile {
   background: rgba(96, 56, 192, 0.75);
 }
+
+#birds-tile-img {
+  transition: height 0.25s ease;
+}
+#birds-tile-img.small {
+  height: 40px;
+}
+#birds-tile-img.default {
+  height: 80px;
+}
+/* Par défaut: 120px */
+/* #birds-tile-img.big {} */ 
 
 #toggle-confirm-sound-tile {
   background: rgba(128, 128, 56, 0.75);

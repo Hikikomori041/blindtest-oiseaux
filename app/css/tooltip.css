@@ -58,3 +58,39 @@
   opacity: 1;
   visibility: visible;
 }
+
+
+
+
+/* État "hover simulé" */
+.tooltip[data-tooltip].tooltip-show::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  transform: translateX(-50%);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* même positionnement que tes variantes :hover */
+.tooltip-top[data-tooltip].tooltip-show::after {
+  background: #3333338a;
+  bottom: 110%;
+  left: 50%;
+}
+.tooltip-right[data-tooltip].tooltip-show::after {
+  background: #333;
+  top: 50%;
+  left: 150%;
+}
+.tooltip-bottom[data-tooltip].tooltip-show::after {
+  background: #333;
+  top: 110%;
+  left: 50%;
+}

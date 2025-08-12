@@ -221,14 +221,17 @@ ipcMain.handle('load-settings', async () => {
     isMaximized: false,
     winWidth: DEFAULT_WIDTH,
     winHeight: DEFAULT_HEIGHT,
-    replayMode: true,
-    lastVolume: 100,
+
     volume: 100,
     muted: false,
-    confirmSoundMuted: false,
+    lastVolume: 100,
+    replayMode: true,
+
     autoplayAtStart: true,
+    birdsSize: "default",
+    loadedList: "default-list",
     selectedTypes: ['commun', 'eau', 'foret', 'plaine'],
-    loadedList: "default-list"
+    validationSoundMuted: false,
   };
   try {
     if (fs.existsSync(settingsPath)) {

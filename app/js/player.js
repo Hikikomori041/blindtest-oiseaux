@@ -13,7 +13,7 @@ errorSound.load();
 // Permet de lire un son (victoire, défaire)
 export function playValidationSound({app}, isSuccess, volume=1.0) {
   // Si on ne joue pas les sons de confirmation, on skip
-  if (app.confirmSoundMuted) return;
+  if (app.validationSoundMuted) return;
 
   let audio = null;
   if (isSuccess) {

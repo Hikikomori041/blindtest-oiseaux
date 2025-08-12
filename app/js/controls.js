@@ -4,20 +4,30 @@ import { getSelectedTypes, slugify } from './strings.js';
 import { loadBirdlistsPage, restoreBlindtestPage } from './birdlists.js';
 import { playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
-import { bindMoreMenu } from './controls-more.js';
+import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
 
 export function bindAllButtons({app}) {
+  app.enterPressed = false;
+
   bindWindow({app});
   bindTypes({app});
-  bindBirds({app});
-  bindBottomButtons({app});
   bindShortcuts({app});
-
   
+  bindSearchBar({app});
+  bindBirds({app});
+
+  bindBottomButtons({app});
+  
+  // Mes listes
   // L'action du bouton retour de l'écran des listes persos
   document.getElementById('back-button').addEventListener("click", (e) => {
     restoreBlindtestPage({app});
   });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.code === 'Enter') app.enterPressed = false;
+  });
+
 }
 
 
@@ -62,7 +72,7 @@ function bindWindow({app}) {
       lastVolume: app.lastVolume,
       volume: app.volume,
       muted: app.muted,
-      confirmSoundMuted: app.confirmSoundMuted,
+      validationSoundMuted: app.validationSoundMuted,
       autoplayAtStart: app.autoplayAtStart,
       selectedTypes: getSelectedTypes(),
       loadedList: app.loadedList
@@ -93,11 +103,40 @@ function bindTypes({app}) {
   });
 }
 
-function bindBirds({app}) {
+function bindSearchBar({app}) {
   // Barre de recherche
   document.getElementById('search-bar').addEventListener('input', (e) => searchBird(e));
   document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
 
+  const birdGrid = document.getElementById('bird-grid');
+
+  const searchBar = document.getElementById('search-bar');
+  if (!searchBar) return;
+  
+  searchBar.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      if (searchBar.value === "") {
+        searchBar.blur();
+        return;
+      }
+
+      app.enterPressed = true;
+      const firstBird = Array.from(birdGrid.querySelectorAll('.cell')).find(cell => !cell.classList.contains('display-none'));
+
+      if (firstBird) {
+        console.log(firstBird);
+        firstBird.click();
+        searchBar.blur();
+      } else {
+        clearSearch();
+      }
+    } else if (e.key === 'Escape') {
+      searchBar.blur(); // enlève le focus
+    }
+  });
+}
+
+function bindBirds({app}) {
   // Pop-up de résultat
   document.getElementById('close-popup-button').addEventListener('click', () => { closePopup(); playRandomBird({app}); } );
   document.getElementById('close-shortcuts-popup-button').addEventListener('click', () => { hideShortcutsPopup(); } );
@@ -116,6 +155,13 @@ function bindBirds({app}) {
 }
 
 export function bindBirdCell(birdCell, birdName, {app}) {
+  birdCell.addEventListener('mouseenter', () => {
+    birdCell.dataset.hovered = "true";
+  });
+  birdCell.addEventListener('mouseleave', () => {
+    birdCell.dataset.hovered = "false";
+  });
+
   birdCell.addEventListener('click', () => validate(birdName, {app}));
   birdCell.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -286,20 +332,40 @@ function bindShortcuts({app}) {
     }
     else if (e.code === 'Space') {
       e.preventDefault();
+      simulateClick(document.getElementById('pause-button'));
+    }
+    else if (e.code === 'F11') {
+      e.preventDefault();
+      toggleFullscreen();
+    }
+    else if (e.code === 'Enter') {
+      e.preventDefault();
+
+      if (app.enterPressed || e.repeat) { e.preventDefault(); return; }
+      app.enterPressed = true;
+      e.preventDefault();
+
+      // si une cell est survolée, on la clique
+      const hoveredCell = document.querySelector('.cell[data-hovered="true"]');
+      if (hoveredCell) {
+        hoveredCell.click();
+        return;
+      }
+
       if (document.getElementById('result-popup').classList.contains('active')) {
         simulateClick(document.getElementById('next-button'));
-      } else {
-        simulateClick(document.getElementById('pause-button'));
       }
     }
     else if (e.code === 'ArrowUp') {
       e.preventDefault();
-      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);
+      flashTooltip(volumeSlider, `${volumeSlider.value}%`, 400);
       slideVolume({app});
     }
     else if (e.code === 'ArrowDown') {
       e.preventDefault();
       volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+      flashTooltip(volumeSlider, `${volumeSlider.value}%`, 400);
       slideVolume({app});
     }
     else if (e.code === 'ArrowRight') {
@@ -319,7 +385,7 @@ function bindShortcuts({app}) {
       slideVolume({app});
     } else if (e.deltaY < 0) {
       e.preventDefault();
-      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);;
+      volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);
       slideVolume({app});
     }
   });
@@ -363,4 +429,14 @@ export function loadTaskbarButtons({app}) {
       muteAudio({app}); // ta fonction existante
     }
   });
+}
+
+
+
+function flashTooltip(el, text, ms = 150) {
+  if (!el) return;
+  if (text != null) el.setAttribute('data-tooltip', text);
+  el.classList.add('tooltip-show');
+  clearTimeout(el._tt);
+  el._tt = setTimeout(() => el.classList.remove('tooltip-show'), ms);
 }

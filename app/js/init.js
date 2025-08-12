@@ -15,14 +15,15 @@ export async function loadApp() {
     console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
   }
 
+  if (app.validationSoundMuted === undefined) { app.validationSoundMuted = false; }
+  if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
+  if (app.loadedList === undefined) { app.loadedList = "default-list"; }
+
   app.audio = new Audio();
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
   app.birdHasBeenPlayed = false;
-  if (app.confirmSoundMuted === undefined) { app.confirmSoundMuted = false; }
-  if (app.autoplayAtStart === undefined) { app.autoplayAtStart = true; }
-  if (app.loadedList === undefined) { app.loadedList = "default-list"; }
   
   // Chargement des oiseaux
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
@@ -35,8 +36,8 @@ export async function loadApp() {
   // Application des paramètres de l'application
   applySelectedTypes({app});
   applySelectedList({app});
-  updateVolumeGradient(app.volume);
   startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
+  updateVolumeGradient(app.volume);
   updateTiles({app});
 
 

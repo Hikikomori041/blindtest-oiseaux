@@ -66,24 +66,42 @@ export function bindMoreMenu({app}) {
     closeMoreMenu();
   });
 
-  // Tile "Voir mes listes persos"
-  document.getElementById('see-birdlists-tile').addEventListener('click', () => {
-    togglePause({app}, true);
-    toggleSoundControls(false);
+  // Tile "Changer la taille des cell des oiseaux"
+  document.getElementById('change-birds-size-tile').addEventListener('click', () => {
+    const birdsTileImg = document.getElementById('birds-tile-img');
+    const birdsTileSpan = document.getElementById('birds-tile-span');
+    // todo: changer la taille des tiles
 
-    // Charger la nouvelle vue
-    loadBirdlistsPage({app});
+    if (birdsTileImg.classList.contains('big')) {
+      // Passe de gros à petit
+      birdsTileImg.classList.remove('big');
+      birdsTileImg.classList.add('small');
 
-    // On cache le menu
-    closeMoreMenu();
+      birdsTileSpan.innerHTML = "Taille des oiseaux: petite";
+      app.birdsSize = "small";
+
+    } else if (birdsTileImg.classList.contains('small')) {
+      // Passe de petit à moyen
+      birdsTileImg.classList.remove('small');
+      birdsTileImg.classList.add('default');
+
+      birdsTileSpan.innerHTML = "Taille des oiseaux: par défaut";
+      app.birdsSize = "default";
+
+    } else { // contains default
+      // Passe de moyen à gros
+      birdsTileImg.classList.remove('default');
+      birdsTileImg.classList.add('big');
+      
+      birdsTileSpan.innerHTML = "Taille des oiseaux: grande";
+      app.birdsSize = "big";
+    }
+
   });
 
   // Tile "Activer / désactiver le son de validation"
   document.getElementById('toggle-confirm-sound-tile').addEventListener('click', () => {
-    app.confirmSoundMuted = !app.confirmSoundMuted;
-
-    // On cache le menu
-    // closeMoreMenu();
+    app.validationSoundMuted = !app.validationSoundMuted;
 
     // On change l'affichage
     updateTiles({app});
@@ -95,32 +113,32 @@ export function bindMoreMenu({app}) {
   document.getElementById('toggle-autoplay-tile').addEventListener('click', () => {
     app.autoplayAtStart = !app.autoplayAtStart;
 
-    // On cache le menu
-    // closeMoreMenu();
-
     // On change l'affichage
     updateTiles({app});
   });
 
 
-  document.getElementById("fullscreen-button").addEventListener("click", async () => {
-    const isFullscreen = await window.api.toggleFullscreen();
-    const fullscreenButton = document.getElementById("fullscreen-button");
-    const appBar = document.getElementById("titlebar");
-    const content = document.getElementById('blindtest-content');
+  document.getElementById("fullscreen-button").addEventListener("click", toggleFullscreen);
 
-    if (isFullscreen) {
-      fullscreenButton.classList.add("activated");
-      appBar.classList.add("hidden");
-      content.classList.remove('mt-5');
-    } else {
-      fullscreenButton.classList.remove("activated");
-      appBar.classList.remove("hidden");
-      content.classList.add('mt-5');
-    }
-  });
 }
 
+
+export async function toggleFullscreen() {
+  const isFullscreen = await window.api.toggleFullscreen();
+  const fullscreenButton = document.getElementById("fullscreen-button");
+  const appBar = document.getElementById("titlebar");
+  const content = document.getElementById('blindtest-content');
+
+  if (isFullscreen) {
+    fullscreenButton.classList.add("activated");
+    appBar.classList.add("hidden");
+    content.classList.remove('mt-5');
+  } else {
+    fullscreenButton.classList.remove("activated");
+    appBar.classList.remove("hidden");
+    content.classList.add('mt-5');
+  }
+}
 
 
 
