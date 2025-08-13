@@ -50,7 +50,7 @@ body {
   min-height: 100vh;
 }
 
-#content {
+#blindtest-content {
   flex-grow: 1;
   position: absolute;
   top: 0px; /* hauteur exacte de ton #titlebar */
@@ -59,7 +59,7 @@ body {
   right: 0;
   overflow-y: hidden;
 }
-#content::after {
+#blindtest-content::after {
   content: "";
   display: block;
   height: 132px; /* hauteur approximative de ton #controls */
@@ -81,7 +81,7 @@ section {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-#colonne-gauche{
+#colonne-gauche, #list-edit-left-column {
   width: 160px;
 }
 

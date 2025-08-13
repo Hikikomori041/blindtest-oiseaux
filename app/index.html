@@ -31,6 +31,7 @@
 
     <div id="content">
 
+      <!-- Page des listes persos -->
       <div id="birdlists-page" class="display-none">
         <div class="center" style="width: 100%;">
           <h1 style="font-size: 3.25em;">Mes listes d'oiseaux</h1>
@@ -40,6 +41,36 @@
         </div>
       </div>
 
+      <!-- Page d'édition d'une liste -->
+      <div id="list-edit-page" class="display-none">
+        <section class="box quiz">
+          <textarea style="font-size: 1em;" id="list-name-textarea" placeholder="Nom de la liste">Nom de la liste</textarea>
+
+          <div class="field" id="search-bar-field-list-edit">
+            <div id="search-bar-control-list-edit" class="control has-icons-left has-icons-right">
+              <input id="search-bar-list-edit" class="input" type="text" placeholder="🔍 Rechercher un oiseau...">
+              <span class="icon is-left">
+                <i class="fas fa-search"></i>
+              </span>
+              <span id="clear-search-list-edit" class="icon is-right" style="cursor: pointer;">
+                ✖
+              </span>
+            </div>
+          </div>
+          <div class="bird-grid" id="list-bird-grid"></div>
+        </section>
+
+        <section class="box" id="list-edit-bottom-section">
+          <button id="list-edit-save-button" class="button">Enregistrer les modifications</button>
+          <h5><span id="listEditBirdCount">0 oiseau dans la liste</span></h5>
+          <button id="list-edit-back-button" class="button">Annuler les modifications</button>
+          <button id="list-edit-delete-button" class="button tooltip tooltip-left" data-tooltip="Supprime définitivement la liste">Supprimer la liste</button>
+        </section>
+      </div>
+
+
+
+      <!-- Pop-up de résultat -->
       <div id="result-popup" class="notification">
         <button id="close-popup-button">✖</button>
         <span id="result-text"></span>
@@ -53,11 +84,12 @@
         </div>
       </div>
 
+      <!-- Overlay pour faire un effet d'assombrissement / rendre le fond non cliquable -->
       <div id="overlay"></div>
 
+      <!-- Page principale du Blind-Test -->
       <div id="blindtest-content" class="columns mt-5 mx-1">
       
-        <!-- Colonne gauche : types d'oiseaux -->
         <div id="colonne-gauche" class="column is-one-fifth">
           <section id="feedback" class="box">
             <div id="score" class="mt-3">Oiseaux trouvés: -/-</div>
@@ -84,12 +116,11 @@
               Mes listes
             </button>
           </section>
-          
         </div>
 
-        <!-- Colonne droite : tout le reste en pile -->
+        
         <div id="colonne-droite" class="column">
-          <section id="quiz" class="box">
+          <section class="box quiz">
             <h2 id="no-bird-selected" class="title is-4 display-none">Aucun oiseau n'est sélectionné !</h2>
             <h2 id="what-bird-title" class="title is-4">Quel est cet oiseau ?</h2>
             <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
@@ -109,32 +140,31 @@
             <div id="previous-bird" class="display-none">
               <button id="previous-bird-button" class="button tooltip tooltip-bottom" data-tooltip="Reprendre le Blind-Test">Reprendre le Blind-Test</button>
             </div>
-            <div id="bird-grid"></div>
+            <div id="bird-grid" class="bird-grid"></div>
           </section>
         </div>
       </div>
 
+      <!-- Menu du clic droit sur un oiseau -->
       <div id="context-menu" style="display:none; position:fixed; background:#333333ab; color:white; border-radius:5px; padding:5px 10px; z-index:9999; cursor:pointer;">
         <span id="listen-bird-button" class="is-info">🎧 Écouter cet oiseau</span>
         <span id="see-bird-button" class="is-link">🌐 Plus d'info</span>
       </div>
 
-
     </div>
 
+    <!-- Zone des contrôles en bas de l'écran -->
     <section id="controls" class="box">
       <input id="audio-slider" type="range" min="0" max="100" value="0">
 
       <div id="controls-layout">
 
-        <!-- Partie gauche : animation oiseau -->
         <div id="controls-left">
-          <button id="more-button" class="button tooltip tooltip-top" data-tooltip="Plus">
-            <img src="../ressources/images/more-button.png" alt="Plus"/>
+          <button id="more-button" class="button tooltip tooltip-top" data-tooltip="Paramètres">
+            <img src="../ressources/images/settings-button.png" alt="Paramètres"/>
           </button>
         </div>
 
-        <!-- Partie centre : boutons -->
         <div id="controls-center">
           <button id="replay-mode-button" class="button tooltip tooltip-top activated" data-tooltip="Activer le replay">
             <img src="../ressources/images/replay-mode-button-enabled.png" alt="Activer le replay"/>

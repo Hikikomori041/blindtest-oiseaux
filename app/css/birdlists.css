@@ -102,3 +102,44 @@
 .current-list-p {
   font-style: italic;
 }
+
+
+/* Page de modification d'une liste */
+#list-edit-page {
+  margin: 4px;
+  margin-top: 36px;
+}
+
+.selected-list {
+  border: 4px solid red;
+}
+
+#list-edit-bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement */
+  margin: 16px;
+  padding: 16px;
+}
+
+#list-edit-bottom-section * {
+  margin: 16px;
+}
+
+#list-edit-save-button {
+  background-color: greenyellow;
+  font-weight: bolder;
+}
+#list-edit-back-button {
+  background-color: grey;
+  font-weight: bold;
+}
+#list-edit-delete-button {
+  background-color: red;
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  font-size: 0.75em;
+  font-weight: bold;
+}

@@ -314,12 +314,111 @@ ipcMain.handle('get-list-name', (event, listId) => {
 });
 
 // Récupère les listes
-ipcMain.handle('get-lists-data', (event) => {
-  //todo: faire cette fonction
-  const fullPath = path.join(__dirname, "my_lists");
-  const jsonString = fs.readFileSync(fullPath, 'utf-8');
-  return JSON.parse(jsonString);
+ipcMain.handle('get-all-lists', (event) => {
+  try {
+    const dir = path.join(app.getPath('userData'), 'my_lists');
+    if (!fs.existsSync(dir)) {
+      return {}; // pas de listes
+    }
+
+    const files = fs.readdirSync(dir)
+      .filter(f => /^list-.*\.json$/i.test(f));
+
+    const lists = {};
+
+    for (const file of files) {
+      try {
+        const id = file.replace(/^list-/, '').replace(/\.json$/i, '');
+        const filePath = path.join(dir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        lists[id] = JSON.parse(content);
+      } catch (err) {
+        console.error(`Erreur lecture liste ${file}:`, err);
+      }
+    }
+
+    return lists; // { id1: {...}, id2: {...}, ... }
+  } catch (err) {
+    console.error('get-all-lists error:', err);
+    return { ok: false, error: String(err) };
+  }
 });
+
+
+
+// Sauvegarde une liste en .json
+ipcMain.handle('save-list', (event, listId, list) => {
+  try {
+    if (typeof listId !== 'string' || !listId.trim()) {
+      throw new Error('listId invalide');
+    }
+
+    const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
+    const dir = path.join(app.getPath('userData'), 'my_lists');
+
+    fs.mkdirSync(dir, { recursive: true });
+
+    const filePath = path.join(dir, `${safeId}.json`);
+    const tmpPath  = `${filePath}.tmp`;
+
+    fs.writeFileSync(tmpPath, JSON.stringify(list ?? {}, null, 2), 'utf8');
+    fs.renameSync(tmpPath, filePath);
+
+    return { ok: true, path: filePath };
+  } catch (err) {
+    console.error('save-list error:', err);
+    return { ok: false, error: String(err) };
+  }
+});
+
+// Supprime la liste .json
+ipcMain.handle('delete-list', (event, listId) => {
+  try {
+    if (typeof listId !== 'string' || !listId.trim()) {
+      throw new Error('listId invalide');
+    }
+
+    const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
+    const dir = path.join(app.getPath('userData'), 'my_lists');
+    const filePath = path.join(dir, `${safeId}.json`);
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Liste introuvable: ${safeId}`);
+    }
+
+    fs.unlinkSync(filePath);
+
+    return { ok: true };
+  } catch (err) {
+    console.error('delete-list error:', err);
+    return { ok: false, error: String(err) };
+  }
+});
+
+
+// Récupère le contenu d'une liste depuis son .json
+ipcMain.handle('get-list', (event, listId) => {
+  try {
+    if (typeof listId !== 'string' || !listId.trim()) {
+      throw new Error('listId invalide');
+    }
+
+    const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
+    const dir = path.join(app.getPath('userData'), 'my_lists');
+    const filePath = path.join(dir, `${safeId}.json`);
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Liste introuvable: ${safeId}`);
+    }
+
+    const jsonString = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(jsonString);
+  } catch (err) {
+    console.error('get-list error:', err);
+    return { ok: false, error: String(err) };
+  }
+});
+
 
 
 

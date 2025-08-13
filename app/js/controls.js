@@ -1,7 +1,7 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { loadBirdlistsPage, restoreBlindtestPage } from './birdlists.js';
+import { loadBirdlistsPage, saveList, deleteList, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
 import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, stopAudio, startAudio } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
@@ -13,16 +13,12 @@ export function bindAllButtons({app}) {
   bindTypes({app});
   bindShortcuts({app});
   
-  bindSearchBar({app});
+  bindSearchBars({app});
   bindBirds({app});
 
   bindBottomButtons({app});
   
-  // Mes listes
-  // L'action du bouton retour de l'écran des listes persos
-  document.getElementById('back-button').addEventListener("click", (e) => {
-    restoreBlindtestPage({app});
-  });
+  bindMyListsButtons({app});
 
   document.addEventListener('keyup', (e) => {
     if (e.code === 'Enter') app.enterPressed = false;
@@ -30,6 +26,27 @@ export function bindAllButtons({app}) {
 
 }
 
+
+// Mes listes
+function bindMyListsButtons({app}) {
+  // L'action du bouton retour de l'écran des listes persos
+  document.getElementById('back-button').addEventListener("click", (e) => {
+    restoreBlindtestPage({app});
+  });
+
+  // L'action du bouton retour de l'écran d'édition de liste
+  document.getElementById('list-edit-save-button').addEventListener("click", (e) => {
+    saveList();
+    restoreMyListsPage({app});
+  });
+  document.getElementById('list-edit-back-button').addEventListener("click", (e) => {
+    restoreMyListsPage({app});
+  });
+  document.getElementById('list-edit-delete-button').addEventListener("click", (e) => {
+    deleteList({app});
+    restoreMyListsPage({app});
+  });
+}
 
 // Fonction qui bind leurs actions aux boutons de la fenêtre
 function bindWindow({app}) {
@@ -106,16 +123,18 @@ function bindTypes({app}) {
   });
 }
 
-function bindSearchBar({app}) {
-  // Barre de recherche
-  document.getElementById('search-bar').addEventListener('input', (e) => searchBird(e));
-  document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
-
-  const birdGrid = document.getElementById('bird-grid');
-
+function bindSearchBars({app}) {
+  // Barre de recherche (page du Blind-Test)
   const searchBar = document.getElementById('search-bar');
   if (!searchBar) return;
-  
+
+  searchBar.addEventListener('input', (e) => searchBird(e));
+  document.getElementById('clear-search').addEventListener('click', () => { clearSearch(); });
+
+
+  // Pour sélectionner le premier oiseau de la recherche pendant le Blind-Test en appuyant sur Entrée
+  const birdGrid = document.getElementById('bird-grid');
+
   searchBar.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       if (searchBar.value === "") {
@@ -135,6 +154,22 @@ function bindSearchBar({app}) {
       }
     } else if (e.key === 'Escape') {
       searchBar.blur(); // enlève le focus
+    }
+  });
+
+  
+  // Barre de recherche (page d'édition de liste)
+
+  const searchBarListEdit = document.getElementById('search-bar-list-edit');
+  if (!searchBarListEdit) return;
+
+  searchBarListEdit.addEventListener('input', (e) => searchBird(e));
+  document.getElementById('clear-search-list-edit').addEventListener('click', () => { clearSearch(); });
+
+  searchBarListEdit.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      clearSearch();
+      searchBarListEdit.blur();
     }
   });
 }

@@ -6,14 +6,14 @@
   align-items: center;
 }
 
-#search-bar-field {
+#search-bar-field, #search-bar-field-list-edit {
   position: sticky;
   top: 0;
   z-index: 10; /* pour être au-dessus des oiseaux */
   opacity: 0.75;
   transition: opacity 0.25s ease;
 }
-#search-bar-field:hover{
+#search-bar-field:hover, #search-bar-field-list-edit:hover {
   opacity: 1;
 }
 
@@ -25,18 +25,18 @@
   margin: 0 auto;
   margin-bottom: 20px;
 }
-#search-bar-control:hover #clear-search {
+#search-bar-control:hover #clear-search, #search-bar-control-list-edit:hover #clear-search-list-edit {
   opacity: 1;
 }
 
 
-#search-bar {
+#search-bar, #search-bar-list-edit {
   padding-right: 2.5em; /* assez de place pour le bouton clear */
   height: 60px;
   border-radius: 24px;
 }
 
-#clear-search {
+#clear-search, #clear-search-list-edit {
   pointer-events: auto;
   cursor: pointer;
   display: inline-flex;
@@ -50,10 +50,10 @@
   transition: opacity 0.25s ease;
 }
 
-#clear-search:hover {
+#clear-search:hover, #clear-search-list-edit:hover {
   color: #c2c2c2;
 }
-#clear-search:active {
+#clear-search:active, #clear-search-list-edit:active {
   color: #838383;
 }
 
@@ -62,7 +62,7 @@
 /* ------------------------------------------------------- */
 /*                   Section des oiseaux                   */
 /* ------------------------------------------------------- */
-#quiz {
+.quiz {
   margin-top: 12px;
   /* max-height: 640px; */
   max-height: calc(100vh - 180px);
@@ -70,7 +70,7 @@
   margin-bottom:4px;
 }
 
-#quiz button {
+.quiz button {
   /* margin: 5px; */
   padding: 10px 16px;
   font-size: 1.2em;
@@ -80,31 +80,31 @@
   border-radius: 6px;
   transition: background 0.2s ease;
 }
-#quiz button:hover {
+.quiz button:hover {
   background: #2563eb;
 }
-#quiz button{
+.quiz button{
   display: none;
   height: 60px;
   width: 240px!important;
 }
 
 /* Scrollbar des oiseaux */
-#quiz::-webkit-scrollbar {
+.quiz::-webkit-scrollbar {
   width: 8px;
 }
 
-#quiz::-webkit-scrollbar-track {
+.quiz::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
 
-#quiz::-webkit-scrollbar-thumb {
+.quiz::-webkit-scrollbar-thumb {
   background: rgba(100, 100, 100, 0.5);
   border-radius: 4px;
 }
 
-#quiz::-webkit-scrollbar-thumb:hover {
+.quiz::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 100, 100, 0.8);
 }
 
@@ -117,7 +117,7 @@
 /* ------------------------------------------------------- */
 /*                   Grille des oiseaux                    */
 /* ------------------------------------------------------- */
-#bird-grid {
+.bird-grid {
   display: grid;
   grid-auto-flow: row dense;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -250,6 +250,11 @@
 .oiseau-plaine-opaque {
   background-color: rgb(142, 142, 56);
   border: 2px solid rgb(142, 142, 56);
+}
+
+.oiseau-unselected {
+  background-color: rgba(0, 0, 0, 0.25)!important;
+  border: 2px solid rgb(112, 112, 112)!important;
 }
 
 

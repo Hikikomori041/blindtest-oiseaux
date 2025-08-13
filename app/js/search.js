@@ -27,7 +27,7 @@ export function searchBird(e) {
     return true;
   };
 
-  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
+  document.querySelectorAll('.bird-grid .cell').forEach(cell => {
     const name = cell.dataset.name
       .toLowerCase()
       .normalize("NFD")
@@ -46,7 +46,8 @@ export function searchBird(e) {
 // Effacer la recheche
 export function clearSearch() {
   document.getElementById('search-bar').value = '';
-  document.querySelectorAll('#bird-grid .cell').forEach(cell => {
+  document.getElementById('search-bar-list-edit').value = '';
+  document.querySelectorAll('.bird-grid .cell').forEach(cell => {
     cell.classList.remove('display-none');
   });
 }

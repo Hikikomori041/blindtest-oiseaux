@@ -30,10 +30,12 @@ export async function applySelectedList({app}) {
   const listName = await window.api.getListName(listId);
   document.getElementById('loaded-list-name').innerHTML = listName;
 
-  if (listId !== "default-list") {
-    app.selectedTypes = ['commun', 'eau', 'foret', 'plaine'];
-    applySelectedTypes({app});
-  }
+  // app.birdList = []; //todo: changer les oiseaux chargés
+
+  // if (listId !== "default-list") {
+  //   app.selectedTypes = ['commun', 'eau', 'foret', 'plaine'];
+  //   applySelectedTypes({app});
+  // }
   updateBirdCounter({app});
 }
 
