@@ -13,6 +13,7 @@
 
 ---
 # À faire
+- mettre une scrollbar sur l'écran de sélection des listes
 
 ---
 # Bugs à fix

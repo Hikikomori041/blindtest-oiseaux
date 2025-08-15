@@ -79,6 +79,28 @@ async function loadBirdlists({app}) {
       });
     }
   }
+
+  const newListButton = document.getElementById("create-list-button");
+  newListButton.addEventListener('click', async () => {
+    
+    // On défini le nouveau nom et le nouvel id
+    let listCount = Object.keys(app.myLists).length;
+    let newListId = Math.max(...Object.keys(app.myLists).map(Number)) + 1;;
+
+    let newList = {
+      "name": `Liste ${listCount+1}`,
+      "birds": []
+    }
+    newListId = `list-` + newListId;
+
+    // On crée la nouvelle liste
+    await window.api.saveList(newListId, newList);
+    console.log("on crée une nouvelle liste: ");
+
+    // On charge la liste
+    app.myLists = await window.api.getAllLists();
+    openListEditPage({app}, newListId);
+  });
 }
 
 export async function deleteList({app}) {
