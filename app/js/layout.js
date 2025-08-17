@@ -2,7 +2,7 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playBird, playValidationSound } from './player.js';
+import { playBird, playRandomBird, playValidationSound } from './player.js';
 
 // Change la version dans l'app-bar
 export const setTitleVersion = async () => {
@@ -25,18 +25,55 @@ export function applySelectedTypes({app}) {
 }
 
 export async function applySelectedList({app}) {
-  let listId = app.loadedList;
+  // On regénère la grille des oiseaux entièrement
+  // await genererGrilleOiseaux({app});
 
-  const listName = await window.api.getListName(listId);
+  let listName = "Tous les oiseaux";
+
+  if (app.loadedList != "default-list") {
+    let listId = app.loadedList.replace(/^list-/, '');
+
+    // console.log("loadedList =", app.loadedList);
+    // console.log("listId =", listId);
+    // console.log("myLists =", app.myLists);
+    // console.log("clé dispo =", Object.keys(app.myLists));
+
+    try {
+      // On essaye d'obtenir le nom de la liste avec l'id listId
+      // listName = await window.api.getListName(listId);
+      listName = app.myLists[listId].name;
+          
+      // On ne garde que les oiseaux compris dans la liste
+      app.birdList = app.myLists[listId].birds;
+
+      // On supprime les cells d'oiseaux qui ne sont pas dans la liste
+      const birdGrid = document.getElementById('bird-grid');
+      const allowed = new Set(app.birdList);
+      const selected = new Set(app.selectedTypes);
+      [...birdGrid.getElementsByClassName('cell')].forEach(cell => {
+        const name = cell.dataset.name;
+        const info = app.birdsData[name];
+        if (!info || !selected.has(info.type) || !allowed.has(name)) {
+          cell.remove ? cell.remove() : cell.parentNode && cell.parentNode.removeChild(cell);
+        }
+      });
+
+    } catch (e) {
+      // Impossible de retrouver la liste chargée
+      app.loadedList = "default-list";
+      console.error(`Erreur: ${e}`);
+    }
+  }
   document.getElementById('loaded-list-name').innerHTML = listName;
-
-  // app.birdList = []; //todo: changer les oiseaux chargés
-
+  
+  // Pour reset les types sélectionner si on charge la liste par défaut
   // if (listId !== "default-list") {
   //   app.selectedTypes = ['commun', 'eau', 'foret', 'plaine'];
   //   applySelectedTypes({app});
   // }
-  updateBirdCounter({app});
+
+  // updateBirdCounter({app});
+  // console.log(`On charge la liste ${listName} !`);
 }
 
 
@@ -129,6 +166,7 @@ export async function genererGrilleOiseaux({app}) {
 
     const divCell = document.createElement('div');
     divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);
+    // divCell.id = `cell-${birdName}`;
     divCell.dataset.name = birdName;
 
     divCell.innerHTML = `
@@ -147,10 +185,13 @@ export async function genererGrilleOiseaux({app}) {
     grid.appendChild(divCell);
   }
 
+  await applySelectedList({app});
   updateBirdCounter({app});
 }
 
 function updateBirdCounter({app}) {
+  if (!app.birdList) return;
+
   let birdCountText = app.birdList.length;
 
   if (app.birdList.length <= 1) {

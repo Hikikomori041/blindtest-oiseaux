@@ -56,6 +56,7 @@
   flex-direction: column;
 }
 
+
 .list-cell {
   display: inline-flex;
   flex-direction: column;
@@ -101,6 +102,19 @@
 
 .current-list-p {
   font-style: italic;
+}
+
+
+#default-list {
+  display: block;
+  width: 320px;
+  margin: auto;
+  margin-bottom: 16px;
+}
+#create-list-button {
+  display: block;
+  margin: auto;
+  margin-top: 16px;
 }
 
 

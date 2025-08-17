@@ -1,7 +1,7 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { loadBirdlistsPage, saveList, deleteList, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
+import { loadBirdlistsPage, saveList, deleteList, openListEditPage, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
 import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, stopAudio, startAudio } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
@@ -45,6 +45,35 @@ function bindMyListsButtons({app}) {
   document.getElementById('list-edit-delete-button').addEventListener("click", (e) => {
     deleteList({app});
     restoreMyListsPage({app});
+  });
+
+  
+  // Création d'une nouvelle liste
+  document.getElementById("create-list-button").addEventListener('click', async () => {
+    // On défini le nouveau nom et le nouvel id
+    let listCount = Object.keys(app.myLists).length;
+    let newListId = 1; // Si aucune liste, alors il vaut 1
+    if (Object.keys(app.myLists).length !== 0) {
+      // Sinon il vaut le plus grand id de la liste + 1 //todo: à vérifier
+      newListId = Math.max(...Object.keys(app.myLists).map(Number)) + 1;
+    }
+
+    let newList = {
+      "name": `Liste ${listCount+1}`,
+      "birds": []
+    }
+    newListId = `list-` + newListId;
+
+    // On crée la nouvelle liste
+    await window.api.saveList(newListId, newList);
+    console.log("on crée une nouvelle liste: ");
+
+    // On charge la liste
+    app.myLists = await window.api.getAllLists();
+    // app.myLists[newListId] = newList;
+
+    // On affiche la page d'édition de la liste
+    openListEditPage({app}, newListId);
   });
 }
 
@@ -108,9 +137,9 @@ function bindTypes({app}) {
     btn.addEventListener('click', async () => {
       btn.classList.toggle('is-selected');
       clearSearch();
-      await genererGrilleOiseaux({app});
+      await genererGrilleOiseaux({app}); //todo: fix le bug pour les listes persos (mettre la gestion de la liste chargée dans genererGrilleOiseaux)
       showBirdCells();
-      playRandomBird({app});
+      // playRandomBird({app});
     });
   });
 

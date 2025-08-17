@@ -28,23 +28,23 @@ export async function loadApp() {
   
   // Chargement des oiseaux
   app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
-  
+  app.myLists   = await window.api.getAllLists();
+
+  // On génère enfin la grille des oiseaux à afficher
+  await genererGrilleOiseaux({app});
 
   // Association des actions aux boutons
   bindAllButtons({app});
 
   // Application des paramètres de l'application
+
   applySelectedTypes({app});
-  applySelectedList({app});
+  // await applySelectedList({app});
   startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
   updateVolumeGradient(app.volume);
   updateTiles({app});
 
-
   // La fenêtre s'affiche toute seule une fois la page chargée normalement (voir electron-main.js: "once('ready-to-show',...)")
-  // On génère enfin la grille des oiseaux à afficher
-  await genererGrilleOiseaux({app});
-
   // On change la taille de la fenêtre
   windowSetSize(app.winWidth, app.winHeight);
   if (app.isMaximized) {
