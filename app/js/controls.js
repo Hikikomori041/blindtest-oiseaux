@@ -136,8 +136,7 @@ function bindTypes({app}) {
   document.querySelectorAll('#type-selection .button').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.classList.toggle('is-selected');
-      clearSearch();
-      await genererGrilleOiseaux({app}); //todo: fix le bug pour les listes persos (mettre la gestion de la liste chargée dans genererGrilleOiseaux)
+      await genererGrilleOiseaux({app});
       showBirdCells();
       // playRandomBird({app});
     });
@@ -222,7 +221,7 @@ function bindBirds({app}) {
   // Bouton pour revenir à l'oiseau précédent
   document.getElementById('previous-bird-button').addEventListener('click', () => {
     clearSearch();
-    showBirdCells({app});
+    showBirdCells();
     app.currentBird = app.previousBird;
     playBird({app});
     // stopAudio({app});

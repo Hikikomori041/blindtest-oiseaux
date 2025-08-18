@@ -144,6 +144,7 @@ export function hideShortcutsPopup() {
 
 // Pour générer dynamiquement la grille des oiseaux
 export async function genererGrilleOiseaux({app}) {
+  clearSearch();
   const grid = document.getElementById('bird-grid');
   grid.innerHTML = ''; // vide la grille avant de régénérer
   
@@ -190,9 +191,11 @@ export async function genererGrilleOiseaux({app}) {
 }
 
 function updateBirdCounter({app}) {
-  if (!app.birdList) return;
+  // if (!app.birdList) return;
 
-  let birdCountText = app.birdList.length;
+  // let birdCountText = app.birdList.length;
+  const birdGrid = document.getElementById("bird-grid");
+  let birdCountText = birdGrid.getElementsByClassName("cell").length;
 
   if (app.birdList.length <= 1) {
     birdCountText += " oiseau sélectionné";
