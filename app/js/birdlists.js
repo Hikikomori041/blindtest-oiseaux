@@ -1,6 +1,6 @@
 import { playRandomBird, togglePause } from "./player.js";
 import { toggleSoundControls, simulateClick } from './controls.js';
-import { applySelectedList, genererGrilleOiseaux } from "./layout.js";
+import { applySelectedList, genererGrilleOiseaux, showBirdCells } from "./layout.js";
 import { clearSearch } from "./search.js";
 
 
@@ -34,7 +34,7 @@ async function loadBirdlists({app}) {
 
   // On ajoute les autres listes
   app.myLists = await window.api.getAllLists();
-  console.log(app.myLists);
+  // console.log(app.myLists);
 
   for(let idx in app.myLists) {
     let list = app.myLists[idx];
@@ -88,13 +88,16 @@ export async function deleteList({app}) {
   // On supprime le fichier ${listId}.json`
   if (listId == app.loadedList) {
     app.loadedList = "default-list";
+    document.getElementById('loaded-list-name').innerHTML = "Tous les oiseaux";
+    app.birdList = Object.keys(app.birdsData);
   }
+  
 
   // Enregistre les modifications de la liste
   window.api.deleteList(listId);
 }
 
-export async function saveList() {
+export async function saveList({app}) {
   const listName = document.getElementById("list-name-textarea").value;
   const listId = document.getElementById("list-name-textarea").dataset.id;
   let birdsList = [];
@@ -114,6 +117,9 @@ export async function saveList() {
 
   // Enregistre les modifications de la liste
   window.api.saveList(listId, newList);
+  if (app.loadedList == listId) {
+    app.birdList = birdsList;
+  }
 }
 
 export async function openListEditPage({app}, listId) {
@@ -136,7 +142,7 @@ export async function openListEditPage({app}, listId) {
   listNameElmt.focus();
   listNameElmt.addEventListener('keydown', (e) => {
     if (e.key === "Enter") {
-      saveList();
+      saveList({app});
       restoreMyListsPage({ app });
     }
   });
@@ -227,11 +233,14 @@ function updateListBirdCounter() {
 
 
 
-async function loadList({app}, listId) {
-  if (app.loadedList != listId) {    // Seulement si on charge une autre liste que la liste actuelle
+export async function loadList({app}, listId) {
+  // Seulement si on charge une autre liste que la liste actuelle
+  // ou si la liste a été modifiée
+  if (app.loadedList != listId || app.previousBirdList != app.birdList) {
     app.loadedList = listId;
 
     await genererGrilleOiseaux({app}); // va appeler applySelectedList({app});
+    showBirdCells();
     
     // const listName = document.getElementById(`${listId}-name`).innerHTML;
     // app.loadedList = listId;
@@ -244,7 +253,7 @@ async function loadList({app}, listId) {
 
     //todo: check s'il faut cacher les types (dans le cas où on ne choisit pas la liste par défaut: les sélectionner tous et les cacher)
   }
-
+  
   restoreBlindtestPage({app});
 }
 

@@ -54,6 +54,22 @@
 #my-lists {
   /* display: flex; */
   flex-direction: column;
+  max-height: calc(100vh - 400px);
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+/* Scrollbar uniquement pour .liste */
+#my-lists::-webkit-scrollbar {
+  width: 8px;
+}
+
+#my-lists::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 9999px;
+}
+
+#my-lists::-webkit-scrollbar-track {
+  background: #eee;
 }
 
 

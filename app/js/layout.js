@@ -26,20 +26,28 @@ export function applySelectedTypes({app}) {
 
 export async function applySelectedList({app}) {
   // On regénère la grille des oiseaux entièrement
-  // await genererGrilleOiseaux({app});
+  clearSearch();
 
+  app.birdList = [];
   let listName = "Tous les oiseaux";
+  const grid = document.getElementById('bird-grid');
+  grid.innerHTML = ''; // vide la grille avant de régénérer
+  
+  if (app.birdsSize == "small") {
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
+  } else if (app.birdsSize == "default") {
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(300px, 1fr))";
+  } else { //big
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(360px, 1fr))";
+  }
+  
 
   if (app.loadedList != "default-list") {
     let listId = app.loadedList.replace(/^list-/, '');
 
-    // console.log("loadedList =", app.loadedList);
-    // console.log("listId =", listId);
-    // console.log("myLists =", app.myLists);
-    // console.log("clé dispo =", Object.keys(app.myLists));
-
+    // On charge la liste personnalisée
     try {
-      // On essaye d'obtenir le nom de la liste avec l'id listId
+      // On récupère le nom de la liste avec l'id listId
       // listName = await window.api.getListName(listId);
       listName = app.myLists[listId].name;
           
@@ -47,24 +55,54 @@ export async function applySelectedList({app}) {
       app.birdList = app.myLists[listId].birds;
 
       // On supprime les cells d'oiseaux qui ne sont pas dans la liste
-      const birdGrid = document.getElementById('bird-grid');
-      const allowed = new Set(app.birdList);
-      const selected = new Set(app.selectedTypes);
-      [...birdGrid.getElementsByClassName('cell')].forEach(cell => {
-        const name = cell.dataset.name;
-        const info = app.birdsData[name];
-        if (!info || !selected.has(info.type) || !allowed.has(name)) {
-          cell.remove ? cell.remove() : cell.parentNode && cell.parentNode.removeChild(cell);
-        }
-      });
-
     } catch (e) {
       // Impossible de retrouver la liste chargée
       app.loadedList = "default-list";
       console.error(`Erreur: ${e}`);
     }
   }
+
   document.getElementById('loaded-list-name').innerHTML = listName;
+
+  if (app.loadedList == "default-list") {
+    app.birdList = Object.keys(app.birdsData);
+  }
+
+
+  for (const [birdName, info] of Object.entries(app.birdsData)) {
+    if (!app.selectedTypes.includes(info.type)) {
+      // Supprime l'oiseau de la liste si son type n'est pas inclue
+      app.birdList = app.birdList.filter(bird => bird !== birdName);
+    }
+
+    // Passe à l'oiseau suivant si le type n'est pas inclus ou si la liste est personnalisée et ne contient pas l'oiseau
+    if (!app.selectedTypes.includes(info.type) || (app.loadedList != "default-list" && !app.birdList.includes(birdName))) continue;
+    
+    info.variants = await window.api.getMp3Paths(birdName);
+
+    const divCell = document.createElement('div');
+    divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);
+    // divCell.id = `cell-${birdName}`;
+    divCell.dataset.name = birdName;
+
+    divCell.innerHTML = `
+      <div class="columns is-vcentered">
+        <div class="column is-one-fifth">
+          <img class="bird-img" src="../ressources/oiseaux/${birdName}/image.jpg" alt="${birdName}">
+        </div>
+        <div class="column bird-name">
+          <span class="bird-name-french">${birdName}</span>
+          <span class="bird-name-latin">(${info.nom_latin})</span>
+        </div>
+      </div>
+    `;
+    bindBirdCell(divCell, birdName, {app});
+    
+    grid.appendChild(divCell);
+  }
+
+  
+  // console.log(app.birdList);
   
   // Pour reset les types sélectionner si on charge la liste par défaut
   // if (listId !== "default-list") {
@@ -85,7 +123,7 @@ function showImage(birdName, id='result-image') {
   container.innerHTML = '';
   img.src = `../ressources/oiseaux/${birdName}/image.jpg`;
   img.onclick = () => {
-    console.log(link);
+    // console.log(link);
     window.open(link, '_blank');
   };
   // img.title = link;
@@ -144,49 +182,10 @@ export function hideShortcutsPopup() {
 
 // Pour générer dynamiquement la grille des oiseaux
 export async function genererGrilleOiseaux({app}) {
-  clearSearch();
-  const grid = document.getElementById('bird-grid');
-  grid.innerHTML = ''; // vide la grille avant de régénérer
-  
-  if (app.birdsSize == "small") {
-    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
-  } else if (app.birdsSize == "default") {
-    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(300px, 1fr))";
-  } else { //big
-    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(360px, 1fr))";
-  }
 
-  const selectedTypes = getSelectedTypes();
-  app.birdList = [];
-
-  for (const [birdName, info] of Object.entries(app.birdsData)) {
-    if (!selectedTypes.includes(info.type)) continue;
-
-    app.birdList.push(birdName);
-    info.variants = await window.api.getMp3Paths(birdName);
-
-    const divCell = document.createElement('div');
-    divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);
-    // divCell.id = `cell-${birdName}`;
-    divCell.dataset.name = birdName;
-
-    divCell.innerHTML = `
-      <div class="columns is-vcentered">
-        <div class="column is-one-fifth">
-          <img class="bird-img" src="../ressources/oiseaux/${birdName}/image.jpg" alt="${birdName}">
-        </div>
-        <div class="column bird-name">
-          <span class="bird-name-french">${birdName}</span>
-          <span class="bird-name-latin">(${info.nom_latin})</span>
-        </div>
-      </div>
-    `;
-    bindBirdCell(divCell, birdName, {app});
-    
-    grid.appendChild(divCell);
-  }
-
+  app.selectedTypes = getSelectedTypes();
   await applySelectedList({app});
+
   updateBirdCounter({app});
 }
 

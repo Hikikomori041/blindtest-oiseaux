@@ -5,7 +5,7 @@ export async function loadSettings() {
 
 export async function saveSettings(data) {
   await window.api.saveSettings(data);
-  console.log(data);
+  // console.log(data);
 }
 
 

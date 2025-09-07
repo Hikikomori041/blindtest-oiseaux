@@ -1,7 +1,9 @@
-# Notes de mise à jour 2.2.8
+# Notes de mise à jour 2.3.0
+- Ajout des listes d'oiseaux !
+  - Vous pouvez maintenant créer, modifier et charger des listes personnalisées d'oiseaux :D
+  - Changement de pas mal de choses dans le fonctionnement du programme, j'espère que y aura pas de bugs, mais n'hésite pas à les signaler si c'est le cas :')
 - Petites modifications:
-  - La touche Ctrl permet d'écrire rapidement dans la barre de recherche
-
+  - La touche Ctrl permet de sélectionner rapidement la zone de recherche
 
 
 # EN COURS
@@ -17,7 +19,7 @@
 
 ---
 # Bugs à fix
-- quand on retourne de mes listes apres avoir fait ecouter ce piaf (sera corrigé quand on chargera la nouvelle grid et l'oiseau lu)
+- Un peu osef: quand on fait enregistrer les modifications d'une liste alors que l'on n'a pourtant rien changé, cela recharge le blind-test
 
 ---
 # À faire peut-être
@@ -26,6 +28,9 @@
 - section "notes de mise à jour" pour marquer la release
   -> pop-up au lancement après une maj pour afficher lesdîtes notes 🤔
 - demander a gpt une page html pour comparer les images des oiseaux avec leurs images oiseaux.net (corriger les oiseaux mal mis)
+- pour les notes de maj:
+  - faire un changelog.txt
+  - quand on supprime le fichier setup, on peut afficher les notes dans un pop-up
 
 
 

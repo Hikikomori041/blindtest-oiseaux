@@ -1,7 +1,7 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { loadBirdlistsPage, saveList, deleteList, openListEditPage, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
+import { loadBirdlistsPage, saveList, deleteList, loadList, openListEditPage, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
 import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, stopAudio, startAudio } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
@@ -31,12 +31,12 @@ export function bindAllButtons({app}) {
 function bindMyListsButtons({app}) {
   // L'action du bouton retour de l'écran des listes persos
   document.getElementById('back-button').addEventListener("click", (e) => {
-    restoreBlindtestPage({app});
+    loadList({app}, app.loadedList);
   });
 
   // L'action du bouton retour de l'écran d'édition de liste
   document.getElementById('list-edit-save-button').addEventListener("click", (e) => {
-    saveList();
+    saveList({app});
     restoreMyListsPage({app});
   });
   document.getElementById('list-edit-back-button').addEventListener("click", (e) => {
@@ -66,10 +66,11 @@ function bindMyListsButtons({app}) {
 
     // On crée la nouvelle liste
     await window.api.saveList(newListId, newList);
-    console.log("on crée une nouvelle liste: ");
+    // console.log("on crée une nouvelle liste: ");
 
     // On charge la liste
     app.myLists = await window.api.getAllLists();
+    app.loadedList = newListId;
     // app.myLists[newListId] = newList;
 
     // On affiche la page d'édition de la liste
@@ -138,7 +139,7 @@ function bindTypes({app}) {
       btn.classList.toggle('is-selected');
       await genererGrilleOiseaux({app});
       showBirdCells();
-      // playRandomBird({app});
+      playRandomBird({app});
     });
   });
 
@@ -146,6 +147,7 @@ function bindTypes({app}) {
     togglePause({app}, true);
     toggleSoundControls(false);
 
+    app.previousBirdList = app.birdList; // pour checker les changements de la liste chargée
     // Charger la nouvelle vue
     loadBirdlistsPage({app});
   });
@@ -174,7 +176,7 @@ function bindSearchBars({app}) {
       const firstBird = Array.from(birdGrid.querySelectorAll('.cell')).find(cell => !cell.classList.contains('display-none'));
 
       if (firstBird) {
-        console.log(firstBird);
+        // console.log(firstBird);
         firstBird.click();
         searchBar.blur();
       } else {
@@ -261,7 +263,7 @@ export function bindBirdCell(birdCell, birdName, {app}) {
     // Quand on clique sur "Plus d'infos"
     seeButton.onclick = () => {
       const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
-      console.log(link);
+      // console.log(link);
       window.open(link, '_blank');
       menu.style.display = 'none';
     };
