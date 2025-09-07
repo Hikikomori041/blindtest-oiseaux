@@ -6,16 +6,10 @@
   - La touche Ctrl permet de sélectionner rapidement la zone de recherche
 
 
-# EN COURS
-- système de liste persos
-  -> enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
-
-
 # Oiseaux à ajouter / modifier
 
 ---
 # À faire
-- mettre une scrollbar sur l'écran de sélection des listes
 
 ---
 # Bugs à fix
@@ -31,6 +25,8 @@
 - pour les notes de maj:
   - faire un changelog.txt
   - quand on supprime le fichier setup, on peut afficher les notes dans un pop-up
+- système de liste persos
+  -> enregistrer le playCount à la fermeture de l'app -> ne faire ça que pour les listes persos (ou pour chaque liste ?)
 
 
 
