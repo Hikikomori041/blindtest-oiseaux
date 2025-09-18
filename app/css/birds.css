@@ -224,11 +224,11 @@
 
 /* Couleurs selon le type */
 .oiseau-commun {
-  background-color: rgba(155, 135, 122, 0.75);
+  background-color: rgba(200, 140, 80, 0.75);
 }
 .oiseau-commun-opaque {
-  background-color: rgb(155, 135, 122);
-  border: 2px solid rgb(155, 135, 122);
+  background-color: rgb(200, 140, 80);
+  border: 2px solid rgb(200, 140, 80);
 }
 .oiseau-eau {
   background-color: rgba(106, 165, 195, 0.75);
@@ -243,6 +243,13 @@
 .oiseau-foret-opaque {
   background-color: rgb(74, 119, 61);
   border: 2px solid rgb(74, 119, 61);
+}
+.oiseau-montagne {
+  background-color: rgba(155, 135, 122, 0.75);
+}
+.oiseau-montagne-opaque {
+  background-color: rgb(155, 135, 122);
+  border: 2px solid rgb(155, 135, 122);
 }
 .oiseau-plaine {
   background-color: rgba(142, 142, 56, 0.75);

@@ -1,12 +1,9 @@
-# Notes de mise à jour 2.3.0
-- Ajout des listes d'oiseaux !
-  - Vous pouvez maintenant créer, modifier et charger des listes personnalisées d'oiseaux :D
-  - Changement de pas mal de choses dans le fonctionnement du programme, j'espère que y aura pas de bugs, mais n'hésite pas à les signaler si c'est le cas :')
-- Petites modifications:
-  - La touche Ctrl permet de sélectionner rapidement la zone de recherche
+# Notes de mise à jour 2.3.1
+
 
 
 # Oiseaux à ajouter / modifier
+
 
 ---
 # À faire

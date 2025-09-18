@@ -78,7 +78,11 @@ export async function applySelectedList({app}) {
     // Passe à l'oiseau suivant si le type n'est pas inclus ou si la liste est personnalisée et ne contient pas l'oiseau
     if (!app.selectedTypes.includes(info.type) || (app.loadedList != "default-list" && !app.birdList.includes(birdName))) continue;
     
-    info.variants = await window.api.getMp3Paths(birdName);
+    try {
+      info.variants = await window.api.getMp3Paths(birdName);
+    } catch {
+      console.error(`Impossible de charger les sons de l'oiseau suivant: ${birdName}`);
+    }
 
     const divCell = document.createElement('div');
     divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);

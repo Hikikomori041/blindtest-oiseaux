@@ -68,13 +68,16 @@
 }
 
 .oiseau-commun.button.is-selected{
-  background-color: rgb(155, 135, 122);
+  background-color: rgb(200, 140, 80);
 }
 .oiseau-eau.button.is-selected {
   background-color: rgb(106, 165, 195);
 }
 .oiseau-foret.button.is-selected{
   background-color: rgba(50, 80, 42, 0.65);
+}
+.oiseau-montagne.button.is-selected{
+  background-color: rgb(155, 135, 122);
 }
 .oiseau-plaine.button.is-selected{
   background-color: rgb(142, 142, 56);

@@ -230,7 +230,7 @@ ipcMain.handle('load-settings', async () => {
     autoplayAtStart: true,
     birdsSize: "default",
     loadedList: "default-list",
-    selectedTypes: ['commun', 'eau', 'foret', 'plaine'],
+    selectedTypes: ['commun', 'eau', 'foret', 'montagne', 'plaine'],
     validationSoundMuted: false,
   };
   try {

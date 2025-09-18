@@ -1,4 +1,8 @@
 {
+  "Accenteur alpin": {
+    "type": "montagne",
+    "nom_latin": "Prunella collaris"
+  },
   "Accenteur mouchet": {
     "type": "foret",
     "nom_latin": "Prunella modularis"
@@ -131,9 +135,17 @@
     "type": "eau",
     "nom_latin": "Tringa glareola"
   },
+  "Chocard à bec jaune": {
+    "type": "montagne",
+    "nom_latin": "Pyrrhocorax graculus"
+  },
   "Choucas des tours": {
     "type": "commun",
     "nom_latin": "Coloeus monedula"
+  },
+  "Cincle plongeur": {
+    "type": "montagne",
+    "nom_latin": "Cinclus cinclus"
   },
   "Cisticole des joncs": {
     "type": "plaine",
@@ -355,6 +367,10 @@
     "type": "foret",
     "nom_latin": "Dendrocoptes medius"
   },
+  "Pic noir": {
+    "type": "foret",
+    "nom_latin": "Dryocopus martius"
+  },
   "Pic vert": {
     "type": "foret",
     "nom_latin": "Picus viridis"
@@ -475,6 +491,14 @@
     "type": "foret",
     "nom_latin": "Carduelis spinus"
   },
+  "Tichodrome échelette": {
+    "type": "montagne",
+    "nom_latin": "Tichodroma muraria"
+  },
+  "Torcol fourmilier": {
+    "type": "montagne",
+    "nom_latin": "Jynx torquilla"
+  },
   "Tourterelle des bois": {
     "type": "foret",
     "nom_latin": "Streptopelia turtur"
@@ -482,6 +506,10 @@
   "Tourterelle turque": {
     "type": "commun",
     "nom_latin": "Streptopelia decaocto"
+  },
+  "Traquet motteux": {
+    "type": "montagne",
+    "nom_latin": "Oenanthe oenanthe"
   },
   "Troglodyte mignon": {
     "type": "foret",
