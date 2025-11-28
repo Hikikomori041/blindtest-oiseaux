@@ -1,15 +1,13 @@
 # Notes de mise à jour 2.3.1
+Ajouts d'oiseaux:
+- Pic cendré - forêt
+- Pouillot à grands sourcils - forêt
+- Pouillot brun - forêt
+- Linotte à bec jaune - montagne
 
 
 
 # Oiseaux à ajouter / modifier
-- Pic noir (pour blindtest et quiz) et ça ce serait en forêt
-- Pic cendré (quiz et blindtest) forêt
-- Pouillot à grands sourcils (quiz et blindtest) forêt
-- Pouillot brun (quiz et blindtest) forêt
-- Linotte à bec jaune (bon c'est compliqué mais on va dire plaine ou montagne je sais plus s'il y a) dans blindtest et quiz
-
-- Traquet du désert (quiz uniquement)
 
 ---
 # À faire
