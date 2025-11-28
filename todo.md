@@ -1,9 +1,5 @@
-# Notes de mise à jour 2.3.2
-Ajouts de 4 oiseaux:
-- Pic cendré - forêt
-- Pouillot à grands sourcils - forêt
-- Pouillot brun - forêt
-- Linotte à bec jaune - montagne
+# Notes de mise à jour 2.3.3
+Bug fix
 
 
 # Oiseaux à ajouter / modifier

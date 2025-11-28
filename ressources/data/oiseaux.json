@@ -360,7 +360,7 @@
     "nom_latin": "Acrocephalus schoenobaenus"
   },
   "Pic cendré": {
-    "type": "forêt",
+    "type": "foret",
     "nom_latin": "Picus canus"
   },
   "Pic épeiche": {
@@ -408,11 +408,11 @@
     "nom_latin": "Anthus campestris"
   },
   "Pouillot à grands sourcils": {
-    "type": "forêt",
+    "type": "foret",
     "nom_latin": "Phylloscopus inornatus"
   },
   "Pouillot brun": {
-    "type": "forêt",
+    "type": "foret",
     "nom_latin": "Phylloscopus fuscatus"
   },
   "Pouillot de Bonelli": {
