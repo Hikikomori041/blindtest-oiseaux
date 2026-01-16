@@ -63,6 +63,10 @@
     "type": "commun",
     "nom_latin": "Cettia cetti"
   },
+  "Bouvreuil pivoine": {
+    "type": "commun",
+    "nom_latin": "Pyrrhula pyrrhula"
+  },
   "Bruant des roseaux": {
     "type": "eau",
     "nom_latin": "Emberiza schoeniclus"
