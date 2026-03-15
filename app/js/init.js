@@ -1,7 +1,7 @@
 import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, updateVolumeGradient } from './player.js';
-import { applySelectedTypes, applySelectedList, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
+import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 let app = {}; // Paramètres de l'application
 
@@ -27,7 +27,7 @@ export async function loadApp() {
   app.birdHasBeenPlayed = false;
   
   // Chargement des oiseaux
-  app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
+  app.birdsData = await window.api.getBirdsData('res://data/birds.json');
   app.myLists   = await window.api.getAllLists();
 
   // On génère enfin la grille des oiseaux à afficher

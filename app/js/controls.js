@@ -1,8 +1,8 @@
 import { saveSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
 import { getSelectedTypes, slugify } from './strings.js';
-import { loadBirdlistsPage, saveList, deleteList, loadList, openListEditPage, restoreBlindtestPage, restoreMyListsPage } from './birdlists.js';
-import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume, stopAudio, startAudio } from './player.js'
+import { loadBirdlistsPage, saveList, deleteList, loadList, openListEditPage, restoreMyListsPage } from './birdlists.js';
+import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
 
@@ -51,19 +51,19 @@ export function bindAllButtons({app}) {
 // Mes listes
 function bindMyListsButtons({app}) {
   // L'action du bouton retour de l'écran des listes persos
-  document.getElementById('back-button').addEventListener("click", (e) => {
+  document.getElementById('back-button').addEventListener("click", (_) => {
     loadList({app}, app.loadedList);
   });
 
   // L'action du bouton retour de l'écran d'édition de liste
-  document.getElementById('list-edit-save-button').addEventListener("click", (e) => {
+  document.getElementById('list-edit-save-button').addEventListener("click", (_) => {
     saveList({app});
     restoreMyListsPage({app});
   });
-  document.getElementById('list-edit-back-button').addEventListener("click", (e) => {
+  document.getElementById('list-edit-back-button').addEventListener("click", (_) => {
     restoreMyListsPage({app});
   });
-  document.getElementById('list-edit-delete-button').addEventListener("click", (e) => {
+  document.getElementById('list-edit-delete-button').addEventListener("click", (_) => {
     deleteList({app});
     restoreMyListsPage({app});
   });
@@ -312,8 +312,8 @@ function bindAudioButtons({app}) {
     app.audio.load();
     app.audio.oncanplaythrough = () => {
       app.audio.play().then(() => {
-        document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-        document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+        document.getElementById('pause-button-img').src = "res://images/pause-button.png";
+        document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante.gif";
       }).catch(err => {
         console.error("Erreur lecture :", err);
       });
@@ -344,8 +344,8 @@ function bindVolumeInputs({app}) {
       app.audio.currentTime = 0;
       app.audio.play();
     } else {
-      document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
-      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+      document.getElementById('pause-button-img').src = "res://images/play-button.png";
+      document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante_pas.png";
       window.api.updateThumbar(app.audio.paused, app.muted);
     }
   });

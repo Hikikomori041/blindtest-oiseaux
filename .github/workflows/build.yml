@@ -57,5 +57,6 @@ jobs:
             dist/*.exe
             dist/*.blockmap
             dist/*.yml
+            assets/data/birds-index.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

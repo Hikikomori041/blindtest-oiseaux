@@ -1,6 +1,6 @@
-import { playRandomBird, togglePause } from "./player.js";
+import { playRandomBird } from "./player.js";
 import { toggleSoundControls, simulateClick } from './controls.js';
-import { applySelectedList, genererGrilleOiseaux, showBirdCells } from "./layout.js";
+import { genererGrilleOiseaux, showBirdCells } from "./layout.js";
 import { clearSearch } from "./search.js";
 
 
@@ -26,7 +26,7 @@ async function loadBirdlists({app}) {
     </div>
     <div>
       <button id="load-default-list-button" class="button load-button tooltip tooltip-bottom" data-tooltip="Charger cette liste">
-        <img src="../ressources/images/load-button.svg" alt="Charger"/>
+        <img src="res://images/load-button.svg" alt="Charger"/>
       </button>
     </div>
   `;
@@ -50,10 +50,10 @@ async function loadBirdlists({app}) {
       </div>
       <div>
         <button id="edit-${listElmt.id}-button" class="button edit-button tooltip tooltip-bottom" data-tooltip="Modifier cette liste">
-          <img src="../ressources/images/edit-button.svg" alt="Modifier"/>
+          <img src="res://images/edit-button.svg" alt="Modifier"/>
         </button>
         <button id="load-${listElmt.id}-button" class="button load-button tooltip tooltip-bottom" data-tooltip="Charger cette liste">
-          <img src="../ressources/images/load-button.svg" alt="Charger"/>
+          <img src="res://images/load-button.svg" alt="Charger"/>
         </button>
       </div>
     `;
@@ -182,7 +182,7 @@ async function showBirdList({app}, list) {
     divCell.innerHTML = `
       <div class="columns is-vcentered">
         <div class="column is-one-fifth">
-          <img class="bird-img" src="../ressources/oiseaux/${birdName}/image.jpg" alt="${birdName}">
+          <img class="bird-img" src="res://birds/${birdName}/image.jpg" alt="${birdName}">
         </div>
         <div class="column bird-name">
           <span class="bird-name-french">${birdName}</span>

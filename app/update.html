@@ -45,15 +45,21 @@
     <div>
       <p id="status">Mise à jour en cours...</p>
       <progress id="progressBar" max="100" value="0" style="width:300px;"></progress>
+      <p id="detail" style="font-size:0.75em;font-style:italic;color:#ddd;margin:4px 0 0;"></p>
       <p id="info">(c'est normal si ça prend du temps au début)</p>
     </div>
     <script>
       document.getElementById('minimize-button').addEventListener('click', () => {
         window.updateApi.minimize();
       });
+      window.updateApi.onStatus((text) => {
+        document.getElementById('status').innerText = text;
+      });
       window.updateApi.onProgress((percent) => {
         document.getElementById('progressBar').value = percent;
-        document.getElementById('status').innerText = `Téléchargement... ${percent.toFixed(0)}%`;
+      });
+      window.updateApi.onDetail((text) => {
+        document.getElementById('detail').innerText = text;
       });
       document.addEventListener('dblclick', (e) => {
         e.preventDefault();

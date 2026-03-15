@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: res:; media-src 'self' data: res:;">
   <title>Blind-Test Oiseaux</title>
   <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/app-bar.css">
@@ -115,7 +115,7 @@
             <!-- <button id="my-lists-button" class="button tooltip tooltip-bottom" data-tooltip="Voir mes listes d'oiseaux">Mes listes</button> -->
              
             <button id="my-lists-button" class="button tooltip tooltip-bottom" data-tooltip="Voir mes listes d'oiseaux">
-              <!-- <img src="../ressources/images/my-lists.png" alt="Mes listes"/> -->
+              <!-- <img src="res://images/my-lists.png" alt="Mes listes"/> -->
               Mes listes
             </button>
           </section>
@@ -126,7 +126,7 @@
           <section class="box quiz">
             <h2 id="no-bird-selected" class="title is-4 display-none">Aucun oiseau n'est sélectionné !</h2>
             <h2 id="what-bird-title" class="title is-4">Quel est cet oiseau ?</h2>
-            <img id="bird-animation" src="../ressources/images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
+            <img id="bird-animation" src="res://images/oiseau_qui_chante.gif" alt="Oiseau qui chante">
             <div id="bird-face" class="tooltip tooltip-right display-none" data-tooltip="Clique pour en savoir plus sur cet oiseau"></div>
 
             <div class="field" id="search-bar-field">
@@ -164,28 +164,28 @@
 
         <div id="controls-left">
           <button id="more-button" class="button tooltip tooltip-top" data-tooltip="Paramètres">
-            <img src="../ressources/images/settings-button.png" alt="Paramètres"/>
+            <img src="res://images/settings-button.png" alt="Paramètres"/>
           </button>
         </div>
 
         <div id="controls-center">
           <button id="replay-mode-button" class="button tooltip tooltip-top activated" data-tooltip="Activer le replay">
-            <img src="../ressources/images/replay-mode-button-enabled.png" alt="Activer le replay"/>
+            <img src="res://images/replay-mode-button-enabled.png" alt="Activer le replay"/>
           </button>
           <button id="replay-button" class="button tooltip tooltip-top" data-tooltip="Réécouter (r)">
-            <img src="../ressources/images/replay-button.png" alt="Réécouter"/>
+            <img src="res://images/replay-button.png" alt="Réécouter"/>
           </button>
           <button id="rewind-button" class="button tooltip tooltip-top" data-tooltip="Reculer de 5 secondes (←)">
-            <img src="../ressources/images/rewind-button.png" alt="Reculer de 5s"/>
+            <img src="res://images/rewind-button.png" alt="Reculer de 5s"/>
           </button>
           <button id="pause-button" class="button tooltip tooltip-top" data-tooltip="Pause (espace)">
-            <img id="pause-button-img" src="../ressources/images/pause-button.png" alt="Pause"/>
+            <img id="pause-button-img" src="res://images/pause-button.png" alt="Pause"/>
           </button>
           <button id="forward-button" class="button tooltip tooltip-top" data-tooltip="Avancer de 5 secondes (→)">
-            <img src="../ressources/images/forward-button.png" alt="Avancer de 5s"/>
+            <img src="res://images/forward-button.png" alt="Avancer de 5s"/>
           </button>
           <button id="switch-button" class="button tooltip tooltip-top" data-tooltip="Écouter un autre son de l'oiseau (p)">
-            <img src="../ressources/images/switch-button.png" alt="Autre son"/>
+            <img src="res://images/switch-button.png" alt="Autre son"/>
           </button>
         </div>
 
@@ -197,7 +197,7 @@
           </div>
           <div>
             <button id="fullscreen-button" class="button tooltip tooltip-top" data-tooltip="Mode plein écran">
-              <img src="../ressources/images/fullscreen-button-off.svg" alt="Plein écran"/>
+              <img src="res://images/fullscreen-button-off.svg" alt="Plein écran"/>
             </button>
           </div>
         </div>
@@ -265,27 +265,27 @@
       <div id="close-tiles-button">✖</div>
       <div class="tile-grid">
         <div class="tile tooltip tooltip-top" id="see-shortcuts-tile" data-tooltip="Voir les raccourcis clavier">
-          <img src="../ressources/images/keyboard.png"/>
+          <img src="res://images/keyboard.png"/>
           <span>Raccourcis clavier</span>
         </div>
         <div class="tile tooltip tooltip-top" id="see-github-tile" data-tooltip="Voir les sources du projet">
-          <img src="../ressources/images/github.png"/>
+          <img src="res://images/github.png"/>
           <span>Voir les sources du projet</span>
         </div>
         <div class="tile tooltip tooltip-top" id="report-issue-tile" data-tooltip="Signaler un bug">
-          <img src="../ressources/images/bug.png"/>
+          <img src="res://images/bug.png"/>
           <span>Signaler un bug</span>
         </div>
         <div class="tile tooltip tooltip-top" id="toggle-confirm-sound-tile" data-tooltip="Désactiver les sons de validation">
-          <img src="../ressources/images/volume-3-yellow.png"/>
+          <img src="res://images/volume-3-yellow.png"/>
           <span>Sons de validation activés</span>
         </div>
         <div class="tile tooltip tooltip-top" id="change-birds-size-tile" data-tooltip="Changer la taille des oiseaux">
-          <img src="../ressources/images/birds.png" id="birds-tile-img" class="default"/>
+          <img src="res://images/birds.png" id="birds-tile-img" class="default"/>
           <span style="position: absolute; bottom: 16px;" id="birds-tile-span">Taille des oiseaux: par défaut</span>
         </div>
         <div class="tile tooltip tooltip-top" id="toggle-autoplay-tile" data-tooltip="Désactiver la lecture au démarrage de l'application">
-          <img src="../ressources/images/autoplay-on.png"/>
+          <img src="res://images/autoplay-on.png"/>
           <span>Lecture au démarrage activée</span>
         </div>
       </div>
