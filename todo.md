@@ -1,10 +1,6 @@
 # To do
 
-## Notes de mise à jour 2.4.0
-
-### Changement complet du mode de mise à jour de l'application
-
-- Plus besoin de tout retélécharger à chaque mise à jour, maintenant les assets liées aux oiseaux sont téléchargées uniquement s'il y a un changement.
+## Notes de mise à jour 2.4.1
 
 ## Oiseaux à ajouter / modifier
 
