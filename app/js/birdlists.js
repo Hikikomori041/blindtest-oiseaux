@@ -135,7 +135,11 @@ export async function openListEditPage({app}, listId) {
   listEditPage.classList.remove("display-none");
 
   // On charge le nom de la liste
-  const listNameElmt = document.getElementById("list-name-textarea");
+  // On clone pour purger les listeners accumulés lors des ouvertures précédentes
+  const oldElmt = document.getElementById("list-name-textarea");
+  const listNameElmt = oldElmt.cloneNode(true);
+  oldElmt.replaceWith(listNameElmt);
+
   listNameElmt.value = list.name;
   listNameElmt.dataset.id = listId;
 
