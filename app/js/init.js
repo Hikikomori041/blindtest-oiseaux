@@ -1,7 +1,7 @@
 import { loadSettings, windowSetSize } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, updateVolumeGradient } from './player.js';
-import { applySelectedTypes, applySelectedList, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
+import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 let app = {}; // Paramètres de l'application
 

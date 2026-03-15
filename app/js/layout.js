@@ -2,7 +2,7 @@
 import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
-import { playBird, playRandomBird, playValidationSound } from './player.js';
+import { playBird, playValidationSound } from './player.js';
 
 // Change la version dans l'app-bar
 export const setTitleVersion = async () => {

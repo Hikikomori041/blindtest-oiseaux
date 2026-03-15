@@ -1,6 +1,6 @@
-import { playRandomBird, togglePause } from "./player.js";
+import { playRandomBird } from "./player.js";
 import { toggleSoundControls, simulateClick } from './controls.js';
-import { applySelectedList, genererGrilleOiseaux, showBirdCells } from "./layout.js";
+import { genererGrilleOiseaux, showBirdCells } from "./layout.js";
 import { clearSearch } from "./search.js";
 
 

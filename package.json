@@ -6,7 +6,7 @@
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
-    "birds:index": "node autres/generate-birds-index.js",
+    "birds:index": "node scripts/generate-birds-index.js",
     "build": "npm run birds:index && electron-builder --publish never",
     "release": "node release.js",
     "lint": "eslint ."
