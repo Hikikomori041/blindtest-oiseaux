@@ -5,14 +5,17 @@
       body {
         -webkit-app-region: drag;
         user-select: none;
-        
-        display:flex;
-        justify-content:center;
-        align-items:center;
+        margin: 0;
+        padding: 14px 16px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height:100%;
         background:#222;
         color:#fff;
         overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
       }
 
       /* Pour les éléments interactifs comme boutons (si tu en ajoutes), annule le drag : */
@@ -20,10 +23,35 @@
         -webkit-app-region: no-drag;
       }
 
-      #info {
-        font-size: 0.75em;
+      #card {
+        width: 100%;
+        max-width: 520px;
+      }
+
+      #status {
+        margin: 0 28px 8px 0;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.3;
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      #progressBar {
+        width: 100%;
+        height: 12px;
+        margin: 0;
+      }
+
+      #detail {
+        margin: 8px 0 0;
+        font-size: 12px;
         font-style: italic;
-        color: #ddd
+        color: #ddd;
+        min-height: 32px;
+        line-height: 1.35;
+        white-space: normal;
+        word-break: break-word;
       }
     </style>
 
@@ -42,11 +70,10 @@
     ">_</button>
 
 
-    <div>
+    <div id="card">
       <p id="status">Mise à jour en cours...</p>
-      <progress id="progressBar" max="100" value="0" style="width:300px;"></progress>
-      <p id="detail" style="font-size:0.75em;font-style:italic;color:#ddd;margin:4px 0 0;"></p>
-      <p id="info">(c'est normal si ça prend du temps au début)</p>
+      <progress id="progressBar" max="100" value="0"></progress>
+      <p id="detail"></p>
     </div>
     <script>
       document.getElementById('minimize-button').addEventListener('click', () => {

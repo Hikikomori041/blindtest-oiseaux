@@ -12,6 +12,7 @@ const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
 const assetsCachePath = path.join(app.getPath('userData'), 'assets');
 
 const BIRDS_INDEX_URL = 'https://raw.githubusercontent.com/Hikikomori041/blindtest-oiseaux/main/assets/data/birds-index.json';
+const BIRDS_INDEX_FALLBACK_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/assets/data/birds-index.json';
 const BIRDS_INDEX_LOCAL_PATH = path.join(assetsCachePath, 'birds-index.local.json');
 const BIRDS_INDEX_ETAG_PATH  = path.join(assetsCachePath, 'birds-index.etag');
 const DEFAULT_BIRDS_BASE_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/';
@@ -39,12 +40,17 @@ let isAppUpdateDownloadActive = false;
 function createUpdateWindow(initialStatus = 'Mise a jour en cours...') {
   if (updateWindow) return; // éviter les doublons
 
+  // Pendant un téléchargement, on minimise le splash pour éviter une fenêtre bloquée derrière.
+  if (splash && !splash.isDestroyed() && !splash.isMinimized()) {
+    splash.minimize();
+  }
+
   updateWindow = new BrowserWindow({
-    width: 400,
-    height: 120,
+    width: 560,
+    height: 100,
     frame: false,
     resizable: false,
-    alwaysOnTop: true,
+    alwaysOnTop: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -75,6 +81,9 @@ function createUpdateWindow(initialStatus = 'Mise a jour en cours...') {
 
 // MAJ la progression
 const downloadProgressHandler = (progressObj) => {
+  if (!updateWindow || updateWindow.isDestroyed()) {
+    return;
+  }
   logMessage(`[download]📥 Download progress: ${(progressObj.percent).toFixed(2)}%`);
   const pct = progressObj.percent;
   if (updateWindow.webContents.isLoading() === false) {
@@ -138,7 +147,7 @@ function createSplashWindow() {
     width: 240, height: 240,
     frame: false,
     transparent: false,
-    alwaysOnTop: true,
+    alwaysOnTop: false,
   });
   splash.loadFile('app/splash.html');
 
@@ -751,6 +760,12 @@ function normalizeBirdIndexPath(relativePath) {
   return rel;
 }
 
+function getBirdNameFromRelativePath(relativePath) {
+  const normalized = String(relativePath || '').replace(/\\/g, '/').replace(/^\/+/, '');
+  const parts = normalized.split('/');
+  return parts[0] === 'birds' && parts[1] ? parts[1] : normalized;
+}
+
 function buildRemoteBirdFileUrl(baseUrl, relativePath) {
   const cleanBase = String(baseUrl || DEFAULT_BIRDS_BASE_URL).replace(/\/+$/, '');
   const encodedPath = String(relativePath || '')
@@ -805,8 +820,25 @@ async function ensureBirdsAvailable() {
     remoteManifest = result.data;
     newEtag = result.etag;
   } catch (err) {
-    log.warn('[Birds] birds-index.json indisponible:', err);
-    return;
+    const is404 = String(err?.message || '').includes('HTTP 404');
+    if (!is404) {
+      log.warn('[Birds] birds-index.json indisponible:', err);
+      return;
+    }
+
+    log.warn('[Birds] 404 sur URL primaire, tentative fallback:', BIRDS_INDEX_FALLBACK_URL);
+    try {
+      const fallbackResult = await fetchJsonWithEtag(BIRDS_INDEX_FALLBACK_URL, savedEtag);
+      if (fallbackResult.notModified) {
+        log.info('[Birds] birds-index.json inchangé (304 via fallback), synchronisation ignorée.');
+        return;
+      }
+      remoteManifest = fallbackResult.data;
+      newEtag = fallbackResult.etag;
+    } catch (fallbackErr) {
+      log.warn('[Birds] birds-index.json indisponible (fallback échoué):', fallbackErr);
+      return;
+    }
   }
 
   const indexFiles = Array.isArray(remoteManifest.files) ? remoteManifest.files : [];
@@ -870,59 +902,86 @@ async function ensureBirdsAvailable() {
     return;
   }
 
-  // Construire la ligne de détail (ex. : "5 nouveaux · 2 modifiés · 1 supprimé")
+  const addedBirds = new Set(toAdd.map((file) => getBirdNameFromRelativePath(file.relPath)));
+  const updatedBirds = new Set(toUpdate.map((file) => getBirdNameFromRelativePath(file.relPath)));
+  const deletedBirds = new Set(stalePaths.map((relPath) => getBirdNameFromRelativePath(relPath)));
+
+  // Construire la ligne de détail en nombre d'oiseaux
   const detailParts = [];
-  if (toAdd.length    > 0) detailParts.push(`${toAdd.length} nouveau${toAdd.length       > 1 ? 'x'  : ''}`);
-  if (toUpdate.length > 0) detailParts.push(`${toUpdate.length} modifié${toUpdate.length > 1 ? 's'  : ''}`);
-  if (stalePaths.length > 0) detailParts.push(`${stalePaths.length} supprimé${stalePaths.length > 1 ? 's' : ''}`);
+  if (addedBirds.size > 0) detailParts.push(addedBirds.size === 1 ? '1 nouvel oiseau' : `${addedBirds.size} nouveaux oiseaux`);
+  if (updatedBirds.size > 0) detailParts.push(updatedBirds.size === 1 ? '1 oiseau mis à jour' : `${updatedBirds.size} oiseaux mis à jour`);
+  if (deletedBirds.size > 0) detailParts.push(deletedBirds.size === 1 ? '1 oiseau supprimé' : `${deletedBirds.size} oiseaux supprimés`);
+
+  const downloadsByBird = new Map();
+  for (const file of toDownload) {
+    const birdName = getBirdNameFromRelativePath(file.relPath);
+    if (!downloadsByBird.has(birdName)) {
+      downloadsByBird.set(birdName, []);
+    }
+    downloadsByBird.get(birdName).push(file);
+  }
+
+  const staleByBird = new Map();
+  for (const relPath of stalePaths) {
+    const birdName = getBirdNameFromRelativePath(relPath);
+    if (!staleByBird.has(birdName)) {
+      staleByBird.set(birdName, []);
+    }
+    staleByBird.get(birdName).push(relPath);
+  }
+
+  const birdsToProcess = [...new Set([...downloadsByBird.keys(), ...staleByBird.keys()])].sort((a, b) => a.localeCompare(b));
 
   createUpdateWindow('Mise à jour des oiseaux');
   sendUpdateDetail(detailParts.join(' · '));
 
-  const totalOps = toDownload.length + stalePaths.length;
-  let doneOps = 0;
+  const totalBirds = birdsToProcess.length;
+  let doneBirds = 0;
 
   const markProgress = (birdName) => {
-    doneOps += 1;
-    sendUpdateStatus(`(${doneOps}/${totalOps}) ${birdName}`);
-    sendUpdateProgress((doneOps / totalOps) * 100);
+    doneBirds += 1;
+    sendUpdateStatus(`(${doneBirds}/${totalBirds}) ${birdName}`);
+    sendUpdateProgress((doneBirds / totalBirds) * 100);
   };
 
   try {
-    for (const file of toDownload) {
-      const destinationPath = path.join(assetsCachePath, file.relPath);
-      const tmpPath = `${destinationPath}.tmp`;
-      await downloadFileWithRetry(file.url, tmpPath);
+    for (const birdName of birdsToProcess) {
+      const filesForBird = downloadsByBird.get(birdName) || [];
+      const staleForBird = staleByBird.get(birdName) || [];
 
-      if (file.sha256) {
-        const actualHash = await computeFileSha256(tmpPath);
-        if (actualHash !== file.sha256) {
-          throw new Error(`Hash invalide pour ${file.relPath}`);
+      // Télécharge tous les fichiers de l'oiseau en parallèle.
+      await Promise.all(filesForBird.map(async (file) => {
+        const destinationPath = path.join(assetsCachePath, file.relPath);
+        const tmpPath = `${destinationPath}.tmp`;
+        await downloadFileWithRetry(file.url, tmpPath);
+
+        if (file.sha256) {
+          const actualHash = await computeFileSha256(tmpPath);
+          if (actualHash !== file.sha256) {
+            throw new Error(`Hash invalide pour ${file.relPath}`);
+          }
         }
+
+        if (fs.existsSync(destinationPath)) {
+          fs.rmSync(destinationPath, { force: true });
+        }
+        fs.renameSync(tmpPath, destinationPath);
+        localManifest.files[file.relPath] = {
+          sha256: file.sha256,
+          size: file.size,
+          updatedAt: new Date().toISOString()
+        };
+      }));
+
+      for (const relPath of staleForBird) {
+        const localPath = path.join(assetsCachePath, relPath);
+        if (fs.existsSync(localPath)) {
+          fs.rmSync(localPath, { force: true });
+          removeEmptyParentDirs(path.dirname(localPath), path.join(assetsCachePath, 'birds'));
+        }
+        delete localManifest.files[relPath];
       }
 
-      if (fs.existsSync(destinationPath)) {
-        fs.rmSync(destinationPath, { force: true });
-      }
-      fs.renameSync(tmpPath, destinationPath);
-      localManifest.files[file.relPath] = {
-        sha256: file.sha256,
-        size: file.size,
-        updatedAt: new Date().toISOString()
-      };
-      // Extrait le nom de l'oiseau depuis le chemin (birds/Accenteur alpin/image.jpg → "Accenteur alpin")
-      const birdName = file.relPath.split('/')[1] || file.relPath;
-      markProgress(birdName);
-    }
-
-    for (const relPath of stalePaths) {
-      const localPath = path.join(assetsCachePath, relPath);
-      if (fs.existsSync(localPath)) {
-        fs.rmSync(localPath, { force: true });
-        removeEmptyParentDirs(path.dirname(localPath), path.join(assetsCachePath, 'birds'));
-      }
-      delete localManifest.files[relPath];
-      const birdName = relPath.split('/')[1] || relPath;
       markProgress(birdName);
     }
 
