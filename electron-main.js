@@ -939,9 +939,9 @@ async function ensureBirdsAvailable() {
 
   // Construire la ligne de détail en nombre d'oiseaux
   const detailParts = [];
-  if (addedBirds.size > 0) detailParts.push(addedBirds.size === 1 ? '1 nouvel oiseau' : `${addedBirds.size} nouveaux oiseaux`);
-  if (updatedBirds.size > 0) detailParts.push(updatedBirds.size === 1 ? '1 oiseau mis à jour' : `${updatedBirds.size} oiseaux mis à jour`);
-  if (deletedBirds.size > 0) detailParts.push(deletedBirds.size === 1 ? '1 oiseau supprimé' : `${deletedBirds.size} oiseaux supprimés`);
+  if (addedBirds.size > 0) detailParts.push(addedBirds.size === 1 ? '1 nouvel oiseau à télécharger' : `${addedBirds.size} nouveaux oiseaux à télécharger`);
+  if (updatedBirds.size > 0) detailParts.push(updatedBirds.size === 1 ? '1 oiseau à mettre à jour' : `${updatedBirds.size} oiseaux à mettre à jour`);
+  if (deletedBirds.size > 0) detailParts.push(deletedBirds.size === 1 ? '1 oiseau à supprimer' : `${deletedBirds.size} oiseaux à supprimer`);
 
   const downloadsByBird = new Map();
   for (const file of toDownload) {
