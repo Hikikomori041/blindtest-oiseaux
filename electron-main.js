@@ -15,6 +15,10 @@ const BIRDS_INDEX_URL = 'https://raw.githubusercontent.com/Hikikomori041/blindte
 const BIRDS_INDEX_FALLBACK_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/assets/data/birds-index.json';
 const BIRDS_INDEX_LOCAL_PATH = path.join(assetsCachePath, 'birds-index.local.json');
 const BIRDS_INDEX_ETAG_PATH  = path.join(assetsCachePath, 'birds-index.etag');
+const BIRDS_DATA_URL = 'https://raw.githubusercontent.com/Hikikomori041/blindtest-oiseaux/main/assets/data/birds.json';
+const BIRDS_DATA_FALLBACK_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/assets/data/birds.json';
+const BIRDS_DATA_LOCAL_PATH = path.join(assetsCachePath, 'data', 'birds.json');
+const BIRDS_DATA_ETAG_PATH = path.join(assetsCachePath, 'data', 'birds.etag');
 const DEFAULT_BIRDS_BASE_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/';
 const ASSETS_BUNDLED_ROOT = path.join(__dirname, 'assets');
 const BIRDS_BUNDLED_ROOT = path.join(__dirname, 'birds');
@@ -208,6 +212,12 @@ if (!gotTheLock) {
 
     createSplashWindow();
     createMainWindow();
+
+    try {
+      await ensureBirdsDataAvailable();
+    } catch (err) {
+      log.error('[BirdsData] Echec de synchronisation:', err);
+    }
 
     try {
       await ensureBirdsAvailable();
@@ -571,6 +581,11 @@ function normalizeAssetRelativePath(relativePath) {
 
 function resolveAssetPath(relativePath) {
   const rel = normalizeAssetRelativePath(relativePath);
+
+  if (rel === 'data/birds.json' && fs.existsSync(BIRDS_DATA_LOCAL_PATH)) {
+    return BIRDS_DATA_LOCAL_PATH;
+  }
+
   if (rel.startsWith('birds/')) {
     const birdRelative = rel.substring('birds/'.length);
     const cachedBirdFile = path.join(assetsCachePath, 'birds', birdRelative);
@@ -750,6 +765,62 @@ async function downloadFileWithRetry(url, destinationPath, maxRetries = 3, timeo
     }
   }
   throw lastErr;
+}
+
+async function ensureBirdsDataAvailable() {
+  fs.mkdirSync(path.dirname(BIRDS_DATA_LOCAL_PATH), { recursive: true });
+
+  let savedEtag = '';
+  if (fs.existsSync(BIRDS_DATA_ETAG_PATH)) {
+    try { savedEtag = fs.readFileSync(BIRDS_DATA_ETAG_PATH, 'utf8').trim(); } catch { /* ignore */ }
+  }
+
+  const writeBirdsData = (payload) => {
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error('birds.json distant invalide');
+    }
+    const tmpPath = `${BIRDS_DATA_LOCAL_PATH}.tmp`;
+    fs.writeFileSync(tmpPath, JSON.stringify(payload, null, 2), 'utf8');
+    fs.renameSync(tmpPath, BIRDS_DATA_LOCAL_PATH);
+  };
+
+  const fetchFullData = async () => {
+    try {
+      const full = await fetchJsonWithEtag(BIRDS_DATA_URL, '');
+      return { data: full.data, etag: full.etag };
+    } catch (primaryErr) {
+      log.warn('[BirdsData] Echec URL primaire, tentative fallback:', primaryErr?.message || primaryErr);
+      const fallback = await fetchJsonWithEtag(BIRDS_DATA_FALLBACK_URL, '');
+      return { data: fallback.data, etag: fallback.etag };
+    }
+  };
+
+  let result;
+  try {
+    result = await fetchJsonWithEtag(BIRDS_DATA_URL, savedEtag);
+  } catch (primaryErr) {
+    const is404 = String(primaryErr?.message || '').includes('HTTP 404');
+    if (!is404) {
+      throw primaryErr;
+    }
+    result = await fetchJsonWithEtag(BIRDS_DATA_FALLBACK_URL, savedEtag);
+  }
+
+  if (result.notModified) {
+    if (!fs.existsSync(BIRDS_DATA_LOCAL_PATH)) {
+      const full = await fetchFullData();
+      writeBirdsData(full.data);
+      if (full.etag) fs.writeFileSync(BIRDS_DATA_ETAG_PATH, full.etag, 'utf8');
+      log.info('[BirdsData] birds.json local régénéré depuis le distant.');
+      return;
+    }
+    log.info('[BirdsData] birds.json inchangé (304).');
+    return;
+  }
+
+  writeBirdsData(result.data);
+  if (result.etag) fs.writeFileSync(BIRDS_DATA_ETAG_PATH, result.etag, 'utf8');
+  log.info('[BirdsData] birds.json synchronisé.');
 }
 
 function normalizeBirdIndexPath(relativePath) {
