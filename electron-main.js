@@ -354,6 +354,7 @@ ipcMain.handle('save-list', (event, listId, list) => {
       throw new Error('listId invalide');
     }
 
+    // eslint-disable-next-line no-control-regex
     const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
     const dir = path.join(app.getPath('userData'), 'my_lists');
 
@@ -379,6 +380,7 @@ ipcMain.handle('delete-list', (event, listId) => {
       throw new Error('listId invalide');
     }
 
+    // eslint-disable-next-line no-control-regex
     const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
     const dir = path.join(app.getPath('userData'), 'my_lists');
     const filePath = path.join(dir, `${safeId}.json`);
@@ -404,6 +406,7 @@ ipcMain.handle('get-list', (event, listId) => {
       throw new Error('listId invalide');
     }
 
+    // eslint-disable-next-line no-control-regex
     const safeId = listId.replace(/[<>:"/\\|?*\x00-\x1F]+/g, '_').slice(0, 128);
     const dir = path.join(app.getPath('userData'), 'my_lists');
     const filePath = path.join(dir, `${safeId}.json`);

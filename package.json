@@ -7,11 +7,15 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --publish never",
-    "release": "node release.js"
+    "release": "node release.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "electron": "^30.0.0",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "globals": "^15.0.0"
   },
   "build": {
     "appId": "com.nicobla.oiseaux",
