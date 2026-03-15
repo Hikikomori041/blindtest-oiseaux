@@ -46,7 +46,7 @@ function createUpdateWindow(initialStatus = 'Mise a jour en cours...') {
   }
 
   updateWindow = new BrowserWindow({
-    width: 560,
+    width: 350,
     height: 100,
     frame: false,
     resizable: false,
@@ -803,50 +803,6 @@ function removeEmptyParentDirs(startDir, stopDir) {
 async function ensureBirdsAvailable() {
   fs.mkdirSync(assetsCachePath, { recursive: true });
 
-  // ETag : éviter de re-télécharger birds-index.json si le fichier distant est inchangé
-  let savedEtag = '';
-  if (fs.existsSync(BIRDS_INDEX_ETAG_PATH)) {
-    try { savedEtag = fs.readFileSync(BIRDS_INDEX_ETAG_PATH, 'utf8').trim(); } catch { /* ignore */ }
-  }
-
-  let remoteManifest = {};
-  let newEtag = '';
-  try {
-    const result = await fetchJsonWithEtag(BIRDS_INDEX_URL, savedEtag);
-    if (result.notModified) {
-      log.info('[Birds] birds-index.json inchangé (304), synchronisation ignorée.');
-      return;
-    }
-    remoteManifest = result.data;
-    newEtag = result.etag;
-  } catch (err) {
-    const is404 = String(err?.message || '').includes('HTTP 404');
-    if (!is404) {
-      log.warn('[Birds] birds-index.json indisponible:', err);
-      return;
-    }
-
-    log.warn('[Birds] 404 sur URL primaire, tentative fallback:', BIRDS_INDEX_FALLBACK_URL);
-    try {
-      const fallbackResult = await fetchJsonWithEtag(BIRDS_INDEX_FALLBACK_URL, savedEtag);
-      if (fallbackResult.notModified) {
-        log.info('[Birds] birds-index.json inchangé (304 via fallback), synchronisation ignorée.');
-        return;
-      }
-      remoteManifest = fallbackResult.data;
-      newEtag = fallbackResult.etag;
-    } catch (fallbackErr) {
-      log.warn('[Birds] birds-index.json indisponible (fallback échoué):', fallbackErr);
-      return;
-    }
-  }
-
-  const indexFiles = Array.isArray(remoteManifest.files) ? remoteManifest.files : [];
-  if (indexFiles.length === 0) {
-    log.warn('[Birds] birds-index.json vide ou invalide.');
-    return;
-  }
-
   let localManifest = { version: '', files: {} };
   if (fs.existsSync(BIRDS_INDEX_LOCAL_PATH)) {
     try {
@@ -858,6 +814,81 @@ async function ensureBirdsAvailable() {
     } catch (err) {
       log.warn('[Birds] Index local invalide, sera régénéré:', err);
     }
+  }
+
+  const buildManifestFromLocalIndex = () => {
+    const files = Object.entries(localManifest.files || {}).map(([relPath, meta]) => ({
+      path: relPath,
+      size: Number(meta?.size || 0),
+      sha256: String(meta?.sha256 || '').toLowerCase()
+    }));
+    return {
+      version: localManifest.version || '',
+      baseUrl: DEFAULT_BIRDS_BASE_URL,
+      files
+    };
+  };
+
+  // ETag : éviter de re-télécharger birds-index.json si le fichier distant est inchangé
+  let savedEtag = '';
+  if (fs.existsSync(BIRDS_INDEX_ETAG_PATH)) {
+    try { savedEtag = fs.readFileSync(BIRDS_INDEX_ETAG_PATH, 'utf8').trim(); } catch { /* ignore */ }
+  }
+
+  let remoteManifest = {};
+  let newEtag = '';
+  try {
+    const result = await fetchJsonWithEtag(BIRDS_INDEX_URL, savedEtag);
+    if (result.notModified) {
+      const localEntriesCount = Object.keys(localManifest.files || {}).length;
+      if (localEntriesCount > 0) {
+        // Important: même avec 304, on doit vérifier/réparer les fichiers locaux manquants.
+        remoteManifest = buildManifestFromLocalIndex();
+        log.info('[Birds] birds-index.json inchangé (304), vérification locale maintenue.');
+      } else {
+        // Pas d'index local exploitable: forcer un fetch complet de l'index distant.
+        const fullResult = await fetchJsonWithEtag(BIRDS_INDEX_URL, '');
+        remoteManifest = fullResult.data;
+        newEtag = fullResult.etag;
+      }
+    } else {
+      remoteManifest = result.data;
+      newEtag = result.etag;
+    }
+  } catch (err) {
+    const is404 = String(err?.message || '').includes('HTTP 404');
+    if (!is404) {
+      log.warn('[Birds] birds-index.json indisponible:', err);
+      return;
+    }
+
+    log.warn('[Birds] 404 sur URL primaire, tentative fallback:', BIRDS_INDEX_FALLBACK_URL);
+    try {
+      const fallbackResult = await fetchJsonWithEtag(BIRDS_INDEX_FALLBACK_URL, savedEtag);
+      if (fallbackResult.notModified) {
+        const localEntriesCount = Object.keys(localManifest.files || {}).length;
+        if (localEntriesCount > 0) {
+          remoteManifest = buildManifestFromLocalIndex();
+          log.info('[Birds] birds-index inchangé (304 via fallback), vérification locale maintenue.');
+        } else {
+          const fullFallback = await fetchJsonWithEtag(BIRDS_INDEX_FALLBACK_URL, '');
+          remoteManifest = fullFallback.data;
+          newEtag = fullFallback.etag;
+        }
+      } else {
+        remoteManifest = fallbackResult.data;
+        newEtag = fallbackResult.etag;
+      }
+    } catch (fallbackErr) {
+      log.warn('[Birds] birds-index.json indisponible (fallback échoué):', fallbackErr);
+      return;
+    }
+  }
+
+  const indexFiles = Array.isArray(remoteManifest.files) ? remoteManifest.files : [];
+  if (indexFiles.length === 0) {
+    log.warn('[Birds] birds-index.json vide ou invalide.');
+    return;
   }
 
   const baseUrl = String(remoteManifest.baseUrl || DEFAULT_BIRDS_BASE_URL).trim();
