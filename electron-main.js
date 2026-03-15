@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage } = requir
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');

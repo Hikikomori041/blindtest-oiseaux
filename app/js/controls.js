@@ -6,6 +6,27 @@ import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVarian
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
 
+async function saveAndCloseApp({app}) {
+  await saveSettings({
+    isMaximized: app.isMaximized,
+    winWidth: app.winWidth,
+    winHeight: app.winHeight,
+
+    volume: app.volume,
+    muted: app.muted,
+    lastVolume: app.lastVolume,
+    replayMode: app.replayMode,
+
+    autoplayAtStart: app.autoplayAtStart,
+    birdsSize: app.birdsSize,
+    loadedList: app.loadedList,
+    selectedTypes: getSelectedTypes(),
+    validationSoundMuted: app.validationSoundMuted,
+  });
+
+  window.api.close();
+}
+
 export function bindAllButtons({app}) {
   app.enterPressed = false;
 
@@ -110,24 +131,7 @@ function bindWindow({app}) {
   
   // Fermer la fenêtre
   document.getElementById('close-button').addEventListener('click', async () => {
-    // À la fermeture de l'application
-    await saveSettings({
-      isMaximized: app.isMaximized,
-      winWidth: app.winWidth,
-      winHeight: app.winHeight,
-
-      volume: app.volume,
-      muted: app.muted,
-      lastVolume: app.lastVolume,
-      replayMode: app.replayMode,
-
-      autoplayAtStart: app.autoplayAtStart,
-      birdsSize: app.birdsSize,
-      loadedList: app.loadedList,
-      selectedTypes: getSelectedTypes(),
-      validationSoundMuted: app.validationSoundMuted,
-    });
-    window.api.close();
+    await saveAndCloseApp({app});
   });
 }
 
@@ -351,7 +355,7 @@ function bindVolumeInputs({app}) {
 function bindShortcuts({app}) {
   const volumeSlider = document.getElementById('volume-slider');
   // Bind des raccourcis clavier
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', async (e) => {
     // Si on est en train de taper dans un input ou textarea, on ignore le raccourci
     const activeElement = document.activeElement;
     if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
@@ -361,7 +365,8 @@ function bindShortcuts({app}) {
     // Fermer la fenêtre avec Ctrl+W
     if (e.ctrlKey && e.code === 'KeyW') {
       e.preventDefault();
-      window.close();
+      await saveAndCloseApp({app});
+      return;
     }
 
 
