@@ -692,6 +692,12 @@ function downloadFile(url, destinationPath, onProgress, timeoutMs = 30000) {
     }, timeoutMs);
 
     request.on('response', (response) => {
+      const statusCode = Number(response.statusCode || 0);
+      if (statusCode < 200 || statusCode >= 300) {
+        abort(new Error(`HTTP ${statusCode} pour : ${url}`));
+        return;
+      }
+
       const totalBytes = Number(response.headers['content-length'] || 0);
       let downloadedBytes = 0;
 
