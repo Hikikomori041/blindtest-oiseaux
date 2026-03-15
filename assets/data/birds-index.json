@@ -1,6 +1,6 @@
 {
-  "version": "2026-03-15T18:30:29.510Z",
-  "generatedAt": "2026-03-15T18:30:29.511Z",
+  "version": "2026-03-15T18:46:37.926Z",
+  "generatedAt": "2026-03-15T18:46:37.927Z",
   "baseUrl": "https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/",
   "files": [
     {
@@ -1172,6 +1172,46 @@
       "path": "birds/Fauvette grisette/XC992199 - Common Whitethroat - Curruca communis.mp3",
       "size": 570106,
       "sha256": "268f0eb49ed16cb1f2a2404077ab9661575f279337319870b8218d74326ec0ad"
+    },
+    {
+      "path": "birds/Fauvette pitchou/image.jpg",
+      "size": 26103,
+      "sha256": "3ffe82cf104b6cf0f2bc37e5fffd555a26913e887b853dc5f1331ae51fe486ec"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1001456 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 348541,
+      "sha256": "67b1b38e02b3731c25a6602105b6d8474ec2d6f40021c5fb0a26dfb30fa40b79"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1001457 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 421405,
+      "sha256": "96e5998e4c6ccf4ad472f057459fc2d32c9f2b956b979a56e883a33c160af1c5"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1001458 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 582397,
+      "sha256": "798a715135dbc9a55b2124d1b9bc4dd8a2b768abd6ecdb1cff78d699b2f3e013"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1011883 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 825783,
+      "sha256": "a09e67db495e00fbbc425dac9d1f9c1bd06dd20c1a0b12569bdf8a5dd00261bd"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1025835 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 646933,
+      "sha256": "9ae9bf579bc6272eac52951cf4e152b6481c056fa877d5cc02346e0a0bacbd2e"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC1074561 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 131388,
+      "sha256": "e1cf782e235400b2f46c2287a60743200cbefd68b2dd2eb79d4592eb96bdd039"
+    },
+    {
+      "path": "birds/Fauvette pitchou/XC996612 - Fauvette pitchou - Curruca undata.mp3",
+      "size": 287495,
+      "sha256": "4b4797af404d207944c06c2ccc1044eed96196ef7de058e732526fab2ca69805"
     },
     {
       "path": "birds/Foulque macroule/image.jpg",
