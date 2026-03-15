@@ -101,10 +101,10 @@ input.disabled {
   border: 2px solid rgba(255, 255, 255, 0.438);
 }
 #replay-mode-button.activated img {
-  content:url("../../ressources/images/replay-mode-button-enabled.png");
+  content:url("res://images/replay-mode-button-enabled.png");
 }
 #replay-mode-button.deactivated img {
-  content:url("../../ressources/images/replay-mode-button-disabled.png");
+  content:url("res://images/replay-mode-button-disabled.png");
 }
 
 #replay-button, #forward-button {
@@ -162,16 +162,16 @@ input.disabled {
   background-color: #476188af;
 }
 #volume-button.volume-3{
-  content:url("../../ressources/images/volume-3.png");
+  content:url("res://images/volume-3.png");
 }
 #volume-button.volume-2{
-  content:url("../../ressources/images/volume-2.png");
+  content:url("res://images/volume-2.png");
 }
 #volume-button.volume-1{
-  content:url("../../ressources/images/volume-1.png");
+  content:url("res://images/volume-1.png");
 }
 #volume-button.volume-muted{
-  content:url("../../ressources/images/volume-muted.png");
+  content:url("res://images/volume-muted.png");
 }
 
 #volume-slider {
@@ -229,5 +229,5 @@ input.disabled {
 
 
 #fullscreen-button.activated img {
-  content:url("../../ressources/images/fullscreen-button-on.svg");
+  content:url("res://images/fullscreen-button-on.svg");
 }

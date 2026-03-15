@@ -20,7 +20,7 @@ contextBridge.exposeInMainWorld('api', {
 
   toggleFullscreen: () => ipcRenderer.invoke("toggle-fullscreen"),
 
-  // Pour charger les fichiers ressources
+  // Pour charger les fichiers assets
   getBirdsData: (filePath) => ipcRenderer.invoke('get-birds-data', filePath),
   getMp3Paths: (oiseauName) => ipcRenderer.invoke('get-mp3-paths', oiseauName),
   // Pour les listes
@@ -46,6 +46,8 @@ contextBridge.exposeInMainWorld('api', {
 // Pour la fenêtre de mises à jour
 contextBridge.exposeInMainWorld('updateApi', {
   onProgress: (callback) => ipcRenderer.on('update-progress', (event, percent) => callback(percent)),
+  onStatus: (callback) => ipcRenderer.on('update-status', (event, status) => callback(status)),
+  onDetail: (callback) => ipcRenderer.on('update-detail', (event, detail) => callback(detail)),
   minimize: () => ipcRenderer.send('window-minimize-update')
 });
 

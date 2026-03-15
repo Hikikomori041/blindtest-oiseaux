@@ -1,29 +1,35 @@
 {
   "author": "Nicolas BLACHÈRE <nicolas.blachere@gmail.com> (https://github.com/Hikikomori041)",
   "name": "blindtest-oiseaux",
-  "version": "2.3.4",
+  "version": "2.4.0",
   "description": "Blind-test de chants d'oiseaux",
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --publish never",
+    "birds:index": "node autres/generate-birds-index.js",
+    "build": "npm run birds:index && electron-builder --publish never",
     "release": "node release.js",
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "electron": "^30.0.0",
     "electron-builder": "^26.0.12",
     "eslint": "^9.0.0",
-    "@eslint/js": "^9.0.0",
     "globals": "^15.0.0"
   },
   "build": {
     "appId": "com.nicobla.oiseaux",
     "productName": "Blind-Test Oiseaux",
-    "asarUnpack": "unpacked/ressources/oiseaux/**",
+    "files": [
+      "**/*",
+      "!birds/**",
+      "assets/data/birds-index.json",
+      "assets/images/**"
+    ],
     "win": {
       "target": "nsis",
-      "icon": "ressources/images/oiseau.ico",
+      "icon": "assets/images/oiseau.ico",
       "artifactName": "Blind-Test-Oiseaux-Setup-${version}.exe",
       "forceCodeSigning": false
     },
@@ -37,7 +43,7 @@
     },
     "mac": {
       "target": "dmg",
-      "icon": "ressources/images/oiseau.icns",
+      "icon": "assets/images/oiseau.icns",
       "artifactName": "Blind-Test-Oiseaux-${version}.dmg"
     },
     "directories": {

@@ -1,20 +1,42 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage, protocol } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const crypto = require('crypto');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const { pathToFileURL } = require('url');
 
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 const logPath = path.join(app.getPath('userData'), 'logs', 'main.log');
+const assetsCachePath = path.join(app.getPath('userData'), 'assets');
+
+const BIRDS_INDEX_URL = 'https://raw.githubusercontent.com/Hikikomori041/blindtest-oiseaux/main/assets/data/birds-index.json';
+const BIRDS_INDEX_LOCAL_PATH = path.join(assetsCachePath, 'birds-index.local.json');
+const BIRDS_INDEX_ETAG_PATH  = path.join(assetsCachePath, 'birds-index.etag');
+const DEFAULT_BIRDS_BASE_URL = 'https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/';
+const ASSETS_BUNDLED_ROOT = path.join(__dirname, 'assets');
+const BIRDS_BUNDLED_ROOT = path.join(__dirname, 'birds');
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'res',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true
+    }
+  }
+]);
 
 app.setAppUserModelId(process.execPath);
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 let updateWindow = null;
+let isAppUpdateDownloadActive = false;
 
-function createUpdateWindow() {
+function createUpdateWindow(initialStatus = 'Mise a jour en cours...') {
   if (updateWindow) return; // éviter les doublons
 
   updateWindow = new BrowserWindow({
@@ -32,14 +54,20 @@ function createUpdateWindow() {
 
   updateWindow.loadFile('app/update.html');
 
+  updateWindow.webContents.once('did-finish-load', () => {
+    updateWindow.webContents.send('update-status', initialStatus);
+  });
+
   updateWindow.on('closed', () => {
     updateWindow = null;
-    // Stopper le téléchargement proprement
-    try {
-      autoUpdater.cancelDownload();
-      console.log("✅ Téléchargement annulé proprement après fermeture de la fenêtre.");
-    } catch (err) {
-      console.error("❌ Erreur lors de l'annulation du téléchargement :", err);
+    // Stopper uniquement le téléchargement de mise a jour applicative
+    if (isAppUpdateDownloadActive) {
+      try {
+        autoUpdater.cancelDownload();
+        console.log("✅ Téléchargement annulé proprement après fermeture de la fenêtre.");
+      } catch (err) {
+        console.error("❌ Erreur lors de l'annulation du téléchargement :", err);
+      }
     }
     autoUpdater.removeListener('download-progress', downloadProgressHandler);
   });
@@ -48,12 +76,14 @@ function createUpdateWindow() {
 // MAJ la progression
 const downloadProgressHandler = (progressObj) => {
   logMessage(`[download]📥 Download progress: ${(progressObj.percent).toFixed(2)}%`);
-  if (updateWindow && updateWindow.webContents.isLoading() === false) {
-    // logMessage(`Envoi à updateWindow: ${(progressObj.percent).toFixed(2)}%`);
-    updateWindow.webContents.send('update-progress', progressObj.percent);
+  const pct = progressObj.percent;
+  if (updateWindow.webContents.isLoading() === false) {
+    updateWindow.webContents.send('update-progress', pct);
+    updateWindow.webContents.send('update-status', `Téléchargement... ${pct.toFixed(0)} %`);
   } else {
     updateWindow.webContents.once('did-finish-load', () => {
-      updateWindow.webContents.send('update-progress', progressObj.percent);
+      updateWindow.webContents.send('update-progress', pct);
+      updateWindow.webContents.send('update-status', `Téléchargement... ${pct.toFixed(0)} %`);
     });
   }
 };
@@ -61,10 +91,12 @@ autoUpdater.on('download-progress', downloadProgressHandler);
 
 
 autoUpdater.on('update-available', () => {
-  createUpdateWindow();
+  isAppUpdateDownloadActive = true;
+  createUpdateWindow('Mise a jour de l application...');
 });
 
 autoUpdater.on('update-not-available', () => {
+  isAppUpdateDownloadActive = false;
   if (updateWindow) {
     updateWindow.close();
     updateWindow = null;
@@ -72,6 +104,7 @@ autoUpdater.on('update-not-available', () => {
 });
 
 autoUpdater.on('update-downloaded', () => {
+  isAppUpdateDownloadActive = false;
   if (updateWindow) {
     updateWindow.close();
     updateWindow = null;
@@ -122,17 +155,13 @@ function createMainWindow() {
     minHeight: 750,
     // resizable: false,
     frame: false,
-    icon: path.join(__dirname, 'ressources/images/oiseau.png'),
+    icon: resolveAssetPath('images/oiseau.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false
     }
   });
-
-  // Gestion de la fenêtre web
-  win.loadFile('app/index.html');
-  win.removeMenu();
 
   win.on('maximize', () => {
     win.webContents.send('window-maximize');
@@ -162,15 +191,30 @@ if (!gotTheLock) {
     }
   });
 
-  app.whenReady().then(() => {
+  app.whenReady().then(async () => {
     cleanUpdaterFiles();
     log.info("Démarrage de l'application");
+
+    registerAssetProtocol();
 
     createSplashWindow();
     createMainWindow();
 
+    try {
+      await ensureBirdsAvailable();
+    } catch (err) {
+      log.error('[Birds] Echec de synchronisation:', err);
+    }
+
+    win.loadFile('app/index.html');
+    win.removeMenu();
+
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createMainWindow();
+        win.loadFile('app/index.html');
+        win.removeMenu();
+      }
     });
 
     // Pour activer la console développeur
@@ -291,17 +335,17 @@ ipcMain.on('window-toggle-maximize', () => {
 
 // Sort les données du json
 ipcMain.handle('get-birds-data', (event, filePath) => {
-    const fullPath = path.join(__dirname, filePath);
+  const fullPath = resolveAssetPath(filePath);
     const jsonString = fs.readFileSync(fullPath, 'utf-8');
     return JSON.parse(jsonString);
 });
 
 // Trouve les fichiers .mp3
 ipcMain.handle('get-mp3-paths', (event, oiseauName) => {
-  const dirPath = path.join(__dirname, 'ressources', 'oiseaux', oiseauName);
+  const dirPath = resolveAssetPath(path.join('birds', oiseauName));
   const files = fs.readdirSync(dirPath);
   const mp3Files = files.filter(file => file.endsWith('.mp3'));
-  const fullPaths = mp3Files.map(file => 'file://' + path.join(dirPath, file));
+  const fullPaths = mp3Files.map(file => pathToFileURL(path.join(dirPath, file)).toString());
   return fullPaths;
 });
 
@@ -467,13 +511,13 @@ ipcMain.on('update-thumbar', (event, isPlaying, isMuted) => {
 function setThumbar(isPlaying = true, isMuted = true) {
   const pauseTooltip = !isPlaying ? "Pause" : "Play";
   const pauseIconPath = !isPlaying
-    ? path.join(__dirname, 'ressources/images/pause-button.png')
-    : path.join(__dirname, 'ressources/images/play-button.png');
+    ? resolveAssetPath('images/pause-button.png')
+    : resolveAssetPath('images/play-button.png');
 
   const muteTooltip = isMuted ? "Unmute" : "Mute";
   const muteIconPath = isMuted
-    ? path.join(__dirname, 'ressources/images/volume-muted-black.png')
-    : path.join(__dirname, 'ressources/images/volume-3-black.png');
+    ? resolveAssetPath('images/volume-muted-black.png')
+    : resolveAssetPath('images/volume-3-black.png');
 
     win.setThumbarButtons([
     {
@@ -503,6 +547,401 @@ ipcMain.handle("toggle-fullscreen", (event) => {
   }
   return false;
 });
+
+function normalizeAssetRelativePath(relativePath) {
+  const candidate = String(relativePath || '').replace(/\\/g, '/');
+  const cleaned = candidate
+    .replace(/^res:\/\//, '')
+    .replace(/^\/+/, '')
+    .replace(/^assets\//, '');
+  if (cleaned.includes('..')) {
+    throw new Error(`Chemin ressource invalide: ${relativePath}`);
+  }
+  return cleaned;
+}
+
+function resolveAssetPath(relativePath) {
+  const rel = normalizeAssetRelativePath(relativePath);
+  if (rel.startsWith('birds/')) {
+    const birdRelative = rel.substring('birds/'.length);
+    const cachedBirdFile = path.join(assetsCachePath, 'birds', birdRelative);
+    if (fs.existsSync(cachedBirdFile)) {
+      return cachedBirdFile;
+    }
+
+    const bundledBirdFile = path.join(BIRDS_BUNDLED_ROOT, birdRelative);
+    if (fs.existsSync(bundledBirdFile)) {
+      return bundledBirdFile;
+    }
+  }
+
+  return path.join(ASSETS_BUNDLED_ROOT, rel);
+}
+
+function registerAssetProtocol() {
+  protocol.handle('res', (request) => {
+    try {
+      const url = new URL(request.url);
+      // Avec res://images/foo.png, "images" est dans host (pas dans pathname).
+      const hostSegment = url.host ? `${url.host}/` : '';
+      const pathSegment = (url.pathname || '').replace(/^\/+/, '');
+      const requestedPath = decodeURIComponent(`${hostSegment}${pathSegment}`);
+      const filePath = resolveAssetPath(requestedPath);
+      return net.fetch(pathToFileURL(filePath).toString());
+    } catch (err) {
+      log.error('[Assets] Protocole res:// erreur:', err);
+      return new Response('Not found', { status: 404 });
+    }
+  });
+}
+
+function sendUpdateStatus(statusText) {
+  if (!updateWindow) {
+    return;
+  }
+  if (updateWindow.webContents.isLoading() === false) {
+    updateWindow.webContents.send('update-status', statusText);
+  } else {
+    updateWindow.webContents.once('did-finish-load', () => {
+      updateWindow.webContents.send('update-status', statusText);
+    });
+  }
+}
+
+function sendUpdateProgress(percent) {
+  if (!updateWindow) {
+    return;
+  }
+  if (updateWindow.webContents.isLoading() === false) {
+    updateWindow.webContents.send('update-progress', percent);
+  } else {
+    updateWindow.webContents.once('did-finish-load', () => {
+      updateWindow.webContents.send('update-progress', percent);
+    });
+  }
+}
+
+function sendUpdateDetail(detailText) {
+  if (!updateWindow) return;
+  if (updateWindow.webContents.isLoading() === false) {
+    updateWindow.webContents.send('update-detail', detailText);
+  } else {
+    updateWindow.webContents.once('did-finish-load', () => {
+      updateWindow.webContents.send('update-detail', detailText);
+    });
+  }
+}
+
+// Variante avec support ETag : renvoie { notModified:true } sur 304,
+// ou { data, etag } sur 200.
+function fetchJsonWithEtag(url, savedEtag) {
+  return new Promise((resolve, reject) => {
+    const request = net.request(url);
+    if (savedEtag) {
+      request.setHeader('If-None-Match', savedEtag);
+    }
+    request.on('response', (response) => {
+      const statusCode = Number(response.statusCode || 0);
+      const etag = String(response.headers?.etag || response.headers?.['etag'] || '');
+
+      if (statusCode === 304) {
+        resolve({ notModified: true });
+        return;
+      }
+
+      let body = '';
+      response.on('data', (chunk) => { body += chunk; });
+      response.on('end', () => {
+        if (statusCode < 200 || statusCode >= 300) {
+          const excerpt = String(body || '').slice(0, 140).replace(/\s+/g, ' ').trim();
+          reject(new Error(`HTTP ${statusCode} pour ${url}${excerpt ? ` | ${excerpt}` : ''}`));
+          return;
+        }
+        try {
+          resolve({ data: JSON.parse(body), etag });
+        } catch (err) {
+          const excerpt = String(body || '').slice(0, 140).replace(/\s+/g, ' ').trim();
+          reject(new Error(`Réponse non-JSON pour ${url}${excerpt ? ` | ${excerpt}` : ''}`));
+        }
+      });
+    });
+    request.on('error', reject);
+    request.end();
+  });
+}
+
+function downloadFile(url, destinationPath, onProgress, timeoutMs = 30000) {
+  return new Promise((resolve, reject) => {
+    fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
+    const fileStream = fs.createWriteStream(destinationPath);
+    const request = net.request(url);
+    let settled = false;
+    let timer = null;
+
+    const abort = (err) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      try { request.abort(); } catch { /* ignore */ }
+      fileStream.destroy();
+      reject(err);
+    };
+
+    timer = setTimeout(() => {
+      abort(new Error(`Timeout (${timeoutMs} ms) pour : ${url}`));
+    }, timeoutMs);
+
+    request.on('response', (response) => {
+      const totalBytes = Number(response.headers['content-length'] || 0);
+      let downloadedBytes = 0;
+
+      response.on('data', (chunk) => {
+        downloadedBytes += chunk.length;
+        fileStream.write(chunk);
+        if (totalBytes > 0 && typeof onProgress === 'function') {
+          onProgress((downloadedBytes / totalBytes) * 100);
+        }
+      });
+
+      response.on('end', () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        fileStream.end();
+        fileStream.once('finish', resolve);
+      });
+    });
+
+    request.on('error', (err) => abort(err));
+    request.end();
+  });
+}
+
+async function downloadFileWithRetry(url, destinationPath, maxRetries = 3, timeoutMs = 30000) {
+  let lastErr;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      if (fs.existsSync(destinationPath)) {
+        fs.rmSync(destinationPath, { force: true });
+      }
+      await downloadFile(url, destinationPath, undefined, timeoutMs);
+      return;
+    } catch (err) {
+      lastErr = err;
+      log.warn(`[Birds] Tentative ${attempt}/${maxRetries} échouée : ${err.message}`);
+      if (attempt < maxRetries) {
+        await new Promise((r) => setTimeout(r, 1000 * attempt));
+      }
+    }
+  }
+  throw lastErr;
+}
+
+function normalizeBirdIndexPath(relativePath) {
+  const rel = String(relativePath || '').replace(/\\/g, '/').replace(/^\/+/, '');
+  if (!rel.startsWith('birds/') || rel.includes('..')) {
+    throw new Error(`Chemin birds invalide dans l'index: ${relativePath}`);
+  }
+  return rel;
+}
+
+function buildRemoteBirdFileUrl(baseUrl, relativePath) {
+  const cleanBase = String(baseUrl || DEFAULT_BIRDS_BASE_URL).replace(/\/+$/, '');
+  const encodedPath = String(relativePath || '')
+    .split('/')
+    .map((segment) => encodeURIComponent(segment))
+    .join('/');
+  return `${cleanBase}/${encodedPath}`;
+}
+
+function computeFileSha256(filePath) {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash('sha256');
+    const stream = fs.createReadStream(filePath);
+    stream.on('data', (chunk) => hash.update(chunk));
+    stream.on('error', reject);
+    stream.on('end', () => resolve(hash.digest('hex')));
+  });
+}
+
+function removeEmptyParentDirs(startDir, stopDir) {
+  let current = startDir;
+  while (current.startsWith(stopDir) && current !== stopDir) {
+    if (!fs.existsSync(current)) {
+      current = path.dirname(current);
+      continue;
+    }
+    if (fs.readdirSync(current).length > 0) {
+      break;
+    }
+    fs.rmdirSync(current);
+    current = path.dirname(current);
+  }
+}
+
+async function ensureBirdsAvailable() {
+  fs.mkdirSync(assetsCachePath, { recursive: true });
+
+  // ETag : éviter de re-télécharger birds-index.json si le fichier distant est inchangé
+  let savedEtag = '';
+  if (fs.existsSync(BIRDS_INDEX_ETAG_PATH)) {
+    try { savedEtag = fs.readFileSync(BIRDS_INDEX_ETAG_PATH, 'utf8').trim(); } catch { /* ignore */ }
+  }
+
+  let remoteManifest = {};
+  let newEtag = '';
+  try {
+    const result = await fetchJsonWithEtag(BIRDS_INDEX_URL, savedEtag);
+    if (result.notModified) {
+      log.info('[Birds] birds-index.json inchangé (304), synchronisation ignorée.');
+      return;
+    }
+    remoteManifest = result.data;
+    newEtag = result.etag;
+  } catch (err) {
+    log.warn('[Birds] birds-index.json indisponible:', err);
+    return;
+  }
+
+  const indexFiles = Array.isArray(remoteManifest.files) ? remoteManifest.files : [];
+  if (indexFiles.length === 0) {
+    log.warn('[Birds] birds-index.json vide ou invalide.');
+    return;
+  }
+
+  let localManifest = { version: '', files: {} };
+  if (fs.existsSync(BIRDS_INDEX_LOCAL_PATH)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(BIRDS_INDEX_LOCAL_PATH, 'utf8'));
+      localManifest = {
+        version: String(parsed?.version || ''),
+        files: parsed?.files && typeof parsed.files === 'object' ? parsed.files : {}
+      };
+    } catch (err) {
+      log.warn('[Birds] Index local invalide, sera régénéré:', err);
+    }
+  }
+
+  const baseUrl = String(remoteManifest.baseUrl || DEFAULT_BIRDS_BASE_URL).trim();
+  const toAdd    = []; // fichiers absents localement
+  const toUpdate = []; // fichiers présents mais modifiés
+  const expectedPaths = new Set();
+
+  for (const file of indexFiles) {
+    const relPath = normalizeBirdIndexPath(file?.path);
+    expectedPaths.add(relPath);
+
+    const localPath = path.join(assetsCachePath, relPath);
+    const expectedHash = String(file?.sha256 || '').toLowerCase();
+    const expectedSize = Number(file?.size || 0);
+    const localMeta = localManifest.files[relPath] || null;
+
+    const hasFile = fs.existsSync(localPath);
+    const hasRightSize = !expectedSize || (hasFile && fs.statSync(localPath).size === expectedSize);
+    const hasKnownHash = Boolean(localMeta?.sha256) && localMeta.sha256 === expectedHash;
+
+    if (!hasFile || !hasRightSize || !hasKnownHash) {
+      const entry = {
+        relPath,
+        sha256: expectedHash,
+        size: expectedSize,
+        url: file?.url ? String(file.url) : buildRemoteBirdFileUrl(baseUrl, relPath)
+      };
+      if (!hasFile) {
+        toAdd.push(entry);
+      } else {
+        toUpdate.push(entry);
+      }
+    }
+  }
+
+  const toDownload = [...toAdd, ...toUpdate];
+  const stalePaths = Object.keys(localManifest.files).filter((relPath) => !expectedPaths.has(relPath));
+
+  if (toDownload.length === 0 && stalePaths.length === 0) {
+    // Rien à faire – on sauvegarde quand même le nouvel ETag
+    if (newEtag) fs.writeFileSync(BIRDS_INDEX_ETAG_PATH, newEtag, 'utf8');
+    return;
+  }
+
+  // Construire la ligne de détail (ex. : "5 nouveaux · 2 modifiés · 1 supprimé")
+  const detailParts = [];
+  if (toAdd.length    > 0) detailParts.push(`${toAdd.length} nouveau${toAdd.length       > 1 ? 'x'  : ''}`);
+  if (toUpdate.length > 0) detailParts.push(`${toUpdate.length} modifié${toUpdate.length > 1 ? 's'  : ''}`);
+  if (stalePaths.length > 0) detailParts.push(`${stalePaths.length} supprimé${stalePaths.length > 1 ? 's' : ''}`);
+
+  createUpdateWindow('Mise à jour des oiseaux');
+  sendUpdateDetail(detailParts.join(' · '));
+
+  const totalOps = toDownload.length + stalePaths.length;
+  let doneOps = 0;
+
+  const markProgress = (birdName) => {
+    doneOps += 1;
+    sendUpdateStatus(`(${doneOps}/${totalOps}) ${birdName}`);
+    sendUpdateProgress((doneOps / totalOps) * 100);
+  };
+
+  try {
+    for (const file of toDownload) {
+      const destinationPath = path.join(assetsCachePath, file.relPath);
+      const tmpPath = `${destinationPath}.tmp`;
+      await downloadFileWithRetry(file.url, tmpPath);
+
+      if (file.sha256) {
+        const actualHash = await computeFileSha256(tmpPath);
+        if (actualHash !== file.sha256) {
+          throw new Error(`Hash invalide pour ${file.relPath}`);
+        }
+      }
+
+      if (fs.existsSync(destinationPath)) {
+        fs.rmSync(destinationPath, { force: true });
+      }
+      fs.renameSync(tmpPath, destinationPath);
+      localManifest.files[file.relPath] = {
+        sha256: file.sha256,
+        size: file.size,
+        updatedAt: new Date().toISOString()
+      };
+      // Extrait le nom de l'oiseau depuis le chemin (birds/Accenteur alpin/image.jpg → "Accenteur alpin")
+      const birdName = file.relPath.split('/')[1] || file.relPath;
+      markProgress(birdName);
+    }
+
+    for (const relPath of stalePaths) {
+      const localPath = path.join(assetsCachePath, relPath);
+      if (fs.existsSync(localPath)) {
+        fs.rmSync(localPath, { force: true });
+        removeEmptyParentDirs(path.dirname(localPath), path.join(assetsCachePath, 'birds'));
+      }
+      delete localManifest.files[relPath];
+      const birdName = relPath.split('/')[1] || relPath;
+      markProgress(birdName);
+    }
+
+    localManifest.version = String(remoteManifest.version || remoteManifest.assetsVersion || '');
+    fs.writeFileSync(BIRDS_INDEX_LOCAL_PATH, JSON.stringify(localManifest, null, 2), 'utf8');
+    if (newEtag) fs.writeFileSync(BIRDS_INDEX_ETAG_PATH, newEtag, 'utf8');
+    sendUpdateStatus('Oiseaux à jour !');
+    sendUpdateDetail('');
+  } finally {
+    const tmpFiles = toDownload.map((file) => `${path.join(assetsCachePath, file.relPath)}.tmp`);
+    for (const tmpPath of tmpFiles) {
+      if (fs.existsSync(tmpPath)) {
+        fs.rmSync(tmpPath, { force: true });
+      }
+    }
+
+    if (!isAppUpdateDownloadActive && updateWindow && !updateWindow.isDestroyed()) {
+      setTimeout(() => {
+        if (updateWindow && !updateWindow.isDestroyed()) {
+          updateWindow.close();
+        }
+      }, 1000);
+    }
+  }
+}
 
 
 

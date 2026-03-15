@@ -27,7 +27,7 @@ export async function loadApp() {
   app.birdHasBeenPlayed = false;
   
   // Chargement des oiseaux
-  app.birdsData = await window.api.getBirdsData('./ressources/data/oiseaux.json');
+  app.birdsData = await window.api.getBirdsData('res://data/birds.json');
   app.myLists   = await window.api.getAllLists();
 
   // On génère enfin la grille des oiseaux à afficher

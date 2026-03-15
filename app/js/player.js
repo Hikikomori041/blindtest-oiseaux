@@ -3,8 +3,8 @@ import { toggleSoundControls } from './controls.js';
 import { log } from './strings.js'
 
 // Chargement des sons de validation
-const successSound = new Audio("../ressources/sons/success.mp3");
-const errorSound = new Audio("../ressources/sons/error.mp3");
+const successSound = new Audio("res://sons/success.mp3");
+const errorSound = new Audio("res://sons/error.mp3");
 successSound.preload = 'auto';
 successSound.load();
 errorSound.preload = 'auto';
@@ -149,16 +149,16 @@ export function startAudio({app}) {
   // console.log(`on essaye de lire: ${app.currentBird}, avec app.birdHasBeenPlayed=${app.birdHasBeenPlayed}`);
 
   if (!app.autoplayAtStart && !app.birdHasBeenPlayed) {
-    document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
-    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+    document.getElementById('pause-button-img').src = "res://images/play-button.png";
+    document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante_pas.png";
     window.api.updateThumbar(app.audio.paused, app.muted);
     return;
   };
 
   app.audio.oncanplaythrough = () => {
     app.audio.play().then(() => {
-      document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-      document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+      document.getElementById('pause-button-img').src = "res://images/pause-button.png";
+      document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante.gif";
       window.api.updateThumbar(app.audio.paused, app.muted);
     }).catch(err => {
       console.error("Erreur lecture :", err);
@@ -179,12 +179,12 @@ export function playNextVariant({app}) {
 export function togglePause({app}, forcepause = false) {
   if (app.audio.paused && !forcepause) {
     app.audio.play();
-    document.getElementById('pause-button-img').src = "../ressources/images/pause-button.png";
-    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante.gif";
+    document.getElementById('pause-button-img').src = "res://images/pause-button.png";
+    document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante.gif";
   } else {
     app.audio.pause();
-    document.getElementById('pause-button-img').src = "../ressources/images/play-button.png";
-    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+    document.getElementById('pause-button-img').src = "res://images/play-button.png";
+    document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante_pas.png";
   }
   window.api.updateThumbar(app.audio.paused, app.muted);
 }
@@ -219,7 +219,7 @@ export function playRandomBird({app}) {
     // On désactive les commandes de son
     toggleSoundControls(false);
     document.getElementById('search-bar-control').style.display = 'none';
-    document.getElementById('bird-animation').src = "../ressources/images/oiseau_qui_chante_pas.png";
+    document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante_pas.png";
     return;
   } else {
     // document.getElementById('what-bird-title').innerHTML = "Quel est cet oiseau ?";
