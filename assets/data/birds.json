@@ -195,6 +195,10 @@
     "type": "plaine",
     "nom_latin": "Curruca communis"
   },
+  "Fauvette pitchou": {
+    "type": "plaine",
+    "nom_latin": "Curruca undata"
+  },
   "Foulque macroule": {
     "type": "eau",
     "nom_latin": "Fulica atra"
