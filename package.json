@@ -6,7 +6,7 @@
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
-    "birds:prepare": "py .\\autres\\trier_json.py && py .\\autres\\reencode_sons.py && node scripts/generate-birds-index.js",
+    "birds:prepare": "node scripts/sort-birds-json.js && node scripts/reencode-birds-audio.js && node scripts/generate-birds-index.js",
     "birds:index": "node scripts/generate-birds-index.js",
     "build": "npm run birds:prepare && electron-builder --publish never",
     "release": "node release.js",
@@ -17,6 +17,7 @@
     "electron": "^30.0.0",
     "electron-builder": "^26.0.12",
     "eslint": "^9.0.0",
+    "ffmpeg-static": "^5.3.0",
     "globals": "^15.0.0"
   },
   "build": {
