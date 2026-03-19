@@ -1,6 +1,10 @@
 import os
 import subprocess
+import sys
 from mutagen.mp3 import MP3
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(errors="replace")
 
 # DOSSIER_RACINE = "oiseaux"
 DOSSIER_RACINE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "birds"))
@@ -9,14 +13,14 @@ def get_bitrate(path):
     try:
         audio = MP3(path)
         bitrate = audio.info.bitrate // 1000
-        print(f"🔍 {os.path.basename(path)} → {bitrate} kbps")
+        print(f"INFO {os.path.basename(path)} -> {bitrate} kbps")
         return bitrate
     except Exception as e:
-        print(f"⚠️ Erreur lecture {path}: {e}")
+        print(f"WARN Read error {path}: {e}")
         return None
 
 def reencode_or_convert(path, is_wav):
-    print(f"⚙️  Traitement de : {path}")
+    print(f"INFO Processing: {path}")
     mp3_path = path[:-4] + ".mp3"
     temp_path = mp3_path + ".tmp.mp3"
     cmd = [
@@ -30,15 +34,15 @@ def reencode_or_convert(path, is_wav):
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if os.path.exists(temp_path):
         os.replace(temp_path, mp3_path)
-        print(f"✅ MP3 créé : {mp3_path}")
+        print(f"OK MP3 created: {mp3_path}")
         if is_wav:
             os.remove(path)
-            print(f"🗑️  WAV supprimé : {path}")
+            print(f"OK WAV removed: {path}")
     else:
-        print(f"❌ Échec pour : {path}")
-        print("stderr:", result.stderr.decode())
+        print(f"ERROR Failed for: {path}")
+        print("stderr:", result.stderr.decode(errors="replace"))
 
-print("📁 Démarrage du scan du dossier :", DOSSIER_RACINE)
+print("INFO Starting folder scan:", DOSSIER_RACINE)
 
 for root, _, files in os.walk(DOSSIER_RACINE):
     for file in files:
@@ -51,9 +55,9 @@ for root, _, files in os.walk(DOSSIER_RACINE):
             if bitrate > 96:
                 reencode_or_convert(full_path, is_wav=False)
             else:
-                print(f"↪️  Déjà compressé : {file} ({bitrate} kbps)")
+                print(f"SKIP Already compressed: {file} ({bitrate} kbps)")
 
         elif file.endswith(".wav"):
             reencode_or_convert(full_path, is_wav=True)
 
-print("✅ Terminé.")
+print("OK Done.")
