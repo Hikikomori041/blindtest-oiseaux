@@ -331,6 +331,10 @@
     "type": "foret",
     "nom_latin": "Periparus ater"
   },
+  "Mésange nonnette": {
+    "type": "foret",
+    "nom_latin": "Poecile palustris"
+  },
   "Moineau domestique": {
     "type": "commun",
     "nom_latin": "Passer domesticus"
