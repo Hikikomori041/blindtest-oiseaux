@@ -419,6 +419,10 @@
     "type": "plaine",
     "nom_latin": "Anthus campestris"
   },
+  "Pipit spioncelle": {
+    "type": "montagne",
+    "nom_latin": "Anthus spinoletta"
+  },
   "Pouillot à grands sourcils": {
     "type": "foret",
     "nom_latin": "Phylloscopus inornatus"
