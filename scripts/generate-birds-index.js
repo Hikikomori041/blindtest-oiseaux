@@ -41,6 +41,25 @@ function collectFiles(dirPath) {
   return files;
 }
 
+function loadExistingIndex(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function normalizedPayload(payload) {
+  return {
+    baseUrl: payload.baseUrl,
+    files: payload.files
+  };
+}
+
 function main() {
   if (!fs.existsSync(birdsRoot)) {
     throw new Error(`Dossier birds introuvable: ${birdsRoot}`);
@@ -53,6 +72,15 @@ function main() {
     baseUrl,
     files
   };
+
+  const existing = loadExistingIndex(outPath);
+  if (existing) {
+    const unchanged = JSON.stringify(normalizedPayload(existing)) === JSON.stringify(normalizedPayload(payload));
+    if (unchanged) {
+      console.log(`birds-index inchange (hors metadonnees): ${outPath}`);
+      return;
+    }
+  }
 
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf8');
