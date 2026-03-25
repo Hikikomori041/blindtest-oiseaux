@@ -6,11 +6,13 @@ on:
     paths-ignore:
       - 'birds/**'
       - 'assets/data/**'
+      - 'scripts/**'
   pull_request:
     branches: [main]
     paths-ignore:
       - 'birds/**'
       - 'assets/data/**'
+      - 'scripts/**'
 
 jobs:
   # ──────────────────────────────────────────────────
