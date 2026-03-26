@@ -52,20 +52,3 @@ Pour push une release, on peut simplement faire:
 ```cmd
 npm run release
 ```
-
-## Notes pour package.json
-
-- Ce code permet apparemment d'enregistrer a part le dossier assets (cela dit le programme ne charge plus rien apres)
-
-```json
-    "files": [
-      "**/*",
-      "!assets/**/*"
-    ],
-    "extraFiles": [
-      {
-        "from": "assets",
-        "to": "assets"
-      }
-    ]
-```
