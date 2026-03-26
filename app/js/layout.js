@@ -1,5 +1,5 @@
 // Ici iront toutes les fonctions liées à l'affichage
-import { getNomLatin, getSelectedTypes, slugify } from './strings.js';
+import { getNomLatin, getSelectedTypes, getSortedBirdEntries, getSortedBirdNames, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
 import { playBird, playValidationSound } from './player.js';
@@ -65,18 +65,20 @@ export async function applySelectedList({app}) {
   document.getElementById('loaded-list-name').innerHTML = listName;
 
   if (app.loadedList == "default-list") {
-    app.birdList = Object.keys(app.birdsData);
+    app.birdList = getSortedBirdNames(app.birdsData);
   }
 
+  const selectedBirds = new Set(app.birdList);
 
-  for (const [birdName, info] of Object.entries(app.birdsData)) {
+  for (const [birdName, info] of getSortedBirdEntries(app.birdsData)) {
     if (!app.selectedTypes.includes(info.type)) {
       // Supprime l'oiseau de la liste si son type n'est pas inclue
       app.birdList = app.birdList.filter(bird => bird !== birdName);
+      selectedBirds.delete(birdName);
     }
 
     // Passe à l'oiseau suivant si le type n'est pas inclus ou si la liste est personnalisée et ne contient pas l'oiseau
-    if (!app.selectedTypes.includes(info.type) || (app.loadedList != "default-list" && !app.birdList.includes(birdName))) continue;
+    if (!app.selectedTypes.includes(info.type) || (app.loadedList != "default-list" && !selectedBirds.has(birdName))) continue;
     
     try {
       info.variants = await window.api.getMp3Paths(birdName);
