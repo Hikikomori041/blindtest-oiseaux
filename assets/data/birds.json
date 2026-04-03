@@ -95,6 +95,10 @@
     "type": "plaine",
     "nom_latin": "Circus cyaneus"
   },
+  "Buse variable": {
+    "type": "plaine",
+    "nom_latin": "Buteo buteo"
+  },
   "Butor étoilé": {
     "type": "eau",
     "nom_latin": "Botaurus stellaris"
@@ -335,6 +339,14 @@
     "type": "foret",
     "nom_latin": "Poecile palustris"
   },
+  "Milan noir": {
+    "type": "plaine",
+    "nom_latin": "Milvus migrans"
+  },
+  "Milan royal": {
+    "type": "plaine",
+    "nom_latin": "Milvus milvus"
+  },
   "Moineau domestique": {
     "type": "commun",
     "nom_latin": "Passer domesticus"
@@ -414,6 +426,10 @@
   "Pipit des arbres": {
     "type": "foret",
     "nom_latin": "Anthus trivialis"
+  },
+  "Pipit farlouse": {
+    "type": "eau",
+    "nom_latin": "Anthus pratensis"
   },
   "Pipit rousseline": {
     "type": "plaine",
