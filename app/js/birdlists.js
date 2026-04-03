@@ -2,6 +2,7 @@ import { playRandomBird } from "./player.js";
 import { toggleSoundControls, simulateClick } from './controls.js';
 import { genererGrilleOiseaux, showBirdCells } from "./layout.js";
 import { clearSearch } from "./search.js";
+import { getSortedBirdEntries, getSortedBirdNames } from './strings.js';
 
 
 export async function loadBirdlistsPage({app}) {
@@ -89,7 +90,7 @@ export async function deleteList({app}) {
   if (listId == app.loadedList) {
     app.loadedList = "default-list";
     document.getElementById('loaded-list-name').innerHTML = "Tous les oiseaux";
-    app.birdList = Object.keys(app.birdsData);
+    app.birdList = getSortedBirdNames(app.birdsData);
   }
   
 
@@ -170,8 +171,7 @@ async function showBirdList({app}, list) {
     grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(360px, 1fr))";
   }
 
-
-  for (const [birdName, info] of Object.entries(app.birdsData)) {
+  for (const [birdName, info] of getSortedBirdEntries(app.birdsData)) {
     const divCell = document.createElement('div');
     divCell.classList.add("cell", `oiseau-${info.type}-opaque`, app.birdsSize);
     // Si l'oiseau n'est pas sélectionné
