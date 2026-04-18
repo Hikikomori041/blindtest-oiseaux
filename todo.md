@@ -1,9 +1,24 @@
 # To do
 
-## Notes de mise à jour 2.4.2
+## Notes de mise à jour 2.5.0
 
-- Ajout des catégories "oiseaux marins" et "oiseaux nocturne"
-- Refonte de l'interface de sélection de catégories
+### Interface
+
+- Refonte du menu à gauche, pour faciliter la sélection des catégories
+
+### Oiseaux ajoutés
+
+- Ajout des catégories "oiseaux marins" et "oiseaux nocturnes"
+
+#### Oiseaux d'eau
+
+#### Oiseaux forestier
+
+#### Oiseaux marins
+
+#### Oiseaux nocturnes
+
+  --> des cris et des chants
 
 ## Oiseaux à ajouter / modifier
 
@@ -11,9 +26,9 @@
   - Chouette hulotte
   - Effraies des clochers
   - Chevêche d'Athéna
-  - Hibou grand duc
-   - Hibou petit-duc --> Petit-duc scops? demander à Manou
-  --> des cris et des chants
+  - Hibou grand-duc
+  - Hibou moyen-duc
+  - Petit-duc scops
 
 - Oiseaux forestier
   - Épervier d'europe
@@ -45,7 +60,6 @@
   - Petit gravelot
 
 Et tu peux même mettre la mouette rieuse (qui est en commun") dedans
-
 
 ## À faire
 
