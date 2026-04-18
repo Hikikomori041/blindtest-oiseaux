@@ -108,17 +108,18 @@
 
 #type-popover {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% - 8px);
-  z-index: 20;
+  left: calc(100% + 10px);
+  right: auto;
+  top: 0;
+  z-index: 30;
   background: rgba(243, 247, 251, 0.98);
   border: 2px solid rgba(30, 40, 50, 0.45);
   border-radius: 10px;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
   padding: 10px;
   backdrop-filter: blur(2px);
-  width: 400px;
+  width: min(560px, calc(100vw - 240px));
+  min-width: 380px;
 }
 
 #type-popover-header {
@@ -145,6 +146,9 @@
 }
 
 #type-options {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
   max-height: 250px;
   overflow-y: auto;
   padding-right: 2px;
@@ -152,7 +156,7 @@
 
 #type-options .button {
   margin-right: 0;
-  max-width: 50%;
+  width: 100%;
 }
 
 #type-selection h5, #birdCount {
@@ -170,16 +174,11 @@
 }
 #type-selection .buttons {
   justify-content: flex-start;
-  align-items: center;
-  flex-direction: column; /* pour rester en colonne */
-
-  /* au cas où */
-  /* align-items: flex-start; */
+  align-items: stretch;
 }
 
 #type-selection .type-option {
   opacity: 0.7;
-  width: 100%;
   min-height: 44px;
   justify-content: center;
   padding: 8px;
@@ -221,3 +220,5 @@
 .small-text {
   font-size: 12px;
 }
+
+
