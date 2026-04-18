@@ -30,15 +30,15 @@ export async function loadApp() {
   app.birdsData = await window.api.getBirdsData('res://data/birds.json');
   app.myLists   = await window.api.getAllLists();
 
-  // On génère enfin la grille des oiseaux à afficher
+  // On applique les types sauvegardés au DOM avant de générer la grille,
+  // pour que getSelectedTypes() lise le bon état depuis les settings.
+  applySelectedTypes({app});
+
+  // On génère ensuite la grille des oiseaux à afficher
   await genererGrilleOiseaux({app});
 
   // Association des actions aux boutons
   bindAllButtons({app});
-
-  // Application des paramètres de l'application
-
-  applySelectedTypes({app});
   // await applySelectedList({app});
   startProgressSmooth(app.audio); // Pour l'animation du slider de l'audio
   updateVolumeGradient(app.volume);
