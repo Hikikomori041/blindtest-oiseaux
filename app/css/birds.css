@@ -244,12 +244,26 @@
   background-color: rgb(74, 119, 61);
   border: 2px solid rgb(74, 119, 61);
 }
+.oiseau-marin {
+  background-color: rgba(62, 119, 147, 0.75);
+}
+.oiseau-marin-opaque {
+  background-color: rgb(62, 119, 147);
+  border: 2px solid rgb(62, 119, 147);
+}
 .oiseau-montagne {
   background-color: rgba(155, 135, 122, 0.75);
 }
 .oiseau-montagne-opaque {
   background-color: rgb(155, 135, 122);
   border: 2px solid rgb(155, 135, 122);
+}
+.oiseau-nocturne {
+  background-color: rgba(99, 94, 91, 0.75);
+}
+.oiseau-nocturne-opaque {
+  background-color: rgb(99, 94, 91);
+  border: 2px solid rgb(99, 94, 91);
 }
 .oiseau-plaine {
   background-color: rgba(142, 142, 56, 0.75);

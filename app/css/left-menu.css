@@ -92,8 +92,16 @@
   background-color: rgba(50, 80, 42, 0.28);
 }
 
+.type-chip.type-marin {
+  background-color: rgba(62, 119, 147, 0.35);
+}
+
 .type-chip.type-montagne {
   background-color: rgba(155, 135, 122, 0.35);
+}
+
+.type-chip.type-nocturne {
+  background-color: rgba(99, 94, 91, 0.35);
 }
 
 .type-chip.type-plaine {
@@ -210,8 +218,14 @@
 .oiseau-foret.button.is-selected{
   background-color: rgba(50, 80, 42, 0.65);
 }
+.oiseau-marin.button.is-selected{
+  background-color: rgb(62, 119, 147);
+}
 .oiseau-montagne.button.is-selected{
   background-color: rgb(155, 135, 122);
+}
+.oiseau-nocturne.button.is-selected{
+  background-color: rgb(99, 94, 91);
 }
 .oiseau-plaine.button.is-selected{
   background-color: rgb(142, 142, 56);
