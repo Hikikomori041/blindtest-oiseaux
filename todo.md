@@ -7,6 +7,46 @@
 
 ## Oiseaux à ajouter / modifier
 
+- Oiseaux nocturnes:
+  - Chouette hulotte
+  - Effraies des clochers
+  - Chevêche d'Athéna
+  - Hibou grand duc
+   - Hibou petit-duc --> Petit-duc scops? demander à Manou
+  --> des cris et des chants
+
+- Oiseaux forestier
+  - Épervier d'europe
+  - Autour des palombes
+
+- Oiseaux d'eau
+  - Échasse blanche
+  - Gorgebleue à miroir
+
+- Oiseaux marins
+  - Mouette mélanocéphale
+  - Goéland argenté
+  - Goéland marin
+  - Goéland leucophée
+  - Goéland brun
+  - Sterne Pierregarin
+  - Sterne naine
+  - Sterne gaujek
+  - Sterne de Dougall
+  - Guifette moustac
+  - Labbre parasite
+  - Plongeon imbrin
+  - Plongeon du pacifique
+  - Guifette noire
+  - Guifette leucoptère
+  - huîtrier pie
+  - Tournepierre à collier
+  - Grand gravelot
+  - Petit gravelot
+
+Et tu peux même mettre la mouette rieuse (qui est en commun") dedans
+
+
 ## À faire
 
 ## Bugs à fix
