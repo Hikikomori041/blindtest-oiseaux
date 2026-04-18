@@ -170,7 +170,7 @@ function bindTypes({app}) {
 
     const chipsHtml = selectedButtons.map((btn) => {
       const type = btn.dataset.type || '';
-      const label = btn.textContent.trim();
+      const label = btn.dataset.chipName || '';
       return `<span class="type-chip type-${type}">${label}</span>`;
     }).join('');
 
@@ -180,7 +180,12 @@ function bindTypes({app}) {
   function filterTypeButtons() {
     const query = typeSearchInput.value.trim().toLowerCase();
     getTypeButtons().forEach(btn => {
-      const isMatch = btn.textContent.toLowerCase().includes(query);
+      const isMatch = (btn.dataset.chipName || '')
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .includes(query);
       btn.classList.toggle('display-none', !isMatch);
     });
   }
