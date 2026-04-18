@@ -98,12 +98,14 @@
           </section>
 
           <section id="type-selection" class="box">
-            <button id="type-popover-toggle" class="button tooltip tooltip-right" data-tooltip="Sélectionner les catégories à inclure">
+            <button id="type-popover-toggle" class="button tooltip tooltip-right tooltip-bottom" data-tooltip="Choisir les catégories">
               <span id="type-popover-toggle-content">
                 <span class="type-popover-toggle-label">Catégories</span>
                 <span id="type-popover-count">(0/0)</span>
               </span>
             </button>
+
+            <div id="type-selected-chips" aria-live="polite"></div>
 
             <div id="type-popover" class="display-none" aria-hidden="true">
               <div id="type-popover-header">

@@ -141,6 +141,7 @@ function bindTypes({app}) {
   const typePopover = document.getElementById('type-popover');
   const typePopoverToggle = document.getElementById('type-popover-toggle');
   const typePopoverCount = document.getElementById('type-popover-count');
+  const typeSelectedChips = document.getElementById('type-selected-chips');
   const typeSearchInput = document.getElementById('type-search');
   const typeOptions = document.getElementById('type-options');
 
@@ -156,10 +157,24 @@ function bindTypes({app}) {
 
     if (typePopoverCount) {
       typePopoverCount.textContent = `(${selectedCount}/${totalCount})`;
+    } else {
+      typePopoverToggle.textContent = `Catégories\n(${selectedCount}/${totalCount})`;
+    }
+
+    if (!typeSelectedChips) return;
+
+    if (selectedCount === 0) {
+      typeSelectedChips.innerHTML = '<span class="type-chip type-chip-empty">Aucune catégorie</span>';
       return;
     }
 
-    typePopoverToggle.textContent = `Catégories\n(${selectedCount}/${totalCount})`;
+    const chipsHtml = selectedButtons.map((btn) => {
+      const type = btn.dataset.type || '';
+      const label = btn.textContent.trim();
+      return `<span class="type-chip type-${type}">${label}</span>`;
+    }).join('');
+
+    typeSelectedChips.innerHTML = chipsHtml;
   }
 
   function filterTypeButtons() {
