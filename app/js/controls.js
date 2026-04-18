@@ -137,15 +137,113 @@ function bindWindow({app}) {
 
 // Boutons de sélection des types
 function bindTypes({app}) {
-  // Met à jour la liste des oiseaux après un click sur une checkbox
-  document.querySelectorAll('#type-selection .button').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      btn.classList.toggle('is-selected');
-      await genererGrilleOiseaux({app});
-      showBirdCells();
-      playRandomBird({app});
+  const typeSection = document.getElementById('type-selection');
+  const typePopover = document.getElementById('type-popover');
+  const typePopoverToggle = document.getElementById('type-popover-toggle');
+  const typePopoverCount = document.getElementById('type-popover-count');
+  const typeSearchInput = document.getElementById('type-search');
+  const typeOptions = document.getElementById('type-options');
+
+  function getTypeButtons() {
+    return [...typeSection.querySelectorAll('.type-option[data-type]')];
+  }
+
+  function updateTypeSelectionSummary() {
+    const typeButtons = getTypeButtons();
+    const selectedButtons = typeButtons.filter(btn => btn.classList.contains('is-selected'));
+    const selectedCount = selectedButtons.length;
+    const totalCount = typeButtons.length;
+
+    if (typePopoverCount) {
+      typePopoverCount.textContent = `(${selectedCount}/${totalCount})`;
+      return;
+    }
+
+    typePopoverToggle.textContent = `Catégories\n(${selectedCount}/${totalCount})`;
+  }
+
+  function filterTypeButtons() {
+    const query = typeSearchInput.value.trim().toLowerCase();
+    getTypeButtons().forEach(btn => {
+      const isMatch = btn.textContent.toLowerCase().includes(query);
+      btn.classList.toggle('display-none', !isMatch);
     });
+  }
+
+  function setPopoverVisibility(isVisible) {
+    typePopover.classList.toggle('display-none', !isVisible);
+    typePopover.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+    if (isVisible) {
+      typeSearchInput.focus();
+    }
+  }
+
+  async function refreshAfterTypeChange() {
+    await genererGrilleOiseaux({app});
+    showBirdCells();
+    playRandomBird({app});
+    updateTypeSelectionSummary();
+  }
+
+  typePopoverToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isHidden = typePopover.classList.contains('display-none');
+    setPopoverVisibility(isHidden);
   });
+
+  typePopover.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  typeSearchInput.addEventListener('input', () => {
+    filterTypeButtons();
+  });
+
+  typeSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      setPopoverVisibility(false);
+      typePopoverToggle.focus();
+    }
+  });
+
+  typeOptions.addEventListener('click', async (e) => {
+    const targetButton = e.target.closest('.type-option[data-type]');
+    if (!targetButton) return;
+
+    targetButton.classList.toggle('is-selected');
+    await refreshAfterTypeChange();
+  });
+
+  document.getElementById('type-select-all').addEventListener('click', async () => {
+    getTypeButtons().forEach(btn => btn.classList.add('is-selected'));
+    await refreshAfterTypeChange();
+  });
+
+  document.getElementById('type-select-none').addEventListener('click', async () => {
+    getTypeButtons().forEach(btn => btn.classList.remove('is-selected'));
+    await refreshAfterTypeChange();
+  });
+
+  // document.getElementById('type-select-invert').addEventListener('click', async () => {
+  //   getTypeButtons().forEach(btn => btn.classList.toggle('is-selected'));
+  //   await refreshAfterTypeChange();
+  // });
+
+  document.addEventListener('click', () => {
+    setPopoverVisibility(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      setPopoverVisibility(false);
+    }
+  });
+
+  document.addEventListener('types:updated', () => {
+    updateTypeSelectionSummary();
+  });
+
+  updateTypeSelectionSummary();
 
   document.getElementById('my-lists-button').addEventListener('click', () => { 
     togglePause({app}, true);

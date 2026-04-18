@@ -23,17 +23,101 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+#type-selection {
+  position: relative;
+}
+
+#type-popover-toggle {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+#type-popover-toggle-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+#type-popover-toggle .type-popover-toggle-label,
+#type-popover-toggle #type-popover-count {
+  display: block;
+  text-align: center;
+  line-height: 1.1;
+}
+
+#type-popover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 8px);
+  z-index: 20;
+  background: rgba(243, 247, 251, 0.98);
+  border: 2px solid rgba(30, 40, 50, 0.45);
+  border-radius: 10px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  backdrop-filter: blur(2px);
+  width: 400px;
+}
+
+#type-popover-header {
+  margin-bottom: 8px;
+}
+
+#type-search {
+  height: 2.2rem;
+  font-size: 0.9rem;
+}
+
+#type-popover-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+#type-popover-actions .button {
+  font-size: 0.78rem;
+  font-weight: 700;
+  height: 2rem;
+  padding: 0;
+}
+
+#type-options {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+#type-options .button {
+  margin-right: 0;
+  max-width: 50%;
+}
+
 #type-selection h5, #birdCount {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
 }
 
-#type-selection * {
-  text-align: left;
-}
 #type-selection label {
   display: block;
   margin-bottom: 0.5rem;
+}
+#type-popover,
+#type-popover * {
+  text-align: left;
 }
 #type-selection .buttons {
   justify-content: flex-start;
@@ -44,26 +128,28 @@
   /* align-items: flex-start; */
 }
 
-#type-selection .button {
+#type-selection .type-option {
   opacity: 0.7;
-  width: 104px;
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
   padding: 8px;
   border-radius: 4px;
   border: 2px solid transparent;
   transition: 0.15s ease;
 }
 
-#type-selection .button.is-selected {
+#type-selection .type-option.is-selected {
   opacity: 1;
   border-color: black;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
-#type-selection .button:hover, #type-selection .button:active {
+#type-selection .type-option:hover, #type-selection .type-option:active {
   border-radius: 6px;
   border-width: 3px;
   border-color: rgb(255, 255, 255);
 }
-#type-selection .button:active {
+#type-selection .type-option:active {
   transform: scale(0.95);
 }
 

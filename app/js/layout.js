@@ -13,7 +13,7 @@ export const setTitleVersion = async () => {
 
 // Applique une sélection de types sur le programme
 export function applySelectedTypes({app}) {
-  document.querySelectorAll('#type-selection .button').forEach(button => {
+  document.querySelectorAll('#type-selection .button[data-type]').forEach(button => {
     const type = button.getAttribute('data-type');
     if (app.selectedTypes.includes(type)) {
       button.classList.add('is-selected');
@@ -21,6 +21,7 @@ export function applySelectedTypes({app}) {
       button.classList.remove('is-selected');
     }
   });
+  document.dispatchEvent(new Event('types:updated'));
   // updateBirdCounter({app});
 }
 

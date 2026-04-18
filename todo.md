@@ -1,6 +1,9 @@
 # To do
 
-## Notes de mise à jour 2.4.1
+## Notes de mise à jour 2.4.2
+
+- Ajout des catégories "oiseaux marins" et "oiseaux nocturne"
+- Refonte de l'interface de sélection de catégories
 
 ## Oiseaux à ajouter / modifier
 
