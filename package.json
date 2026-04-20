@@ -7,9 +7,7 @@
   "scripts": {
     "start": "electron .",
     "birds:prepare": "py .\\scripts\\trier_json.py && py .\\scripts\\reencode_sons.py && node scripts/generate-birds-index.js",
-    "birds:prepare:ci": "node scripts/generate-birds-index.js",
-    "birds:index": "node scripts/generate-birds-index.js",
-    "build": "npm run birds:prepare:ci && electron-builder --publish never",
+    "build": "electron-builder --publish never",
     "build:local": "npm run birds:prepare && electron-builder --publish never",
     "release": "node release.js",
     "lint": "eslint ."
