@@ -12,34 +12,33 @@
 
 #### Oiseaux d'eau
 
+- Échasse blanche
+- Gorgebleue à miroir
+
 #### Oiseaux forestier
+
+- Épervier d'europe
+- Autour des palombes
 
 #### Oiseaux marins
 
+- (Changement de catégorie pour la mouette rieuse, qui était dans oiseaux communs)
+- Mouette mélanocéphale
+
 #### Oiseaux nocturnes
 
-  --> des cris et des chants
+(Des cris et des chants)
+
+- Chouette hulotte
+- Effraies des clochers
+- Chevêche d'Athéna
+- Hibou grand-duc
+- Hibou moyen-duc
+- Petit-duc scops
 
 ## Oiseaux à ajouter / modifier
 
-- Oiseaux nocturnes:
-  - Chouette hulotte
-  - Effraies des clochers
-  - Chevêche d'Athéna
-  - Hibou grand-duc
-  - Hibou moyen-duc
-  - Petit-duc scops
-
-- Oiseaux forestier
-  - Épervier d'europe
-  - Autour des palombes
-
-- Oiseaux d'eau
-  - Échasse blanche
-  - Gorgebleue à miroir
-
 - Oiseaux marins
-  - Mouette mélanocéphale
   - Goéland argenté
   - Goéland marin
   - Goéland leucophée
@@ -58,8 +57,6 @@
   - Tournepierre à collier
   - Grand gravelot
   - Petit gravelot
-
-Et tu peux même mettre la mouette rieuse (qui est en commun") dedans
 
 ## À faire
 

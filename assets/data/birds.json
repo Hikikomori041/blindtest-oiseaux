@@ -19,6 +19,10 @@
     "type": "foret",
     "nom_latin": "Lullula arborea"
   },
+  "Autour des palombes": {
+    "type": "foret",
+    "nom_latin": "Accipiter gentilis"
+  },
   "Avocette élégante": {
     "type": "eau",
     "nom_latin": "Recurvirostra avosetta"
@@ -143,6 +147,10 @@
     "type": "eau",
     "nom_latin": "Tringa glareola"
   },
+  "Chevêche d'Athéna": {
+    "type": "nocturne",
+    "nom_latin": "Athene noctua"
+  },
   "Chocard à bec jaune": {
     "type": "montagne",
     "nom_latin": "Pyrrhocorax graculus"
@@ -150,6 +158,10 @@
   "Choucas des tours": {
     "type": "commun",
     "nom_latin": "Coloeus monedula"
+  },
+  "Chouette hulotte": {
+    "type": "nocturne",
+    "nom_latin": "Strix aluco"
   },
   "Cincle plongeur": {
     "type": "montagne",
@@ -167,9 +179,21 @@
     "type": "commun",
     "nom_latin": "Cuculus canorus"
   },
+  "Échasse blanche": {
+    "type": "eau",
+    "nom_latin": "Himantopus himantopus"
+  },
+  "Effraie des clochers": {
+    "type": "nocturne",
+    "nom_latin": "Tyto alba"
+  },
   "Eider à duvet": {
     "type": "eau",
     "nom_latin": "Somateria mollissima"
+  },
+  "Épervier d'Europe": {
+    "type": "foret",
+    "nom_latin": "Accipiter nisus"
   },
   "Etourneau sansonnet": {
     "type": "commun",
@@ -223,6 +247,10 @@
     "type": "foret",
     "nom_latin": "Muscicapa striata"
   },
+  "Gorgebleue à miroir": {
+    "type": "eau",
+    "nom_latin": "Luscinia svecica"
+  },
   "Grand Corbeau": {
     "type": "commun",
     "nom_latin": "Corvus corax"
@@ -230,6 +258,10 @@
   "Grand Cormoran": {
     "type": "eau",
     "nom_latin": "Phalacrocorax carbo"
+  },
+  "Grand-duc d'Europe": {
+    "type": "nocturne",
+    "nom_latin": "Bubo bubo"
   },
   "Grande aigrette": {
     "type": "eau",
@@ -282,6 +314,10 @@
   "Héron cendré": {
     "type": "eau",
     "nom_latin": "Ardea cinerea"
+  },
+  "Hibou moyen-duc": {
+    "type": "nocturne",
+    "nom_latin": "Asio otus"
   },
   "Huppe fasciée": {
     "type": "commun",
@@ -351,6 +387,10 @@
     "type": "commun",
     "nom_latin": "Passer domesticus"
   },
+  "Mouette mélanocéphale": {
+    "type": "marin",
+    "nom_latin": "Ichthyaetus melanocephalus"
+  },
   "Mouette rieuse": {
     "type": "marin",
     "nom_latin": "Chroicocephalus ridibundus"
@@ -378,6 +418,10 @@
   "Panure à moustaches": {
     "type": "eau",
     "nom_latin": "Panurus biarmicus"
+  },
+  "Petit-duc scops": {
+    "type": "nocturne",
+    "nom_latin": "Otus scops"
   },
   "Phragmite des joncs": {
     "type": "eau",
