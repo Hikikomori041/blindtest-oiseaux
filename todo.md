@@ -2,47 +2,9 @@
 
 ## Notes de mise à jour 2.5.0
 
-### Interface
-
-- Refonte du menu à gauche, pour faciliter la sélection des catégories
-
-### Oiseaux ajoutés
-
-- Ajout des catégories "oiseaux marins" et "oiseaux nocturnes"
-
-#### Oiseaux d'eau
-
-- Échasse blanche
-- Gorgebleue à miroir
-
-#### Oiseaux forestier
-
-- Épervier d'europe
-- Autour des palombes
-
-#### Oiseaux marins
-
-- (Changement de catégorie pour la mouette rieuse, qui était dans oiseaux communs)
-- Mouette mélanocéphale
-
-#### Oiseaux nocturnes
-
-(Des cris et des chants)
-
-- Chouette hulotte
-- Effraies des clochers
-- Chevêche d'Athéna
-- Hibou grand-duc
-- Hibou moyen-duc
-- Petit-duc scops
-
-## Oiseaux à ajouter / modifier
+### Oiseaux à ajouter / modifier
 
 - Oiseaux marins
-  - Goéland argenté
-  - Goéland marin
-  - Goéland leucophée
-  - Goéland brun
   - Sterne Pierregarin
   - Sterne naine
   - Sterne gaujek
