@@ -4,21 +4,15 @@
 
 ### Oiseaux à ajouter / modifier
 
-- Oiseaux marins
-  - Sterne Pierregarin
-  - Sterne naine
-  - Sterne gaujek
-  - Sterne de Dougall
-  - Guifette moustac
-  - Labbre parasite
-  - Plongeon imbrin
-  - Plongeon du pacifique
-  - Guifette noire
-  - Guifette leucoptère
-  - huîtrier pie
-  - Tournepierre à collier
-  - Grand gravelot
-  - Petit gravelot
+#### Oiseaux marins
+
+- Plongeon du Pacifique
+- Plongeon imbrin
+- Sterne de Dougall
+- Sterne caugek
+- Sterne naine
+- Sterne Pierregarin
+- Tournepierre à collier
 
 ## À faire
 
