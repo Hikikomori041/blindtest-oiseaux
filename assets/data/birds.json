@@ -151,6 +151,10 @@
     "type": "nocturne",
     "nom_latin": "Athene noctua"
   },
+  "Chevêchette d'Europe": {
+    "type": "nocturne",
+    "nom_latin": "Glaucidium passerinum"
+  },
   "Chocard à bec jaune": {
     "type": "montagne",
     "nom_latin": "Pyrrhocorax graculus"
@@ -158,6 +162,10 @@
   "Choucas des tours": {
     "type": "commun",
     "nom_latin": "Coloeus monedula"
+  },
+  "Chouette de Tengmalm": {
+    "type": "nocturne",
+    "nom_latin": "Aegolius funereus"
   },
   "Chouette hulotte": {
     "type": "nocturne",
@@ -347,9 +355,25 @@
     "type": "eau",
     "nom_latin": "Ardea cinerea"
   },
+  "Hibou des marais": {
+    "type": "nocturne",
+    "nom_latin": "Asio flammeus"
+  },
   "Hibou moyen-duc": {
     "type": "nocturne",
     "nom_latin": "Asio otus"
+  },
+  "Hirondelle de fenêtre": {
+    "type": "plaine",
+    "nom_latin": "Delichon urbicum"
+  },
+  "Hirondelle de rivage": {
+    "type": "plaine",
+    "nom_latin": "Riparia riparia"
+  },
+  "Hirondelle rustique": {
+    "type": "plaine",
+    "nom_latin": "Hirundo rustica"
   },
   "Huîtrier pie": {
     "type": "marin",
@@ -386,6 +410,10 @@
   "Loriot d'Europe": {
     "type": "foret",
     "nom_latin": "Oriolus oriolus"
+  },
+  "Martinet noir": {
+    "type": "plaine",
+    "nom_latin": "Apus apus"
   },
   "Martin-pêcheur d'Europe": {
     "type": "commun",

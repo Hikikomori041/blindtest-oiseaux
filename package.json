@@ -6,9 +6,8 @@
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
-    "birds:prepare": "py .\\scripts\\trier_json.py && py .\\scripts\\reencode_sons.py && node scripts/generate-birds-index.js",
+    "birds:prepare": "py .\\scripts\\trier_json.py && py .\\scripts\\rename_images.py && py .\\scripts\\reencode_sons.py && node scripts/generate-birds-index.js",
     "build": "electron-builder --publish never",
-    "build:local": "npm run birds:prepare && electron-builder --publish never",
     "release": "node release.js",
     "lint": "eslint ."
   },
