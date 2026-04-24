@@ -4,15 +4,18 @@
 
 ### Oiseaux à ajouter / modifier
 
-#### Oiseaux marins
+#### Oiseaux nocturnes
 
-- Plongeon du Pacifique
-- Plongeon imbrin
-- Sterne de Dougall
-- Sterne caugek
-- Sterne naine
-- Sterne Pierregarin
-- Tournepierre à collier
+- hibou des marais
+- chevêchette d'europe
+- chouette de Tengmalm
+
+#### Oiseaux de plaine
+
+- hirondelle rustique
+- hirondelle de rivage
+- hirondelle de fenêtre
+- martinet noir
 
 ## À faire
 

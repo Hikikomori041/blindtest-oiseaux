@@ -247,6 +247,22 @@
     "type": "foret",
     "nom_latin": "Muscicapa striata"
   },
+  "Goéland argenté": {
+    "type": "marin",
+    "nom_latin": "Larus argentatus"
+  },
+  "Goéland brun": {
+    "type": "marin",
+    "nom_latin": "Larus fuscus"
+  },
+  "Goéland leucophée": {
+    "type": "marin",
+    "nom_latin": "Larus michahellis"
+  },
+  "Goéland marin": {
+    "type": "marin",
+    "nom_latin": "Larus marinus"
+  },
   "Gorgebleue à miroir": {
     "type": "eau",
     "nom_latin": "Luscinia svecica"
@@ -258,6 +274,10 @@
   "Grand Cormoran": {
     "type": "eau",
     "nom_latin": "Phalacrocorax carbo"
+  },
+  "Grand Gravelot": {
+    "type": "marin",
+    "nom_latin": "Charadrius hiaticula"
   },
   "Grand-duc d'Europe": {
     "type": "nocturne",
@@ -311,6 +331,18 @@
     "type": "plaine",
     "nom_latin": "Merops apiaster"
   },
+  "Guifette leucoptère": {
+    "type": "marin",
+    "nom_latin": "Chlidonias leucopterus"
+  },
+  "Guifette moustac": {
+    "type": "marin",
+    "nom_latin": "Chlidonias hybrida"
+  },
+  "Guifette noire": {
+    "type": "marin",
+    "nom_latin": "Chlidonias niger"
+  },
   "Héron cendré": {
     "type": "eau",
     "nom_latin": "Ardea cinerea"
@@ -319,6 +351,10 @@
     "type": "nocturne",
     "nom_latin": "Asio otus"
   },
+  "Huîtrier pie": {
+    "type": "marin",
+    "nom_latin": "Haematopus ostralegus"
+  },
   "Huppe fasciée": {
     "type": "commun",
     "nom_latin": "Upupa epops"
@@ -326,6 +362,10 @@
   "Hypolaïs polyglotte": {
     "type": "commun",
     "nom_latin": "Hippolais polyglotta"
+  },
+  "Labbe parasite": {
+    "type": "marin",
+    "nom_latin": "Stercorarius parasiticus"
   },
   "Linotte à bec jaune": {
     "type": "montagne",
@@ -419,6 +459,10 @@
     "type": "eau",
     "nom_latin": "Panurus biarmicus"
   },
+  "Petit Gravelot": {
+    "type": "marin",
+    "nom_latin": "Charadrius dubius"
+  },
   "Petit-duc scops": {
     "type": "nocturne",
     "nom_latin": "Otus scops"
@@ -482,6 +526,14 @@
   "Pipit spioncelle": {
     "type": "montagne",
     "nom_latin": "Anthus spinoletta"
+  },
+  "Plongeon du Pacifique": {
+    "type": "marin",
+    "nom_latin": "Gavia pacifica"
+  },
+  "Plongeon imbrin": {
+    "type": "marin",
+    "nom_latin": "Gavia immer"
   },
   "Pouillot à grands sourcils": {
     "type": "foret",
@@ -567,6 +619,22 @@
     "type": "eau",
     "nom_latin": "Platalea leucorodia"
   },
+  "Sterne caugek": {
+    "type": "marin",
+    "nom_latin": "Thalasseus sandvicensis"
+  },
+  "Sterne de Dougall": {
+    "type": "marin",
+    "nom_latin": "Sterna dougallii"
+  },
+  "Sterne naine": {
+    "type": "marin",
+    "nom_latin": "Sternula albifrons"
+  },
+  "Sterne pierregarin": {
+    "type": "marin",
+    "nom_latin": "Sterna hirundo"
+  },
   "Tadorne de Belon": {
     "type": "eau",
     "nom_latin": "Tadorna tadorna"
@@ -590,6 +658,10 @@
   "Torcol fourmilier": {
     "type": "montagne",
     "nom_latin": "Jynx torquilla"
+  },
+  "Tournepierre à collier": {
+    "type": "marin",
+    "nom_latin": "Arenaria interpres"
   },
   "Tourterelle des bois": {
     "type": "foret",

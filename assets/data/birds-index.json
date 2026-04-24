@@ -1,6 +1,6 @@
 {
-  "version": "2026-04-21T08:20:45.501Z",
-  "generatedAt": "2026-04-21T08:20:45.502Z",
+  "version": "2026-04-24T08:38:27.869Z",
+  "generatedAt": "2026-04-24T08:38:27.869Z",
   "baseUrl": "https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/",
   "files": [
     {
@@ -3394,9 +3394,59 @@
       "sha256": "5ff574f8c586afa82fef378ee3e57349df9386131b13630610855f47dfe06c21"
     },
     {
+      "path": "birds/Plongeon du Pacifique/XC141730 - Plongeon du Pacifique - Gavia pacifica.mp3",
+      "size": 839200,
+      "sha256": "ea65d05b78656f625d2a90ec35f5ee0515ff85ddbdfd3b065417d211f715df26"
+    },
+    {
+      "path": "birds/Plongeon du Pacifique/XC276965 - Plongeon du Pacifique - Gavia pacifica.mp3",
+      "size": 205191,
+      "sha256": "1846828e8b799e2f81fad228f4e1a4c968339b139cf1301614740e7f8b90205d"
+    },
+    {
+      "path": "birds/Plongeon du Pacifique/XC406246 - Plongeon du Pacifique - Gavia pacifica.mp3",
+      "size": 625331,
+      "sha256": "8c4a80b29f41f250986d2bf652a103ad27834daad4bea838160f96d099d53c0c"
+    },
+    {
+      "path": "birds/Plongeon du Pacifique/XC69948 - Plongeon du Pacifique - Gavia pacifica.mp3",
+      "size": 74638,
+      "sha256": "9fbdb5ad5806a07266c5dc103e6c453527b516a660246c06bc2bf70dc0a4365e"
+    },
+    {
+      "path": "birds/Plongeon du Pacifique/XC838307 - Plongeon du Pacifique - Gavia pacifica.mp3",
+      "size": 256542,
+      "sha256": "5196bd469625506f4d0885b0c60171fdc7a151b7cb2d057a9bd663ec77107f98"
+    },
+    {
       "path": "birds/Plongeon imbrin/image.jpg",
       "size": 66904,
       "sha256": "ec164d1d5117eb6f20bf9729985915eb44a754ac8edef2385526b0f1e3a6e3d0"
+    },
+    {
+      "path": "birds/Plongeon imbrin/XC1009388 - Plongeon huard - Gavia immer.mp3",
+      "size": 180618,
+      "sha256": "836b220937548b58d1e4798b733b9bd2182017c5341887f088485b88bdfc2014"
+    },
+    {
+      "path": "birds/Plongeon imbrin/XC1061801 - Plongeon huard - Gavia immer.mp3",
+      "size": 129957,
+      "sha256": "b5c67f107da8a3e52516dda6285a7ba1cbc348cd28cfe42fa0abb47aef2deaaa"
+    },
+    {
+      "path": "birds/Plongeon imbrin/XC751279 - Plongeon huard - Gavia immer.mp3",
+      "size": 322386,
+      "sha256": "50d4ee2ce24a940056f3952ef44d7987b6a9d722f73b93e2197ce774b2725490"
+    },
+    {
+      "path": "birds/Plongeon imbrin/XC832712 - Plongeon huard - Gavia immer.mp3",
+      "size": 304231,
+      "sha256": "4344d2f794bbb356c2f263cc45d7a1d7cd4cabaed00b1e9facec543f1076265d"
+    },
+    {
+      "path": "birds/Plongeon imbrin/XC835553 - Plongeon huard - Gavia immer.mp3",
+      "size": 237420,
+      "sha256": "7a2d6e75f7efa48905ade237a99e4d83e45f1918d2d7706dbd3065ae07451336"
     },
     {
       "path": "birds/Pouillot à grands sourcils/image.jpg",
@@ -3869,9 +3919,59 @@
       "sha256": "5c0fcaa72cea9e86bb209b12c16293a9926e8f4e128a8eee506c867d1a3db312"
     },
     {
+      "path": "birds/Sterne caugek/XC1002311 - Sterne caugek - Thalasseus sandvicensis.mp3",
+      "size": 265365,
+      "sha256": "af7357fcfb07f2130f0db334e61a67d716dbb45d2d0db2f155c4b36ca0886abd"
+    },
+    {
+      "path": "birds/Sterne caugek/XC1002312 - Sterne caugek - Thalasseus sandvicensis.mp3",
+      "size": 348597,
+      "sha256": "a08f176c5dbe87d82cfb7f5c3d6e74df86453a91e909c854d537e11f1d258769"
+    },
+    {
+      "path": "birds/Sterne caugek/XC281198 - Sterne caugek - Thalasseus sandvicensis.mp3",
+      "size": 164324,
+      "sha256": "3dfefb4390f18d927360e779d626c846eed785c8888b207a8680642146e0059c"
+    },
+    {
+      "path": "birds/Sterne caugek/XC281200 - Sterne caugek - Thalasseus sandvicensis.mp3",
+      "size": 385934,
+      "sha256": "e87873dea5b52292a1acc90cc2b9490630b89c619174f2ed1402aa07c8fcf0f1"
+    },
+    {
       "path": "birds/Sterne de Dougall/image.jpg",
       "size": 58919,
       "sha256": "13a8d21a51f976c51c213a92f8ecdb89bbede51d0863dc3e13451263e0149dac"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC1038737 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 579335,
+      "sha256": "6d8c939509a494a6bf6753e8bf9a586612a04e7613e3b47707fced4f058d948e"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC593573 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 585055,
+      "sha256": "3724d3316f064298f2214d039af5a6a8c1e8630a2956c6d0792d35f427c2cd98"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC741024 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 241754,
+      "sha256": "a48b698c015319fc75261d7b2116845183d6baf205c3f25f353e1653b9077e61"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC741032 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 408217,
+      "sha256": "5a477b783a27f16842101df09968180607b85850d1ddfa755397b4bf9259caf5"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC799176 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 83556,
+      "sha256": "789e7ea50db2c5a4487349f09da3a5492db2cb5630435dc91c1a78967fd2f8bb"
+    },
+    {
+      "path": "birds/Sterne de Dougall/XC894056 - Sterne de Dougall - Sterna dougallii.mp3",
+      "size": 63701,
+      "sha256": "58bb1ce2fc608f97a18e14da49551a0f6cdc61faf0623de09f7756ff81ac953a"
     },
     {
       "path": "birds/Sterne naine/image.jpg",
@@ -3879,9 +3979,64 @@
       "sha256": "156c683af5901c7cfac0c55e921a16733060556b45b8657268aed2066cd0e8b0"
     },
     {
+      "path": "birds/Sterne naine/XC1035828 - Sterne naine - Sternula albifrons.mp3",
+      "size": 376039,
+      "sha256": "d58d8da0b2b03cd974722923a4c63629deed683d679b5a2656a6ed6eff73385a"
+    },
+    {
+      "path": "birds/Sterne naine/XC1069614 - Sterne naine - Sternula albifrons.mp3",
+      "size": 497768,
+      "sha256": "c66dbd22be77e59f69a9705e53360d0e3013b834bdca9daba74317d066b52b0c"
+    },
+    {
+      "path": "birds/Sterne naine/XC750596 - Sterne naine - Sternula albifrons.mp3",
+      "size": 300366,
+      "sha256": "de37d79ebbe801fc8f433abf4b8d5cd5209eeb7bc6527c79448b024b1a952401"
+    },
+    {
+      "path": "birds/Sterne naine/XC780858 - Sterne naine - Sternula albifrons.mp3",
+      "size": 158724,
+      "sha256": "e4bf53d2b897dd8bf75b9c62d93aa8e89cae1157f8f7108ddfa652e1ffc3bd5d"
+    },
+    {
+      "path": "birds/Sterne naine/XC804504 - Sterne naine - Sternula albifrons.mp3",
+      "size": 434952,
+      "sha256": "b8353f1baa511d363482094fb0b3ec5837c6a2c46b87c3d9ea9c4f10c10ee0c9"
+    },
+    {
+      "path": "birds/Sterne naine/XC827372 - Sterne naine - Sternula albifrons.mp3",
+      "size": 318565,
+      "sha256": "b8bf53008b5cc089b9c32612abec7d803c002b67f69f01e88d3b88104bdaba9c"
+    },
+    {
+      "path": "birds/Sterne naine/XC827539 - Sterne naine - Sternula albifrons.mp3",
+      "size": 114460,
+      "sha256": "9f074e13e1c81f4c5c856ff8a4cf9bbe968477288678a9a5916c1a3dbcaedf7e"
+    },
+    {
       "path": "birds/Sterne Pierregarin/image.jpg",
       "size": 36158,
       "sha256": "78a0784fb4e4ff60043d523002e397f93f3d03abe8d4c0f503c7b9aed98cde17"
+    },
+    {
+      "path": "birds/Sterne Pierregarin/XC1002309 - Sterne pierregarin - Sterna hirundo hirundo.mp3",
+      "size": 143757,
+      "sha256": "674055bd2b028784fecdb32bfd5e33400afb7a234348fff7dcf66e9df1f80c89"
+    },
+    {
+      "path": "birds/Sterne Pierregarin/XC1016924 - Sterne pierregarin - Sterna hirundo.mp3",
+      "size": 263433,
+      "sha256": "2cca2aead97ae7ec6980139b17610ce6f733ea5127345b6a60ac01d8690f8312"
+    },
+    {
+      "path": "birds/Sterne Pierregarin/XC1079363 - Sterne pierregarin - Sterna hirundo.mp3",
+      "size": 523191,
+      "sha256": "6782a33c6bbc7d35251670e70ec581a2b229a0c06fd67dec849ebbfd3e011b00"
+    },
+    {
+      "path": "birds/Sterne Pierregarin/XC698396 - Sterne pierregarin - Sterna hirundo.mp3",
+      "size": 204750,
+      "sha256": "6ac7ef2ffc8fe244520920116c38daf08eaa96924b89d7fb8049d18321ba9501"
     },
     {
       "path": "birds/Tadorne de Belon/image.jpg",
@@ -4037,6 +4192,31 @@
       "path": "birds/Tournepierre à collier/image.jpg",
       "size": 119216,
       "sha256": "f25c8dbe93c1689fecf9050e52595a04f1d39a7b4aff57398b1e50132e75cdf9"
+    },
+    {
+      "path": "birds/Tournepierre à collier/XC1030052 - Tournepierre à collier - Arenaria interpres.mp3",
+      "size": 131829,
+      "sha256": "225267c636e005e13897f61774ba3ec4df1ff732622922d3b312b063c8da344e"
+    },
+    {
+      "path": "birds/Tournepierre à collier/XC1030053 - Tournepierre à collier - Arenaria interpres.mp3",
+      "size": 157464,
+      "sha256": "8a39ec77d16d8203a833dd02c8f422c0cc7d187592bf29f3396d57bb2681e91a"
+    },
+    {
+      "path": "birds/Tournepierre à collier/XC383200 - Tournepierre à collier - Arenaria interpres.mp3",
+      "size": 127677,
+      "sha256": "4afdb48465adc4aaa70f451a773867cf4d53949a1b9f74e49404f39afd037888"
+    },
+    {
+      "path": "birds/Tournepierre à collier/XC840871 - Tournepierre à collier - Arenaria interpres.mp3",
+      "size": 603144,
+      "sha256": "1e50502f01f598252dc65165150c7e63001c9e71c367537a4177ee2c0bf1eb24"
+    },
+    {
+      "path": "birds/Tournepierre à collier/XC841456 - Tournepierre à collier - Arenaria interpres.mp3",
+      "size": 194460,
+      "sha256": "3d111d874632893a614aa0447c4c1224f7848d5d50f7e2ae1bef485580c731d0"
     },
     {
       "path": "birds/Tourterelle des bois/image.jpg",
