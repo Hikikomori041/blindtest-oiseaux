@@ -1,6 +1,6 @@
 {
-  "version": "2026-04-24T09:06:42.044Z",
-  "generatedAt": "2026-04-24T09:06:42.045Z",
+  "version": "2026-05-28T09:38:50.750Z",
+  "generatedAt": "2026-05-28T09:38:50.751Z",
   "baseUrl": "https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/",
   "files": [
     {
@@ -2502,6 +2502,11 @@
       "path": "birds/Huppe fasciée/XC999591 - Huppe fasciée - Upupa epops.mp3",
       "size": 305711,
       "sha256": "0e01e792fe7867c41528a1d5275f75963d88bae61fa1f01177387bd0c0c3659e"
+    },
+    {
+      "path": "birds/Hypolaïs ictérine/image.jpg",
+      "size": 88696,
+      "sha256": "d32dce630cbf914131f5fc04e67ba187d9011127ad449ce67d6232b8670ec120"
     },
     {
       "path": "birds/Hypolaïs polyglotte/image.jpg",

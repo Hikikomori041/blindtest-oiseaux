@@ -4,19 +4,6 @@
 
 ### Oiseaux à ajouter / modifier
 
-#### Oiseaux nocturnes
-
-- hibou des marais
-- chevêchette d'europe
-- chouette de Tengmalm
-
-#### Oiseaux de plaine
-
-- hirondelle rustique
-- hirondelle de rivage
-- hirondelle de fenêtre
-- martinet noir
-
 ## À faire
 
 ## Bugs à fix
