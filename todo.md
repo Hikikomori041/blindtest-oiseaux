@@ -1,6 +1,8 @@
 # To do
 
-## Notes de mise à jour 2.5.0
+## Notes de mise à jour 2.5.1
+
+Ajout des bécasseaux
 
 ### Oiseaux à ajouter / modifier
 

@@ -1,6 +1,6 @@
 {
-  "version": "2026-06-08T08:28:13.973Z",
-  "generatedAt": "2026-06-08T08:28:13.973Z",
+  "version": "2026-10-04T14:38:57.866Z",
+  "generatedAt": "2026-10-04T14:38:57.866Z",
   "baseUrl": "https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/",
   "files": [
     {
@@ -212,6 +212,216 @@
       "path": "birds/Barge rousse/XC807724 - Bar-tailed Godwit - Limosa lapponica.mp3",
       "size": 438528,
       "sha256": "4aa80ccd0470f1d6a9dabb702b58723946da11ddccf12e4f30536e7b05ae34ed"
+    },
+    {
+      "path": "birds/Bécasseau cocorli/image.jpg",
+      "size": 51473,
+      "sha256": "3a05fe1ffc50acc410f3e53320d4d421123e18b6b676f64d4fc4073e154e0859"
+    },
+    {
+      "path": "birds/Bécasseau cocorli/XC1043026 - Bécasseau cocorli - Calidris ferruginea.mp3",
+      "size": 173414,
+      "sha256": "309dcec1c820951689846a4d4d413dbbca7f4d4bd65225d6f34310fdd9358a36"
+    },
+    {
+      "path": "birds/Bécasseau cocorli/XC184323 - Bécasseau cocorli - Calidris ferruginea.mp3",
+      "size": 117950,
+      "sha256": "23e371ce750616e3c4d131a147d165fec661664965281835796245afc6279919"
+    },
+    {
+      "path": "birds/Bécasseau cocorli/XC692579 - Bécasseau cocorli - Calidris ferruginea.mp3",
+      "size": 209271,
+      "sha256": "7ca8d0ed55bc2f17c2c0a12656733cc1447ea97899a5ab4685f251c257f49a7f"
+    },
+    {
+      "path": "birds/Bécasseau cocorli/XC826834 - Bécasseau cocorli - Calidris ferruginea.mp3",
+      "size": 99100,
+      "sha256": "c409aadadcd1485afe142406efa50026e051fed897b2fe05b449bf520a626066"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/image.jpg",
+      "size": 98296,
+      "sha256": "991c879fc0a0e2373a480eeb834a166eac67a41b1da24cbabb59f008afbd145b"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC1168637 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 221980,
+      "sha256": "1a437e3faa3fd0fd3f76949163761ae0bab8b5fa3cdf48984b24d953797c0a32"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC1168656 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 134522,
+      "sha256": "088a8e00ead32f190336db9876ad45ee0d3563ebebc6869dfc776ff69afa8086"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC1168657 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 119476,
+      "sha256": "c584e8b7212a7e90cc9bc9c75ffc9d5077de72c40c4b7797919fd103122f8109"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC383732 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 63459,
+      "sha256": "273e92acb79efd00f1ae4c5c5fe4aa757d0f16851a166d4ba3925d80476347c7"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC383733 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 84483,
+      "sha256": "840e6ef2f44df8521de42b9eb89b644df5c5af7936e569f3cc0acbf904719e3d"
+    },
+    {
+      "path": "birds/Bécasseau de Temminck/XC824834 - Bécasseau de Temminck - Calidris temminckii.mp3",
+      "size": 75857,
+      "sha256": "57a6934a2540aebd08c497b825c3a4ca44be9e5ce415afa96231cee71bff02ef"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/image.jpg",
+      "size": 78493,
+      "sha256": "4df239282bba9d180ebdda67b6921a2b73bbe9fc7225f058416d057ac1da7671"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC1024540 - Bécasseau maubèche - Calidris canutus.mp3",
+      "size": 135980,
+      "sha256": "659d1e0d41181788c769bdeefc24a7dcab81b76a3bfcc276fd78401175b69925"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC1032334 - Bécasseau maubèche - Calidris canutus.mp3",
+      "size": 54920,
+      "sha256": "8ad32215cd52c07006785bbb968212a06ba7f1a3f8e98a7af4e7b50c810bfa9c"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC185585 - Bécasseau maubèche - Calidris canutus roselaari.mp3",
+      "size": 868711,
+      "sha256": "864ff1a499fd0a981c4e3451803dc3500673a34537bb2e5eb77d1c3e8d4995ed"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC247608 - Bécasseau maubèche - Calidris canutus islandica.mp3",
+      "size": 835294,
+      "sha256": "f53e264859848a32e44d1bc8e59271ceb7c6c4f1ec4eea42b1aa54e4b694ebd6"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC559623 - Bécasseau maubèche - Calidris canutus islandica.mp3",
+      "size": 687157,
+      "sha256": "b6c978e14d00746d236acf9fd43bf1be15e100b934319a02f886f35acd67a4db"
+    },
+    {
+      "path": "birds/Bécasseau maubèche/XC830293 - Bécasseau maubèche - Calidris canutus.mp3",
+      "size": 100538,
+      "sha256": "bc1009ac09426191f3b779f33c459c1c4f71308ae67a71d9d4c0fa7ae70983a5"
+    },
+    {
+      "path": "birds/Bécasseau minute/image.jpg",
+      "size": 90078,
+      "sha256": "c600bb00fcbde54a87a753687afa7603e9dae51249b251726ee6c2a5e2454e40"
+    },
+    {
+      "path": "birds/Bécasseau minute/XC1168642 - Bécasseau minute - Calidris minuta.mp3",
+      "size": 350189,
+      "sha256": "64934495fa346d88cba6e8556efee2593b888a4a1c21695a398ce4bccced3574"
+    },
+    {
+      "path": "birds/Bécasseau minute/XC1168644 - Bécasseau minute - Calidris minuta.mp3",
+      "size": 101295,
+      "sha256": "ddcfff87e7fa292affcc306ed92052f7c7af3ae0fce90a946c2a20b7b83f9e6a"
+    },
+    {
+      "path": "birds/Bécasseau minute/XC1168648 - Bécasseau minute - Calidris minuta.mp3",
+      "size": 88442,
+      "sha256": "82b32e286dc1aa8c7fea3c76b445b0bd4ba48299f82656e2bc5622e5f0e60bb7"
+    },
+    {
+      "path": "birds/Bécasseau minute/XC1168665 - Bécasseau minute - Calidris minuta.mp3",
+      "size": 160854,
+      "sha256": "0fa39e3fc8565dca07ae216c44bdee8c754d224f5696b4928f541755f4eba563"
+    },
+    {
+      "path": "birds/Bécasseau minute/XC989492 - Bécasseau minute - Calidris minuta.mp3",
+      "size": 64305,
+      "sha256": "b956548c5d2c96dfd4ffd6e42c470e777c2858c7d709b437edd64106e306ce54"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/image.jpg",
+      "size": 57451,
+      "sha256": "ffb7d9179f6358f299cbb1fe8d5a83ecde47a87e83f644f68161d73c6132c2c8"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/XC593287 - Bécasseau sanderling - Calidris alba.mp3",
+      "size": 204591,
+      "sha256": "8f95d14d89eab97c1d6c5f0fce6396dce0125ff54bd841ecf788618a4b108cb2"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/XC671473 - Bécasseau sanderling - Calidris alba.mp3",
+      "size": 56809,
+      "sha256": "6f6b5e354a855a9cb869ab00c941370f909a871425adc1fc6130439efdf14f1c"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/XC767560 - Bécasseau sanderling - Calidris alba.mp3",
+      "size": 146105,
+      "sha256": "bbdd2ee433fbbba90bb3275dd2dd229066841e8c954273b2f890b77ed02e2984"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/XC933249 - Bécasseau sanderling - Calidris alba.mp3",
+      "size": 389460,
+      "sha256": "163f3973c6be3feb4a208bbb1ab161e635efa217a8356a82bc1f84e4bceb4025"
+    },
+    {
+      "path": "birds/Bécasseau sanderling/XC976407 - Bécasseau sanderling - Calidris alba.mp3",
+      "size": 304109,
+      "sha256": "8d96096ec4fbd473aa86f1269c22d84a9f30c34573b071c8a597437e6b64f6a4"
+    },
+    {
+      "path": "birds/Bécasseau variable/image.jpg",
+      "size": 77835,
+      "sha256": "3b497049204147750b5c5276ad5fe2ee128838dc9c8600fef41ab45da8884739"
+    },
+    {
+      "path": "birds/Bécasseau variable/XC1168632 - Bécasseau variable - Calidris alpina.mp3",
+      "size": 245804,
+      "sha256": "4858ab5661b5a5bf2c69d7060d443cfa3a5b727ca7107a89d1d846bddc035f5e"
+    },
+    {
+      "path": "birds/Bécasseau variable/XC1168636 - Bécasseau variable - Calidris alpina.mp3",
+      "size": 443290,
+      "sha256": "7976c95749f9309741120ef59c75647fdfff97c5fd14324ddc195fcc3ced27ac"
+    },
+    {
+      "path": "birds/Bécasseau variable/XC1168651 - Bécasseau variable - Calidris alpina.mp3",
+      "size": 332322,
+      "sha256": "5f01e8b613cd9f3b7a31ea57fbf0a88b3443a37d1a6b338b6df7b2985f945736"
+    },
+    {
+      "path": "birds/Bécasseau variable/XC567733 - Bécasseau variable - Calidris alpina.mp3",
+      "size": 254362,
+      "sha256": "e2676b77a5d809b7aef28598b588b2dac6d4add4c2e8935a70da3b45189420d1"
+    },
+    {
+      "path": "birds/Bécasseau variable/XC908418 - Bécasseau variable - Calidris alpina.mp3",
+      "size": 69194,
+      "sha256": "c61e7200843d440675bd5a0fcf9799c95ae1102824d9fed7a10e93287d603404"
+    },
+    {
+      "path": "birds/Bécasseau violet/image.jpg",
+      "size": 83286,
+      "sha256": "8b816d45217e48ebcc3ad0655efac99fae483008ad0a6ad33ff16a32580d0b4d"
+    },
+    {
+      "path": "birds/Bécasseau violet/XC1000324 - Bécasseau violet - Calidris maritima.mp3",
+      "size": 130796,
+      "sha256": "30ffbad056fed8f28c13f989c3bc336c984db82290ba5645e384b65fe85209b2"
+    },
+    {
+      "path": "birds/Bécasseau violet/XC322089 - Bécasseau violet - Calidris maritima.mp3",
+      "size": 115454,
+      "sha256": "2aa6df05563487a5c2f150713960b389a270dd9e9c7022ceb5f7d9ab32234686"
+    },
+    {
+      "path": "birds/Bécasseau violet/XC379032 - Bécasseau violet - Calidris maritima.mp3",
+      "size": 358451,
+      "sha256": "731613274649691d266be778ad037f107ba57676eb9d3c8f90ad0dab72e1cb57"
+    },
+    {
+      "path": "birds/Bécasseau violet/XC567570 - Bécasseau violet - Calidris maritima.mp3",
+      "size": 86425,
+      "sha256": "c580d22a9a9b163f34d75aafd7f4df70cb4c19b6aff41e63e1f6538bd38cfa49"
     },
     {
       "path": "birds/Bécassine des bois/image.jpg",

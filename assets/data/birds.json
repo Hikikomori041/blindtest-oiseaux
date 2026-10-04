@@ -35,6 +35,34 @@
     "type": "eau",
     "nom_latin": "Limosa lapponica"
   },
+  "Bécasseau cocorli": {
+    "type": "eau",
+    "nom_latin": "Calidris ferruginea"
+  },
+  "Bécasseau de Temminck": {
+    "type": "eau",
+    "nom_latin": "Calidris temminckii"
+  },
+  "Bécasseau maubèche": {
+    "type": "marin",
+    "nom_latin": "Calidris canutus"
+  },
+  "Bécasseau minute": {
+    "type": "eau",
+    "nom_latin": "Calidris minuta"
+  },
+  "Bécasseau sanderling": {
+    "type": "marin",
+    "nom_latin": "Calidris alba"
+  },
+  "Bécasseau variable": {
+    "type": "marin",
+    "nom_latin": "Calidris alpina"
+  },
+  "Bécasseau violet": {
+    "type": "marin",
+    "nom_latin": "Calidris maritima"
+  },
   "Bécassine des bois": {
     "type": "foret",
     "nom_latin": "Gallinago nemoricola"
