@@ -83,6 +83,18 @@
     "type": "plaine",
     "nom_latin": "Motacilla flava"
   },
+  "Bernache cravant": {
+    "type": "eau",
+    "nom_latin": "Branta bernicla"
+  },
+  "Bernache du Canada": {
+    "type": "eau",
+    "nom_latin": "Branta canadensis"
+  },
+  "Bernache nonnette": {
+    "type": "eau",
+    "nom_latin": "Branta leucopsis"
+  },
   "Blongios nain": {
     "type": "eau",
     "nom_latin": "Ixobrychus minutus"
@@ -215,6 +227,14 @@
     "type": "commun",
     "nom_latin": "Cuculus canorus"
   },
+  "Cygne chanteur": {
+    "type": "eau",
+    "nom_latin": "Cygnus cygnus"
+  },
+  "Cygne de Bewick": {
+    "type": "eau",
+    "nom_latin": "Cygnus columbianus"
+  },
   "Échasse blanche": {
     "type": "eau",
     "nom_latin": "Himantopus himantopus"
@@ -259,6 +279,10 @@
     "type": "plaine",
     "nom_latin": "Curruca communis"
   },
+  "Fauvette orphée": {
+    "type": "plaine",
+    "nom_latin": "Curruca hortensis"
+  },
   "Fauvette pitchou": {
     "type": "plaine",
     "nom_latin": "Curruca undata"
@@ -275,13 +299,25 @@
     "type": "eau",
     "nom_latin": "Gallinula chloropus"
   },
+  "Garrot à oeil d'or": {
+    "type": "eau",
+    "nom_latin": "Bucephala clangula"
+  },
   "Geai des chênes": {
     "type": "foret",
     "nom_latin": "Garrulus glandarius"
   },
+  "Gélinotte des bois": {
+    "type": "foret",
+    "nom_latin": "Tetrastes bonasia"
+  },
   "Gobemouche gris": {
     "type": "foret",
     "nom_latin": "Muscicapa striata"
+  },
+  "Gobemouche noir": {
+    "type": "foret",
+    "nom_latin": "Ficedula hypoleuca"
   },
   "Goéland argenté": {
     "type": "marin",
@@ -314,6 +350,10 @@
   "Grand Gravelot": {
     "type": "marin",
     "nom_latin": "Charadrius hiaticula"
+  },
+  "Grand tétras": {
+    "type": "montagne",
+    "nom_latin": "Tetrao urogallus"
   },
   "Grand-duc d'Europe": {
     "type": "nocturne",
@@ -487,6 +527,10 @@
     "type": "commun",
     "nom_latin": "Passer domesticus"
   },
+  "Moineau friquet": {
+    "type": "commun",
+    "nom_latin": "Passer montanus"
+  },
   "Mouette mélanocéphale": {
     "type": "marin",
     "nom_latin": "Ichthyaetus melanocephalus"
@@ -526,6 +570,14 @@
   "Petit-duc scops": {
     "type": "nocturne",
     "nom_latin": "Otus scops"
+  },
+  "Phalarope à bec étroit": {
+    "type": "eau",
+    "nom_latin": "Phalaropus lobatus"
+  },
+  "Phalarope à bec large": {
+    "type": "eau",
+    "nom_latin": "Phalaropus fulicarius"
   },
   "Phragmite des joncs": {
     "type": "eau",
@@ -619,6 +671,14 @@
     "type": "foret",
     "nom_latin": "Phylloscopus collybita"
   },
+  "Râle d'eau": {
+    "type": "eau",
+    "nom_latin": "Rallus aquaticus"
+  },
+  "Râle des genêts": {
+    "type": "eau",
+    "nom_latin": "Crex crex"
+  },
   "Roitelet huppé": {
     "type": "foret",
     "nom_latin": "Regulus regulus"
@@ -710,6 +770,10 @@
   "Tarin des aulnes": {
     "type": "foret",
     "nom_latin": "Carduelis spinus"
+  },
+  "Tétras lyre": {
+    "type": "montagne",
+    "nom_latin": "Lyrurus tetrix"
   },
   "Tichodrome échelette": {
     "type": "montagne",

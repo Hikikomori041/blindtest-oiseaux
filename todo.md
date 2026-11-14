@@ -4,6 +4,38 @@
 
 ### Oiseaux à ajouter / modifier
 
+#### Commun
+
+- [ ] Moineau friquet
+
+#### Eau
+
+- [ ] Bernache cravant
+- [ ] Bernache du canada
+- [ ] Bernache nonnette
+- [ ] Cygne chanteur
+- [ ] Cygne de bewick
+- [ ] Garrot à oeil d'or
+- [ ] Phalarope à bec étroit
+- [ ] Phalarope à bec large
+- [ ] Râle d'eau
+- [ ] Râle des genets
+
+#### Forêt
+
+- [ ] Gélinotte des bois
+- [ ] Gobemouche noir
+
+#### Montagne
+
+- [ ] Tétras
+- [ ] Tétra lyre
+- [ ] Tichodrome échelette
+
+#### Plaine
+
+- [ ] Fauvette Orphée
+
 ## À faire
 
 ## Bugs à fix
