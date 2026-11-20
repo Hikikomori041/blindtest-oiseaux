@@ -1,4 +1,5 @@
-import { loadSettings, windowSetSize } from './settings.js';
+import { platform } from './platform/index.js';
+import { loadSettings } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, updateVolumeGradient } from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
@@ -8,27 +9,18 @@ let app = {}; // Paramètres de l'application
 export async function loadApp() {
   setTitleVersion();
 
-  // Chargement des paramètres de l'application
-  try {
-    app = await loadSettings();
-  } catch (err) {
-    console.error('ERREUR CHARGEMENT PARAMÈTRES:', err);
-  }
-
-  if (app.autoplayAtStart === undefined)      { app.autoplayAtStart = true; }
-  if (app.birdsSize === undefined)            { app.birdsSize = "default"; }
-  if (app.loadedList === undefined)           { app.loadedList = "default-list"; }
-  if (app.validationSoundMuted === undefined) { app.validationSoundMuted = false; }
+  // Chargement des paramètres de l'application (complétés par les valeurs par défaut)
+  app = await loadSettings();
 
   app.audio = new Audio();
   app.score = 0;
   app.total = 0;
   app.currentBird = null;
   app.birdHasBeenPlayed = false;
-  
+
   // Chargement des oiseaux
-  app.birdsData = await window.api.getBirdsData('res://data/birds.json');
-  app.myLists   = await window.api.getAllLists();
+  app.birdsData = await platform.loadBirdsData();
+  app.myLists   = await platform.getAllLists();
 
   // On applique les types sauvegardés au DOM avant de générer la grille,
   // pour que getSelectedTypes() lise le bon état depuis les settings.
@@ -46,9 +38,11 @@ export async function loadApp() {
 
   // La fenêtre s'affiche toute seule une fois la page chargée normalement (voir electron-main.js: "once('ready-to-show',...)")
   // On change la taille de la fenêtre
-  windowSetSize(app.winWidth, app.winHeight);
+  if (app.winWidth && app.winHeight) {
+    platform.resizeWindow(app.winWidth, app.winHeight);
+  }
   if (app.isMaximized) {
-    window.api.maximize();
+    platform.toggleMaximizeWindow();
   }
 
   // On charge les boutons dans la barre des tâches

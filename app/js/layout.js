@@ -1,4 +1,5 @@
 // Ici iront toutes les fonctions liées à l'affichage
+import { platform } from './platform/index.js';
 import { getNomLatin, getSelectedTypes, getSortedBirdEntries, getSortedBirdNames, slugify } from './strings.js';
 import { bindBirdCell } from './controls.js';
 import { clearSearch } from './search.js';
@@ -6,7 +7,7 @@ import { playBird, playValidationSound } from './player.js';
 
 // Change la version dans l'app-bar
 export const setTitleVersion = async () => {
-  const version = await window.api.getVersion();
+  const version = await platform.getVersion();
   document.querySelector('#titlebar .title').textContent = `Blind-Test Oiseaux v${version}`;
   document.title = `Blind-Test Oiseaux v${version}`;
 };
@@ -82,7 +83,7 @@ export async function applySelectedList({app}) {
     if (!app.selectedTypes.includes(info.type) || (app.loadedList != "default-list" && !selectedBirds.has(birdName))) continue;
     
     try {
-      info.variants = await window.api.getMp3Paths(birdName);
+      info.variants = await platform.getSoundUrls(birdName);
     } catch {
       console.error(`Impossible de charger les sons de l'oiseau suivant: ${birdName}`);
     }
@@ -95,7 +96,7 @@ export async function applySelectedList({app}) {
     divCell.innerHTML = `
       <div class="columns is-vcentered">
         <div class="column is-one-fifth">
-          <img class="bird-img" src="res://birds/${birdName}/image.jpg" alt="${birdName}">
+          <img class="bird-img" src="${platform.resourceUrl(`birds/${birdName}/image.jpg`)}" alt="${birdName}">
         </div>
         <div class="column bird-name">
           <span class="bird-name-french">${birdName}</span>
@@ -128,10 +129,10 @@ function showImage(birdName, id='result-image') {
   const img = document.createElement('img');
 
   container.innerHTML = '';
-  img.src = `res://birds/${birdName}/image.jpg`;
+  img.src = platform.resourceUrl(`birds/${birdName}/image.jpg`);
   img.onclick = () => {
     // console.log(link);
-    window.open(link, '_blank');
+    platform.openLink(link);
   };
   // img.title = link;
   // img.title = "Cliquer pour en savoir plus sur cet oiseau";
@@ -316,14 +317,14 @@ export function updateTiles({app}) {
     autoplayTile.classList.add("activated");
     autoplayTile.setAttribute("data-tooltip", "Désactiver la lecture au démarrage de l'application");
     autoplayTile.innerHTML = `
-      <img src="res://images/autoplay-on.png"/>
+      <img src="${platform.resourceUrl("images/autoplay-on.png")}"/>
       <span>Lecture au démarrage activée</span>
     `;
   } else {
     autoplayTile.classList.remove("activated");
     autoplayTile.setAttribute("data-tooltip", "Activer la lecture au démarrage de l'application");
     autoplayTile.innerHTML = `
-      <img src="res://images/autoplay-off.png"/>
+      <img src="${platform.resourceUrl("images/autoplay-off.png")}"/>
       <span>Lecture au démarrage désactivée</span>
     `;
   }
@@ -350,14 +351,14 @@ export function updateTiles({app}) {
     validationSoundMutedTile.classList.add("activated");
     validationSoundMutedTile.setAttribute("data-tooltip", "Activer les sons de validation");
     validationSoundMutedTile.innerHTML = `
-      <img src="res://images/volume-muted-yellow.png"/>
+      <img src="${platform.resourceUrl("images/volume-muted-yellow.png")}"/>
       <span>Sons de validation désactivés</span>
     `;
   } else {
     validationSoundMutedTile.setAttribute("data-tooltip", "Désactiver les sons de validation");
     validationSoundMutedTile.classList.remove("activated");
     validationSoundMutedTile.innerHTML = `
-      <img src="res://images/volume-3-yellow.png"/>
+      <img src="${platform.resourceUrl("images/volume-3-yellow.png")}"/>
       <span>Sons de validation activés</span>
     `;
   }
@@ -385,7 +386,6 @@ function hideBirdCells({app}) {
   // }
 
   document.getElementById('what-bird-title').innerHTML = `On écoute:<br/><br/>${app.currentBird} (<i>${app.birdsData[app.currentBird].nom_latin}</i>)`;
-  document.getElementById('bird-face').src = `res://birds/${app.currentBird}/image.jpg`;
   // document.getElementById('bird-face').alt = `${app.currentBird}`;
   showImage(app.currentBird, "bird-face")
   document.getElementById('bird-face').classList.remove("display-none");

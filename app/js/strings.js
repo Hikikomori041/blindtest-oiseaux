@@ -1,3 +1,5 @@
+import { platform } from './platform/index.js';
+
 // Permet de récupérer le 'slug' de l'url oiseaux.net à partir du nom de l'oiseau
 export function slugify(nomOiseau) {
   return nomOiseau.normalize('NFD')
@@ -40,5 +42,5 @@ export function getNomLatin(nomFrancais, birdsData) {
 }
 
 export function log(message) {
-  window.api.logMessage(message);
+  platform.log(message);
 }

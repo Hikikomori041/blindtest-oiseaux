@@ -1,30 +1,15 @@
-import { saveSettings } from './settings.js';
+import { platform } from './platform/index.js';
+import { saveAppSettings } from './settings.js';
 import { clearSearch, searchBird } from './search.js';
-import { getSelectedTypes, slugify } from './strings.js';
+import { slugify } from './strings.js';
 import { loadBirdlistsPage, saveList, deleteList, loadList, openListEditPage, restoreMyListsPage } from './birdlists.js';
 import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
 
 async function saveAndCloseApp({app}) {
-  await saveSettings({
-    isMaximized: app.isMaximized,
-    winWidth: app.winWidth,
-    winHeight: app.winHeight,
-
-    volume: app.volume,
-    muted: app.muted,
-    lastVolume: app.lastVolume,
-    replayMode: app.replayMode,
-
-    autoplayAtStart: app.autoplayAtStart,
-    birdsSize: app.birdsSize,
-    loadedList: app.loadedList,
-    selectedTypes: getSelectedTypes(),
-    validationSoundMuted: app.validationSoundMuted,
-  });
-
-  window.api.close();
+  await saveAppSettings({app});
+  platform.closeWindow();
 }
 
 export function bindAllButtons({app}) {
@@ -86,11 +71,11 @@ function bindMyListsButtons({app}) {
     newListId = `list-` + newListId;
 
     // On crée la nouvelle liste
-    await window.api.saveList(newListId, newList);
+    await platform.saveList(newListId, newList);
     // console.log("on crée une nouvelle liste: ");
 
     // On charge la liste
-    app.myLists = await window.api.getAllLists();
+    app.myLists = await platform.getAllLists();
     app.loadedList = newListId;
     // app.myLists[newListId] = newList;
 
@@ -102,23 +87,18 @@ function bindMyListsButtons({app}) {
 // Fonction qui bind leurs actions aux boutons de la fenêtre
 function bindWindow({app}) {
   // Minimiser la fenêtre
-  document.getElementById('minimize-button').addEventListener('click', () => window.api.minimize());
+  document.getElementById('minimize-button').addEventListener('click', () => platform.minimizeWindow());
   
   // Agrandir ou réduire la fenêtre
   const maximizeButton = document.getElementById('maximize-button');
   maximizeButton.addEventListener('click', () => {
-    window.api.maximize();
+    platform.toggleMaximizeWindow();
     app.isMaximized = !app.isMaximized;
   });
-  window.api.onWindowMaximize(() => {
-    maximizeButton.innerHTML = '🗗';
-    app.isMaximized = true;
-    maximizeButton.title = "Réduire la fenêtre";
-  });
-  window.api.onWindowUnmaximize(() => {
-    maximizeButton.innerHTML = '🗖';
-    app.isMaximized = false;
-    maximizeButton.title = "Agrandir la fenêtre";
+  platform.onMaximizeChange((isMaximized) => {
+    maximizeButton.innerHTML = isMaximized ? '🗗' : '🗖';
+    app.isMaximized = isMaximized;
+    maximizeButton.title = isMaximized ? "Réduire la fenêtre" : "Agrandir la fenêtre";
   });
 
   window.addEventListener('resize', () => {
@@ -386,7 +366,7 @@ export function bindBirdCell(birdCell, birdName, {app}) {
     seeButton.onclick = () => {
       const link = `https://www.oiseaux.net/oiseaux/${slugify(birdName)}.html`;
       // console.log(link);
-      window.open(link, '_blank');
+      platform.openLink(link);
       menu.style.display = 'none';
     };
   });
@@ -430,8 +410,8 @@ function bindAudioButtons({app}) {
     app.audio.load();
     app.audio.oncanplaythrough = () => {
       app.audio.play().then(() => {
-        document.getElementById('pause-button-img').src = "res://images/pause-button.png";
-        document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante.gif";
+        document.getElementById('pause-button-img').src = platform.resourceUrl("images/pause-button.png");
+        document.getElementById('bird-animation').src = platform.resourceUrl("images/oiseau_qui_chante.gif");
       }).catch(err => {
         console.error("Erreur lecture :", err);
       });
@@ -462,9 +442,9 @@ function bindVolumeInputs({app}) {
       app.audio.currentTime = 0;
       app.audio.play();
     } else {
-      document.getElementById('pause-button-img').src = "res://images/play-button.png";
-      document.getElementById('bird-animation').src = "res://images/oiseau_qui_chante_pas.png";
-      window.api.updateThumbar(app.audio.paused, app.muted);
+      document.getElementById('pause-button-img').src = platform.resourceUrl("images/play-button.png");
+      document.getElementById('bird-animation').src = platform.resourceUrl("images/oiseau_qui_chante_pas.png");
+      platform.updateMediaState(app.audio.paused, app.muted);
     }
   });
 }
@@ -601,7 +581,7 @@ export function toggleSoundControls(activate = true) {
 
 // Associe les actions de la taskbar à l'application
 export function loadTaskbarButtons({app}) {
-  window.api.onPlayerControl((action) => {
+  platform.onMediaControl((action) => {
     if (action === 'play-pause') {
       togglePause({app}); // ta fonction existante
     }
@@ -626,8 +606,8 @@ function flashTooltip(el, text, ms = 400) {
 
 // document.getElementById('update-search-button').onclick = async () => {
 //   try {
-//     const remoteVersion = await window.api.checkUpdate();
-//     const localVersion = await window.api.getVersion();
+//     const remoteVersion = await platform.getRemoteVersion();
+//     const localVersion = await platform.getVersion();
 //
 //     if (compareVersions(remoteVersion, localVersion) > 0) {
 //       alert(`Nouvelle version dispo : v${remoteVersion} (vous avez v${localVersion})`);

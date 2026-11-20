@@ -1,4 +1,4 @@
-
+import { platform } from './platform/index.js';
 import { playRandomBird } from './player.js'
 import { showOverlay, hideOverlay, closePopup, showShortcutsPopup, hideShortcutsPopup, updateTiles } from './layout.js';
 
@@ -49,7 +49,7 @@ export function bindMoreMenu({app}) {
     // On ouvre GitHub sur la page de création d'une nouvelle issue
     // const link = `https://github.com/Hikikomori041/blindtest-oiseaux/issues/new`;
     const link = `mailto:nicolas.blachere@gmail.com?subject=Signalement%20de%20bug%20-%20Blindtest%20Oiseaux&body=Bonjour%2C%0A%0AJe%20souhaite%20signaler%20le%20bug%20suivant%20dans%20l'application%20Blindtest%20Oiseaux%3A%0A%0A[Décrivez%20le%20bug%20ici]%0A%0A`;
-    window.open(link, '_blank');
+    platform.openLink(link);
 
     // On cache le menu
     closeMoreMenu();
@@ -59,7 +59,7 @@ export function bindMoreMenu({app}) {
   document.getElementById('see-github-tile').addEventListener('click', () => {
     // On ouvre GitHub sur un navigateur intégré
     const link = `https://github.com/Hikikomori041/blindtest-oiseaux/tree/main`;
-    window.open(link, '_blank');
+    platform.openLink(link);
 
     // On cache le menu
     closeMoreMenu();
@@ -134,7 +134,7 @@ export function bindMoreMenu({app}) {
 
 
 export async function toggleFullscreen() {
-  const isFullscreen = await window.api.toggleFullscreen();
+  const isFullscreen = await platform.toggleFullscreen();
   const fullscreenButton = document.getElementById("fullscreen-button");
   const appBar = document.getElementById("titlebar");
   const content = document.getElementById('blindtest-content');

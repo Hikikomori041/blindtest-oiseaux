@@ -26,6 +26,8 @@ electron-main.js   Process principal : fenêtres (splash, principale, mise à jo
 preload.js         Pont contextBridge → window.api (renderer) et window.updateApi (fenêtre de MAJ)
 app/               Renderer (HTML/CSS + modules ES dans app/js/)
   js/main.js       Point d'entrée → init.js (loadApp)
+  js/platform/     Tout ce qui dépend de la plateforme (index.js choisit l'implémentation, electron.js)
+  js/settings.js   Paramètres utilisateur (valeurs par défaut + sauvegarde)
   js/layout.js     Affichage : grille d'oiseaux, popups, tuiles, validation
   js/controls*.js  Liaison des boutons / menus / raccourcis
   js/player.js     Lecture audio (oiseau aléatoire, variantes, volume, mode replay)
@@ -37,6 +39,10 @@ birds/<Nom FR>/    Un dossier par oiseau : image.jpg + un ou plusieurs .mp3 (non
 scripts/           Préparation des fichiers oiseaux (appelés par npm run birds:prepare)
 tools/             Outillage d'ajout d'oiseaux (tools/oiseaux.js + lot en cours tools/new_birds.json)
 ```
+
+### Couche plateforme (renderer)
+
+Le renderer doit tourner sur Electron et, à terme, sur Android (Capacitor, branche `mobile-android`). Dans `app/js/`, **ne jamais appeler directement** `window.api`, `res://` ni `window.open` : passer par `platform` (`app/js/platform/index.js`), par ex. `platform.resourceUrl('images/x.png')`, `platform.openLink(url)`, `platform.getAllLists()`. L'interface est décrite en tête de `platform/index.js`. Une nouvelle fonction native s'ajoute à `preload.js` + `electron-main.js` **et** à `platform/electron.js` (et à l'implémentation mobile quand elle existera). Les `res://` du HTML/CSS statique restent tels quels (ils seront réécrits par le build mobile).
 
 ### Données oiseaux
 
