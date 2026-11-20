@@ -7,6 +7,16 @@ def appVersionName = appPackage.version
 def appVersionCode = appVersionName.tokenize('.').collect { it.replaceAll(/\D.*/, '') as int }
     .with { it[0] * 10000 + it[1] * 100 + it[2] }
 
+// Signature de l'APK de release : variables d'environnement (CI, secrets GitHub)
+// ou android/keystore.properties en local (ignoré par git). Sans keystore, l'APK de release n'est pas signé.
+def keystoreProps = new Properties()
+def keystorePropsFile = rootProject.file('keystore.properties')
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withInputStream { keystoreProps.load(it) }
+}
+def signingValue = { String envName, String propName -> System.getenv(envName) ?: keystoreProps.getProperty(propName) }
+def releaseStoreFile = signingValue('ANDROID_KEYSTORE_PATH', 'storeFile')
+
 android {
     namespace = "com.nicobla.oiseaux"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -23,8 +33,19 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (releaseStoreFile) {
+                storeFile file(releaseStoreFile)
+                storePassword signingValue('ANDROID_KEYSTORE_PASSWORD', 'storePassword')
+                keyAlias signingValue('ANDROID_KEY_ALIAS', 'keyAlias')
+                keyPassword signingValue('ANDROID_KEY_PASSWORD', 'keyPassword')
+            }
+        }
+    }
     buildTypes {
         release {
+            signingConfig releaseStoreFile ? signingConfigs.release : null
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

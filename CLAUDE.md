@@ -9,7 +9,7 @@ Application Electron (Windows + Mac) de blind-test de cris et chants d'oiseaux. 
 | `npm start` | Lance l'appli en dev |
 | `npm run lint` | ESLint (main, renderer, `scripts/`, `tools/`) |
 | `npm run build` | Build local (electron-builder → `dist/`) |
-| `npm run release` | Crée et pousse le tag `v<version>` → GitHub Actions build Win + Mac et publie la release (auto-update) |
+| `npm run release` | Crée et pousse le tag `v<version>` → GitHub Actions build Win + Mac + APK Android et publie la release (auto-update desktop, Obtainium sur Android) |
 | `npm run birds:check -- "Nom:cat" …` | Vérifie des oiseaux à ajouter (voir plus bas) |
 | `npm run birds:collect` | Crée les dossiers du lot en cours + ouvre la page de collecte |
 | `npm run birds:merge` | Fusionne le lot dans `birds.json` puis lance `birds:prepare` |
@@ -18,6 +18,7 @@ Application Electron (Windows + Mac) de blind-test de cris et chants d'oiseaux. 
 | `npm run mobile:build` | Génère `www/` (`scripts/build-mobile.js`) puis `cap sync android` |
 | `npm run mobile:open` | Ouvre le projet `android/` dans Android Studio |
 | `npm run mobile:run` | Build mobile + installation sur un appareil / émulateur (`cap run android`) |
+| `npm run mobile:apk` | Build mobile + APK de release (signé si `android/keystore.properties` existe) |
 
 `birds:prepare` lance des scripts Python via `scripts/run-python.js` (premier interpréteur trouvé parmi `py -3`, `python`, `python3`) et a besoin de `ffmpeg` (`winget install Gyan.FFmpeg`) et du module `mutagen` (`python -m pip install --user mutagen`).
 
@@ -59,7 +60,8 @@ Le renderer tourne sur Electron et sur Android (Capacitor). Dans `app/js/`, **ne
 - Bouton retour Android : `handleBackButton()` dans `controls.js` ferme ce qui est ouvert (menus, popup, pages des listes…), sinon met l'appli en arrière-plan. En arrière-plan le son est mis en pause.
 - Tuile « Sons hors ligne » (mobile) : nombre de sons téléchargés + activation du téléchargement en Wi-Fi (préférence `auto-download-sounds`).
 - Icônes et écran de démarrage : `python scripts/generate-android-icons.py` (Pillow) à partir de `assets/images/oiseau.png`, à relancer seulement si l'icône change. Couleurs dans `android/app/src/main/res/values/` (`colors.xml`, `ic_launcher_background.xml`).
-- Version de l'APK (`versionName`/`versionCode`) lue dans `package.json` par `android/app/build.gradle`. Mises à jour par les utilisateurs via Obtainium (releases GitHub).
+- Version de l'APK (`versionName`/`versionCode`) lue dans `package.json` par `android/app/build.gradle`. Mises à jour par les utilisateurs via Obtainium (releases GitHub) : **un seul `.apk` par release**.
+- Signature : job `build-android` de `build.yml`, secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`. En local : `android/keystore.properties` (ignoré par git, clés `storeFile`, `storePassword`, `keyAlias`, `keyPassword`). Le keystore de l'utilisateur est hors du dépôt ; **ne jamais le changer** (sinon les utilisateurs doivent désinstaller l'appli). Un APK de debug et un APK de release ont des signatures différentes : désinstaller l'un avant d'installer l'autre.
 - Débogage : `chrome://inspect` (APK debug) ; les logs JS sortent dans logcat sous `Capacitor/Console`.
 
 ### Données oiseaux

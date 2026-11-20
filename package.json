@@ -16,6 +16,7 @@
     "mobile:build": "node scripts/build-mobile.js && cap sync android",
     "mobile:open": "cap open android",
     "mobile:run": "node scripts/build-mobile.js && cap run android",
+    "mobile:apk": "npm run mobile:build && cd android && gradlew assembleRelease",
     "lint": "eslint ."
   },
   "devDependencies": {

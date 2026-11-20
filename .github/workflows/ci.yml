@@ -8,6 +8,7 @@ on:
       - 'assets/data/**'
       - 'scripts/**'
       - 'tools/**'
+      - 'android/**'
       - '.claude/**'
       - '**.md'
       - '.github/workflows/**'
@@ -18,6 +19,7 @@ on:
       - 'assets/data/**'
       - 'scripts/**'
       - 'tools/**'
+      - 'android/**'
       - '.claude/**'
       - '**.md'
       - '.github/workflows/**'
@@ -38,7 +40,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Installer les dépendances
@@ -65,7 +67,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Installer les dépendances

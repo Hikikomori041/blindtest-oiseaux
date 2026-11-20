@@ -7,3 +7,7 @@ tools/collecte.html
 
 # Version mobile (générée par scripts/build-mobile.js)
 www/
+
+# Clés de signature Android (ne jamais commiter)
+*.jks
+*.keystore
