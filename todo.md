@@ -1,40 +1,10 @@
 # To do
 
+- npm audit fix
+
 ## Notes de mise à jour 2.5.0
 
 ### Oiseaux à ajouter / modifier
-
-#### Commun
-
-- [ ] Moineau friquet
-
-#### Eau
-
-- [ ] Bernache cravant
-- [ ] Bernache du canada
-- [ ] Bernache nonnette
-- [ ] Cygne chanteur
-- [ ] Cygne de bewick
-- [ ] Garrot à oeil d'or
-- [ ] Phalarope à bec étroit
-- [ ] Phalarope à bec large
-- [ ] Râle d'eau
-- [ ] Râle des genets
-
-#### Forêt
-
-- [ ] Gélinotte des bois
-- [ ] Gobemouche noir
-
-#### Montagne
-
-- [ ] Tétras
-- [ ] Tétra lyre
-- [ ] Tichodrome échelette
-
-#### Plaine
-
-- [ ] Fauvette Orphée
 
 ## À faire
 
@@ -58,29 +28,3 @@
 ## Idées abandonnées
 
 - ajouter la langue anglaise ? (un peu long pour pas grand chose d'utile, mais techniquement possible à faire)
-
-## Aide
-
-Pour installer:
-
-```cmd
-npm install
-```
-
-Pour lancer:
-
-```cmd
-npm start
-```
-
-Pour build en local:
-
-```cmd
-npm run build
-```
-
-Pour push une release, on peut simplement faire:
-
-```cmd
-npm run release
-```

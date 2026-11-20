@@ -9,7 +9,7 @@ export default [
 
   // ── Process principal Electron + scripts Node (CommonJS) ──
   {
-    files: ['electron-main.js', 'preload.js', 'release.js'],
+    files: ['electron-main.js', 'preload.js', 'release.js', 'scripts/**/*.js', 'tools/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'commonjs',

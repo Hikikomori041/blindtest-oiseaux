@@ -7,6 +7,9 @@ on:
       - 'birds/**'
       - 'assets/data/**'
       - 'scripts/**'
+      - 'tools/**'
+      - '.claude/**'
+      - '**.md'
       - '.github/workflows/**'
   pull_request:
     branches: [main]
@@ -14,6 +17,9 @@ on:
       - 'birds/**'
       - 'assets/data/**'
       - 'scripts/**'
+      - 'tools/**'
+      - '.claude/**'
+      - '**.md'
       - '.github/workflows/**'
 
 

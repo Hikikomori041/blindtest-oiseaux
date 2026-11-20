@@ -6,7 +6,11 @@
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
-    "birds:prepare": "py .\\scripts\\trier_json.py && py .\\scripts\\rename_images.py && py .\\scripts\\reencode_sons.py && node scripts/generate-birds-index.js",
+    "birds:check": "node tools/oiseaux.js verifier",
+    "birds:collect": "node tools/oiseaux.js collecte --ouvrir",
+    "birds:merge": "node tools/oiseaux.js fusion && npm run birds:prepare",
+    "birds:audit": "node tools/oiseaux.js audit",
+    "birds:prepare": "node scripts/run-python.js scripts/trier_json.py && node scripts/run-python.js scripts/rename_images.py && node scripts/run-python.js scripts/reencode_sons.py && node scripts/generate-birds-index.js",
     "build": "electron-builder --publish never",
     "release": "node release.js",
     "lint": "eslint ."
@@ -24,6 +28,10 @@
     "files": [
       "**/*",
       "!birds/**",
+      "!tools/**",
+      "!scripts/**",
+      "!.claude/**",
+      "!*.md",
       "assets/data/birds-index.json",
       "assets/images/**"
     ],

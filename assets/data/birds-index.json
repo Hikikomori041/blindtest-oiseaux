@@ -1,6 +1,6 @@
 {
-  "version": "2026-11-14T19:24:56.699Z",
-  "generatedAt": "2026-11-14T19:24:56.700Z",
+  "version": "2026-11-20T02:05:55.745Z",
+  "generatedAt": "2026-11-20T02:05:55.746Z",
   "baseUrl": "https://github.com/Hikikomori041/blindtest-oiseaux/raw/refs/heads/main/",
   "files": [
     {
@@ -1614,22 +1614,22 @@
       "sha256": "d68ec8cfeb963ed07616fc0e7ee31b2db4552d23fd57aeda729971ce1476b6ba"
     },
     {
-      "path": "birds/Etourneau sansonnet/image.jpg",
+      "path": "birds/Étourneau sansonnet/image.jpg",
       "size": 96880,
       "sha256": "9522c14a1d5fd93f2f737923a5b1a6e0d9452f9aa84d31d1fba1607dcf846356"
     },
     {
-      "path": "birds/Etourneau sansonnet/XC162221 - Common Starling - Sturnus vulgaris.mp3",
+      "path": "birds/Étourneau sansonnet/XC162221 - Common Starling - Sturnus vulgaris.mp3",
       "size": 393820,
       "sha256": "5325940b288e313a3effcde6999f596b47241f2d6deff7ac5ac4a0dc82f35b87"
     },
     {
-      "path": "birds/Etourneau sansonnet/XC384443 - Common Starling - Sturnus vulgaris.mp3",
+      "path": "birds/Étourneau sansonnet/XC384443 - Common Starling - Sturnus vulgaris.mp3",
       "size": 3811398,
       "sha256": "d4825940dd37ee352e800aaad9ca6168dfc0de342398f7009eaa7887bbd3fe09"
     },
     {
-      "path": "birds/Etourneau sansonnet/XC538407 - Common Starling - Sturnus vulgaris.mp3",
+      "path": "birds/Étourneau sansonnet/XC538407 - Common Starling - Sturnus vulgaris.mp3",
       "size": 1088147,
       "sha256": "dd36e02c3747ce1bd013502058a54e988f237e7a0980ef5324c904393ab04652"
     },
@@ -4804,27 +4804,27 @@
       "sha256": "9f074e13e1c81f4c5c856ff8a4cf9bbe968477288678a9a5916c1a3dbcaedf7e"
     },
     {
-      "path": "birds/Sterne Pierregarin/image.jpg",
+      "path": "birds/Sterne pierregarin/image.jpg",
       "size": 36158,
       "sha256": "78a0784fb4e4ff60043d523002e397f93f3d03abe8d4c0f503c7b9aed98cde17"
     },
     {
-      "path": "birds/Sterne Pierregarin/XC1002309 - Sterne pierregarin - Sterna hirundo hirundo.mp3",
+      "path": "birds/Sterne pierregarin/XC1002309 - Sterne pierregarin - Sterna hirundo hirundo.mp3",
       "size": 143757,
       "sha256": "674055bd2b028784fecdb32bfd5e33400afb7a234348fff7dcf66e9df1f80c89"
     },
     {
-      "path": "birds/Sterne Pierregarin/XC1016924 - Sterne pierregarin - Sterna hirundo.mp3",
+      "path": "birds/Sterne pierregarin/XC1016924 - Sterne pierregarin - Sterna hirundo.mp3",
       "size": 263433,
       "sha256": "2cca2aead97ae7ec6980139b17610ce6f733ea5127345b6a60ac01d8690f8312"
     },
     {
-      "path": "birds/Sterne Pierregarin/XC1079363 - Sterne pierregarin - Sterna hirundo.mp3",
+      "path": "birds/Sterne pierregarin/XC1079363 - Sterne pierregarin - Sterna hirundo.mp3",
       "size": 523191,
       "sha256": "6782a33c6bbc7d35251670e70ec581a2b229a0c06fd67dec849ebbfd3e011b00"
     },
     {
-      "path": "birds/Sterne Pierregarin/XC698396 - Sterne pierregarin - Sterna hirundo.mp3",
+      "path": "birds/Sterne pierregarin/XC698396 - Sterne pierregarin - Sterna hirundo.mp3",
       "size": 204750,
       "sha256": "6ac7ef2ffc8fe244520920116c38daf08eaa96924b89d7fb8049d18321ba9501"
     },

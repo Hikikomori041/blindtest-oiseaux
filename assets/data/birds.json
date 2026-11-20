@@ -21,7 +21,7 @@
   },
   "Autour des palombes": {
     "type": "foret",
-    "nom_latin": "Accipiter gentilis"
+    "nom_latin": "Astur gentilis"
   },
   "Avocette élégante": {
     "type": "eau",
@@ -97,7 +97,7 @@
   },
   "Blongios nain": {
     "type": "eau",
-    "nom_latin": "Ixobrychus minutus"
+    "nom_latin": "Botaurus minutus"
   },
   "Bondrée apivore": {
     "type": "foret",
@@ -251,7 +251,7 @@
     "type": "foret",
     "nom_latin": "Accipiter nisus"
   },
-  "Etourneau sansonnet": {
+  "Étourneau sansonnet": {
     "type": "commun",
     "nom_latin": "Sturnus vulgaris"
   },
@@ -469,7 +469,7 @@
   },
   "Linotte mélodieuse": {
     "type": "plaine",
-    "nom_latin": "Carduelis cannabina"
+    "nom_latin": "Linaria cannabina"
   },
   "Locustelle luscinioïde": {
     "type": "eau",
@@ -769,7 +769,7 @@
   },
   "Tarin des aulnes": {
     "type": "foret",
-    "nom_latin": "Carduelis spinus"
+    "nom_latin": "Spinus spinus"
   },
   "Tétras lyre": {
     "type": "montagne",
