@@ -211,6 +211,21 @@
 
 
 
+/* Tiles propres à la version mobile (affichées par mobile.css) */
+.mobile-only {
+  display: none !important;
+}
+
+#offline-sounds-tile {
+  background: rgba(30, 90, 140, 0.75);
+}
+#offline-sounds-tile.activated {
+  background: rgba(40, 40, 60, 0.75);
+}
+#offline-sounds-tile.activated span {
+  color: gray;
+}
+
 #toggle-autoplay-tile {
   /* background: rgba(121, 121, 121, 0.75); */
   background: rgba(58, 96, 86, 0.75);

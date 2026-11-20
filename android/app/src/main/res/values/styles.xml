@@ -13,10 +13,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- Fond visible derrière les barres système (couleur de la barre de contrôles) -->
+        <item name="android:windowBackground">@color/appBackground</item>
     </style>
 
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
+        <!-- Écran de démarrage Android 12+ : icône de l'appli sur le fond sombre -->
+        <item name="windowSplashScreenBackground">@color/appBackground</item>
     </style>
 </resources>

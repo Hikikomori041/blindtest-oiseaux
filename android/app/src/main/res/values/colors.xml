@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Couleur derrière la barre d'état et la barre de navigation (= #controls de l'appli) -->
+    <color name="appBackground">#2B3950</color>
+</resources>

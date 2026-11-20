@@ -12,6 +12,9 @@
 //   getAllLists(), saveList(id, liste), deleteList(id)
 //   closeWindow(), minimizeWindow(), toggleMaximizeWindow(), onMaximizeChange(cb),
 //   resizeWindow(l, h), toggleFullscreen()
+//   onBackButton(cb), minimizeApp()  bouton retour d'Android / mise en arrière-plan
+//   getOfflineSoundsInfo()          { autoDownload, downloaded, total } sur mobile, null sur desktop
+//   setAutoDownloadSounds(bool)
 //   updateMediaState(isPaused, isMuted), onMediaControl(cb)
 //   log(message)
 

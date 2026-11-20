@@ -1,7 +1,7 @@
 import { platform } from './platform/index.js';
 import { loadSettings, saveAppSettings } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
-import { playRandomBird, updateVolumeGradient } from './player.js';
+import { playRandomBird, togglePause, updateVolumeGradient } from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 let app = {}; // Paramètres de l'application
@@ -57,10 +57,13 @@ export async function loadApp() {
   // On charge les boutons dans la barre des tâches
   loadTaskbarButtons({app});
 
-  // Sur mobile l'appli n'est jamais « fermée » : on sauvegarde dès qu'elle passe en arrière-plan
+  // Sur mobile l'appli n'est jamais « fermée » : quand elle passe en arrière-plan,
+  // on sauvegarde les paramètres et on coupe le son
   if (!platform.isDesktop) {
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') saveAppSettings({app});
+      if (document.visibilityState !== 'hidden') return;
+      saveAppSettings({app});
+      if (!app.audio.paused) togglePause({app}, true);
     });
   }
 

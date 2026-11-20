@@ -344,6 +344,16 @@ export function updateTiles({app}) {
   }
 
 
+  // Change la tile des sons hors ligne (mobile uniquement)
+  const offlineInfo = platform.getOfflineSoundsInfo();
+  if (offlineInfo) {
+    const offlineTile = document.getElementById('offline-sounds-tile');
+    offlineTile.classList.toggle('activated', !offlineInfo.autoDownload);
+    document.getElementById('offline-sounds-span').innerHTML =
+      `Sons hors ligne : ${offlineInfo.downloaded}/${offlineInfo.total}<br/>` +
+      (offlineInfo.autoDownload ? 'Téléchargement en Wi-Fi activé' : 'Téléchargement désactivé');
+  }
+
   // Change la tile des sons de validation
   let validationSoundMutedTile = document.getElementById('toggle-confirm-sound-tile');
 

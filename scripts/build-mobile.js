@@ -1,5 +1,5 @@
 // Prépare www/ (webDir de Capacitor) à partir du renderer desktop :
-//   app/index.html, app/css, app/js     → www/
+//   app/index.html, app/css, app/js     → www/ (+ css/mobile.css, chargée seulement ici)
 //   assets/images, assets/sons          → www/images, www/sons
 //   assets/data/birds.json              → www/data/birds.json (secours au 1er lancement hors ligne)
 //   @capacitor/core, bulma              → www/js/platform/vendor, www/css/vendor
@@ -57,6 +57,10 @@ rewrite('index.html', [
   [/(<meta http-equiv="Content-Security-Policy" content=")[^"]*(")/, `$1${CSP}$2`],
   [/https:\/\/cdn\.jsdelivr\.net\/npm\/bulma@[^"]*\/bulma\.min\.css/, 'css/vendor/bulma.min.css'],
   [/res:\/\/images\//g, 'images/'],
+  // Largeur de l'écran, sans zoom (le zoom à deux doigts gênerait le jeu)
+  [/(<meta charset="UTF-8">)/, '$1\n  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">'],
+  // Feuille de style mobile, après les autres pour les surcharger
+  [/(\s*<\/head>)/, '\n  <link rel="stylesheet" href="css/mobile.css">$1'],
 ]);
 
 for (const cssFile of fs.readdirSync(path.join(WWW, 'css'))) {

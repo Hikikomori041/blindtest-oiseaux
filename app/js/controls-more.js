@@ -9,7 +9,8 @@ export function bindMoreMenu({app}) {
     const moreMenu = document.getElementById('more-menu');
 
     if (moreMenu.classList.contains('hidden')) {
-      // On affiche le menu
+      // On affiche le menu (à jour : le nombre de sons hors ligne évolue en tâche de fond)
+      updateTiles({app});
       openMoreMenu();
     } else {
       // On cache le menu
@@ -118,6 +119,14 @@ export function bindMoreMenu({app}) {
   });
   
 
+
+  // Tile "Sons hors ligne" (mobile) : active / désactive le téléchargement des sons en Wi-Fi
+  document.getElementById('offline-sounds-tile').addEventListener('click', () => {
+    const info = platform.getOfflineSoundsInfo();
+    if (!info) return;
+    platform.setAutoDownloadSounds(!info.autoDownload);
+    updateTiles({app});
+  });
 
   // Tile "Activer / désactiver la lecture automatique au démarrage"
   document.getElementById('toggle-autoplay-tile').addEventListener('click', () => {

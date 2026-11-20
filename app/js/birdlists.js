@@ -145,7 +145,7 @@ export async function openListEditPage({app}, listId) {
   listNameElmt.value = list.name;
   listNameElmt.dataset.id = listId;
 
-  listNameElmt.focus();
+  if (platform.isDesktop) listNameElmt.focus(); // sur mobile : pas de clavier à l'ouverture
   listNameElmt.addEventListener('keydown', (e) => {
     if (e.key === "Enter") {
       saveList({app});

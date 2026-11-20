@@ -1,0 +1,438 @@
+/* ------------------------------------------------------- */
+/*            Interface mobile (Android, portrait)         */
+/* ------------------------------------------------------- */
+/* Chargée uniquement par la version Android : scripts/build-mobile.js ajoute le <link>
+   après les autres feuilles de style, donc ces règles surchargent celles du desktop. */
+
+:root {
+  --controls-height: 108px;
+  --gap: 8px;
+}
+
+/* Pas de sélection de texte ni de menu natif sur appui long (sauf dans les champs) */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Les infobulles s'affichent au survol : inutiles (et collantes) au doigt */
+.tooltip[data-tooltip]::after,
+.tooltip[data-tooltip]::before {
+  display: none !important;
+}
+
+/* Éléments propres au desktop */
+#titlebar,
+#controls-right,
+#see-shortcuts-tile,
+#shortcuts-popup {
+  display: none !important;
+}
+
+/* Éléments propres au mobile (masqués par défaut dans tiles.css) */
+#offline-sounds-tile.mobile-only {
+  display: flex !important;
+}
+
+
+/* ------------------------------------------------------- */
+/*                    Page du Blind-Test                   */
+/* ------------------------------------------------------- */
+#blindtest-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  top: 0;
+  bottom: var(--controls-height);
+  margin: 0 !important;
+  padding: var(--gap);
+}
+#blindtest-content::after {
+  display: none;
+}
+
+/* Colonne de gauche → bandeau horizontal en haut */
+#colonne-gauche {
+  flex: none;
+  width: auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 0.8fr 1fr 1fr;
+  gap: 6px;
+}
+#colonne-gauche > section {
+  margin: 0;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+}
+
+#feedback #score {
+  font-size: 0.8rem;
+  padding: 0;
+  margin: 0 !important;
+}
+
+#my-lists-button {
+  height: 36px;
+  width: 100%;
+  font-size: 0.85rem;
+}
+#my-lists-section h5 {
+  margin-top: 4px !important;
+  font-size: 0.65rem;
+  line-height: 1.2;
+}
+
+#type-popover-toggle {
+  height: 36px;
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
+#type-popover-toggle-content {
+  flex-direction: row;
+  gap: 4px;
+}
+#type-selected-chips {
+  display: none;
+}
+#type-selection h5,
+#birdCount {
+  font-size: 0.65rem !important;
+  margin-top: 4px;
+}
+
+/* Choix des catégories : panneau en haut de l'écran */
+#type-popover {
+  position: fixed;
+  top: var(--gap);
+  left: var(--gap);
+  right: var(--gap);
+  width: auto;
+  min-width: 0;
+}
+#type-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: 55vh;
+}
+
+/* Zone de jeu : prend toute la hauteur restante */
+#colonne-droite {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+}
+#colonne-droite .quiz {
+  flex: 1;
+  max-height: none;
+  margin: 0;
+  padding: var(--gap);
+}
+
+#what-bird-title,
+#no-bird-selected {
+  font-size: 1.2rem !important;
+  margin-bottom: 0 !important;
+}
+#bird-animation {
+  height: 48px;
+  width: 48px;
+  margin: 4px;
+}
+
+#search-bar-field {
+  opacity: 1;
+  margin-bottom: var(--gap);
+}
+#search-bar-control,
+#search-bar-control-list-edit {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 0;
+}
+#search-bar,
+#search-bar-list-edit {
+  height: 44px;
+  font-size: 1rem;
+}
+#clear-search,
+#clear-search-list-edit {
+  opacity: 1;
+}
+
+/* Mode « Écouter cet oiseau » */
+#bird-face {
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--gap);
+}
+#bird-face img,
+#result-image img {
+  max-width: 100%;
+  max-height: 35vh;
+}
+#previous-bird {
+  height: auto;
+}
+#previous-bird button {
+  width: 100% !important;
+}
+
+
+/* ------------------------------------------------------- */
+/*                    Grille des oiseaux                   */
+/* ------------------------------------------------------- */
+/* Une seule colonne (la taille choisie dans le menu ne change que la hauteur des cases) */
+.bird-grid {
+  grid-template-columns: 1fr !important;
+  gap: 6px;
+}
+.cell {
+  margin: 0;
+}
+.cell.small   { height: 48px; }
+.cell.default { height: 60px; }
+.cell.big     { height: 80px; }
+
+/* La case est une ligne : image à gauche, noms à droite */
+.cell .columns {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+.cell .column {
+  padding: 2px 4px;
+}
+.cell .column.is-one-fifth {
+  flex: none;
+  width: auto;
+}
+.cell.small .bird-img   { max-width: 48px; max-height: 40px; }
+.cell.default .bird-img { max-width: 64px; max-height: 52px; }
+.cell.big .bird-img     { max-width: 88px; max-height: 72px; }
+.cell img {
+  margin-top: 0;
+}
+.cell .bird-name {
+  min-width: 0;
+}
+
+/* Retour visuel au toucher */
+.cell:active {
+  filter: brightness(0.8);
+}
+
+/* Menu de l'appui long sur un oiseau */
+#context-menu {
+  font-size: 1.1rem;
+  padding: 6px 10px !important;
+  background: #333333f0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+#context-menu span {
+  padding: 10px 8px;
+}
+
+
+/* ------------------------------------------------------- */
+/*                  Contrôles (bas d'écran)                */
+/* ------------------------------------------------------- */
+#controls {
+  height: var(--controls-height);
+  padding: 8px var(--gap);
+}
+#audio-slider {
+  margin-bottom: 4px;
+}
+#controls-layout {
+  gap: 4px;
+  justify-content: center;
+}
+#controls-center {
+  gap: 4px;
+  height: 72px;
+}
+#controls-layout .button {
+  width: 46px;
+  height: 46px;
+  margin: 0;
+}
+#controls-layout .button img {
+  width: 20px;
+  height: 20px;
+}
+#more-button {
+  padding: 0.6rem;
+  margin-right: 4px !important;
+}
+#replay-mode-button,
+#replay-button,
+#forward-button {
+  margin-right: 0 !important;
+}
+#pause-button {
+  width: 60px !important;
+  height: 60px !important;
+  padding: 14px !important;
+}
+#rewind-button,
+#forward-button {
+  width: 40px !important;
+  height: 40px !important;
+}
+#switch-button {
+  width: 56px !important;
+  margin-left: 0 !important;
+}
+
+
+/* ------------------------------------------------------- */
+/*                  Pop-up et menu « Plus »                */
+/* ------------------------------------------------------- */
+#result-popup {
+  top: var(--gap) !important;
+  width: calc(100vw - 2 * var(--gap));
+  max-height: calc(100vh - var(--controls-height) - 2 * var(--gap));
+  overflow-y: auto;
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+#result-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--gap);
+}
+#result-birdname {
+  padding: 8px;
+}
+#next-button {
+  width: 100%;
+}
+#close-popup-button {
+  height: 36px;
+  width: 36px;
+}
+
+.tiles-container {
+  top: var(--gap);
+  width: calc(100vw - 2 * var(--gap));
+  max-height: calc(100vh - var(--controls-height) - 2 * var(--gap));
+  overflow-y: auto;
+  padding: 3.5rem var(--gap) var(--gap);
+}
+.tile-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px;
+  padding: 0;
+}
+.tile {
+  min-width: 0;
+  min-height: 132px;
+  padding: 0.75rem 0.5rem;
+  justify-content: center;
+}
+.tile img {
+  max-height: 56px;
+}
+.tile span {
+  font-size: 0.8rem;
+}
+#birds-tile-img.small   { height: 24px; }
+#birds-tile-img.default { height: 40px; }
+#birds-tile-img.big     { height: 56px; }
+#birds-tile-span {
+  position: static !important;
+}
+#close-tiles-button {
+  font-size: 28px;
+  top: 8px;
+  right: 14px;
+}
+
+
+/* ------------------------------------------------------- */
+/*                   Pages des listes perso                */
+/* ------------------------------------------------------- */
+/* Les contrôles audio sont masqués sur ces pages : toute la hauteur est disponible */
+#birdlists-page {
+  margin: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+#birdlists-page .center {
+  position: static;
+  transform: none;
+  padding: 16px var(--gap);
+}
+#birdlists-page h1 {
+  font-size: 1.8rem !important;
+  margin-bottom: 0.5rem;
+}
+#my-lists {
+  max-height: none;
+  padding-bottom: 0;
+}
+#default-list {
+  width: auto;
+}
+.list-cell {
+  display: flex;
+  height: auto;
+  margin: var(--gap) 0;
+  padding: 12px;
+}
+#back-button {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+#list-edit-page {
+  margin: 0;
+  padding: var(--gap);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+#list-edit-page .quiz {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: var(--gap);
+}
+#list-name-textarea {
+  width: 100%;
+  height: 44px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  resize: none;
+  margin-bottom: var(--gap);
+}
+#list-edit-bottom-section {
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: var(--gap);
+}
+#list-edit-bottom-section * {
+  margin: 0;
+}
+#list-edit-bottom-section h5 {
+  width: 100%;
+  order: -1;
+}
+#list-edit-delete-button {
+  position: static;
+}

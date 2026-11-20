@@ -30,6 +30,35 @@ export function bindAllButtons({app}) {
     if (e.code === 'Enter') app.enterPressed = false;
   });
 
+  // Bouton retour d'Android (sans effet sur desktop)
+  platform.onBackButton(() => handleBackButton());
+}
+
+// Bouton retour : ferme ce qui est ouvert, du plus « au-dessus » au plus « en dessous »,
+// sinon met l'appli en arrière-plan
+function handleBackButton() {
+  const byId = (id) => document.getElementById(id);
+  const isShown = (id) => !byId(id).classList.contains('display-none');
+
+  if (byId('context-menu').style.display === 'block' || isShown('type-popover')) {
+    document.body.click(); // les écouteurs de clic du document ferment le menu et le choix des catégories
+  } else if (byId('more-menu').classList.contains('visible')) {
+    byId('close-tiles-button').click();
+  } else if (byId('result-popup').classList.contains('active')) {
+    byId('close-popup-button').click();
+  } else if (byId('shortcuts-popup').classList.contains('active')) {
+    byId('close-shortcuts-popup-button').click();
+  } else if (isShown('list-edit-page')) {
+    byId('list-edit-back-button').click();
+  } else if (isShown('birdlists-page')) {
+    byId('back-button').click();
+  } else if (isShown('previous-bird')) {
+    byId('previous-bird-button').click();
+  } else if (byId('search-bar').value !== '') {
+    clearSearch();
+  } else {
+    platform.minimizeApp();
+  }
 }
 
 
@@ -173,7 +202,8 @@ function bindTypes({app}) {
   function setPopoverVisibility(isVisible) {
     typePopover.classList.toggle('display-none', !isVisible);
     typePopover.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
-    if (isVisible) {
+    // Sur mobile, le focus ouvrirait le clavier virtuel pour rien
+    if (isVisible && platform.isDesktop) {
       typeSearchInput.focus();
     }
   }
@@ -350,9 +380,10 @@ export function bindBirdCell(birdCell, birdName, {app}) {
     const listenButton = document.getElementById('listen-bird-button');
     const seeButton = document.getElementById('see-bird-button');
 
+    // Affiché au point du clic (ou de l'appui long), sans dépasser de l'écran
     menu.style.display = 'block';
-    menu.style.left = `${e.pageX}px`;
-    menu.style.top = `${e.pageY}px`;
+    menu.style.left = `${Math.max(0, Math.min(e.clientX, window.innerWidth - menu.offsetWidth - 8))}px`;
+    menu.style.top = `${Math.max(0, Math.min(e.clientY, window.innerHeight - menu.offsetHeight - 8))}px`;
 
     // Quand on clique sur "Écouter"
     listenButton.onclick = () => {

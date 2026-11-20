@@ -174,25 +174,28 @@
   max-height: 96px;
 }
 
-.cell:hover {
-  background-color: rgba(0, 0, 0, 0.75);
-  color:black;
-  border: 2px solid black;
-  transform: translateY(-8px);
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-.cell.small:hover{
-  height: 56px;
-  font-size: 0.9em;
-}
-.cell.default:hover{
-  height: 80px;
-  font-size: 1em;
-}
-.cell.big:hover{
-  height: 104px;
-  font-size: 1.4em;
+/* Survol réservé aux appareils avec souris (sinon l'effet reste « collé » après un appui) */
+@media (hover: hover) {
+  .cell:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+    color:black;
+    border: 2px solid black;
+    transform: translateY(-8px);
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .cell.small:hover{
+    height: 56px;
+    font-size: 0.9em;
+  }
+  .cell.default:hover{
+    height: 80px;
+    font-size: 1em;
+  }
+  .cell.big:hover{
+    height: 104px;
+    font-size: 1.4em;
+  }
 }
 /* .cell:hover img {
   margin-top: -8px;
@@ -208,8 +211,11 @@
   display: block;
   color: white;
 }
-.cell:hover .bird-name-french {
-  color:gold;
+/* Survol réservé aux appareils avec souris (sinon l'effet reste « collé » après un appui) */
+@media (hover: hover) {
+  .cell:hover .bird-name-french {
+    color:gold;
+  }
 }
 .cell .bird-name-latin {
   display: block;
@@ -217,8 +223,11 @@
   font-size: 0.75em;
   font-style: italic;
 }
-.cell:hover .bird-name-latin {
-  color:goldenrod;
+/* Survol réservé aux appareils avec souris (sinon l'effet reste « collé » après un appui) */
+@media (hover: hover) {
+  .cell:hover .bird-name-latin {
+    color:goldenrod;
+  }
 }
 
 

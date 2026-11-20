@@ -55,6 +55,10 @@ Le renderer tourne sur Electron et sur Android (Capacitor). Dans `app/js/`, **ne
 - Capacitor 8, plugins en `devDependencies` (pas embarqués par electron-builder). `@capacitor/core` est copié dans `www/js/platform/vendor/` au build.
 - Oiseaux : `capacitor.js` relit `birds.json` et `birds-index.json` sur GitHub à chaque démarrage (cache dans le stockage interne). Un fichier déjà téléchargé est lu en local, sinon en streaming depuis `raw.githubusercontent.com`. En tâche de fond : suppression des fichiers obsolètes, téléchargement des images, puis des sons uniquement en Wi-Fi. Les sha256 des fichiers téléchargés sont dans la préférence `birds-local-files`.
 - Paramètres et listes : plugin Preferences (clés `settings` et `list-<n>`), sauvegarde quand l'appli passe en arrière-plan.
+- Interface : `app/css/mobile.css`, ajoutée **uniquement** dans `www/` par le build mobile (surcharge le CSS desktop ; portrait, sans barre de titre ni volume). Les effets `:hover` qui gênent au doigt sont dans `@media (hover: hover)`. Les éléments propres au mobile ont la classe `mobile-only` (masqués sur desktop par `tiles.css`). Pas de `focus()` automatique sur mobile (ouvrirait le clavier).
+- Bouton retour Android : `handleBackButton()` dans `controls.js` ferme ce qui est ouvert (menus, popup, pages des listes…), sinon met l'appli en arrière-plan. En arrière-plan le son est mis en pause.
+- Tuile « Sons hors ligne » (mobile) : nombre de sons téléchargés + activation du téléchargement en Wi-Fi (préférence `auto-download-sounds`).
+- Icônes et écran de démarrage : `python scripts/generate-android-icons.py` (Pillow) à partir de `assets/images/oiseau.png`, à relancer seulement si l'icône change. Couleurs dans `android/app/src/main/res/values/` (`colors.xml`, `ic_launcher_background.xml`).
 - Version de l'APK (`versionName`/`versionCode`) lue dans `package.json` par `android/app/build.gradle`. Mises à jour par les utilisateurs via Obtainium (releases GitHub).
 - Débogage : `chrome://inspect` (APK debug) ; les logs JS sortent dans logcat sous `Capacitor/Console`.
 

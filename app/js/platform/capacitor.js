@@ -23,6 +23,7 @@ const REPO_RAW_URL = 'https://raw.githubusercontent.com/Hikikomori041/blindtest-
 const BIRDS_DATA_CACHE  = 'data/birds.json';
 const BIRDS_INDEX_CACHE = 'data/birds-index.json';
 const LOCAL_FILES_KEY = 'birds-local-files'; // Preferences : { "birds/X/f.mp3": sha256 } des fichiers téléchargés
+const AUTO_DOWNLOAD_KEY = 'auto-download-sounds'; // Preferences : téléchargement des sons en Wi-Fi
 const SETTINGS_KEY = 'settings';
 const FETCH_TIMEOUT_MS = 8000;
 
@@ -31,6 +32,9 @@ let localFiles = {};      // fichiers d'oiseaux présents localement → sha256
 let remoteFiles = {};     // fichiers attendus (birds-index.json) → sha256
 let soundsByBird = {};    // nom de l'oiseau → chemins relatifs des sons
 let syncRunning = false;
+let autoDownloadSounds = true;
+
+const isSound = (relativePath) => /\.mp3$/i.test(relativePath);
 
 // ── Utilitaires ──
 
@@ -159,14 +163,15 @@ async function syncBirdFiles() {
     }
     await persist(true);
 
-    // 2. Images (légères), puis sons seulement en Wi-Fi
+    // 2. Images (légères), puis sons seulement en Wi-Fi et si l'option est activée
     const missing = Object.keys(remoteFiles).filter(p => !isLocal(p));
-    const images = missing.filter(p => /\.jpg$/i.test(p));
-    const sounds = missing.filter(p => !/\.jpg$/i.test(p));
+    const images = missing.filter(p => !isSound(p));
+    const sounds = missing.filter(isSound);
 
     for (const queue of [images, sounds]) {
-      if (queue === sounds && !(await isOnWifi())) break;
+      if (queue === sounds && !(autoDownloadSounds && await isOnWifi())) break;
       for (const relativePath of queue) {
+        if (queue === sounds && !autoDownloadSounds) break; // option désactivée en cours de route
         try {
           await downloadBirdFile(relativePath);
           changes++;
@@ -190,6 +195,7 @@ export const capacitorPlatform = {
 
   async init() {
     dataDirUri = (await Filesystem.getUri({ path: '', directory: DATA })).uri.replace(/\/+$/, '');
+    autoDownloadSounds = await readJsonPreference(AUTO_DOWNLOAD_KEY, true);
     localFiles = await readJsonPreference(LOCAL_FILES_KEY, {});
     for (const relativePath of Object.keys(localFiles)) createdDirectories.add(parentDirectory(relativePath));
     await loadBirdsIndex();
@@ -257,6 +263,28 @@ export const capacitorPlatform = {
   async deleteList(listId) {
     await Preferences.remove({ key: listId });
     return { ok: true };
+  },
+
+  // ── Spécifique mobile ──
+  onBackButton(callback) {
+    // Remplace le comportement par défaut (fermer l'appli)
+    App.addListener('backButton', () => callback());
+  },
+  minimizeApp() {
+    App.minimizeApp();
+  },
+  getOfflineSoundsInfo() {
+    const sounds = Object.keys(remoteFiles).filter(isSound);
+    return {
+      autoDownload: autoDownloadSounds,
+      downloaded: sounds.filter(isLocal).length,
+      total: sounds.length,
+    };
+  },
+  setAutoDownloadSounds(enabled) {
+    autoDownloadSounds = enabled;
+    writeJsonPreference(AUTO_DOWNLOAD_KEY, enabled);
+    if (enabled) syncBirdFiles();
   },
 
   // Pas de fenêtre ni de barre des tâches sur mobile

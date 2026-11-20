@@ -1,5 +1,10 @@
 {
   "appId": "com.nicobla.oiseaux",
   "appName": "Blind-Test Oiseaux",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "SystemBars": {
+      "style": "DARK"
+    }
+  }
 }

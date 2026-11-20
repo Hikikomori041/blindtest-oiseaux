@@ -44,6 +44,12 @@ export const electronPlatform = {
   resizeWindow: (width, height) => { window.resizeTo(width, height); },
   toggleFullscreen: () => window.api.toggleFullscreen(),
 
+  // ── Spécifique mobile (sans objet sur desktop) ──
+  onBackButton: () => {},
+  minimizeApp: () => window.api.minimize(),
+  getOfflineSoundsInfo: () => null,
+  setAutoDownloadSounds: () => {},
+
   // ── Contrôles média (boutons de la barre des tâches) ──
   updateMediaState: (isPaused, isMuted) => window.api.updateThumbar(isPaused, isMuted),
   onMediaControl: (callback) => window.api.onPlayerControl(callback),
