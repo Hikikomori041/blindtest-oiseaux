@@ -4,6 +4,9 @@ export const electronPlatform = {
   name: 'electron',
   isDesktop: true,
 
+  // La synchro des oiseaux est faite par electron-main.js avant l'affichage de la fenêtre
+  init: async () => {},
+
   // ── Ressources ──
   // Chemin relatif à assets/ ou à birds/ (ex. "images/play-button.png", "birds/Merle noir/image.jpg").
   // Le protocole res:// résout d'abord le cache userData, puis les fichiers embarqués.

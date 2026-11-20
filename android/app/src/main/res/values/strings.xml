@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Blind-Test Oiseaux</string>
+    <string name="title_activity_main">Blind-Test Oiseaux</string>
+    <string name="package_name">com.nicobla.oiseaux</string>
+    <string name="custom_url_scheme">com.nicobla.oiseaux</string>
+</resources>

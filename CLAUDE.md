@@ -15,6 +15,9 @@ Application Electron (Windows + Mac) de blind-test de cris et chants d'oiseaux. 
 | `npm run birds:merge` | Fusionne le lot dans `birds.json` puis lance `birds:prepare` |
 | `npm run birds:prepare` | Trie `birds.json`, renomme les images en `image.jpg`, réencode les sons en MP3 96k, régénère `birds-index.json` |
 | `npm run birds:audit` | Contrôle tout le blind-test (liens oiseaux.net, noms latins, catégories, dossiers) |
+| `npm run mobile:build` | Génère `www/` (`scripts/build-mobile.js`) puis `cap sync android` |
+| `npm run mobile:open` | Ouvre le projet `android/` dans Android Studio |
+| `npm run mobile:run` | Build mobile + installation sur un appareil / émulateur (`cap run android`) |
 
 `birds:prepare` lance des scripts Python via `scripts/run-python.js` (premier interpréteur trouvé parmi `py -3`, `python`, `python3`) et a besoin de `ffmpeg` (`winget install Gyan.FFmpeg`) et du module `mutagen` (`python -m pip install --user mutagen`).
 
@@ -26,7 +29,7 @@ electron-main.js   Process principal : fenêtres (splash, principale, mise à jo
 preload.js         Pont contextBridge → window.api (renderer) et window.updateApi (fenêtre de MAJ)
 app/               Renderer (HTML/CSS + modules ES dans app/js/)
   js/main.js       Point d'entrée → init.js (loadApp)
-  js/platform/     Tout ce qui dépend de la plateforme (index.js choisit l'implémentation, electron.js)
+  js/platform/     Tout ce qui dépend de la plateforme (index.js choisit electron.js ou capacitor.js)
   js/settings.js   Paramètres utilisateur (valeurs par défaut + sauvegarde)
   js/layout.js     Affichage : grille d'oiseaux, popups, tuiles, validation
   js/controls*.js  Liaison des boutons / menus / raccourcis
@@ -38,11 +41,22 @@ assets/images|sons Ressources de l'interface (pas les oiseaux)
 birds/<Nom FR>/    Un dossier par oiseau : image.jpg + un ou plusieurs .mp3 (non inclus dans l'installeur)
 scripts/           Préparation des fichiers oiseaux (appelés par npm run birds:prepare)
 tools/             Outillage d'ajout d'oiseaux (tools/oiseaux.js + lot en cours tools/new_birds.json)
+android/           Projet Android Capacitor (versionné ; build/, assets/public, local.properties ignorés)
+capacitor.config.json  Config Capacitor (appId, webDir = www)
+www/               Généré par npm run mobile:build (ignoré par git)
 ```
 
 ### Couche plateforme (renderer)
 
-Le renderer doit tourner sur Electron et, à terme, sur Android (Capacitor, branche `mobile-android`). Dans `app/js/`, **ne jamais appeler directement** `window.api`, `res://` ni `window.open` : passer par `platform` (`app/js/platform/index.js`), par ex. `platform.resourceUrl('images/x.png')`, `platform.openLink(url)`, `platform.getAllLists()`. L'interface est décrite en tête de `platform/index.js`. Une nouvelle fonction native s'ajoute à `preload.js` + `electron-main.js` **et** à `platform/electron.js` (et à l'implémentation mobile quand elle existera). Les `res://` du HTML/CSS statique restent tels quels (ils seront réécrits par le build mobile).
+Le renderer tourne sur Electron et sur Android (Capacitor). Dans `app/js/`, **ne jamais appeler directement** `window.api`, `res://` ni `window.open` : passer par `platform` (`app/js/platform/index.js`), par ex. `platform.resourceUrl('images/x.png')`, `platform.openLink(url)`, `platform.getAllLists()`. L'interface est décrite en tête de `platform/index.js`. Une nouvelle fonction native s'ajoute à `preload.js` + `electron-main.js` **et** à `platform/electron.js` **et** à `platform/capacitor.js` (plugin Capacitor, appelé via `registerPlugin('<Nom>')` : pas de bundler, le plugin npm doit être en devDependencies pour que `cap sync` ajoute son code natif). Les `res://` du HTML/CSS statique restent tels quels : `scripts/build-mobile.js` les réécrit dans `www/` (et remplace la CSP et Bulma du CDN).
+
+### Version Android
+
+- Capacitor 8, plugins en `devDependencies` (pas embarqués par electron-builder). `@capacitor/core` est copié dans `www/js/platform/vendor/` au build.
+- Oiseaux : `capacitor.js` relit `birds.json` et `birds-index.json` sur GitHub à chaque démarrage (cache dans le stockage interne). Un fichier déjà téléchargé est lu en local, sinon en streaming depuis `raw.githubusercontent.com`. En tâche de fond : suppression des fichiers obsolètes, téléchargement des images, puis des sons uniquement en Wi-Fi. Les sha256 des fichiers téléchargés sont dans la préférence `birds-local-files`.
+- Paramètres et listes : plugin Preferences (clés `settings` et `list-<n>`), sauvegarde quand l'appli passe en arrière-plan.
+- Version de l'APK (`versionName`/`versionCode`) lue dans `package.json` par `android/app/build.gradle`. Mises à jour par les utilisateurs via Obtainium (releases GitHub).
+- Débogage : `chrome://inspect` (APK debug) ; les logs JS sortent dans logcat sous `Capacitor/Console`.
 
 ### Données oiseaux
 

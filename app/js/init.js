@@ -1,5 +1,5 @@
 import { platform } from './platform/index.js';
-import { loadSettings } from './settings.js';
+import { loadSettings, saveAppSettings } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, updateVolumeGradient } from './player.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
@@ -7,6 +7,15 @@ import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgres
 let app = {}; // Paramètres de l'application
 
 export async function loadApp() {
+  // Permet d'adapter le CSS à la plateforme (html[data-platform="android"])
+  document.documentElement.dataset.platform = platform.name;
+
+  try {
+    await platform.init();
+  } catch (err) {
+    console.error('ERREUR INITIALISATION PLATEFORME:', err);
+  }
+
   setTitleVersion();
 
   // Chargement des paramètres de l'application (complétés par les valeurs par défaut)
@@ -47,6 +56,13 @@ export async function loadApp() {
 
   // On charge les boutons dans la barre des tâches
   loadTaskbarButtons({app});
+
+  // Sur mobile l'appli n'est jamais « fermée » : on sauvegarde dès qu'elle passe en arrière-plan
+  if (!platform.isDesktop) {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') saveAppSettings({app});
+    });
+  }
 
   // On lance directement un son d'oiseau au démarrage (sauf si on a désactivé l'option)
   playRandomBird({app});

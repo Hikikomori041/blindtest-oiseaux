@@ -4,7 +4,7 @@ import globals from 'globals';
 export default [
   // Fichiers à ignorer
   {
-    ignores: ['dist/**', 'node_modules/**', 'autres/**'],
+    ignores: ['dist/**', 'node_modules/**', 'autres/**', 'www/**', 'android/**'],
   },
 
   // ── Process principal Electron + scripts Node (CommonJS) ──
