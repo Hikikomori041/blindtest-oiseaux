@@ -115,7 +115,13 @@ function buildDrawer({app}) {
 
   document.body.append(overlay, drawer);
   // Le choix des catégories (#type-popover) reste dans #type-selection : le code qui lit les
-  // catégories cochées le cherche là. mobile.css masque le reste de la colonne de gauche.
+  // catégories cochées le cherche là. mobile.css masque le reste de la colonne de gauche
+  // et en fait une fenêtre modale ; on y ajoute un bouton pour la refermer.
+  const typesDone = document.createElement('button');
+  typesDone.id = 'type-popover-done';
+  typesDone.textContent = 'Valider';
+  typesDone.addEventListener('click', () => byId('type-popover-toggle').click()); // bascule → ferme
+  byId('type-popover').append(typesDone);
 
   platform.getVersion().then(version => { byId('drawer-version').textContent = `Version ${version}`; });
 

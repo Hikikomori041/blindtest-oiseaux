@@ -162,6 +162,44 @@ input, textarea {
   max-height: 55vh;
 }
 
+/* Panneau ouvert = fenêtre modale : fond assombri qui capte les appuis (un appui à côté ferme
+   le panneau via l'écouteur de clic du document, sans toucher les oiseaux en dessous).
+   La zone de jeu passe au-dessus du bandeau et du lecteur pour que le fond les couvre aussi. */
+#blindtest-content:has(#type-popover:not(.display-none)) {
+  z-index: 150;
+}
+/* z-index : au-dessus des cases (leur .columns a un z-index de 1) et de la recherche (10),
+   sous le panneau (30) */
+#type-selection:has(#type-popover:not(.display-none))::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.55);
+}
+#type-popover {
+  border: none;
+  border-radius: 14px;
+}
+
+/* Bouton « Valider » ajouté par mobile.js */
+#type-popover-done {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #5b8def;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center !important;
+}
+#type-popover-done:active {
+  filter: brightness(0.9);
+}
+
 /* Zone de jeu : prend toute la hauteur restante */
 #colonne-droite {
   flex: 1;
@@ -392,10 +430,13 @@ input, textarea {
 /* ------------------------------------------------------- */
 /*                  Pop-up et menu « Plus »                */
 /* ------------------------------------------------------- */
+/* Centrée verticalement entre le bandeau et le lecteur. `translate` s'ajoute au `transform`
+   des animations popupIn / popupOut (translateX + scale) sans le remplacer. */
 #result-popup {
-  top: var(--gap) !important;
+  top: calc((100vh + var(--topbar-height) - var(--controls-height)) / 2) !important;
+  translate: 0 -50%;
   width: calc(100vw - 2 * var(--gap));
-  max-height: calc(100vh - var(--controls-height) - 2 * var(--gap));
+  max-height: calc(100vh - var(--topbar-height) - var(--controls-height) - 2 * var(--gap));
   overflow-y: auto;
   padding: 1rem;
   font-size: 1.2rem;
@@ -411,9 +452,9 @@ input, textarea {
 #next-button {
   width: 100%;
 }
+/* Fermeture : « Écouter un autre oiseau », appui à côté ou bouton retour */
 #close-popup-button {
-  height: 36px;
-  width: 36px;
+  display: none !important;
 }
 
 /* ------------------------------------------------------- */
