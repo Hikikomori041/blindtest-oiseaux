@@ -32,6 +32,7 @@ app/               Renderer (HTML/CSS + modules ES dans app/js/)
   js/main.js       Point d'entrée → init.js (loadApp)
   js/platform/     Tout ce qui dépend de la plateforme (index.js choisit electron.js ou capacitor.js)
   js/settings.js   Paramètres utilisateur (valeurs par défaut + sauvegarde)
+  js/mobile.js     Mise en page mobile : bandeau du haut, menu latéral, lecteur simplifié
   js/layout.js     Affichage : grille d'oiseaux, popups, tuiles, validation
   js/controls*.js  Liaison des boutons / menus / raccourcis
   js/player.js     Lecture audio (oiseau aléatoire, variantes, volume, mode replay)
@@ -56,7 +57,7 @@ Le renderer tourne sur Electron et sur Android (Capacitor). Dans `app/js/`, **ne
 - Capacitor 8, plugins en `devDependencies` (pas embarqués par electron-builder). `@capacitor/core` est copié dans `www/js/platform/vendor/` au build.
 - Oiseaux : `capacitor.js` relit `birds.json` et `birds-index.json` sur GitHub à chaque démarrage (cache dans le stockage interne). Un fichier déjà téléchargé est lu en local, sinon en streaming depuis `raw.githubusercontent.com`. En tâche de fond : suppression des fichiers obsolètes, téléchargement des images, puis des sons uniquement en Wi-Fi. Les sha256 des fichiers téléchargés sont dans la préférence `birds-local-files`.
 - Paramètres et listes : plugin Preferences (clés `settings` et `list-<n>`), sauvegarde quand l'appli passe en arrière-plan.
-- Interface : `app/css/mobile.css`, ajoutée **uniquement** dans `www/` par le build mobile (surcharge le CSS desktop ; portrait, sans barre de titre ni volume). Les effets `:hover` qui gênent au doigt sont dans `@media (hover: hover)`. Les éléments propres au mobile ont la classe `mobile-only` (masqués sur desktop par `tiles.css`). Pas de `focus()` automatique sur mobile (ouvrirait le clavier).
+- Interface : `app/css/mobile.css`, ajoutée **uniquement** dans `www/` par le build mobile (surcharge le CSS desktop ; portrait). `app/js/mobile.js` (appelé par `init.js` sur mobile) crée le bandeau du haut (☰, liste, score — recopiés des éléments de la colonne de gauche, masquée, par `MutationObserver`) et le menu latéral, où il **déplace** les tuiles du menu « Plus » (leurs écouteurs restent valables). Le panneau des catégories reste dans `#type-selection` (le code lit `#type-selection .button…`). Lecteur : boucle, réécouter, lecture, autre son, muet + temps écoulé / durée (pas de reculer / avancer ni de slider de volume). Les effets `:hover` qui gênent au doigt sont dans `@media (hover: hover)`. Les éléments propres au mobile ont la classe `mobile-only` (masqués sur desktop par `tiles.css`). Pas de `focus()` automatique sur mobile (ouvrirait le clavier).
 - Bouton retour Android : `handleBackButton()` dans `controls.js` ferme ce qui est ouvert (menus, popup, pages des listes…), sinon met l'appli en arrière-plan. En arrière-plan le son est mis en pause.
 - Tuile « Sons hors ligne » (mobile) : nombre de sons téléchargés + activation du téléchargement en Wi-Fi (préférence `auto-download-sounds`).
 - Icônes et écran de démarrage : `python scripts/generate-android-icons.py` (Pillow) à partir de `assets/images/oiseau.png`, à relancer seulement si l'icône change. Couleurs dans `android/app/src/main/res/values/` (`colors.xml`, `ic_launcher_background.xml`).

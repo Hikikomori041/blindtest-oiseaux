@@ -2,6 +2,7 @@ import { platform } from './platform/index.js';
 import { loadSettings, saveAppSettings } from './settings.js';
 import { bindAllButtons, loadTaskbarButtons } from './controls.js';
 import { playRandomBird, togglePause, updateVolumeGradient } from './player.js';
+import { setupMobileLayout } from './mobile.js';
 import { applySelectedTypes, genererGrilleOiseaux, setTitleVersion, startProgressSmooth, updateTiles } from './layout.js';
 
 let app = {}; // Paramètres de l'application
@@ -30,6 +31,11 @@ export async function loadApp() {
   // Chargement des oiseaux
   app.birdsData = await platform.loadBirdsData();
   app.myLists   = await platform.getAllLists();
+
+  // Mobile : bandeau du haut, menu latéral et lecteur simplifié (avant la génération de la grille)
+  if (!platform.isDesktop) {
+    setupMobileLayout({app});
+  }
 
   // On applique les types sauvegardés au DOM avant de générer la grille,
   // pour que getSelectedTypes() lise le bon état depuis les settings.

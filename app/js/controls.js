@@ -6,6 +6,7 @@ import { loadBirdlistsPage, saveList, deleteList, loadList, openListEditPage, re
 import { playBird, playRandomBird, toggleReplayMode, togglePause, playNextVariant, muteAudio, slideVolume } from './player.js'
 import { genererGrilleOiseaux, closePopup, hideShortcutsPopup, validate, listenToBird, showBirdCells } from './layout.js';
 import { bindMoreMenu, toggleFullscreen } from './controls-more.js';
+import { closeDrawer, isDrawerOpen } from './mobile.js';
 
 async function saveAndCloseApp({app}) {
   await saveAppSettings({app});
@@ -42,6 +43,8 @@ function handleBackButton() {
 
   if (byId('context-menu').style.display === 'block' || isShown('type-popover')) {
     document.body.click(); // les écouteurs de clic du document ferment le menu et le choix des catégories
+  } else if (isDrawerOpen()) {
+    closeDrawer();
   } else if (byId('more-menu').classList.contains('visible')) {
     byId('close-tiles-button').click();
   } else if (byId('result-popup').classList.contains('active')) {

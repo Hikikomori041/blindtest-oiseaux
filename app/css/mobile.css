@@ -5,8 +5,10 @@
    après les autres feuilles de style, donc ces règles surchargent celles du desktop. */
 
 :root {
-  --controls-height: 108px;
+  --topbar-height: 56px;
+  --controls-height: 124px;
   --gap: 8px;
+  --bar-color: #2b3950;   /* = colors.xml (appBackground) : continuité avec les barres système */
 }
 
 /* Pas de sélection de texte ni de menu natif sur appui long (sauf dans les champs) */
@@ -27,9 +29,14 @@ input, textarea {
   display: none !important;
 }
 
-/* Éléments propres au desktop */
+/* Éléments propres au desktop, ou remplacés par le menu latéral / le bandeau du haut (mobile.js) */
 #titlebar,
-#controls-right,
+#more-button,
+#more-menu,
+#rewind-button,
+#forward-button,
+#volume-slider,
+#fullscreen-button,
 #see-shortcuts-tile,
 #shortcuts-popup {
   display: none !important;
@@ -42,13 +49,77 @@ input, textarea {
 
 
 /* ------------------------------------------------------- */
+/*                     Bandeau du haut                     */
+/* ------------------------------------------------------- */
+#mobile-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topbar-height);
+  z-index: 5; /* sous l'overlay des pop-ups (10) */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px 0 4px;
+  background: var(--bar-color);
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+#drawer-button {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: white;
+}
+#drawer-button:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+#topbar-titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+#topbar-title {
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+#topbar-subtitle {
+  font-size: 0.75rem;
+  color: #c5d0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#topbar-score {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+#topbar-score::before {
+  content: "\2714  ";
+  color: #6ee06e;
+}
+
+
+/* ------------------------------------------------------- */
 /*                    Page du Blind-Test                   */
 /* ------------------------------------------------------- */
 #blindtest-content {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  top: 0;
+  top: var(--topbar-height);
   bottom: var(--controls-height);
   margin: 0 !important;
   padding: var(--gap);
@@ -57,64 +128,30 @@ input, textarea {
   display: none;
 }
 
-/* Colonne de gauche → bandeau horizontal en haut */
+/* Colonne de gauche remplacée par le bandeau du haut et le menu latéral : seul le panneau
+   de choix des catégories (ouvert depuis le menu) en reste visible */
 #colonne-gauche {
-  flex: none;
-  width: auto;
+  position: absolute;
+  width: 0;
+  height: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 0.8fr 1fr 1fr;
-  gap: 6px;
 }
-#colonne-gauche > section {
+#colonne-gauche > section:not(#type-selection),
+#type-selection > :not(#type-popover) {
+  display: none !important;
+}
+#type-selection {
   margin: 0;
-  padding: 6px 4px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: 0;
-}
-
-#feedback #score {
-  font-size: 0.8rem;
   padding: 0;
-  margin: 0 !important;
+  background: none !important;
+  box-shadow: none;
 }
 
-#my-lists-button {
-  height: 36px;
-  width: 100%;
-  font-size: 0.85rem;
-}
-#my-lists-section h5 {
-  margin-top: 4px !important;
-  font-size: 0.65rem;
-  line-height: 1.2;
-}
-
-#type-popover-toggle {
-  height: 36px;
-  margin-bottom: 0;
-  font-size: 0.8rem;
-}
-#type-popover-toggle-content {
-  flex-direction: row;
-  gap: 4px;
-}
-#type-selected-chips {
-  display: none;
-}
-#type-selection h5,
-#birdCount {
-  font-size: 0.65rem !important;
-  margin-top: 4px;
-}
-
-/* Choix des catégories : panneau en haut de l'écran */
+/* Choix des catégories : panneau sous le bandeau du haut */
 #type-popover {
   position: fixed;
-  top: var(--gap);
+  /* sous le bandeau : la zone de jeu (z-index 1) passe sous le bandeau (z-index 5) */
+  top: calc(var(--topbar-height) + var(--gap));
   left: var(--gap);
   right: var(--gap);
   width: auto;
@@ -246,54 +283,109 @@ input, textarea {
 
 
 /* ------------------------------------------------------- */
-/*                  Contrôles (bas d'écran)                */
+/*                  Lecteur (bas d'écran)                  */
 /* ------------------------------------------------------- */
 #controls {
   height: var(--controls-height);
-  padding: 8px var(--gap);
+  padding: 10px 12px 12px;
+  background-color: var(--bar-color) !important;
+  border-top: none;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Progression : temps écoulé, barre, durée */
+#progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+#time-current,
+#time-total {
+  flex: none;
+  width: 36px;
+  font-size: 0.75rem;
+  color: #c5d0e0;
+  font-variant-numeric: tabular-nums;
+}
+#time-total {
+  text-align: right;
 }
 #audio-slider {
-  margin-bottom: 4px;
-}
-#controls-layout {
-  gap: 4px;
-  justify-content: center;
-}
-#controls-center {
-  gap: 4px;
-  height: 72px;
-}
-#controls-layout .button {
-  width: 46px;
-  height: 46px;
+  flex: 1;
   margin: 0;
 }
-#controls-layout .button img {
+#audio-slider::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
+  border: 3px solid #5b8def;
+  background: white;
 }
-#more-button {
-  padding: 0.6rem;
-  margin-right: 4px !important;
+
+/* Boutons : [boucle]  [réécouter] [lecture] [autre son]  [muet] */
+#controls-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
 }
-#replay-mode-button,
-#replay-button,
-#forward-button {
-  margin-right: 0 !important;
+#controls-left,
+#controls-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+#controls-right {
+  justify-content: flex-end;
+}
+#controls-center {
+  flex: none;
+  gap: 20px;
+  height: auto;
+}
+#controls-layout .button {
+  width: 52px;
+  height: 52px;
+  margin: 0 !important;
+  padding: 0;
+}
+#controls-layout .button img {
+  width: 24px;
+  height: 24px;
 }
 #pause-button {
-  width: 60px !important;
-  height: 60px !important;
-  padding: 14px !important;
-}
-#rewind-button,
-#forward-button {
-  width: 40px !important;
-  height: 40px !important;
+  width: 68px !important;
+  height: 68px !important;
+  padding: 18px !important;
+  background: #5b8def !important;
+  border-color: #7aa5f5 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 #switch-button {
-  width: 56px !important;
+  width: 52px !important;
+  border-radius: 50% !important;
   margin-left: 0 !important;
+}
+/* Boucle : plus discrète, sans fond quand désactivée */
+#replay-mode-button {
+  width: 44px !important;
+  height: 44px !important;
+}
+#replay-mode-button.deactivated {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+#controls-right div {
+  gap: 0;
+}
+#volume-button {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: 50%;
+}
+#volume-button:active {
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 
@@ -324,40 +416,157 @@ input, textarea {
   width: 36px;
 }
 
-.tiles-container {
-  top: var(--gap);
-  width: calc(100vw - 2 * var(--gap));
-  max-height: calc(100vh - var(--controls-height) - 2 * var(--gap));
+/* ------------------------------------------------------- */
+/*                      Menu latéral                       */
+/* ------------------------------------------------------- */
+#drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+#drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 200;
+  width: min(84vw, 340px);
   overflow-y: auto;
-  padding: 3.5rem var(--gap) var(--gap);
+  padding-bottom: 16px;
+  background: #1f2937;
+  color: white;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.4);
+  transform: translateX(-105%);
+  transition: transform 0.25s ease;
 }
-.tile-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 10px;
-  padding: 0;
+body.drawer-open #drawer {
+  transform: translateX(0);
 }
-.tile {
-  min-width: 0;
-  min-height: 132px;
-  padding: 0.75rem 0.5rem;
-  justify-content: center;
+body.drawer-open #drawer-overlay {
+  opacity: 1;
+  pointer-events: auto;
 }
-.tile img {
-  max-height: 56px;
+
+#drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px 16px;
+  background: var(--bar-color);
 }
-.tile span {
+#drawer-header img {
+  width: 48px;
+  height: 48px;
+}
+#drawer-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+#drawer-version {
   font-size: 0.8rem;
+  color: #c5d0e0;
 }
-#birds-tile-img.small   { height: 24px; }
-#birds-tile-img.default { height: 40px; }
-#birds-tile-img.big     { height: 56px; }
+
+.drawer-section {
+  padding: 16px 16px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8fa0b8;
+}
+
+/* Lignes du menu : boutons créés par mobile.js et anciennes tuiles du menu « Plus » */
+.drawer-item,
+#drawer .tile {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: calc(100% - 16px);
+  min-width: 0;
+  min-height: 56px;
+  margin: 0 8px 4px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 12px;
+  background: none;
+  color: white;
+  text-align: left;
+  font-size: 0.95rem;
+  opacity: 1;
+  transform: none;
+  text-shadow: none;
+  transition: background 0.15s ease;
+}
+.drawer-item:active,
+#drawer .tile:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Icônes : pastille de la couleur de l'ancienne tuile */
+.drawer-item-icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 1.3rem;
+}
+#drawer .tile img {
+  flex: none;
+  width: 40px !important;
+  height: 40px !important;
+  max-height: none;
+  margin: 0;
+  padding: 7px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+#see-github-tile img           { background: rgba(14, 90, 86, 0.9); }
+#report-issue-tile img         { background: rgba(176, 120, 50, 0.9); }
+#change-birds-size-tile img    { background: rgba(140, 110, 230, 0.9); }
+#toggle-confirm-sound-tile img { background: rgba(128, 128, 56, 0.9); }
+#toggle-autoplay-tile img      { background: rgba(107, 190, 199, 0.9); }
+#offline-sounds-tile img       { background: rgba(30, 90, 140, 0.9); }
+
+#drawer .tile span {
+  font-size: 0.95rem;
+  color: white;
+  text-align: left;
+  line-height: 1.3;
+}
+/* Option désactivée : texte grisé (« activated » = sons de validation coupés / téléchargement coupé) */
+#drawer #toggle-confirm-sound-tile.activated span,
+#drawer #offline-sounds-tile.activated span,
+#drawer #toggle-autoplay-tile:not(.activated) span {
+  color: #8fa0b8;
+}
+
+/* Position absolue dans la tuile desktop */
 #birds-tile-span {
   position: static !important;
 }
-#close-tiles-button {
-  font-size: 28px;
-  top: 8px;
-  right: 14px;
+
+.drawer-item-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.drawer-item-detail {
+  font-size: 0.8rem;
+  color: #8fa0b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
