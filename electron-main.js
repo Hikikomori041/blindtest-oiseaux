@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage, protocol } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut, net, nativeImage, protocol, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const crypto = require('crypto');
@@ -174,6 +174,12 @@ function createMainWindow() {
       contextIsolation: true,
       nodeIntegration: false
     }
+  });
+
+  // Les liens externes (window.open / target="_blank") s'ouvrent dans le navigateur par défaut
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^(https?:\/\/|mailto:)/i.test(url)) shell.openExternal(url);
+    return { action: 'deny' };
   });
 
   win.on('maximize', () => {
